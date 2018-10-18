@@ -1,0 +1,17 @@
+Package: ixplorer
+Title: Productize your R code with ease.
+Version: 0.0.0.0001
+Authors@R: c(
+  person(family="ixpantia, SRL", role = "aut", email = "hola@ixpantia.com"),
+  person("Frans", "van Dunné", role="cre", email="frans@ixpantia.com")
+  )
+Description: This is the local component of the ixplorer platform by ixpantia
+  and helps you to prepare code and test data for submission.
+Depends: R (>= 3.5.1)
+License: file LICENCE
+Encoding: UTF-8
+LazyData: true
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
