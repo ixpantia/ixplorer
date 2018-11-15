@@ -1,17 +1,24 @@
 Package: ixplorer
-Title: Productize your R code with ease.
-Version: 0.0.0.0001
+Title: Easy DataOps for R users
+Version: 0.0.1
 Authors@R: c(
   person(family="ixpantia, SRL", role = "aut", email = "hola@ixpantia.com"),
   person("Frans", "van Dunné", role="cre", email="frans@ixpantia.com")
   )
-Description: This is the local component of the ixplorer platform by ixpantia
-  and helps you to prepare code and test data for submission.
-Depends: R (>= 3.5.1)
+Description: This is the local component of the ixplorer platform from ixpantia.
+Depends: R (>= 3.4),
+    miniUI,
+    httr,
+    gitear
 License: file LICENCE
 Encoding: UTF-8
 LazyData: true
+Imports:
+    miniUI,
+    httr,
+    gitear
 Suggests: testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+RoxygenNote: 6.1.1
