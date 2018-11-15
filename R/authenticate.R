@@ -2,7 +2,10 @@
 #' @import miniUI
 NULL
 
-authenticate <- function() {
+#' Authenticate to ixplorer
+#'
+#' @export
+add_token <- function() {
 
   ui <- miniPage(
     gadgetTitleBar("ixplorer authentication",

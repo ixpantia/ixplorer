@@ -1,6 +1,6 @@
-Name: Authenticate
-Description: Authenticate to your ixplorer
-Binding: authenticate
+Name: Add token
+Description: Add token to authenticate to your ixplorer
+Binding: add_token
 Interactive: false
 
 Name: Create issue

@@ -2,6 +2,9 @@
 #' @import miniUI
 NULL
 
+#' Create issue
+#'
+#' @export
 create_issue <- function() {
 
   ui <- miniPage(
