@@ -1,0 +1,10 @@
+Name: Authenticate
+Description: Authenticate to your ixplorer
+Binding: authenticate
+Interactive: false
+
+Name: Create issue
+Description: Create an issue on ixplorer
+Binding: create_issue
+Interactive: false
+
