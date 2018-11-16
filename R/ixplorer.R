@@ -1,24 +1,36 @@
 #' @import shiny
 #' @import miniUI
+#' @import DT
 NULL
 
-#' ixplorer miniUI
+#' ixplorer reports
 #'
 #' @export
-ixplorer <- function() {
+ix_reports <- function() {
 
   ui <- miniPage(
-    gadgetTitleBar("ixplorer",
+    gadgetTitleBar("ixplorer reports",
+                   left = miniTitleBarCancelButton(inputId = "full_screen",
+                                                   label = "Full Screen",
+                                                   primary = FALSE),
                    right = miniTitleBarButton(inputId = "done",
                                               label = "Done",
                                               primary = TRUE)),
 
     miniTabstripPanel(
-      miniTabPanel(title = "open_issues",
+      miniTabPanel(title = "Open issues",
+                   icon = icon("table"),
+                   DT::dataTableOutput("open_issues")
+                  ),
+      miniTabPanel(title = "Open issues",
                    icon = icon("table"),
                    helpText("open issues")
                   ),
-      miniTabPanel(title = "closed issies",
+      miniTabPanel(title = "Open issues",
+                   icon = icon("table"),
+                   helpText("open issues")
+                  ),
+      miniTabPanel(title = "closed issues",
                    icon = icon("table"),
                    helpText("open issues")
       )
@@ -26,6 +38,10 @@ ixplorer <- function() {
   )
 
   server <- function(input, output, session) {
+
+    output$open_issues({
+      DT::renderDataTable(iris)
+    })
 
     observeEvent(input$done, {
       stopApp(NULL)

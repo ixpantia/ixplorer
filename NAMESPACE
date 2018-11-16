@@ -2,6 +2,6 @@
 
 export(add_token)
 export(create_issue)
-export(ixplorer)
+export(ix_reports)
 import(miniUI)
 import(shiny)

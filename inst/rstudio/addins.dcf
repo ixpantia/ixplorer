@@ -8,3 +8,8 @@ Description: Create an issue on ixplorer
 Binding: create_issue
 Interactive: false
 
+
+Name: ixplorer reports
+Description: Get overview of project status
+Binding: ix_reports
+Interactive: false
