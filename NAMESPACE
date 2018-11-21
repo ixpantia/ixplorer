@@ -3,5 +3,7 @@
 export(add_token)
 export(create_issue)
 export(ix_reports)
+import(DT)
+import(gitear)
 import(miniUI)
 import(shiny)
