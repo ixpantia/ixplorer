@@ -35,10 +35,10 @@ create_issue <- function() {
   server <- function(input, output, session) {
 
     observeEvent(input$done, {
-      gitear::create_issue(base_url = "https://gitear.ixpantia.com/",
-                   api_key = "47c0be813944aaa0132d77a8110d48e9d3a644af",
-                   owner = "ixplorer",
-                   repo = "sitio_pruebas",
+      gitear::create_issue(base_url = Sys.getenv("IXURL"),
+                   api_key = Sys.getenv("IXTOKEN"),
+                   owner = Sys.getenv("IXOWNER"),
+                   repo = Sys.getenv("IXREPO"),
                    title = input$issue_title,
                    body =  input$issue_description)
       stopApp(NULL)
