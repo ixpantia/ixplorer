@@ -13,12 +13,3 @@ Description: Get overview of project status
 Binding: ix_reports
 Interactive: false
 
-Name: User priorities
-Description: Get overview of issues assigned
-Binding: get_priorities
-Interactive: false
-
-Name: User prueba
-Description: Get overview of issues assigned
-Binding: ix_reportes
-Interactive: false
