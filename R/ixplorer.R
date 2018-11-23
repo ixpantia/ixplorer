@@ -38,31 +38,27 @@ ix_reports <- function() {
 
   server <- function(input, output, session){
 
+    # Traemos issues y configuramos credenciales
+    issues <- gitear::get_issues(base_url = Sys.getenv("IXURL"),
+                                 api_key = Sys.getenv("IXTOKEN"),
+                                 owner = Sys.getenv("IXOWNER"),
+                                 repo = Sys.getenv("IXREPO"))
+    user = Sys.getenv("IXUSER")
+
+    # Desanidar cuadro
+    issues <- flatten(issues)
+
     output$my_issues <- DT::renderDataTable({
-      issues <- gitear::get_issues(base_url = Sys.getenv("IXURL"),
-                                   api_key = Sys.getenv("IXTOKEN"),
-                                   owner = Sys.getenv("IXOWNER"),
-                                   repo = Sys.getenv("IXREPO"))
-
-      user = Sys.getenv("IXUSER")
-      issues <- flatten(issues)
-
+      # Seleccion de issues por usuario y estado abierto
       issues <- issues %>%
         filter(assignee.login == user) %>%
         filter(state == "open") %>%
         select(title, body,due_date, milestone, labels)
-
       return(issues)
     })
 
     output$team_issues <- DT::renderDataTable({
-      issues <- gitear::get_issues(base_url = Sys.getenv("IXURL"),
-                                   api_key = Sys.getenv("IXTOKEN"),
-                                   owner = Sys.getenv("IXOWNER"),
-                                   repo = Sys.getenv("IXREPO"))
-
-      issues <- flatten(issues)
-
+      # Seleccionamos issues por estado abierto
       issues <- issues %>%
         filter(state == "open") %>%
         select(title, body,due_date, milestone, labels)
@@ -71,12 +67,7 @@ ix_reports <- function() {
     })
 
     output$closed_issues <- DT::renderDataTable({
-      # issues <- gitear::get_issues(base_url = Sys.getenv("IXURL"),
-      #                              api_key = Sys.getenv("IXTOKEN"),
-      #                              owner = Sys.getenv("IXOWNER"),
-      #                              repo = Sys.getenv("IXREPO"))
-      #
-      # issues <- flatten(issues)
+      # Traer issues que estan cerrados. TODO
       #
       # issues <- issues %>%
       #   filter(state == "close") %>%
@@ -88,6 +79,10 @@ ix_reports <- function() {
     })
 
     observeEvent(input$done, {
+      stopApp(TRUE)
+    })
+
+    observeEvent(input$cancel, {
       stopApp(TRUE)
     })
   }

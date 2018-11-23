@@ -7,5 +7,6 @@
 ix_reports()
 }
 \description{
-ixplorer reports
+Visualize issues of an specific user, a team and closed issues based on
+the credentials used in gadget authenticate.
 }
