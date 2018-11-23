@@ -2,8 +2,12 @@
 
 export(add_token)
 export(create_issue)
+export(get_priorities)
+export(ix_reportes)
 export(ix_reports)
 import(DT)
+import(dplyr)
 import(gitear)
+import(jsonlite)
 import(miniUI)
 import(shiny)

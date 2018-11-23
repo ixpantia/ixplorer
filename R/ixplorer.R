@@ -1,6 +1,9 @@
 #' @import shiny
 #' @import miniUI
 #' @import DT
+#' @import gitear
+#' @import dplyr
+#' @import jsonlite
 NULL
 
 #' ixplorer reports
@@ -18,18 +21,18 @@ ix_reports <- function() {
                                               primary = TRUE)),
 
     miniTabstripPanel(
-      miniTabPanel(title = "Open issues",
+      miniTabPanel(title = "My Open issues",
                    icon = icon("table"),
-                   DT::dataTableOutput("open_issues")
-                  ),
-      miniTabPanel(title = "Open issues",
-                   icon = icon("table"),
-                   helpText("open issues")
-                  ),
-      miniTabPanel(title = "Open issues",
+                   tableOutput("open_issues")
+      ),
+      miniTabPanel(title = "Team issues",
                    icon = icon("table"),
                    helpText("open issues")
-                  ),
+      ),
+      miniTabPanel(title = "Closed issues",
+                   icon = icon("table"),
+                   helpText("open issues")
+      ),
       miniTabPanel(title = "closed issues",
                    icon = icon("table"),
                    helpText("open issues")
@@ -40,7 +43,7 @@ ix_reports <- function() {
   server <- function(input, output, session) {
 
     output$open_issues({
-      DT::renderDataTable(iris)
+      renderTable(iris)
     })
 
     observeEvent(input$done, {
