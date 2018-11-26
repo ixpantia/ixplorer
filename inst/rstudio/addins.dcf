@@ -1,5 +1,5 @@
-Name: Add token
-Description: Add token to authenticate to your ixplorer
+Name: Authenticate
+Description: Add credentials to authenticate to your ixplorer
 Binding: add_token
 Interactive: false
 
@@ -8,8 +8,8 @@ Description: Create an issue on ixplorer
 Binding: create_issue
 Interactive: false
 
-
-Name: ixplorer reports
+Name: ixplorer issues
 Description: Get overview of project status
-Binding: ix_reports
+Binding: ix_issues
 Interactive: false
+

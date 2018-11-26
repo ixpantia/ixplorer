@@ -1,53 +1,94 @@
 #' @import shiny
 #' @import miniUI
 #' @import DT
+#' @import gitear
+#' @import dplyr
+#' @import jsonlite
 NULL
 
 #' ixplorer reports
 #'
+#' Visualize issues of an specific user, a team and closed issues based on
+#' the credentials used in gadget authenticate.
+#'
 #' @export
-ix_reports <- function() {
+ix_issues <- function() {
 
   ui <- miniPage(
-    gadgetTitleBar("ixplorer reports",
-                   left = miniTitleBarCancelButton(inputId = "full_screen",
-                                                   label = "Full Screen",
-                                                   primary = FALSE),
-                   right = miniTitleBarButton(inputId = "done",
-                                              label = "Done",
-                                              primary = TRUE)),
-
+    gadgetTitleBar("ixplorer Reports"),
     miniTabstripPanel(
-      miniTabPanel(title = "Open issues",
-                   icon = icon("table"),
-                   DT::dataTableOutput("open_issues")
-                  ),
-      miniTabPanel(title = "Open issues",
-                   icon = icon("table"),
-                   helpText("open issues")
-                  ),
-      miniTabPanel(title = "Open issues",
-                   icon = icon("table"),
-                   helpText("open issues")
-                  ),
-      miniTabPanel(title = "closed issues",
-                   icon = icon("table"),
-                   helpText("open issues")
+      miniTabPanel("My issues", icon = icon("user"),
+                   miniContentPanel(
+                     DT::dataTableOutput("my_issues")
+                   )
+      ),
+      miniTabPanel("Team issues", icon = icon("users"),
+                   miniContentPanel(
+                     DT::dataTableOutput("team_issues")
+                   )
+      ),
+      miniTabPanel("Closed issues", icon = icon("times-circle"),
+                   miniContentPanel(
+                     DT::dataTableOutput("closed_issues")
+                   )
       )
+
     )
   )
 
-  server <- function(input, output, session) {
+  server <- function(input, output, session){
 
-    output$open_issues({
-      DT::renderDataTable(iris)
+    # Traemos issues y configuramos credenciales
+    issues <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
+                                 api_key = Sys.getenv("IXTOKEN"),
+                                 owner = Sys.getenv("IXOWNER"),
+                                 repo = Sys.getenv("IXREPO"))
+    user = Sys.getenv("IXUSER")
+
+    # Desanidar cuadro
+    issues <- flatten(issues)
+
+    output$my_issues <- DT::renderDataTable({
+      # Seleccion de issues por usuario y estado abierto
+      issues <- issues %>%
+        filter(assignee.login == user) %>%
+        # filter(state == "open") %>%
+        select(title, body,due_date, milestone, labels)
+      return(issues)
+    })
+
+    output$team_issues <- DT::renderDataTable({
+      # Seleccionamos issues por estado abierto
+      issues <- issues %>%
+        filter(state == "open") %>%
+        select(title, body,due_date, milestone, labels)
+      return(issues)
+    })
+
+    output$closed_issues <- DT::renderDataTable({
+      # Traer issues que estan cerrados. TODO
+      issues <- get_issues_closed_state(base_url = Sys.getenv("IXURL"),
+                                        api_key = Sys.getenv("IXTOKEN"),
+                                        owner = Sys.getenv("IXOWNER"),
+                                        repo = Sys.getenv("IXREPO")
+      ) %>%
+        select(title, body, due_date, labels)
+      issues <- flatten(issues)
+      return(issues)
     })
 
     observeEvent(input$done, {
-      stopApp(NULL)
+      stopApp(TRUE)
     })
 
+    observeEvent(input$cancel, {
+      stopApp(TRUE)
+    })
   }
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
+
 }
+
+
+

@@ -1,5 +1,6 @@
 #' @import shiny
 #' @import miniUI
+#' @import gitear
 NULL
 
 #' Create issue
@@ -34,6 +35,12 @@ create_issue <- function() {
   server <- function(input, output, session) {
 
     observeEvent(input$done, {
+      gitear::create_issue(base_url = Sys.getenv("IXURL"),
+                   api_key = Sys.getenv("IXTOKEN"),
+                   owner = Sys.getenv("IXOWNER"),
+                   repo = Sys.getenv("IXREPO"),
+                   title = input$issue_title,
+                   body =  input$issue_description)
       stopApp(NULL)
     })
 
