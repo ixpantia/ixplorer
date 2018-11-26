@@ -12,7 +12,7 @@ NULL
 #' the credentials used in gadget authenticate.
 #'
 #' @export
-ix_reports <- function() {
+ix_issues <- function() {
 
   ui <- miniPage(
     gadgetTitleBar("ixplorer Reports"),
@@ -39,7 +39,7 @@ ix_reports <- function() {
   server <- function(input, output, session){
 
     # Traemos issues y configuramos credenciales
-    issues <- gitear::get_issues(base_url = Sys.getenv("IXURL"),
+    issues <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
                                  api_key = Sys.getenv("IXTOKEN"),
                                  owner = Sys.getenv("IXOWNER"),
                                  repo = Sys.getenv("IXREPO"))
@@ -52,7 +52,7 @@ ix_reports <- function() {
       # Seleccion de issues por usuario y estado abierto
       issues <- issues %>%
         filter(assignee.login == user) %>%
-        filter(state == "open") %>%
+        # filter(state == "open") %>%
         select(title, body,due_date, milestone, labels)
       return(issues)
     })
@@ -62,20 +62,19 @@ ix_reports <- function() {
       issues <- issues %>%
         filter(state == "open") %>%
         select(title, body,due_date, milestone, labels)
-
       return(issues)
     })
 
     output$closed_issues <- DT::renderDataTable({
       # Traer issues que estan cerrados. TODO
-      #
-      # issues <- issues %>%
-      #   filter(state == "close") %>%
-      #   select(title, body,due_date, milestone, labels)
-      #
-      # return(issues)
-      iris
-
+      issues <- get_issues_closed_state(base_url = Sys.getenv("IXURL"),
+                                        api_key = Sys.getenv("IXTOKEN"),
+                                        owner = Sys.getenv("IXOWNER"),
+                                        repo = Sys.getenv("IXREPO")
+      ) %>%
+        select(title, body, due_date, labels)
+      issues <- flatten(issues)
+      return(issues)
     })
 
     observeEvent(input$done, {

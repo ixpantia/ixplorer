@@ -2,7 +2,7 @@
 
 export(add_token)
 export(create_issue)
-export(ix_reports)
+export(ix_issues)
 import(DT)
 import(dplyr)
 import(gitear)
