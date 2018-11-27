@@ -28,15 +28,15 @@ add_token <- function() {
                 width = "100%",
                 placeholder = "Paste your ixplorer url here"),
 
-      textInput(inputId = "ixplorer_repo_name",
-                label = "ixplorer repository name",
-                width = "100%",
-                placeholder = "Paste your ixplorer repository name here"),
-
       textInput(inputId = "ixplorer_repo_owner",
                 label = "The name of the upstream project",
                 width = "100%",
                 placeholder = "Paste your ixplorer upstream project name here"),
+
+      textInput(inputId = "ixplorer_repo_name",
+                label = "ixplorer repository name",
+                width = "100%",
+                placeholder = "Paste your ixplorer repository name here"),
 
       textInput(inputId = "ixplorer_user_name",
                 label = "Your ixplorer user name",
