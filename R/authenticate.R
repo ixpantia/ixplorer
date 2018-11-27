@@ -19,24 +19,24 @@ add_token <- function() {
     miniContentPanel(
 
       textInput(inputId = "ixplorer_token",
-                label = "Your ixplorer token",
+                label = "The API token",
                 width = "100%",
                 placeholder = "Paste your ixplorer token here"),
 
       textInput(inputId = "ixplorer_url",
-                label = "Your ixplorer url",
+                label = "ixplorer url",
                 width = "100%",
                 placeholder = "Paste your ixplorer url here"),
 
       textInput(inputId = "ixplorer_repo_name",
-                label = "Your ixplorer repository name",
+                label = "ixplorer repository name",
                 width = "100%",
                 placeholder = "Paste your ixplorer repository name here"),
 
       textInput(inputId = "ixplorer_repo_owner",
-                label = "Your ixplorer repository owner",
+                label = "The name of the upstream project",
                 width = "100%",
-                placeholder = "Paste your ixplorer repository owner here"),
+                placeholder = "Paste your ixplorer upstream project name here"),
 
       textInput(inputId = "ixplorer_user_name",
                 label = "Your ixplorer user name",
