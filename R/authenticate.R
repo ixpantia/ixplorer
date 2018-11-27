@@ -61,10 +61,19 @@ add_token <- function() {
       Sys.setenv("IXOWNER" = input$ixplorer_repo_owner)
       Sys.setenv("IXUSER" = input$ixplorer_user_name)
 
+      # Formatear con paste hacer objeto fuera del write y ese objeto
+      # ponerlo dentro del write TODO
+
+      # a <- paste("hola", "\n", "todos")
+      # cat(a)
+
+      token <- paste("IXTOKEN=", input$ixplorer_token, sep = "")
+      url <- paste("IXURL=", input$ixplorer_url, sep = "")
+      repo <- paste("IXREPO=", input$ixplorer_repo_name, sep = "")
+      owner <- paste("IXOWNER=", input$ixplorer_user_name, sep = "")
+
       if (input$token_persist == 1) {
-        write(x = c(input$ixplorer_token,input$ixplorer_url,
-                    input$ixplorer_repo_name, input$ixplorer_repo_owner,
-                    input$ixplorer_user_name), file = ".ixplorer")
+        write(x = c(token, url, repo, owner), file = ".ixplorer")
         write(".ixplorer", file = ".gitignore", append = TRUE)
       }
 
