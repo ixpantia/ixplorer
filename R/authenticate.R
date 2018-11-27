@@ -62,7 +62,9 @@ add_token <- function() {
       Sys.setenv("IXUSER" = input$ixplorer_user_name)
 
       if (input$token_persist == 1) {
-        write(input$token_persist, file = ".ixplorer")
+        write(x = c(input$ixplorer_token,input$ixplorer_url,
+                    input$ixplorer_repo_name, input$ixplorer_repo_owner,
+                    input$ixplorer_user_name), file = ".ixplorer")
         write(".ixplorer", file = ".gitignore", append = TRUE)
       }
 
