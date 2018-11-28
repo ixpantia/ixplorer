@@ -35,8 +35,12 @@ create_issue <- function() {
   server <- function(input, output, session) {
 
     # Leer ixplorer y poner condicionales -------------------------
-    gitear_access <- readLines(".ixplorer")
-
+    if(file.exists(".ixplorer")){
+      gitear_access <- readLines(".ixplorer")
+      return(gitear_access)
+    } else {
+      print("There is no authentication yet, please use the Authentication gadget")
+    }
 
     # IXTOKEN ------
     if(str_detect(gitear_access, "IXTOKEN")){
@@ -107,11 +111,11 @@ create_issue <- function() {
 
     observeEvent(input$done, {
       gitear::create_issue(base_url = Sys.getenv("IXURL"),
-                   api_key = Sys.getenv("IXTOKEN"),
-                   owner = Sys.getenv("IXOWNER"),
-                   repo = Sys.getenv("IXREPO"),
-                   title = input$issue_title,
-                   body =  input$issue_description)
+                           api_key = Sys.getenv("IXTOKEN"),
+                           owner = Sys.getenv("IXOWNER"),
+                           repo = Sys.getenv("IXREPO"),
+                           title = input$issue_title,
+                           body =  input$issue_description)
       stopApp(NULL)
     })
 
