@@ -67,17 +67,25 @@ add_token <- function() {
       # a <- paste("hola", "\n", "todos")
       # cat(a)
 
-      token <- paste("IXTOKEN=", input$ixplorer_token, sep = "")
-      url   <- paste("IXURL=", input$ixplorer_url, sep = "")
-      owner <- paste("IXOWNER=", input$ixplorer_repo_owner, sep = "")
-      repo  <- paste("IXREPO=", input$ixplorer_repo_name, sep = "")
-      user  <- paste("IXUSER=", input$ixplorer_user_name, sep = "")
+      token <- paste("IXTOKEN=", input$ixplorer_token, sep = " ")
+      url   <- paste("IXURL=", input$ixplorer_url, sep = " ")
+      owner <- paste("IXOWNER=", input$ixplorer_repo_owner, sep = " ")
+      repo  <- paste("IXREPO=", input$ixplorer_repo_name, sep = " ")
+      user  <- paste("IXUSER=", input$ixplorer_user_name, sep = " ")
+
+      # Prueba de concepto para construir .csv
+      # token <- paste("IXTOKEN=", IXTOKEN, sep = " ")
+      # url   <- paste("IXURL=", IXURL, sep = " ")
+      # owner <- paste("IXOWNER=", IXOWNER, sep = " ")
+      # repo  <- paste("IXREPO=", IXREPO, sep = " ")
+      # user  <- paste("IXUSER=", IXUSER, sep = " ")
+
+      access_data <- rbind(token, url, owner, repo, user)
+      access_data <- as.data.frame(access_data)
 
       if (input$token_persist == 1) {
-        write(x = c(token, url, repo, owner), file = ".ixplorer")
-        write(".ixplorer", file = ".gitignore", append = TRUE)
+        write_csv(access_data, col_names = TRUE, path = "mytoken.csv")
       }
-
       stopApp(NULL)
     })
 
