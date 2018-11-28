@@ -35,12 +35,8 @@ create_issue <- function() {
   server <- function(input, output, session) {
 
     # Leer ixplorer y poner condicionales -------------------------
-    if(file.exists(".ixplorer")){
-      gitear_access <- readLines(".ixplorer")
-      return(gitear_access)
-    } else {
-      print("There is no authentication yet, please use the Authentication gadget")
-    }
+    gitear_access <- readLines(".ixplorer")
+
 
     # IXTOKEN ------
     if(str_detect(gitear_access, "IXTOKEN")){
