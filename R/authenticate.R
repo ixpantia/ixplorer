@@ -56,10 +56,10 @@ add_token <- function() {
     observeEvent(input$done, {
 
       Sys.setenv("IXTOKEN" = input$ixplorer_token)
-      Sys.setenv("IXURL" = input$ixplorer_url)
-      Sys.setenv("IXREPO" = input$ixplorer_repo_name)
+      Sys.setenv("IXURL"   = input$ixplorer_url)
       Sys.setenv("IXOWNER" = input$ixplorer_repo_owner)
-      Sys.setenv("IXUSER" = input$ixplorer_user_name)
+      Sys.setenv("IXREPO"  = input$ixplorer_repo_name)
+      Sys.setenv("IXUSER"  = input$ixplorer_user_name)
 
       # Formatear con paste hacer objeto fuera del write y ese objeto
       # ponerlo dentro del write TODO
@@ -68,9 +68,10 @@ add_token <- function() {
       # cat(a)
 
       token <- paste("IXTOKEN=", input$ixplorer_token, sep = "")
-      url <- paste("IXURL=", input$ixplorer_url, sep = "")
-      repo <- paste("IXREPO=", input$ixplorer_repo_name, sep = "")
-      owner <- paste("IXOWNER=", input$ixplorer_user_name, sep = "")
+      url   <- paste("IXURL=", input$ixplorer_url, sep = "")
+      owner <- paste("IXOWNER=", input$ixplorer_repo_owner, sep = "")
+      repo  <- paste("IXREPO=", input$ixplorer_repo_name, sep = "")
+      user  <- paste("IXUSER=", input$ixplorer_user_name, sep = "")
 
       if (input$token_persist == 1) {
         write(x = c(token, url, repo, owner), file = ".ixplorer")
