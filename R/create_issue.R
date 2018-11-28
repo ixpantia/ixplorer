@@ -35,7 +35,9 @@ create_issue <- function() {
   server <- function(input, output, session) {
 
     # Verificar datos de autentificacion
-    verify_authentication()
+    authentication <- verify_authentication()
+
+    if(str_detect(authentication, "There is no"))
 
     # ----------------------------------------------------------------
     observeEvent(input$done, {
