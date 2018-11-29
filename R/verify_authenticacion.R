@@ -1,17 +1,14 @@
-#  Verificar cada uno de los elementos dentro del ixplorer file
-verify_authentication <- function(){
-  access_data <- verify_ixplorer_file()
-  verify_ixurl(access_data)
-  verify_token(access_data)
-  verify_ixowner(access_data)
-  verify_ixrepo(access_data)
-  verify_ixuser(access_data)
-}
+library(tidyr)
+library(dplyr)
+library(readr)
+library(stringr)
 
+# Primer paso revisar que existe archivo
 verify_ixplorer_file <- function(){
   # Leer ixplorer y poner condicionales -------------------------
   if(file.exists("mytoken.csv")){
-    gitear_access <- read_csv("mytoken.csv")
+    gitear_access <- read_csv("mytoken.csv") %>%
+      separate(col = V1, into = c("object", "value"), sep = " ")
   } else {
     gitear_access <- "no acces data"
   }
@@ -19,13 +16,17 @@ verify_ixplorer_file <- function(){
 }
 
 # Prueba de concepto verificar elementos:
+# a <- verify_ixplorer_file()
+verify_ixtoken(a)
+verify_ixurl(a)
+verify_ixowner(a)
+verify_ixrepo(a)
+verify_ixuser(a)
 
-a <- verify_ixplorer_file()
-a <- separate(data = a, col = V1, into = c("object", "value"), sep = " ")
-
+    ## IXTOKEN ----
 verify_ixtoken <- function(gitear_access){
-  if(TRUE %in% str_detect(a$object, "IXURL")){
-    entry <- a %>%
+  if(TRUE %in% str_detect(gitear_access$object, "IXTOKEN")){
+    entry <- gitear_access %>%
       filter(object == "IXTOKEN=") %>%
       select(value)
     Sys.setenv("IXTOKEN" = entry)
@@ -33,79 +34,69 @@ verify_ixtoken <- function(gitear_access){
     print("There is no ixplorer TOKEN, please use the Authentication gadget")
   }
 }
+
+    ## IXURL ----
 verify_ixurl <- function(gitear_access){
-  # IXURL ------
-  if(TRUE %in% str_detect(gitear_access, "IXURL")){
-    # separar el url de ixtoken asegurandonos que entre el ixtoken
-    intake <- str_subset(gitear_access, "IXURL") %>%
-      str_split("=", simplify = TRUE)
-    intake <- intake[1,2]
-    # tomar ese elemento y unirlo en el Sys.setenv
-    Sys.setenv("IXURL" = intake)
-    # Dar mensaje de error si no hay intake
+  if(TRUE %in% str_detect(gitear_access$object, "IXURL")){
+    entry <- gitear_access %>%
+      filter(object == "IXURL=") %>%
+      select(value)
+    Sys.setenv("IXURL" = entry)
   } else {
-    print("There is no ixplorer URL, please use  the Authentication gadget")
+    print("There is no ixplorer URL, please use the Authentication gadget")
   }
 }
 
-
-verify_ixuser <- function(gitear_access){
-  # IXUSER ------
-  if(TRUE %in% str_detect(gitear_access, "IXUSER")){
-    # separar el repo de ixrepo asegurandonos que entre el ixrepo
-    intake <- str_subset(gitear_access, "IXUSER") %>%
-      str_split("=", simplify = TRUE)
-    intake <- intake[1,2]
-    # tomar ese elemento y unirlo en el Sys.setenv
-    Sys.setenv("IXUSER" = intake)
-    # Dar mensaje de error si no hay intake
-  } else {
-    print("There is no ixplorer user name, please use  the Authentication gadget")
-  }
-}
-
-verify_token <- function(gitear_access){
-  # IXTOKEN ------
-  if(TRUE %in% str_detect(gitear_access, "IXTOKEN")){
-    # separar el token de ixtoken asegurandonos que entre el ixtoken
-    intake <- str_subset(gitear_access, "IXTOKEN") %>%
-      str_split("=", simplify = TRUE)
-    intake <- intake[1,2]
-    # tomar ese elemento y unirlo en el Sys.setenv
-    Sys.setenv("IXTOKEN" = intake)
-    # Dar mensaje de error si no hay intake
-  } else {
-    print("There is no ixplorer token, please use  the Authentication gadget")
-  }
-}
-
-verify_ixrepo <- function(gitear_access){
-  # IXUREPO ------
-  if(TRUE %in% str_detect(gitear_access, "IXREPO")){
-    # separar el repo de ixrepo asegurandonos que entre el ixrepo
-    intake <- str_subset(gitear_access, "IXREPO") %>%
-      str_split("=", simplify = TRUE)
-    intake <- intake[1,2]
-    # tomar ese elemento y unirlo en el Sys.setenv
-    Sys.setenv("IXREPO" = intake)
-    # Dar mensaje de error si no hay intake
-  } else {
-    print("There is no ixplorer repository name, please use  the Authentication gadget")
-  }
-}
-
-
+  ## IXOWNER ----
 verify_ixowner <- function(gitear_access){
-  # IXOWNER ------
-  if(TRUE %in% str_detect(gitear_access, "IXOWNER")){
-    # separar el repo de ixrepo asegurandonos que entre el ixrepo
-    intake <- str_subset(gitear_access, "IXOWNER") %>%
-      str_split("=", simplify = TRUE)
-    intake <- intake[1,2]
-    # tomar ese elemento y unirlo en el Sys.setenv
-    Sys.setenv("IXOWNER" = intake)
-    # Dar mensaje de error si no hay intake
+  if(TRUE %in% str_detect(gitear_access$object, "IXOWNER")){
+    entry <- gitear_access %>%
+      filter(object == "IXOWNER=") %>%
+      select(value)
+    Sys.setenv("IXOWNER" = entry)
   } else {
-    print("There is no ixplorer project name, please use  the Authentication gadget")
+    print("There is no ixplorer PROJECT name, please use the Authentication gadget")
   }
+}
+
+    ## IXREPO ----
+verify_ixrepo <- function(gitear_access){
+  if(TRUE %in% str_detect(gitear_access$object, "IXREPO")){
+    entry <- gitear_access %>%
+      filter(object == "IXREPO=") %>%
+      select(value)
+    Sys.setenv("IXREPO" = entry)
+  } else {
+    print("There is no ixplorer REPOSITORY, please use the Authentication gadget")
+  }
+}
+
+    ## IXUSER ----
+verify_ixuser <- function(gitear_access){
+  if(TRUE %in% str_detect(gitear_access$object, "IXREPO")){
+    entry <- gitear_access %>%
+      filter(object == "IXREPO=") %>%
+      select(value)
+    Sys.setenv("IXREPO" = entry)
+  } else {
+    print("There is no ixplorer REPOSITORY, please use the Authentication gadget")
+  }
+}
+
+#  Verificar cada uno de los elementos dentro del ixplorer file
+verify_authentication <- function(){
+  access_data <- verify_ixplorer_file()
+  verify_ixurl(access_data)
+  verify_ixtoken(access_data)
+  verify_ixowner(access_data)
+  verify_ixrepo(access_data)
+  verify_ixuser(access_data)
+}
+
+if (Sys.getenv("IXURL") == "") {
+  stop("no hay IXURL")
+}
+
+if (Sys.getenv("IXTOKEN") == "") {
+  stop("no hay IXTOKEN")
 }
