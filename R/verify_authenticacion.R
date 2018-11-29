@@ -17,11 +17,11 @@ verify_ixplorer_file <- function(){
 
 # Prueba de concepto verificar elementos:
 # a <- verify_ixplorer_file()
-verify_ixtoken(a)
-verify_ixurl(a)
-verify_ixowner(a)
-verify_ixrepo(a)
-verify_ixuser(a)
+# verify_ixtoken(a)
+# verify_ixurl(a)
+# verify_ixowner(a)
+# verify_ixrepo(a)
+# verify_ixuser(a)
 
     ## IXTOKEN ----
 verify_ixtoken <- function(gitear_access){
@@ -84,7 +84,9 @@ verify_ixuser <- function(gitear_access){
 }
 
 #  Verificar cada uno de los elementos dentro del ixplorer file
-verify_authentication <- function(){
+
+## De esta manera no esta configurando el entorno
+set_authentication <- function(){
   access_data <- verify_ixplorer_file()
   verify_ixurl(access_data)
   verify_ixtoken(access_data)
@@ -93,10 +95,17 @@ verify_authentication <- function(){
   verify_ixuser(access_data)
 }
 
-if (Sys.getenv("IXURL") == "") {
-  stop("no hay IXURL")
+## Segunda manera:
+access_data <- verify_ixplorer_file()
+set_authentication(access_data)
+set_authentication <- function(){
+  verify_ixurl(access_data)
+  verify_ixtoken(access_data)
+  verify_ixowner(access_data)
+  verify_ixrepo(access_data)
+  verify_ixuser(access_data)
 }
 
-if (Sys.getenv("IXTOKEN") == "") {
-  stop("no hay IXTOKEN")
-}
+
+
+
