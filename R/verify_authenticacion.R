@@ -6,8 +6,8 @@ library(stringr)
 # Primer paso revisar que existe archivo
 verify_ixplorer_file <- function(){
   # Leer ixplorer y poner condicionales -------------------------
-  if(file.exists("mytoken.csv")){
-    gitear_access <- read_csv("mytoken.csv") %>%
+  if(file.exists(".ixplorer")){
+    gitear_access <- read_csv(".ixplorer") %>%
       separate(col = V1, into = c("object", "value"), sep = " ")
   } else {
     gitear_access <- "no acces data"
