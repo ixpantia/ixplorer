@@ -84,7 +84,7 @@ add_token <- function() {
       access_data <- as.data.frame(access_data)
 
       if (input$token_persist == 1) {
-        write_csv(access_data, col_names = TRUE, path = "mytoken.csv")
+        write_csv(access_data, col_names = TRUE, path = ".ixplorer")
       }
       stopApp(NULL)
     })
