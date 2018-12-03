@@ -67,14 +67,14 @@ ix_issues <- function() {
 
     output$closed_issues <- DT::renderDataTable({
       # Traer issues que estan cerrados. TODO
-      issues <- get_issues_closed_state(base_url = Sys.getenv("IXURL"),
+      issues_closed <- gitear::get_issues_closed_state(base_url = Sys.getenv("IXURL"),
                                         api_key = Sys.getenv("IXTOKEN"),
                                         owner = Sys.getenv("IXOWNER"),
                                         repo = Sys.getenv("IXREPO")
       ) %>%
         select(title, body, due_date, labels)
-      issues <- flatten(issues)
-      return(issues)
+      issues_closed <- flatten(issues_closed)
+      return(issues_closed)
     })
 
     observeEvent(input$done, {

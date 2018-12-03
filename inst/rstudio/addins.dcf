@@ -9,7 +9,7 @@ Binding: create_issue
 Interactive: false
 
 Name: ixplorer issues
-Description: Get overview of project status
+Description: Get overview of repository status
 Binding: ix_issues
 Interactive: false
 
