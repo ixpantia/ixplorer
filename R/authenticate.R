@@ -74,11 +74,11 @@ add_token <- function() {
       user  <- paste("IXUSER=", input$ixplorer_user_name, sep = " ")
 
       # Prueba de concepto para construir .csv
-      token <- paste("IXTOKEN=", IXTOKEN, sep = " ")
-      url   <- paste("IXURL=", IXURL, sep = " ")
-      owner <- paste("IXOWNER=", IXOWNER, sep = " ")
-      repo  <- paste("IXREPO=", IXREPO, sep = " ")
-      user  <- paste("IXUSER=", IXUSER, sep = " ")
+      # token <- paste("IXTOKEN=", IXTOKEN, sep = " ")
+      # url   <- paste("IXURL=", IXURL, sep = " ")
+      # owner <- paste("IXOWNER=", IXOWNER, sep = " ")
+      # repo  <- paste("IXREPO=", IXREPO, sep = " ")
+      # user  <- paste("IXUSER=", IXUSER, sep = " ")
 
       access_data <- rbind(token, url, owner, repo, user)
       access_data <- as.data.frame(access_data)
