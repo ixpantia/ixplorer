@@ -58,8 +58,6 @@ create_issue <- function() {
       stop("no hay IXUSER")
     }
 
-    if(str_detect(authentication, "There is no"))
-
     # ----------------------------------------------------------------
     observeEvent(input$done, {
       gitear::create_issue(base_url = Sys.getenv("IXURL"),

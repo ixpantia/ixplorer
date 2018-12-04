@@ -1,9 +1,11 @@
-library(tidyr)
-library(dplyr)
-library(readr)
-library(stringr)
+#' @import tidyr
+#' @import dplyr
+#' @import readr
+#' @import stringr
+NULL
 
-# Primer paso revisar que existe archivo
+#' Verify authentication to ixplorer
+#'
 verify_ixplorer_file <- function(){
   # Leer ixplorer y poner condicionales -------------------------
   if(file.exists(".ixplorer")){
@@ -14,14 +16,6 @@ verify_ixplorer_file <- function(){
   }
   return(gitear_access)
 }
-
-# Prueba de concepto verificar elementos:
-# a <- verify_ixplorer_file()
-# verify_ixtoken(a)
-# verify_ixurl(a)
-# verify_ixowner(a)
-# verify_ixrepo(a)
-# verify_ixuser(a)
 
     ## IXTOKEN ----
 verify_ixtoken <- function(gitear_access){
@@ -84,18 +78,6 @@ verify_ixuser <- function(gitear_access){
 }
 
 #  Verificar cada uno de los elementos dentro del ixplorer file
-
-## De esta manera no esta configurando el entorno
-# set_authentication <- function(){
-#   access_data <- verify_ixplorer_file()
-#   verify_ixurl(access_data)
-#   verify_ixtoken(access_data)
-#   verify_ixowner(access_data)
-#   verify_ixrepo(access_data)
-#   verify_ixuser(access_data)
-# }
-
-## Segunda manera que si funciona.
 set_authentication <- function(access_data){
   verify_ixurl(access_data)
   verify_ixtoken(access_data)
@@ -103,12 +85,4 @@ set_authentication <- function(access_data){
   verify_ixrepo(access_data)
   verify_ixuser(access_data)
 }
-
-# Codigo debe de tener esta forma para los siguientes gadgets
-access_file <- verify_ixplorer_file()
-set_authentication(access_data = access_file)
-
-
-
-
 
