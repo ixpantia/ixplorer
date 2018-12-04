@@ -39,23 +39,23 @@ create_issue <- function() {
     set_authentication(access_data = access_file)
 
     if (Sys.getenv("IXTOKEN") == "") {
-      stop("no hay IXTOKEN")
+      print("no hay IXTOKEN")
     }
 
     if (Sys.getenv("IXURL") == "") {
-      stop("no hay IXURL")
+      print("no hay IXURL")
     }
 
     if (Sys.getenv("IXOWNER") == "") {
-      stop("no hay IXOWNER")
+      print("no hay IXOWNER")
     }
 
     if (Sys.getenv("IXREPO") == "") {
-      stop("no hay IXREPO")
+      print("no hay IXREPO")
     }
 
     if (Sys.getenv("IXUSER") == "") {
-      stop("no hay IXUSER")
+      print("no hay IXUSER")
     }
 
     # ----------------------------------------------------------------
