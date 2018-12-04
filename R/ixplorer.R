@@ -4,6 +4,9 @@
 #' @import gitear
 #' @import dplyr
 #' @import jsonlite
+#' @import kableExtra
+#' @import lubridate
+#' @import tidyr
 NULL
 
 #' ixplorer reports
@@ -19,7 +22,7 @@ ix_issues <- function() {
     miniTabstripPanel(
       miniTabPanel("My issues", icon = icon("user"),
                    miniContentPanel(
-                     DT::dataTableOutput("my_issues")
+                     tableOutput("my_issues")
                    )
       ),
       miniTabPanel("Team issues", icon = icon("users"),
@@ -48,14 +51,25 @@ ix_issues <- function() {
     # Desanidar cuadro
     issues <- flatten(issues)
 
-    output$my_issues <- DT::renderDataTable({
+    output$my_issues <- function() {
       # Seleccion de issues por usuario y estado abierto
       issues <- issues %>%
         filter(assignee.login == user) %>%
-        # filter(state == "open") %>%
-        select(title, body,due_date, milestone, labels)
-      return(issues)
-    })
+        select(title, body, due_date, labels) %>%
+        separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
+        select(-hour) %>%
+        mutate(due_date = ymd(due_date) - today())
+
+      issues_kable <- issues %>%
+        mutate(due_date =
+                 cell_spec(due_date, color = "white", bold = T,
+                           background = spec_color(1:3, end = 0.9,
+                                                   direction = -1))) %>%
+        kable(escape = F) %>%
+        kable_styling("striped", "condensed")
+
+      return(issues_kable)
+    }
 
     output$team_issues <- DT::renderDataTable({
       # Seleccionamos issues por estado abierto
