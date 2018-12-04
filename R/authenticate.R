@@ -45,7 +45,8 @@ add_token <- function() {
 
       checkboxInput(inputId = "token_persist",
                     value = 0,
-                    label = "Persist token? (do no use on shared computer)"
+                    label = "Persist token? (do no use on shared computer)",
+                    width = "100%"
       )
 
     )
