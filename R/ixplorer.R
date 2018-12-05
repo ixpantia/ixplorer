@@ -51,9 +51,7 @@ ix_issues <- function() {
     # Desanidar cuadro
     issues <- flatten(issues)
 
-    # issues <- rename(issues, Title = title)
-    # issues <- rename(issues, Body = body)
-    # issues <- rename(issues, `Due Date` = due_date)
+
 
     output$my_issues <- function() {
       # Seleccion de issues por usuario y estado abierto
@@ -83,14 +81,19 @@ ix_issues <- function() {
         select(-hour) %>%
         mutate(due_date = ymd(due_date) - today())
 
+      issues <- rename(issues, Title = title)
+      issues <- rename(issues, Body = body)
+      issues <- rename(issues, `Due Date` = due_date)
+      issues <- rename(issues,  User = user.login)
+
       issues_kable <- issues %>%
-        mutate(due_date =
-                 cell_spec(due_date, color = "white", bold = T,
+        mutate(`Due Date` =
+                 cell_spec(`Due Date`, color = "white", bold = T,
                            background = spec_color(1:nrow(issues), end = 0.9,
                                                    direction = -1)),
-               user.login = cell_spec(user.login, bold = ifelse(ixplorer_user == user.login,
+               User = cell_spec(User, bold = ifelse(ixplorer_user == User,
                                                    T, F),
-                                color = ifelse(ixplorer_user  == user.login,
+                                color = ifelse(ixplorer_user  == User,
                                                "gray", "black"))) %>%
         kable(escape = F) %>%
         kable_styling("striped", "condensed")
