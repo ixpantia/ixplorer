@@ -88,7 +88,7 @@ ix_issues <- function() {
                  cell_spec(due_date, color = "white", bold = T,
                            background = spec_color(1:nrow(issues), end = 0.9,
                                                    direction = -1)),
-               user = cell_spec(user.login, bold = ifelse(ixplorer_user == user.login,
+               user.login = cell_spec(user.login, bold = ifelse(ixplorer_user == user.login,
                                                    T, F),
                                 color = ifelse(ixplorer_user  == user.login,
                                                "gray", "black"))) %>%
