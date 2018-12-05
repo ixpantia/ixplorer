@@ -7,6 +7,7 @@
 #' @import kableExtra
 #' @import lubridate
 #' @import tidyr
+#' @import RColorBrewer
 NULL
 
 #' ixplorer reports
@@ -86,11 +87,12 @@ ix_issues <- function() {
       issues <- rename(issues, `Due Date` = due_date)
       issues <- rename(issues,  User = user.login)
 
+      verdes <- RColorBrewer::brewer.pal(1:nrow(issues), "Greens")
+
       issues_kable <- issues %>%
         mutate(`Due Date` =
                  cell_spec(`Due Date`, color = "white", bold = T,
-                           background = spec_color(1:nrow(issues), end = 0.9,
-                                                   direction = -1)),
+                           background = (verdes)),
                User = cell_spec(User, bold = ifelse(ixplorer_user == User,
                                                    T, F),
                                 color = ifelse(ixplorer_user  == User,
