@@ -11,7 +11,7 @@ NULL
 
 #' ixplorer reports
 #'
-#' Visualize issues of an specific user, a team and closed issues based on
+#' Visualize the issues of an specific user, a team and closed issues based on
 #' the credentials used in gadget authenticate.
 #'
 #' @export
@@ -27,7 +27,7 @@ ix_issues <- function() {
       ),
       miniTabPanel("Team issues", icon = icon("users"),
                    miniContentPanel(
-                     DT::dataTableOutput("team_issues")
+                     tableOutput("team_issues")
                    )
       ),
       miniTabPanel("Closed issues", icon = icon("times-circle"),
@@ -46,16 +46,20 @@ ix_issues <- function() {
                                  api_key = Sys.getenv("IXTOKEN"),
                                  owner = Sys.getenv("IXOWNER"),
                                  repo = Sys.getenv("IXREPO"))
-    user = Sys.getenv("IXUSER")
+    ixplorer_user = Sys.getenv("IXUSER")
 
     # Desanidar cuadro
     issues <- flatten(issues)
 
+    # issues <- rename(issues, Title = title)
+    # issues <- rename(issues, Body = body)
+    # issues <- rename(issues, `Due Date` = due_date)
+
     output$my_issues <- function() {
       # Seleccion de issues por usuario y estado abierto
       issues <- issues %>%
-        filter(assignee.login == user) %>%
-        select(title, body, due_date, labels) %>%
+        filter(assignee.login == ixplorer_user) %>%
+        select(title, body, due_date) %>%
         separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
         select(-hour) %>%
         mutate(due_date = ymd(due_date) - today())
@@ -63,7 +67,7 @@ ix_issues <- function() {
       issues_kable <- issues %>%
         mutate(due_date =
                  cell_spec(due_date, color = "white", bold = T,
-                           background = spec_color(1:3, end = 0.9,
+                           background = spec_color(1:nrow(issues), end = 0.9,
                                                    direction = -1))) %>%
         kable(escape = F) %>%
         kable_styling("striped", "condensed")
@@ -71,13 +75,29 @@ ix_issues <- function() {
       return(issues_kable)
     }
 
-    output$team_issues <- DT::renderDataTable({
+    output$team_issues <- function(){
       # Seleccionamos issues por estado abierto
       issues <- issues %>%
-        filter(state == "open") %>%
-        select(title, body,due_date, milestone, labels)
-      return(issues)
-    })
+        select(user.login, title, body, due_date) %>%
+        separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
+        select(-hour) %>%
+        mutate(due_date = ymd(due_date) - today())
+
+      issues_kable <- issues %>%
+        mutate(due_date =
+                 cell_spec(due_date, color = "white", bold = T,
+                           background = spec_color(1:nrow(issues), end = 0.9,
+                                                   direction = -1)),
+               user = cell_spec(user.login, bold = ifelse(ixplorer_user == user.login,
+                                                   T, F),
+                                color = ifelse(ixplorer_user  == user.login,
+                                               "gray", "black"))) %>%
+        kable(escape = F) %>%
+        kable_styling("striped", "condensed")
+
+      return(issues_kable)
+
+    }
 
     output$closed_issues <- DT::renderDataTable({
       # Traer issues que estan cerrados. TODO

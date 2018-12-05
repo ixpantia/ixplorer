@@ -7,6 +7,6 @@
 ix_issues()
 }
 \description{
-Visualize issues of an specific user, a team and closed issues based on
+Visualize the issues of an specific user, a team and closed issues based on
 the credentials used in gadget authenticate.
 }
