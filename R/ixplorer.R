@@ -41,6 +41,30 @@ ix_issues <- function() {
 
   server <- function(input, output, session){
 
+    # Verificar/configurar datos de autentificacion
+    access_file <- verify_ixplorer_file()
+    set_authentication(access_data = access_file)
+
+    if (Sys.getenv("IXTOKEN") == "") {
+      print("no hay IXTOKEN")
+    }
+
+    if (Sys.getenv("IXURL") == "") {
+      print("no hay IXURL")
+    }
+
+    if (Sys.getenv("IXOWNER") == "") {
+      print("no hay IXOWNER")
+    }
+
+    if (Sys.getenv("IXREPO") == "") {
+      print("no hay IXREPO")
+    }
+
+    if (Sys.getenv("IXUSER") == "") {
+      print("no hay IXUSER")
+    }
+
     # Traemos issues y configuramos credenciales
     issues <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
                                  api_key = Sys.getenv("IXTOKEN"),
@@ -52,7 +76,7 @@ ix_issues <- function() {
     issues <- flatten(issues)
 
     output$my_issues <- function() {
-      # Seleccion de issues por usuario y estado abierto
+      # Seleccion de issues por usuario y creacion links de issues
       issues <- issues %>%
         filter(assignee.login == ixplorer_user) %>%
         select(number, title, due_date, url) %>%
