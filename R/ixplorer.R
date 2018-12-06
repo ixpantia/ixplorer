@@ -55,27 +55,30 @@ ix_issues <- function() {
       # Seleccion de issues por usuario y estado abierto
       issues <- issues %>%
         filter(assignee.login == ixplorer_user) %>%
-        select(number, title, due_date) %>%
+        select(number, title, due_date, url) %>%
         separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
         select(-hour) %>%
-        mutate(due_date = ymd(due_date) - today())
+        mutate(due_date = ymd(due_date) - today()) %>%
+        separate(col = url,
+                 into = c("borrar", "issue_url"), sep = "repos/") %>%
+        select(-borrar) %>%
+        mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
 
       issues <- rename(issues, Title = title)
-      issues <- rename(issues, `Issue number` = number)
-      issues <- rename(issues, `Due Date` = due_date)
-
+      issues <- rename(issues, Nr = number)
+      issues <- rename(issues, Due = due_date)
 
       verdes <- RColorBrewer::brewer.pal(nrow(issues), "Greens")
       rojos <- RColorBrewer::brewer.pal(nrow(issues), "Reds")
 
       issues_kable <- issues %>%
-        mutate(`Due Date` = ifelse(`Due Date` < 0, cell_spec(`Due Date`,
-                                                             color = "white",
-                                                             bold = T,
-                                                             background = rojos),
-                                   cell_spec(`Due Date`, color = "white", bold = T,
-                                             background = verdes))) %>%
-        kable(escape = F) %>%
+        mutate(Due = ifelse(Due < 0, cell_spec(Due, color = "white",
+                                       bold = TRUE, background = rojos),
+                                   cell_spec(Due, color = "white",
+                                       bold = TRUE, background = verdes)),
+               Nr = text_spec(Nr, link = issue_url)) %>%
+        select(-issue_url) %>%
+        kable(escape = FALSE) %>%
         kable_styling("striped", "condensed")
 
       return(issues_kable)
