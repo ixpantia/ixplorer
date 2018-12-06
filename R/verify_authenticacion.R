@@ -67,13 +67,13 @@ verify_ixrepo <- function(gitear_access){
 
     ## IXUSER ----
 verify_ixuser <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXREPO")){
+  if(TRUE %in% str_detect(gitear_access$object, "IXUSER")){
     entry <- gitear_access %>%
-      filter(object == "IXREPO=") %>%
+      filter(object == "IXUSER=") %>%
       select(value)
-    Sys.setenv("IXREPO" = entry)
+    Sys.setenv("IXUSER" = entry)
   } else {
-    print("There is no ixplorer REPOSITORY, please use the Authentication gadget")
+    print("There is no ixplorer USER, please use the Authentication gadget")
   }
 }
 
