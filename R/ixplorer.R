@@ -36,7 +36,6 @@ ix_issues <- function() {
                      DT::dataTableOutput("closed_issues")
                    )
       )
-
     )
   )
 
@@ -52,22 +51,30 @@ ix_issues <- function() {
     # Desanidar cuadro
     issues <- flatten(issues)
 
-
-
     output$my_issues <- function() {
       # Seleccion de issues por usuario y estado abierto
       issues <- issues %>%
         filter(assignee.login == ixplorer_user) %>%
-        select(title, body, due_date) %>%
+        select(number, title, due_date) %>%
         separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
         select(-hour) %>%
         mutate(due_date = ymd(due_date) - today())
 
+      issues <- rename(issues, Title = title)
+      issues <- rename(issues, `Issue number` = number)
+      issues <- rename(issues, `Due Date` = due_date)
+
+
+      verdes <- RColorBrewer::brewer.pal(nrow(issues), "Greens")
+      rojos <- RColorBrewer::brewer.pal(nrow(issues), "Reds")
+
       issues_kable <- issues %>%
-        mutate(due_date =
-                 cell_spec(due_date, color = "white", bold = T,
-                           background = spec_color(1:nrow(issues), end = 0.9,
-                                                   direction = -1))) %>%
+        mutate(`Due Date` = ifelse(`Due Date` < 0, cell_spec(`Due Date`,
+                                                             color = "white",
+                                                             bold = T,
+                                                             background = rojos),
+                                   cell_spec(`Due Date`, color = "white", bold = T,
+                                             background = verdes))) %>%
         kable(escape = F) %>%
         kable_styling("striped", "condensed")
 
@@ -77,27 +84,38 @@ ix_issues <- function() {
     output$team_issues <- function(){
       # Seleccionamos issues por estado abierto
       issues <- issues %>%
-        select(user.login, title, body, due_date) %>%
+        select(user.login, number, title, due_date, url) %>%
         separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
         select(-hour) %>%
-        mutate(due_date = ymd(due_date) - today())
+        mutate(due_date = ymd(due_date) - today()) %>%
+        mutate(due_date = as.numeric(due_date)) %>%
+        separate(col = url,
+                 into = c("borrar", "issue_url"), sep = "repos/") %>%
+        select(-borrar) %>%
+        mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
 
       issues <- rename(issues, Title = title)
-      issues <- rename(issues, Body = body)
-      issues <- rename(issues, `Due Date` = due_date)
+      issues <- rename(issues, Nr = number)
+      issues <- rename(issues, Due = due_date)
       issues <- rename(issues,  User = user.login)
 
-      verdes <- RColorBrewer::brewer.pal(1:nrow(issues), "Greens")
+      verdes <- RColorBrewer::brewer.pal(nrow(issues), "Greens")
+      rojos <- RColorBrewer::brewer.pal(nrow(issues), "Reds")
 
       issues_kable <- issues %>%
-        mutate(`Due Date` =
-                 cell_spec(`Due Date`, color = "white", bold = T,
-                           background = (verdes)),
-               User = cell_spec(User, bold = ifelse(ixplorer_user == User,
-                                                   T, F),
+        mutate(
+          Due = ifelse(Due < 0,
+                                   cell_spec(Due, color = "white",
+                                             bold = TRUE, background = rojos),
+                                   cell_spec(Due, color = "white",
+                                             bold = TRUE, background = verdes)),
+               User = cell_spec(User,
+                                bold = ifelse(ixplorer_user == User, TRUE, FALSE),
                                 color = ifelse(ixplorer_user  == User,
-                                               "gray", "black"))) %>%
-        kable(escape = F) %>%
+                                               "gray", "black")),
+               Nr = text_spec(Nr, link = issue_url)) %>%
+        select(-issue_url) %>%
+        kable(escape = FALSE) %>%
         kable_styling("striped", "condensed")
 
       return(issues_kable)
