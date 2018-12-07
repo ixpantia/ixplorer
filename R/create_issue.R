@@ -29,6 +29,9 @@ create_issue <- function() {
                     resize = "vertical",
                     rows = 10,
                     placeholder = "Describe the issue you have encountered")
+    ),
+    miniButtonBlock(
+      actionButton(inputId = "create", label = "Create Issue")
     )
   )
 
@@ -71,6 +74,16 @@ create_issue <- function() {
 
     observeEvent(input$cancel, {
       # do nothing
+      stopApp(NULL)
+    })
+
+    observeEvent(input$create, {
+      gitear::create_issue(base_url = Sys.getenv("IXURL"),
+                           api_key = Sys.getenv("IXTOKEN"),
+                           owner = Sys.getenv("IXOWNER"),
+                           repo = Sys.getenv("IXREPO"),
+                           title = input$issue_title,
+                           body =  input$issue_description)
       stopApp(NULL)
     })
   }
