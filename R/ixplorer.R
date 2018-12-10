@@ -1,13 +1,7 @@
 #' @import shiny
 #' @import miniUI
-#' @import DT
-#' @import gitear
 #' @import dplyr
-#' @import jsonlite
 #' @import kableExtra
-#' @import lubridate
-#' @import tidyr
-#' @import RColorBrewer
 NULL
 
 #' ixplorer reports
@@ -73,16 +67,16 @@ ix_issues <- function() {
     ixplorer_user = Sys.getenv("IXUSER")
 
     # Desanidar cuadro
-    issues <- flatten(issues)
+    issues <- jsonlite::flatten(issues)
 
     output$my_issues <- function() {
       # Seleccion de issues por usuario y creacion links de issues
       issues <- issues %>%
         filter(assignee.login == ixplorer_user) %>%
         select(number, title, due_date, url) %>%
-        separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
+        tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
         select(-hour) %>%
-        mutate(due_date = ymd(due_date) - today()) %>%
+        mutate(due_date = lubridate::ymd(due_date) - today()) %>%
         separate(col = url,
                  into = c("borrar", "issue_url"), sep = "repos/") %>%
         select(-borrar) %>%
@@ -112,11 +106,12 @@ ix_issues <- function() {
       # Seleccionamos issues por estado abierto
       issues <- issues %>%
         select(user.login, number, title, due_date, url) %>%
-        separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
+        tidyr::separate(col = due_date, into = c("due_date", "hour"),
+                        sep = "T") %>%
         select(-hour) %>%
-        mutate(due_date = ymd(due_date) - today()) %>%
+        mutate(due_date = lubridate::ymd(due_date) - today()) %>%
         mutate(due_date = as.numeric(due_date)) %>%
-        separate(col = url,
+        tidyr::separate(col = url,
                  into = c("borrar", "issue_url"), sep = "repos/") %>%
         select(-borrar) %>%
         mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
