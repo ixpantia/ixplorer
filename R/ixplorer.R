@@ -31,9 +31,9 @@ ix_issues <- function() {
                      tableOutput("team_issues")
                    )
       ),
-      miniTabPanel("Closed issues", icon = icon("times-circle"),
+      miniTabPanel("Quick links", icon = icon("link"),
                    miniContentPanel(
-                     DT::dataTableOutput("closed_issues")
+                     tableOutput("quick_links")
                    )
       )
     )
@@ -149,17 +149,39 @@ ix_issues <- function() {
 
     }
 
-    output$closed_issues <- DT::renderDataTable({
-      # Traer issues que estan cerrados. TODO
-      issues_closed <- gitear::get_issues_closed_state(base_url = Sys.getenv("IXURL"),
-                                        api_key = Sys.getenv("IXTOKEN"),
-                                        owner = Sys.getenv("IXOWNER"),
-                                        repo = Sys.getenv("IXREPO")
-      ) %>%
-        select(title, body, due_date, labels)
-      issues_closed <- flatten(issues_closed)
-      return(issues_closed)
-    })
+    output$quick_links <- function(){
+      # Traer link de closed issues
+      close_issues_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
+      ixurl <- sub("/$", "", Sys.getenv("IXURL"))
+      close_issues_url <- paste(ixurl, Sys.getenv("IXOWNER"), Sys.getenv("IXREPO"),
+            close_issues_url, sep = "/")
+
+      # Link de milestones
+      milestones_url <- paste(ixurl, Sys.getenv("IXOWNER"),
+                              Sys.getenv("IXREPO"), "milestones", sep = "/")
+
+      # Link de Wiki
+      wiki_url <- paste(ixurl, Sys.getenv("IXOWNER"),
+                        Sys.getenv("IXREPO"), "wiki", sep = "/")
+
+      # Link de proyecto
+      project_url <- paste(ixurl, Sys.getenv("IXOWNER"), sep = "/")
+
+      links <- c(close_issues_url, milestones_url, wiki_url, project_url)
+      URL <- c("Clossed issues", "Milestones", "Wiki", "Project")
+
+      quick_links <- data_frame(links, URL)
+
+      quick_links <- quick_links %>%
+        mutate(
+          URL = text_spec(URL, link = links)) %>%
+        select(-links) %>%
+        kable(escape = FALSE) %>%
+        kable_styling("striped", "condensed", position = "center",
+                      row_label_position = "c", font_size = 20)
+
+      return(quick_links)
+    }
 
     observeEvent(input$done, {
       stopApp(TRUE)
