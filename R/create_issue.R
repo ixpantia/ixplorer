@@ -39,8 +39,14 @@ create_issue <- function() {
   server <- function(input, output, session) {
 
     # Verificar/configurar datos de autentificacion
+
     access_file <- verify_ixplorer_file()
-    set_authentication(access_data = access_file)
+
+    if(access_file == "no access data"){
+      print(access_file)
+    } else {
+      set_authentication(access_data = access_file)
+    }
 
     if (Sys.getenv("IXTOKEN") == "") {
       print("no hay IXTOKEN")
