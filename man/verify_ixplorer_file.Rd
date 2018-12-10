@@ -7,5 +7,6 @@
 verify_ixplorer_file()
 }
 \description{
-Verify authentication to ixplorer
+Verify if there is  a .ixplorer file in your working directory and set
+the variables.
 }

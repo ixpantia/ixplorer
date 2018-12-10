@@ -77,7 +77,7 @@ ix_issues <- function() {
         tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
         select(-hour) %>%
         mutate(due_date = lubridate::ymd(due_date) - today()) %>%
-        separate(col = url,
+        tidyr::separate(col = url,
                  into = c("borrar", "issue_url"), sep = "repos/") %>%
         select(-borrar) %>%
         mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
