@@ -1,7 +1,4 @@
-#' @import tidyr
 #' @import dplyr
-#' @import readr
-#' @import stringr
 NULL
 
 #' Verify authentication to ixplorer
@@ -9,8 +6,8 @@ NULL
 verify_ixplorer_file <- function(){
   # Leer ixplorer y poner condicionales -------------------------
   if(file.exists(".ixplorer")){
-    gitear_access <- read_csv(".ixplorer") %>%
-      separate(col = V1, into = c("object", "value"), sep = " ")
+    gitear_access <- readr::read_csv(".ixplorer") %>%
+      tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   } else {
     gitear_access <- "no access data"
   }
@@ -19,7 +16,7 @@ verify_ixplorer_file <- function(){
 
     ## IXTOKEN ----
 verify_ixtoken <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXTOKEN")){
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXTOKEN")){
     entry <- gitear_access %>%
       filter(object == "IXTOKEN=") %>%
       select(value)
@@ -31,7 +28,7 @@ verify_ixtoken <- function(gitear_access){
 
     ## IXURL ----
 verify_ixurl <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXURL")){
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXURL")){
     entry <- gitear_access %>%
       filter(object == "IXURL=") %>%
       select(value)
@@ -43,7 +40,7 @@ verify_ixurl <- function(gitear_access){
 
   ## IXOWNER ----
 verify_ixowner <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXOWNER")){
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXOWNER")){
     entry <- gitear_access %>%
       filter(object == "IXOWNER=") %>%
       select(value)
@@ -55,7 +52,7 @@ verify_ixowner <- function(gitear_access){
 
     ## IXREPO ----
 verify_ixrepo <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXREPO")){
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXREPO")){
     entry <- gitear_access %>%
       filter(object == "IXREPO=") %>%
       select(value)
@@ -67,7 +64,7 @@ verify_ixrepo <- function(gitear_access){
 
     ## IXUSER ----
 verify_ixuser <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXUSER")){
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXUSER")){
     entry <- gitear_access %>%
       filter(object == "IXUSER=") %>%
       select(value)

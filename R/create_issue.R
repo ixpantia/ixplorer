@@ -1,6 +1,5 @@
 #' @import shiny
 #' @import miniUI
-#' @import gitear
 NULL
 
 #' Create issue
