@@ -20,15 +20,19 @@ create_issue <- function() {
     miniContentPanel(
       textInput(inputId = "issue_title",
                 label = "Issue title",
-                width = "100%",
+                width = "150%",
                 placeholder = "Brief description of your issue"),
 
       textAreaInput(inputId = "issue_description",
                     label = "Description",
                     width = "190%",
+                    height = "100%",
                     resize = "vertical",
-                    rows = 10,
+                    rows = 13,
                     placeholder = "Describe the issue you have encountered")
+    ),
+    miniButtonBlock(
+      actionButton(inputId = "create", label = "Create Issue")
     )
   )
 
@@ -71,6 +75,16 @@ create_issue <- function() {
 
     observeEvent(input$cancel, {
       # do nothing
+      stopApp(NULL)
+    })
+
+    observeEvent(input$create, {
+      gitear::create_issue(base_url = Sys.getenv("IXURL"),
+                           api_key = Sys.getenv("IXTOKEN"),
+                           owner = Sys.getenv("IXOWNER"),
+                           repo = Sys.getenv("IXREPO"),
+                           title = input$issue_title,
+                           body =  input$issue_description)
       stopApp(NULL)
     })
   }
