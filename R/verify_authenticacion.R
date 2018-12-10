@@ -12,7 +12,7 @@ verify_ixplorer_file <- function(){
     gitear_access <- read_csv(".ixplorer") %>%
       separate(col = V1, into = c("object", "value"), sep = " ")
   } else {
-    gitear_access <- "no acces data"
+    gitear_access <- "no access data"
   }
   return(gitear_access)
 }
