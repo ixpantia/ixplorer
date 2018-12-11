@@ -34,7 +34,7 @@ ix_issues <- function() {
       miniTabPanel("Closed issues", icon = icon("times-circle"),
                    miniContentPanel(
                      DT::dataTableOutput("closed_issues")
-                   )
+                   ),
       )
     )
   )
