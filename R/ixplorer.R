@@ -76,7 +76,7 @@ ix_issues <- function() {
         select(number, title, due_date, url) %>%
         tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
         select(-hour) %>%
-        mutate(due_date = lubridate::ymd(due_date) - today()) %>%
+        mutate(due_date = lubridate::ymd(due_date) - lubridate::today()) %>%
         tidyr::separate(col = url,
                  into = c("borrar", "issue_url"), sep = "repos/") %>%
         select(-borrar) %>%
@@ -109,7 +109,7 @@ ix_issues <- function() {
         tidyr::separate(col = due_date, into = c("due_date", "hour"),
                         sep = "T") %>%
         select(-hour) %>%
-        mutate(due_date = lubridate::ymd(due_date) - today()) %>%
+        mutate(due_date = lubridate::ymd(due_date) - lubridate::today()) %>%
         mutate(due_date = as.numeric(due_date)) %>%
         tidyr::separate(col = url,
                  into = c("borrar", "issue_url"), sep = "repos/") %>%
