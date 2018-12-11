@@ -58,7 +58,7 @@ create_issue <- function() {
         print("no hay IXURL")
       }
 
-      (Sys.getenv("IXOWNER") == "") {
+      if (Sys.getenv("IXOWNER") == "") {
         print("no hay IXOWNER")
       }
 
@@ -69,13 +69,8 @@ create_issue <- function() {
       if (Sys.getenv("IXUSER") == "") {
         print("no hay IXUSER")
       }
-
       return(a)
     })
-
-    # Verificar/configurar datos de autentificacion
-
-
 
     # ----------------------------------------------------------------
     observeEvent(input$done, {
