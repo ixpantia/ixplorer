@@ -50,28 +50,26 @@ create_issue <- function() {
         set_authentication(access_data = access_file)
       }
 
-      b <- if (Sys.getenv("IXTOKEN") == "") {
+      if (Sys.getenv("IXTOKEN") == "") {
         print("no hay IXTOKEN")
       }
 
-      c <- if (Sys.getenv("IXURL") == "") {
+      if (Sys.getenv("IXURL") == "") {
         print("no hay IXURL")
       }
 
-      d <- if (Sys.getenv("IXOWNER") == "") {
+      (Sys.getenv("IXOWNER") == "") {
         print("no hay IXOWNER")
       }
 
-      e <- if (Sys.getenv("IXREPO") == "") {
+      if (Sys.getenv("IXREPO") == "") {
         print("no hay IXREPO")
       }
 
-      f <- if (Sys.getenv("IXUSER") == "") {
+      if (Sys.getenv("IXUSER") == "") {
         print("no hay IXUSER")
       }
 
-      # text <- paste("Warning! There is no:", a, b, c, d, e, f)
-      # return(text)
       return(a)
     })
 
