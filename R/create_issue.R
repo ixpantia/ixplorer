@@ -43,6 +43,7 @@ create_issue <- function() {
     access_file <- verify_ixplorer_file()
 
     output$warning <- renderText({
+
       a <- if(access_file == "no access data"){
         print(access_file)
       } else {
@@ -69,8 +70,9 @@ create_issue <- function() {
         print("no hay IXUSER")
       }
 
-      text <- paste("Warning! There is no:", a, b, c, d, e, f)
-      return(text())
+      # text <- paste("Warning! There is no:", a, b, c, d, e, f)
+      # return(text)
+      return(a)
     })
 
     # Verificar/configurar datos de autentificacion

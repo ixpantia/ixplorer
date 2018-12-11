@@ -79,10 +79,12 @@ verify_ixuser <- function(gitear_access){
 
 #  Verificar cada uno de los elementos dentro del ixplorer file
 set_authentication <- function(access_data){
-  verify_ixurl(access_data)
-  verify_ixtoken(access_data)
-  verify_ixowner(access_data)
-  verify_ixrepo(access_data)
-  verify_ixuser(access_data)
+  ixurl <- verify_ixurl(access_data)
+  ixtoken <- verify_ixtoken(access_data)
+  ixowner <- verify_ixowner(access_data)
+  ixrepo <- verify_ixrepo(access_data)
+  ixuser <- verify_ixuser(access_data)
+  msj <- c(ixurl, ixtoken, ixowner, ixrepo, ixuser)
+  print(msj[!msj == "TRUE"])
 }
 
