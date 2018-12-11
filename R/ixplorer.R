@@ -171,9 +171,9 @@ ix_issues <- function() {
         mutate(
           URL = text_spec(URL, link = links)) %>%
         select(-links) %>%
-        kable(escape = FALSE) %>%
+        kable(escape = FALSE, align = "c") %>%
         kable_styling("striped", "condensed", position = "center",
-                      row_label_position = "c", font_size = 20)
+                      font_size = 20)
 
       return(quick_links)
     }
