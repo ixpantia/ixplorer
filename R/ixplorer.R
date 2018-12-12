@@ -1,23 +1,16 @@
 #' @import shiny
 #' @import miniUI
-#' @import DT
-#' @import gitear
 #' @import dplyr
-#' @import jsonlite
 #' @import kableExtra
-#' @import lubridate
-#' @import tidyr
-#' @import RColorBrewer
 NULL
 
 #' ixplorer reports
 #'
-#' Visualize the issues of an specific user, a team and closed issues based on
-#' the credentials used in gadget authenticate.
+#' Visualize the issues of an specific user, a team and get the quick links to
+#' your ixplorer based on the credentials used in gadget authenticate.
 #'
 #' @export
 ix_issues <- function() {
-
   ui <- miniPage(
     gadgetTitleBar("ixplorer Reports"),
     verbatimTextOutput("warning", placeholder = FALSE),
@@ -32,9 +25,9 @@ ix_issues <- function() {
                      tableOutput("team_issues")
                    )
       ),
-      miniTabPanel("Closed issues", icon = icon("times-circle"),
+      miniTabPanel("Quick links", icon = icon("link"),
                    miniContentPanel(
-                     DT::dataTableOutput("closed_issues")
+                     tableOutput("quick_links")
                    )
       )
     )
@@ -75,10 +68,10 @@ ix_issues <- function() {
         issues <- issues %>%
           filter(assignee.login == ixplorer_user) %>%
           select(number, title, due_date, url) %>%
-          separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
+          tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
           select(-hour) %>%
-          mutate(due_date = ymd(due_date) - today()) %>%
-          separate(col = url,
+          mutate(due_date = lubridate::ymd(due_date) - lubridate::today()) %>%
+          tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
           mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
@@ -104,18 +97,17 @@ ix_issues <- function() {
     }
 
     output$team_issues <- function(){
-
       if (issues == "no access data") {
         issues_kable <- "No access data. Use authentication gadget"
       } else {
         # Seleccionamos issues por estado abierto
         issues <- issues %>%
           select(user.login, number, title, due_date, url) %>%
-          separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
+          tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
           select(-hour) %>%
-          mutate(due_date = ymd(due_date) - today()) %>%
+          mutate(due_date = lubridate::ymd(due_date) - lubridate::today()) %>%
           mutate(due_date = as.numeric(due_date)) %>%
-          separate(col = url,
+          tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
           mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
@@ -148,17 +140,39 @@ ix_issues <- function() {
 
     }
 
-    output$closed_issues <- DT::renderDataTable({
-      # Traer issues que estan cerrados. TODO
-      issues_closed <- gitear::get_issues_closed_state(base_url = Sys.getenv("IXURL"),
-                                        api_key = Sys.getenv("IXTOKEN"),
-                                        owner = Sys.getenv("IXOWNER"),
-                                        repo = Sys.getenv("IXREPO")
-      ) %>%
-        select(title, body, due_date, labels)
-      issues_closed <- flatten(issues_closed)
-      return(issues_closed)
-    })
+    output$quick_links <- function(){
+      # Traer link de closed issues
+      close_issues_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
+      ixurl <- sub("/$", "", Sys.getenv("IXURL"))
+      close_issues_url <- paste(ixurl, Sys.getenv("IXOWNER"), Sys.getenv("IXREPO"),
+            close_issues_url, sep = "/")
+
+      # Link de milestones
+      milestones_url <- paste(ixurl, Sys.getenv("IXOWNER"),
+                              Sys.getenv("IXREPO"), "milestones", sep = "/")
+
+      # Link de Wiki
+      wiki_url <- paste(ixurl, Sys.getenv("IXOWNER"),
+                        Sys.getenv("IXREPO"), "wiki", sep = "/")
+
+      # Link de proyecto
+      project_url <- paste(ixurl, Sys.getenv("IXOWNER"), sep = "/")
+
+      links <- c(close_issues_url, milestones_url, wiki_url, project_url)
+      URL <- c("Clossed issues", "Milestones", "Wiki", "Project")
+
+      quick_links <- data_frame(links, URL)
+
+      quick_links <- quick_links %>%
+        mutate(
+          URL = text_spec(URL, link = links)) %>%
+        select(-links) %>%
+        kable(escape = FALSE, align = "c") %>%
+        kable_styling("striped", "condensed", position = "center",
+                      font_size = 20)
+
+      return(quick_links)
+    }
 
     observeEvent(input$done, {
       stopApp(TRUE)

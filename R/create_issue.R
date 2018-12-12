@@ -1,9 +1,12 @@
 #' @import shiny
 #' @import miniUI
-#' @import gitear
 NULL
 
 #' Create issue
+#'
+#' Create issues (Title and body) from the ixplorer addin without loosing the
+#' ideas during your workflow. Issues will be in the repository that corresponds
+#' to the information youo give in the authenticate gadget.
 #'
 #' @export
 create_issue <- function() {

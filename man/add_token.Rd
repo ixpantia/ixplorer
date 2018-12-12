@@ -7,5 +7,6 @@
 add_token()
 }
 \description{
-Authenticate to ixplorer
+Make the connection to your repository through the ixplorer gadget and be
+able to create issues, review issues without re-writing your credentials
 }
