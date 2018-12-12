@@ -17,14 +17,13 @@ verify_ixplorer_file <- function(){
   return(gitear_access)
 }
 
-## IXTOKEN ----
-
 #' Verify  ixtoken
 #'
 #' Verify if there is a token to your ixplorer repository
 #'
 verify_ixtoken <- function(gitear_access){
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXTOKEN")){
+
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXTOKEN") && FALSE %in% any(is.na(gitear_access[1,2]))) {
     entry <- gitear_access %>%
       filter(object == "IXTOKEN=") %>%
       select(value)
@@ -34,13 +33,12 @@ verify_ixtoken <- function(gitear_access){
   }
 }
 
-    ## IXURL ----
 #' Verify  ixurl
 #'
 #' Verify if there is an URL to your ixplorer repository
 #'
 verify_ixurl <- function(gitear_access){
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXURL")){
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXURL") && FALSE %in% any(is.na(gitear_access[2,2]))) {
     entry <- gitear_access %>%
       filter(object == "IXURL=") %>%
       select(value)
@@ -56,7 +54,7 @@ verify_ixurl <- function(gitear_access){
 #' Verify if there is a project name where your ixplorer repository belongs.
 #'
 verify_ixproject <- function(gitear_access){
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXOWNER")){
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXOWNER") && FALSE %in% any(is.na(gitear_access[3,2]))) {
     entry <- gitear_access %>%
       filter(object == "IXOWNER=") %>%
       select(value)
@@ -72,7 +70,7 @@ verify_ixproject <- function(gitear_access){
 #' Verify if there is the name of your ixplorer repository
 #'
 verify_ixrepo <- function(gitear_access){
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXREPO")){
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXREPO") && FALSE %in% any(is.na(gitear_access[4,2]))){
     entry <- gitear_access %>%
       filter(object == "IXREPO=") %>%
       select(value)
@@ -87,8 +85,8 @@ verify_ixrepo <- function(gitear_access){
 #'
 #' Verify if there is an user name.
 #'
-verify_ixuser <- function(gitear_access){
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXUSER")){
+verify_ixuser <- function(gitear_access) {
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXUSER") && FALSE %in% any(is.na(gitear_access[5,2]))){
     entry <- gitear_access %>%
       filter(object == "IXUSER=") %>%
       select(value)
@@ -102,11 +100,13 @@ verify_ixuser <- function(gitear_access){
 #'
 #' Verify each of the steps
 #'
-set_authentication <- function(access_data){
-  verify_ixurl(access_data)
-  verify_ixtoken(access_data)
-  verify_ixproject(access_data)
-  verify_ixrepo(access_data)
-  verify_ixuser(access_data)
+set_authentication <- function(access_data) {
+  ixurl <- verify_ixurl(access_data)
+  ixtoken <- verify_ixtoken(access_data)
+  ixproject <- verify_ixproject(access_data)
+  ixrepo <- verify_ixrepo(access_data)
+  ixuser <- verify_ixuser(access_data)
+  msj <- c(ixurl, ixtoken, ixproject, ixrepo, ixuser)
+  print(msj[!msj == "TRUE"])
 }
 

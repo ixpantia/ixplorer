@@ -21,6 +21,8 @@ create_issue <- function() {
                                               primary = TRUE)),
 
     miniContentPanel(
+      verbatimTextOutput("warning", placeholder = FALSE),
+
       textInput(inputId = "issue_title",
                 label = "Issue title",
                 width = "150%",
@@ -41,35 +43,17 @@ create_issue <- function() {
 
   server <- function(input, output, session) {
 
-    # Verificar/configurar datos de autentificacion
-
     access_file <- verify_ixplorer_file()
 
-    if(access_file == "no access data"){
-      print(access_file)
-    } else {
-      set_authentication(access_data = access_file)
-    }
+    output$warning <- renderText({
 
-    if (Sys.getenv("IXTOKEN") == "") {
-      print("no hay IXTOKEN")
-    }
-
-    if (Sys.getenv("IXURL") == "") {
-      print("no hay IXURL")
-    }
-
-    if (Sys.getenv("IXOWNER") == "") {
-      print("no hay IXOWNER")
-    }
-
-    if (Sys.getenv("IXREPO") == "") {
-      print("no hay IXREPO")
-    }
-
-    if (Sys.getenv("IXUSER") == "") {
-      print("no hay IXUSER")
-    }
+    msg <- if(access_file == "no access data"){
+        print(access_file)
+      } else {
+        set_authentication(access_data = access_file)
+      }
+      return(msg)
+    })
 
     # ----------------------------------------------------------------
     observeEvent(input$done, {
