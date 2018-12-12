@@ -2,6 +2,7 @@
 
 export(add_token)
 export(create_issue)
+export(dashboard)
 export(ix_issues)
 import(dplyr)
 import(kableExtra)
