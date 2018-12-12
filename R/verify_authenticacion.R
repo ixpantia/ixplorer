@@ -17,9 +17,13 @@ verify_ixplorer_file <- function(){
   return(gitear_access)
 }
 
+# Prueba concepto
+# FALSE %in% any(is.na(gitear_access$value))
+# FALSE %in% any(is.na(gitear_access[1,1]))
+
     ## IXTOKEN ----
 verify_ixtoken <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXTOKEN")){
+  if(TRUE %in% str_detect(gitear_access$object, "IXTOKEN") && FALSE %in% any(is.na(gitear_access[1,2]))){
     entry <- gitear_access %>%
       filter(object == "IXTOKEN=") %>%
       select(value)
@@ -31,7 +35,7 @@ verify_ixtoken <- function(gitear_access){
 
     ## IXURL ----
 verify_ixurl <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXURL")){
+  if(TRUE %in% str_detect(gitear_access$object, "IXURL") && FALSE %in% any(is.na(gitear_access[2,2]))){
     entry <- gitear_access %>%
       filter(object == "IXURL=") %>%
       select(value)
@@ -43,7 +47,7 @@ verify_ixurl <- function(gitear_access){
 
   ## IXOWNER ----
 verify_ixowner <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXOWNER")){
+  if(TRUE %in% str_detect(gitear_access$object, "IXOWNER") && FALSE %in% any(is.na(gitear_access[3,2]))){
     entry <- gitear_access %>%
       filter(object == "IXOWNER=") %>%
       select(value)
@@ -55,7 +59,7 @@ verify_ixowner <- function(gitear_access){
 
     ## IXREPO ----
 verify_ixrepo <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXREPO")){
+  if(TRUE %in% str_detect(gitear_access$object, "IXREPO") && FALSE %in% any(is.na(gitear_access[4,2]))){
     entry <- gitear_access %>%
       filter(object == "IXREPO=") %>%
       select(value)
@@ -67,7 +71,7 @@ verify_ixrepo <- function(gitear_access){
 
     ## IXUSER ----
 verify_ixuser <- function(gitear_access){
-  if(TRUE %in% str_detect(gitear_access$object, "IXUSER")){
+  if(TRUE %in% str_detect(gitear_access$object, "IXUSER") && FALSE %in% any(is.na(gitear_access[5,2]))){
     entry <- gitear_access %>%
       filter(object == "IXUSER=") %>%
       select(value)
