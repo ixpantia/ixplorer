@@ -17,10 +17,6 @@ verify_ixplorer_file <- function(){
   return(gitear_access)
 }
 
-# Prueba concepto
-# FALSE %in% any(is.na(gitear_access$value))
-# FALSE %in% any(is.na(gitear_access[1,1]))
-
     ## IXTOKEN ----
 verify_ixtoken <- function(gitear_access){
   if(TRUE %in% str_detect(gitear_access$object, "IXTOKEN") && FALSE %in% any(is.na(gitear_access[1,2]))){
