@@ -45,12 +45,12 @@ ix_issues <- function() {
     access_file <- verify_ixplorer_file()
 
     output$warning <- renderText({
-      msj <- if(access_file == "no access data"){
+      msg <- if(access_file == "no access data"){
         print(access_file)
       } else {
         set_authentication(access_data = access_file)
       }
-      return(msj)
+      return(msg)
     })
 
     # Traemos issues y configuramos credenciales

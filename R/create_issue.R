@@ -44,12 +44,12 @@ create_issue <- function() {
 
     output$warning <- renderText({
 
-      a <- if(access_file == "no access data"){
+    msg <- if(access_file == "no access data"){
         print(access_file)
       } else {
         set_authentication(access_data = access_file)
       }
-      return(a)
+      return(msg)
     })
 
     # ----------------------------------------------------------------
