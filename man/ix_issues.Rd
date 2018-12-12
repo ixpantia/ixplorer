@@ -7,6 +7,6 @@
 ix_issues()
 }
 \description{
-Visualize the issues of an specific user, a team and closed issues based on
-the credentials used in gadget authenticate.
+Visualize the issues of an specific user, a team and get the quick links to
+your ixplorer based on the credentials used in gadget authenticate.
 }

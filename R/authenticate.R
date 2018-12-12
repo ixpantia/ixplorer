@@ -4,6 +4,9 @@ NULL
 
 #' Authenticate to ixplorer
 #'
+#' Make the connection to your repository through the ixplorer gadget and be
+#' able to create issues, review issues without re-writing your credentials
+#'
 #' @export
 add_token <- function() {
 
@@ -62,30 +65,17 @@ add_token <- function() {
       Sys.setenv("IXREPO"  = input$ixplorer_repo_name)
       Sys.setenv("IXUSER"  = input$ixplorer_user_name)
 
-      # Formatear con paste hacer objeto fuera del write y ese objeto
-      # ponerlo dentro del write TODO
-
-      # a <- paste("hola", "\n", "todos")
-      # cat(a)
-
       token <- paste("IXTOKEN=", input$ixplorer_token, sep = " ")
       url   <- paste("IXURL=", input$ixplorer_url, sep = " ")
       owner <- paste("IXOWNER=", input$ixplorer_repo_owner, sep = " ")
       repo  <- paste("IXREPO=", input$ixplorer_repo_name, sep = " ")
       user  <- paste("IXUSER=", input$ixplorer_user_name, sep = " ")
 
-      # Prueba de concepto para construir .csv
-      # token <- paste("IXTOKEN=", IXTOKEN, sep = " ")
-      # url   <- paste("IXURL=", IXURL, sep = " ")
-      # owner <- paste("IXOWNER=", IXOWNER, sep = " ")
-      # repo  <- paste("IXREPO=", IXREPO, sep = " ")
-      # user  <- paste("IXUSER=", IXUSER, sep = " ")
-
       access_data <- rbind(token, url, owner, repo, user)
       access_data <- as.data.frame(access_data)
 
       if (input$token_persist == 1) {
-        write_csv(access_data, col_names = TRUE, path = ".ixplorer")
+        readr::write_csv(access_data, col_names = TRUE, path = ".ixplorer")
       }
       stopApp(NULL)
     })
