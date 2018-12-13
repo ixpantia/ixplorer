@@ -37,6 +37,12 @@ ix_issues <- function() {
 
     access_file <- verify_ixplorer_file()
 
+    msg <- if(access_file == "no access data"){
+      print(access_file)
+    } else {
+      set_authentication(access_data = access_file)
+    }
+
     output$warning <- renderText({
       msg <- if(access_file == "no access data"){
         print(access_file)
@@ -56,7 +62,7 @@ ix_issues <- function() {
                                               repo = Sys.getenv("IXREPO"))
       ixplorer_user = Sys.getenv("IXUSER")
       # Untie table
-      issues <- flatten(issues)
+      issues <- jsonlite::flatten(issues)
     }
 
     output$my_issues <- function() {
