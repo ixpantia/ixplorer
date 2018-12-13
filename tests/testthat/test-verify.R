@@ -6,13 +6,13 @@ test_that("Finds file .ixplorer", {
 })
 
 
-test_that("Detects missing data PROJECT access value", {
+test_that("Detects missing data USER access value", {
   file <- readr::read_csv("../testdata/.ixplorer") %>%
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   expect_true(verify_ixuser(file) == "There is no ixplorer USER, please use the Authentication gadget")
 })
 
-test_that("")
+
 
 # Hay un error o paso para verificar con posiciones de datos
 # Si eliminio una linea, la posicion varia y queda mal las condiciones
