@@ -7,31 +7,31 @@ test_that("Finds file .ixplorer", {
 })
 
 test_that("Detects missing data TOKEN access value", {
-  file <- readr::read_csv("../testdata/.ixplorer(api)") %>%
+  file <- readr::read_csv(".ixplorer_api") %>%
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   expect_true(verify_ixtoken(file) == "There is no ixplorer TOKEN, please use the Authentication gadget")
 })
 
 test_that("Detects missing data URL access value", {
-  file <- readr::read_csv("../testdata/.ixplorer(url)") %>%
+  file <- readr::read_csv(".ixplorer_url") %>%
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   expect_true(verify_ixurl(file) == "There is no ixplorer URL, please use the Authentication gadget")
 })
 
 test_that("Detects missing data PROJECT access value", {
-  file <- readr::read_csv("../testdata/.ixplorer(project)") %>%
+  file <- readr::read_csv(".ixplorer_project") %>%
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   expect_true(verify_ixproject(file) == "There is no ixplorer PROJECT name, please use the Authentication gadget")
 })
 
 test_that("Detects missing data REPOSITORY access value", {
-  file <- readr::read_csv("../testdata/.ixplorer(repo)") %>%
+  file <- readr::read_csv(".ixplorer_repo") %>%
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   expect_true(verify_ixrepo(file) == "There is no ixplorer REPOSITORY, please use the Authentication gadget")
 })
 
 test_that("Detects missing data USER access value", {
-  file <- readr::read_csv("../testdata/.ixplorer(user)") %>%
+  file <- readr::read_csv(".ixplorer_user") %>%
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   expect_true(verify_ixuser(file) == "There is no ixplorer USER, please use the Authentication gadget")
 })
