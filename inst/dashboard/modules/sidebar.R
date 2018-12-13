@@ -10,12 +10,15 @@ sidebar_elements_UI <- function(id) {
 
 
 sidebar_elements <- function(input, output, session,
-                             proyecto = "p-defecto") {
+                             proyecto = "p-defecto",
+                             repositorios = c("r-defecto")) {
 
   output$proyecto <- renderMenu({
     sidebarMenu(
         menuItem(proyecto, icon = icon("th"), tabName = "widgets",
-          menuSubItem("Repositorio", tabName = "dashboard", icon = icon("dashboard"))
+          lapply(repositorios, function(i) {
+             menuSubItem(i, tabName = "dashboard", icon = icon("dashboard"))
+          })
         )
     )
   })
