@@ -23,10 +23,10 @@ test_that("Detects missing data PROJECT access value", {
   expect_true(verify_ixowner(file) == "There is no ixplorer PROJECT name, please use the Authentication gadget")
 })
 
-test_that("Detects missing data PROJECT access value", {
-  file <- readr::read_csv("../testdata/.ixplorer(project)") %>%
+test_that("Detects missing data REPOSITORY access value", {
+  file <- readr::read_csv("../testdata/.ixplorer(repo)") %>%
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
-  expect_true(verify_ixowner(file) == "There is no ixplorer PROJECT name, please use the Authentication gadget")
+  expect_true(verify_ixrepo(file) == "There is no ixplorer REPOSITORY, please use the Authentication gadget")
 })
 
 test_that("Detects missing data USER access value", {
@@ -34,6 +34,7 @@ test_that("Detects missing data USER access value", {
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   expect_true(verify_ixuser(file) == "There is no ixplorer USER, please use the Authentication gadget")
 })
+
 
 
 
