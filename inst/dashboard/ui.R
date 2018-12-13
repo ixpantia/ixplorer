@@ -11,8 +11,6 @@ header <- dashboardHeader(
 # Menu a la izquierda----------------------------------------------------------
 sidebar <- dashboardSidebar(collapsed = FALSE,
    uiOutput("new_sidebar")
-#   sidebar_elements_UI("ix_interface_1"),
-#   sidebar_elements_UI("ix_interface_2")
 )
 
 

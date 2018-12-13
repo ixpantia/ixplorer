@@ -3,15 +3,14 @@ sidebar_elements_UI <- function(id) {
   ns <- NS(id)
 
   sidebarMenu(
-    sidebarMenuOutput(ns("proyecto"))#,
-#    sidebarMenuOutput(ns("repositorio"))
+    sidebarMenuOutput(ns("proyecto"))
    )
 }
 
 
 sidebar_elements <- function(input, output, session,
-                             proyecto = "p-defecto",
-                             repositorios = c("r-defecto")) {
+                             proyecto = "No hay proyectos",
+                             repositorios = c("No hay repositorios")) {
 
   output$proyecto <- renderMenu({
     sidebarMenu(

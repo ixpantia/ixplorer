@@ -1,20 +1,24 @@
 # Server -----------------------------------------------------------------------
 server <- function(input, output, session) {
 
-  callModule(sidebar_elements, "ix_interface_1",
-             proyecto = "primero",
-             repositorios = c("uno", "dos"))
-  callModule(sidebar_elements, "ix_interface_2",
-             proyecto = "segundo",
-             repositorios = c("hola", "hello", "goodbye"))
+  lista_proyectos <- list()
+  lista_proyectos$primero <- c("uno", "dos")
+  lista_proyectos$segundo <- c("hola", "hello", "goodbye")
+
+
+   lapply(names(lista_proyectos), function(proyecto) {
+     callModule(sidebar_elements, proyecto,
+                proyecto = proyecto,
+               repositorios = unname(unlist(lista_proyectos[proyecto])))
+   })
 
   output$new_sidebar <- renderUI({
 
-    lista_proyectos <- c("ix_interface_1", "ix_interface_2")
+    proyectos <- names(lista_proyectos)
 
-    lapply(lista_proyectos, function(i) {
+    lapply(proyectos, function(proyecto) {
       sidebarMenu(
-        sidebar_elements_UI(i)
+        sidebar_elements_UI(proyecto)
       )
     })
   })
