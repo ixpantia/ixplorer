@@ -1,5 +1,6 @@
 context("verificacion")
 
+# Como hago para que el archivo lo busque en testdata, o lo dejo en este wd?
 test_that("Finds file .ixplorer", {
   file <- verify_ixplorer_file()
   expect_true(any(class(file) == "data.frame"))
@@ -14,13 +15,13 @@ test_that("Detects missing data TOKEN access value", {
 test_that("Detects missing data URL access value", {
   file <- readr::read_csv("../testdata/.ixplorer(url)") %>%
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
-  expect_true(verify_ixtoken(file) == "There is no ixplorer URL, please use the Authentication gadget")
+  expect_true(verify_ixurl(file) == "There is no ixplorer URL, please use the Authentication gadget")
 })
 
 test_that("Detects missing data PROJECT access value", {
   file <- readr::read_csv("../testdata/.ixplorer(project)") %>%
     tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
-  expect_true(verify_ixowner(file) == "There is no ixplorer PROJECT name, please use the Authentication gadget")
+  expect_true(verify_ixproject(file) == "There is no ixplorer PROJECT name, please use the Authentication gadget")
 })
 
 test_that("Detects missing data REPOSITORY access value", {

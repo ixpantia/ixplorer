@@ -46,9 +46,8 @@ ix_issues <- function() {
       return(msg)
     })
 
-    # Traemos issues y configuramos credenciales
-
-    issues <- if(is.logical(msj) != TRUE){
+    # Get issues and configurate credentials
+    issues <- if(is.logical(msg) != TRUE){
       print("no access data")
     } else {
       issues <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
@@ -56,7 +55,7 @@ ix_issues <- function() {
                                               owner = Sys.getenv("IXOWNER"),
                                               repo = Sys.getenv("IXREPO"))
       ixplorer_user = Sys.getenv("IXUSER")
-      # Desanidar cuadro
+      # Untie table
       issues <- flatten(issues)
     }
 
@@ -64,7 +63,7 @@ ix_issues <- function() {
       if (issues == "no access data") {
         issues_kable <- "No access data. Use authentication gadget"
       } else {
-        # Seleccion de issues por usuario y creacion links de issues
+        # Select issues by user and issues link creation
         issues <- issues %>%
           filter(assignee.login == ixplorer_user) %>%
           select(number, title, due_date, url) %>%
@@ -100,7 +99,7 @@ ix_issues <- function() {
       if (issues == "no access data") {
         issues_kable <- "No access data. Use authentication gadget"
       } else {
-        # Seleccionamos issues por estado abierto
+        # Select issues by open status
         issues <- issues %>%
           select(user.login, number, title, due_date, url) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
@@ -128,9 +127,9 @@ ix_issues <- function() {
                          cell_spec(Due, color = "white",
                                    bold = TRUE, background = verdes)),
             User = cell_spec(User,
-                             bold = ifelse(ixplorer_user == User, TRUE, FALSE),
-                             color = ifelse(ixplorer_user  == User,
-                                            "gray", "black")),
+                         bold = ifelse(ixplorer_user == User, TRUE, FALSE),
+                         color = ifelse(ixplorer_user  == User,
+                                        "gray", "black")),
             Nr = text_spec(Nr, link = issue_url)) %>%
           select(-issue_url) %>%
           kable(escape = FALSE) %>%
@@ -141,28 +140,29 @@ ix_issues <- function() {
     }
 
     output$quick_links <- function(){
-      # Traer link de closed issues
+      # Get closed issues link
       close_issues_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
       ixurl <- sub("/$", "", Sys.getenv("IXURL"))
       close_issues_url <- paste(ixurl, Sys.getenv("IXOWNER"), Sys.getenv("IXREPO"),
             close_issues_url, sep = "/")
 
-      # Link de milestones
+      # Get milestones link
       milestones_url <- paste(ixurl, Sys.getenv("IXOWNER"),
                               Sys.getenv("IXREPO"), "milestones", sep = "/")
 
-      # Link de Wiki
+      # Get Wiki link
       wiki_url <- paste(ixurl, Sys.getenv("IXOWNER"),
                         Sys.getenv("IXREPO"), "wiki", sep = "/")
 
-      # Link de proyecto
+      # Get project link
       project_url <- paste(ixurl, Sys.getenv("IXOWNER"), sep = "/")
 
+      # Final table
       links <- c(close_issues_url, milestones_url, wiki_url, project_url)
       URL <- c("Clossed issues", "Milestones", "Wiki", "Project")
-
       quick_links <- data_frame(links, URL)
 
+      # Table with kableExtra
       quick_links <- quick_links %>%
         mutate(
           URL = text_spec(URL, link = links)) %>%
