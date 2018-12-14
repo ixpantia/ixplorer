@@ -7,5 +7,6 @@ library(shinydashboard)
 
 # Load modules ----------------------------------------------------------------
 source("modules/sidebar.R", encoding = "UTF-8")
+source("modules/body.R", encoding = "UTF-8")
 
 

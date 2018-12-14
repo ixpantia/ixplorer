@@ -10,22 +10,20 @@ header <- dashboardHeader(
 
 # Menu a la izquierda----------------------------------------------------------
 sidebar <- dashboardSidebar(collapsed = FALSE,
-  sidebarMenu(
-    sidebar_elements_UI("sidebar")
-  )
+   uiOutput("new_sidebar")
 )
 
 
 # Content ---------------------------------------------------------------------
-body <- dashboardBody(includeCSS("www/css/coocique.css"),
-          tabItems(
-             bodyelementsUI("body")
-            )
+body <- dashboardBody(includeCSS("www/css/ixplorer.css")#,
+#          tabItems(
+#             body_elements_UI("body")
+#            )
           )
 
 ## App completo ----------------------------------------------------------------
 dashboardPage(
-  skin = "orange",
+  skin = "yellow",
   header,
   sidebar,
   body
