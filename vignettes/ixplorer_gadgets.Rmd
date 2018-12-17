@@ -104,7 +104,13 @@ is the days left on green for the due date or red if the due date was missed.
 
 Finally the **Quick links** you have the links to the principal components
 of your project repository so you don't have to type to much in your browser to
-find a specific 
+find a specific direction.
+
+This quick links will allow you to find faster specific details of your project
+reposirtory as clossed issues, milestones, the wiki, or the project place where
+all the repositories concerning to the project are.
+
+![](img/quick_links.png)
 
 
 
