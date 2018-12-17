@@ -36,6 +36,7 @@ the *Addins* menu, under the IXPLORER title, three options:
  - Create issue
  - ixplorer issues
  
+![](img/addins.png)
 
 ## Authenticate gadget
 
@@ -43,7 +44,7 @@ This is the first step in order to be able to create issues or check you project
 issues with the ixplorer gadgets. You will need an API key (provided by your
 project  manager).
 
-!["img/authentication_gadget.png"]
+![](img/authentication_gadget.png)
 
 At the **ixplorer url** make sure to include the web direction of your
 ixplorer repository. It has to be similar to: _https://ixplorer_name.ixpantia.com/_
@@ -71,8 +72,39 @@ leaving the option without a mark.
 At this point you should have all your authentication done. If that is correct
 you are going to be able to create an issue without getting out of RStudio!
 
-If everything is okay, you are just going to see the **issue title** and **Description** section. If not, you`re going to see a  
+If everything is okay, you are just going to see the **issue title** and **Description** section. If not, you`re going to see a text warning you what is 
+missing. 
 
+![](img/create_issue_gadget.png)
+
+In this gadget you can create an issue without loosing your workflow and ideas.
+If you came up  with a new issue (wish/improvement/question) you can go to
+Addins > Create issue and under the **issue title** write the title of your
+new issue and under the **Description** section write your idea. 
+
+This issue is going to appear on your ixplorer repository open issues.
+
+## ixplorer issues
+
+This gadget is designed to give you a quick view of the issues and their status
+on your project repository. Also you wil find som quick links that will take you
+to the ixplorer if you want to check something in more detail.
+
+At the first tab **My issues**, you are going to be able to check the issues assigned to you with the number id that also is a quick link to the issue on 
+your ixplorer and also you will see a column with the number of days left (on green) or days passed the due date (red)
+
+![](img/my_issues.png)
+
+On the second tab **Team issues** you are able to see all the open issues 
+related to the project repository, not just the ones assigned  to you. The ID
+number is a quick link to the complete issue on your ixplorer and the Due column
+is the days left on green for the due date or red if the due date was missed.
+
+![](img/team_issues.png)
+
+Finally the **Quick links** you have the links to the principal components
+of your project repository so you don't have to type to much in your browser to
+find a specific 
 
 
 
