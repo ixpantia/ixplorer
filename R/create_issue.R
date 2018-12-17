@@ -9,7 +9,7 @@ NULL
 #' to the information youo give in the authenticate gadget.
 #'
 #' @export
-create_issue <- function() {
+create_issues <- function() {
 
   ui <- miniPage(
     gadgetTitleBar("Create a new issue",
