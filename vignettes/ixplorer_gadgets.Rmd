@@ -1,0 +1,82 @@
+---
+title: "ixplorer gadgets"
+author: "ixpantia"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# ixplorer gadgets
+
+ixplorer gadgets are a way to create and check your project issues without 
+leaving RStudio and more important without interrupting your workflow.
+
+# How to use the ixplorer gadgets
+
+First you have to install your ixplorer package
+
+```{r, eval = FALSE}
+install.packages("ixplorer")
+```
+
+When you are done with the installation, you are going to be able to see in
+the *Addins* menu, under the IXPLORER title, three options:
+
+ - Authenticate
+ - Create issue
+ - ixplorer issues
+ 
+
+## Authenticate gadget
+
+This is the first step in order to be able to create issues or check you project
+issues with the ixplorer gadgets. You will need an API key (provided by your
+project  manager).
+
+!["img/authentication_gadget.png"]
+
+At the **ixplorer url** make sure to include the web direction of your
+ixplorer repository. It has to be similar to: _https://ixplorer_name.ixpantia.com/_
+
+The the next step is to fullfill the name of the **upstream project**. This is the
+project where the repository resides. A project can have several repositories. In
+this case we just need the name of the project.
+
+At the **ixplorer repository name** we have to write the name of the specific
+repository where we are going to work
+
+Finally we have the space for write our user name. In the section **ixplorer user name**  This is the same user name that we use to access to the ixplorer environment.
+
+There is an option of a **persist token**. If we are working in our computer, we
+can select this option. What this is going to do, is to keep all this authentication data for the next session we have. In this order we can avoid 
+doing the authentication each time that we are going to work in the same
+repository.
+
+Be careful because if you`re working in somebodyelse computer, your personal
+authentication data is going to be store in that computer. Avoid this action
+leaving the option without a mark.
+
+## Create issue gadget
+
+At this point you should have all your authentication done. If that is correct
+you are going to be able to create an issue without getting out of RStudio!
+
+If everything is okay, you are just going to see the **issue title** and **Description** section. If not, you`re going to see a  
+
+
+
+
+
+ 
+
+
