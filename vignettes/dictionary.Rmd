@@ -1,0 +1,55 @@
+---
+title: "Dictionary to the ixplorer"
+author: "ixpantia"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Dictionary purpose
+
+The aim of this dictionary is to provide you with short explanations about the
+main components of the ixplorer. This will help you with your everyday project
+workflow and communicate better with you Data Science team.
+
+## What is a project?
+
+A project is.... Within a project you can have several repositories up to your 
+needs of organization. 
+
+A project can be .... and under this project you can have the exploratory_analysis
+repository,  the package repository, and so on.
+
+The page of a project would like similar to this one:
+
+![](img/project.png)
+
+## What is a repository?
+
+A repository can be viewed as a folder where you keep all your files. This files
+can be share with other team members and start to collaborate on differente issues.
+
+![](img/repo.png)
+
+There are ways to keep an organized repository either if you are working in a
+R package or in a single RStudio project with  R files or others.
+
+Our recommendation is:
+
+- To have a data folder inside your repository where you can put all different
+sources of data
+- image folder if you need to include images or binaries files.
+- 
+
+## What is upstream?
+

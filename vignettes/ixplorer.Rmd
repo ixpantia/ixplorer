@@ -1,5 +1,5 @@
 ---
-title: "Introduccion to ixplorer"
+title: "Introduction to ixplorer"
 author: "ixpantia"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -17,3 +17,8 @@ knitr::opts_chunk$set(
 ```
 
 # ixplorer platform
+
+
+Dejo como nota que aca hay que aclarar que es un proyecto, donde se puede tomar
+el API Key para que en vignette de ixplorer gadgets puedan ser referenciados a
+algo mas detallado en este documento.
