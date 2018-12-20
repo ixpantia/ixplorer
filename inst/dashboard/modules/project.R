@@ -11,7 +11,7 @@ project_body <- function(input, output, session,
   tabname <- make.names(project_name)
 
   output$project_tabitem <- renderUI({
-    tabItem(tabname = "widgets",
+    tabItem(tabName = tabname,
       h2("hello, hello")
       )
   })

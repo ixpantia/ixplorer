@@ -2,8 +2,10 @@
 server <- function(input, output, session) {
 
   lista_proyectos <- list()
-  lista_proyectos$primero <- c("uno", "dos")
-  lista_proyectos$segundo <- c("hola", "hello", "goodbye")
+  lista_proyectos$primero <- c("dos")
+#  lista_proyectos$primero <- c("uno", "dos")
+#  lista_proyectos$segundo <- c("hola", "hello", "goodbye")
+    proyectos <- names(lista_proyectos)
 
 
    lapply(names(lista_proyectos), function(proyecto) {
@@ -13,13 +15,7 @@ server <- function(input, output, session) {
    })
 
 
-   callModule(project_body, "body_test",
-              project_name = "TestProject")
-
-
   output$new_sidebar <- renderUI({
-
-    proyectos <- names(lista_proyectos)
 
     lapply(proyectos, function(proyecto) {
       sidebarMenu(
@@ -27,5 +23,14 @@ server <- function(input, output, session) {
       )
     })
   })
+
+lapply(proyectos, function(proyecto) {
+  callModule(project_body, "body_test",
+              project_name = make.names(proyecto))
+})
+
+ output$new_body <- renderUI({
+   project_body_UI("body_test")
+ })
 
 }
