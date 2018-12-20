@@ -58,7 +58,7 @@ ix_issues <- function() {
     } else {
       issues <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
                                               api_key = Sys.getenv("IXTOKEN"),
-                                              owner = Sys.getenv("IXOWNER"),
+                                              owner = Sys.getenv("IXPROJECT"),
                                               repo = Sys.getenv("IXREPO"))
       ixplorer_user = Sys.getenv("IXUSER")
       # Untie table
@@ -149,19 +149,19 @@ ix_issues <- function() {
       # Get closed issues link
       close_issues_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
       ixurl <- sub("/$", "", Sys.getenv("IXURL"))
-      close_issues_url <- paste(ixurl, Sys.getenv("IXOWNER"), Sys.getenv("IXREPO"),
+      close_issues_url <- paste(ixurl, Sys.getenv("IXPROJECT"), Sys.getenv("IXREPO"),
             close_issues_url, sep = "/")
 
       # Get milestones link
-      milestones_url <- paste(ixurl, Sys.getenv("IXOWNER"),
+      milestones_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
                               Sys.getenv("IXREPO"), "milestones", sep = "/")
 
       # Get Wiki link
-      wiki_url <- paste(ixurl, Sys.getenv("IXOWNER"),
+      wiki_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
                         Sys.getenv("IXREPO"), "wiki", sep = "/")
 
       # Get project link
-      project_url <- paste(ixurl, Sys.getenv("IXOWNER"), sep = "/")
+      project_url <- paste(ixurl, Sys.getenv("IXPROJECT"), sep = "/")
 
       # Final table
       links <- c(close_issues_url, milestones_url, wiki_url, project_url)
