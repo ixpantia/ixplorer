@@ -20,13 +20,11 @@ project_body <- function(input, output, session,
   bodies <- make.names(bodies)
 
   output$project_tabitem <- renderUI({
-    tabItems(
       lapply(bodies, function(body) {
           tabItem(tabName = body,
             h2(paste("hello, ", body))
           )
       })
-    )
   })
 }
 
