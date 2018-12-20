@@ -9,20 +9,19 @@ header <- dashboardHeader(
 )
 
 # Menu a la izquierda----------------------------------------------------------
-sidebar <- dashboardSidebar(collapsed = FALSE,
-   uiOutput("new_sidebar")
+sidebar <- dashboardSidebar(
+  collapsed = FALSE,
+  uiOutput("new_sidebar")
 )
 
 
 # Content ---------------------------------------------------------------------
-body <- dashboardBody(includeCSS("www/css/ixplorer.css"),
-          tabItems(
-         #   tabItem(tabName = "dos",
-         #   h2("from ui")
-         #     )
-              uiOutput("new_body")
-            )
-          )
+body <- dashboardBody(
+  includeCSS("www/css/ixplorer.css"),
+ # tabItems(
+    uiOutput("new_body")
+ # )
+)
 
 ## App completo ----------------------------------------------------------------
 dashboardPage(
