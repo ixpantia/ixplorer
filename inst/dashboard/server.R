@@ -12,6 +12,11 @@ server <- function(input, output, session) {
                repositorios = unname(unlist(lista_proyectos[proyecto])))
    })
 
+
+   callModule(project_body, "body_test",
+              project_name = "TestProject")
+
+
   output$new_sidebar <- renderUI({
 
     proyectos <- names(lista_proyectos)

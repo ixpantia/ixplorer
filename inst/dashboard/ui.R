@@ -15,10 +15,10 @@ sidebar <- dashboardSidebar(collapsed = FALSE,
 
 
 # Content ---------------------------------------------------------------------
-body <- dashboardBody(includeCSS("www/css/ixplorer.css")#,
-#          tabItems(
-#             body_elements_UI("body")
-#            )
+body <- dashboardBody(includeCSS("www/css/ixplorer.css"),
+          tabItems(
+             project_body_UI("body_test")
+            )
           )
 
 ## App completo ----------------------------------------------------------------
