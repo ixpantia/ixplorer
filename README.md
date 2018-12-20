@@ -16,15 +16,19 @@ install_ixplorer <- function(){
                           user = usr, password = pw),
                         build_vignettes = TRUE)
 }
-```
 
-After running the function, in your console run:
-
-```
 install_ixplorer()
 ```
 
-Fill the first box with your ixplorer username and the second box with your
-ixplorer password.
+After you copy and paste this on your console you will see at first a box asking
+for your username. Please complete this with your ixplorer username. 
+
+The next step is a second box asking for your password. Please fill this with
+your ixplorer password.
+
+## Where can I find my username and password for ixplorer?
+Your provider or data science project manager should provide you with this
+credentials. 
+
 
 This is going to install the latest version of the ixplorer package.
