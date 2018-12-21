@@ -20,10 +20,7 @@ server <- function(input, output, session) {
     lapply(proyectos, function(proyecto) {
       appendTab(inputId = "tabs",
         tabPanel(proyecto,
-          tabsetPanel(id = proyecto),
-          appendTab(inputId = proyecto,
-                    tabPanel("Project Overview",
-                   project_UI(proyecto)))
+          tabsetPanel(id = proyecto)
          ))
       })
    })
@@ -45,8 +42,14 @@ server <- function(input, output, session) {
             repository_UI(repo)))
       })
     }
+    for (proyecto in proyectos) {
+        prependTab(
+          inputId = proyecto,
+          tabPanel("Overview",
+            h2(paste("pagina principal de ", proyecto)),
+            project_UI(proyecto)))
+    }
   })
-
 
 }
 
