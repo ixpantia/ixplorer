@@ -11,7 +11,7 @@ sidebar_elements_UI <- function(id) {
 sidebar_elements <- function(input, output, session,
                              proyecto = "No hay proyectos",
                              repositorios = c("No hay repositorios")) {
-
+  print(repositorios)
   output$proyecto <- renderMenu({
     sidebarMenu(
         menuItem(proyecto,

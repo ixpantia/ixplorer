@@ -18,9 +18,9 @@ sidebar <- dashboardSidebar(
 # Content ---------------------------------------------------------------------
 body <- dashboardBody(
   includeCSS("www/css/ixplorer.css"),
-  tabItems(
+#  tabItems(
     uiOutput("new_body")
-  )
+#  )
 )
 
 ## App completo ----------------------------------------------------------------

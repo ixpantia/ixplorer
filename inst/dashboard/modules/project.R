@@ -16,13 +16,15 @@ project_body <- function(input, output, session,
     repositorios <- c(repositorios, repositorio)
   }
 
-  bodies <- c(proyecto, repositorios)
+  bodies <- c(proyectos, repositorios)
   bodies <- make.names(bodies)
+
+
 
   output$project_tabitem <- renderUI({
       lapply(bodies, function(body) {
           tabItem(tabName = body,
-            h2(paste("hello, ", body))
+              h2(paste("hello, ", body))
           )
       })
   })
