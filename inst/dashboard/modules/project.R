@@ -1,4 +1,4 @@
-project_body_UI <- function(id) {
+project_UI <- function(id) {
 
   ns <- NS(id)
 
@@ -9,8 +9,8 @@ project_body_UI <- function(id) {
 
 }
 
-project_body <- function(input, output, session,
-                         project_data = "No hay proyectos") {
+project <- function(input, output, session,
+                    project_data = "No Projects") {
 
   output$plot1 <- renderPlot({
     plot(project_data)
