@@ -7,8 +7,8 @@ server <- function(input, output, session) {
 
   lista_proyectos <- list()
   #  lista_proyectos$primero <- c("dos")
-  lista_proyectos$primero <- c("uno", "dos")
-  lista_proyectos$segundo <- c("hola", "hello", "goodbye")
+  lista_proyectos$lagarita <- c("Diego", "Bellota")
+  lista_proyectos$sancarlos <- c("hola", "hello", "goodbye")
 
   proyectos <- names(lista_proyectos)
 
