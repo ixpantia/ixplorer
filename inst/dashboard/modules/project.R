@@ -6,23 +6,23 @@ project_body_UI <- function(id) {
 }
 
 project_body <- function(input, output, session,
-                         body = "empty.menu") {
+                         lista_proyectos = "No hay proyectos") {
 
-#  proyectos <- names(lista_proyectos)
-#  repositorios <- c()
-#
-#  for (proyecto in proyectos) {
-#    repositorio <- unname(unlist(lista_proyectos[proyecto]))
-#    repositorios <- c(repositorios, repositorio)
-#  }
-#
-#  bodies <- c(proyecto, repositorios)
-#  bodies <- make.names(bodies)
-#
-  output$tab-item <- renderUI({
+  proyectos <- names(lista_proyectos)
+  repositorios <- c()
+
+  for (proyecto in proyectos) {
+    repositorio <- unname(unlist(lista_proyectos[proyecto]))
+    repositorios <- c(repositorios, repositorio)
+  }
+
+  bodies <- c(proyectos, repositorios)
+  bodies <- make.names(bodies)
+
+  output$project_tabitem <- renderUI({
       lapply(bodies, function(body) {
           tabItem(tabName = body,
-            h2(paste("hello, ", body))
+              h2(paste("hello, ", body))
           )
       })
   })
