@@ -19,8 +19,6 @@ project_body <- function(input, output, session,
   bodies <- c(proyectos, repositorios)
   bodies <- make.names(bodies)
 
-
-
   output$project_tabitem <- renderUI({
       lapply(bodies, function(body) {
           tabItem(tabName = body,

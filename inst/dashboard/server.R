@@ -8,6 +8,7 @@ server <- function(input, output, session) {
 
   proyectos <- names(lista_proyectos)
 
+  # ---------------------------------------------------------------------------
   lapply(proyectos, function(proyecto) {
    callModule(sidebar_elements, proyecto,
               proyecto = proyecto,
@@ -23,13 +24,35 @@ server <- function(input, output, session) {
     })
   })
 
- #callModule(project_body, "cuerpos",
- #           lista_proyectos = lista_proyectos)
+  # ---------------------------------------------------------------------------
+  proyectos <- names(lista_proyectos)
+  repositorios <- c()
 
- output$new_body <- renderUI({
- #  tabItems(
- #         project_body_UI("cuerpos")
- #  )
- })
+  for (proyecto in proyectos) {
+    repositorio <- unname(unlist(lista_proyectos[proyecto]))
+    repositorios <- c(repositorios, repositorio)
+  }
+
+  bodies <- c(proyectos, repositorios)
+  bodies <- make.names(bodies)
+
+  output$project_tabitem <- renderUI({
+    lapply(bodies, function(body) {
+      tabItem(tabName = body,
+              h2(paste("hello, ", body))
+      )
+    })
+  })
+
+  output$test <- renderUI({
+
+    bodies <- c("uno", "hello")
+
+    lapply(bodies, function(body) {
+        div(tabItem(tabName = body,
+                h2("esto es uno")))
+    })
+  })
+
 
 }

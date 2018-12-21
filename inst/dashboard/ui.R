@@ -1,4 +1,5 @@
 # Header ----------------------------------------------------------------------
+
 header <- dashboardHeader(
   title = "ixplorer",
   tags$li(a(href = "http://www.ixpantia.com",
@@ -18,9 +19,22 @@ sidebar <- dashboardSidebar(
 # Content ---------------------------------------------------------------------
 body <- dashboardBody(
   includeCSS("www/css/ixplorer.css"),
-#  tabItems(
-    uiOutput("new_body")
+#  tags$div(class = "tab-conent",
+#    uiOutput("project_tabitem")
 #  )
+
+div(tabItems(
+  uiOutput("test")
+
+#    tabItems(
+#    tabItem(tabName = "uno",
+#            h2("esto es uno")
+#    ),
+#    tabItem(tabName = "hello",
+#            h2("esto es Hello")
+#    )
+  )
+)
 )
 
 ## App completo ----------------------------------------------------------------
