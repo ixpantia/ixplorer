@@ -1,47 +1,11 @@
 # Header ----------------------------------------------------------------------
 
-header <- dashboardHeader(
-  title = "ixplorer",
-  tags$li(a(href = "http://www.ixpantia.com",
-            img(src = "img/ixpantia.png",
-                title = "ixpantia", height = "30px"),
-            style = "padding-top:10px; padding-bottom:10px;"),
-          class = "dropdown")
-)
-
-# Menu a la izquierda----------------------------------------------------------
-sidebar <- dashboardSidebar(
-  collapsed = FALSE,
+ui <- navbarPage(
+  "Navbar page",
+  id = "tabs",
+  tabPanel("Home",
+           h2("home")),
   uiOutput("new_sidebar")
-)
 
-
-# Content ---------------------------------------------------------------------
-body <- dashboardBody(
-  includeCSS("www/css/ixplorer.css"),
-#  tags$div(class = "tab-conent",
-#    uiOutput("project_tabitem")
-#  )
-
-div(tabItems(
-  uiOutput("test")
-
-#    tabItems(
-#    tabItem(tabName = "uno",
-#            h2("esto es uno")
-#    ),
-#    tabItem(tabName = "hello",
-#            h2("esto es Hello")
-#    )
-  )
-)
-)
-
-## App completo ----------------------------------------------------------------
-dashboardPage(
-  skin = "yellow",
-  header,
-  sidebar,
-  body
 )
 

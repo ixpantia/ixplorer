@@ -1,9 +1,7 @@
+library(shiny)
 # example app for prepending/appending a navbarMenu
-ui <- navbarPage("Navbar page", id = "tabs",
-                 tabPanel("Home",
-                 h2("home")
-              )
-)
+ui <- navbarPage("Navbar page", id = "tabs")
+
 server <- function(input, output, session) {
 
 
@@ -31,20 +29,28 @@ server <- function(input, output, session) {
         }
   )
 
+  make_panel <- function(prev_input, panel_name) {
+    appendTab(inputId = proyecto,
+              tabPanel("repo"))
+  }
+
   observe({
     lapply(proyectos, function(proyecto) {
-    appendTab(inputId = "tabs",
-      navbarMenu(proyecto,
-          uiOutput("repositories")
-      #  lapply(lista_proyectos[proyecto][[1]], function(repo) {
-      #             appendTab(repo,  paste("repo page from proyecto"))
-      #        })
-        #tabPanel("Drop1", paste("Drop1 page from", proyecto, lista_proyectos[proyecto][[1]])),
-        #tabPanel("Drop2", paste("Drop2 page from", proyecto)),
-        #tabPanel("Drop3", paste("Drop3 page from", proyecto))
-        ))
-    })
-  })
-}
+      appendTab(inputId = "tabs",
+        tabPanel(proyecto,
+          tabsetPanel(id = proyecto)
+         ))
+      })
+   })
 
+  observe({
+    for (proyecto in proyectos) {
+      lapply(lista_proyectos[proyecto][[1]], function(repo) {
+        appendTab(inputId = proyecto,
+                  tabPanel(repo))
+      })
+   }
+   })
+
+}
 shinyApp(ui, server)
