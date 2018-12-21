@@ -31,7 +31,7 @@ add_token <- function() {
                 width = "100%",
                 placeholder = "Paste your ixplorer url here"),
 
-      textInput(inputId = "ixplorer_repo_owner",
+      textInput(inputId = "ixplorer_project_name",
                 label = "The name of the upstream project",
                 width = "100%",
                 placeholder = "Paste your ixplorer upstream project name here"),
@@ -61,17 +61,17 @@ add_token <- function() {
 
       Sys.setenv("IXTOKEN" = input$ixplorer_token)
       Sys.setenv("IXURL"   = input$ixplorer_url)
-      Sys.setenv("IXOWNER" = input$ixplorer_repo_owner)
+      Sys.setenv("IXPROJECT" = input$ixplorer_project_name)
       Sys.setenv("IXREPO"  = input$ixplorer_repo_name)
       Sys.setenv("IXUSER"  = input$ixplorer_user_name)
 
       token <- paste("IXTOKEN=", input$ixplorer_token, sep = " ")
       url   <- paste("IXURL=", input$ixplorer_url, sep = " ")
-      owner <- paste("IXOWNER=", input$ixplorer_repo_owner, sep = " ")
+      project <- paste("IXPROJECT=", input$ixplorer_project_name, sep = " ")
       repo  <- paste("IXREPO=", input$ixplorer_repo_name, sep = " ")
       user  <- paste("IXUSER=", input$ixplorer_user_name, sep = " ")
 
-      access_data <- rbind(token, url, owner, repo, user)
+      access_data <- rbind(token, url, project, repo, user)
       access_data <- as.data.frame(access_data)
 
       if (input$token_persist == 1) {

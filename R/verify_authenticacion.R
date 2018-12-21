@@ -54,11 +54,11 @@ verify_ixurl <- function(gitear_access){
 #' Verify if there is a project name where your ixplorer repository belongs.
 #'
 verify_ixproject <- function(gitear_access){
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXOWNER") && FALSE %in% any(is.na(gitear_access[3,2]))) {
+  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXPROJECT") && FALSE %in% any(is.na(gitear_access[3,2]))) {
     entry <- gitear_access %>%
-      filter(object == "IXOWNER=") %>%
+      filter(object == "IXPROJECT=") %>%
       select(value)
-    Sys.setenv("IXOWNER" = entry)
+    Sys.setenv("IXPROJECT" = entry)
   } else {
     print("There is no ixplorer PROJECT name, please use the Authentication gadget")
   }
