@@ -11,7 +11,7 @@ sidebar_elements_UI <- function(id) {
 sidebar_elements <- function(input, output, session,
                              proyecto = "No hay proyectos",
                              repositorios = c("No hay repositorios")) {
-  print(repositorios)
+
   output$proyecto <- renderMenu({
     sidebarMenu(
         menuItem(proyecto,
@@ -19,7 +19,7 @@ sidebar_elements <- function(input, output, session,
                  tabName = make.names(proyecto),
           lapply(repositorios, function(repo) {
              menuSubItem(repo,
-                         tabName = make.names(repositorios),
+                         tabName = make.names(repo),
                          icon = icon("dashboard"))
           })
         )
