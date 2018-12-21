@@ -1,67 +1,55 @@
-# Server -----------------------------------------------------------------------
+
+# Server ----------------------------------------------------------------------
+
 server <- function(input, output, session) {
 
-  lista_proyectos <- list()
-  lista_proyectos$primero <- c("uno", "dos")
-  lista_proyectos$segundo <- c("hola", "hello", "goodbye")
+  # Data ----------------------------------------------------------------------
 
-  proyectos <- names(lista_proyectos)
+  lista_proyectos <- get_data()
+  proyectos <- get_projects(lista_proyectos)
 
-  # ---------------------------------------------------------------------------
-  lapply(proyectos, function(proyecto) {
-   callModule(sidebar_elements, proyecto,
-              proyecto = proyecto,
-              repositorios = unname(unlist(lista_proyectos[proyecto])))
-  })
-
-
-  output$new_sidebar <- renderMenu({
-    lapply(proyectos, function(proyecto) {
-      sidebarMenu(
-        sidebar_elements_UI(proyecto)
-      )
-    })
-  })
-
-
-  # ---------------------------------------------------------------------------
-  proyectos <- names(lista_proyectos)
-  repositorios <- c()
+  # Projects ------------------------------------------------------------------
 
   for (proyecto in proyectos) {
-    repositorio <- unname(unlist(lista_proyectos[proyecto]))
-    repositorios <- c(repositorios, repositorio)
+    lapply(proyectos, function(proyecto) {
+      callModule(project, proyecto, project_data = mtcars[, 1:2])
+    })
   }
 
-  bodies <- c(proyectos, repositorios)
-  bodies <- make.names(bodies)
+  observe({
+    lapply(proyectos, function(proyecto) {
+      appendTab(inputId = "tabs",
+        tabPanel(proyecto,
+          tabsetPanel(id = proyecto)
+         ))
+      })
+   })
 
-  output$project_tabitem <- renderUI({
-    lapply(bodies, function(body) {
-      tabItem(tabName = body,
-              h2(paste("hello, ", body))
-      )
+  # Repositories --------------------------------------------------------------
+  for (proyecto in proyectos) {
+    lapply(lista_proyectos[proyecto][[1]], function(repo) {
+      callModule(repository, repo, repo_data = mtcars[3:5])
     })
+  }
+
+  observe({
+    for (proyecto in proyectos) {
+      lapply(lista_proyectos[proyecto][[1]], function(repo) {
+        appendTab(
+          inputId = proyecto,
+          tabPanel(repo,
+            h2(paste("encabezado de ", repo)),
+            repository_UI(repo)))
+      })
+    }
+    for (proyecto in proyectos) {
+        prependTab(
+          inputId = proyecto,
+          tabPanel("Overview",
+            h2(paste("pagina principal de ", proyecto)),
+            project_UI(proyecto)))
+    }
   })
 
-  output$test <- renderUI({
-
-    bodies <- c("uno", "hello")
-
-    lapply(bodies, function(body) {
-        div(tabItem(tabName = body,
-                h2("esto es uno")))
-    })
-  })
-
-
- output$new_body <- renderUI({
-   tabItems(
-    lapply(bodies, function(body) {
-       tabItem(
-        project_body_UI(body)
-      )
-    })
-   )
- })
 }
+

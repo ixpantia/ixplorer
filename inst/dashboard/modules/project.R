@@ -1,30 +1,23 @@
-project_body_UI <- function(id) {
+project_UI <- function(id) {
+
   ns <- NS(id)
 
-  uiOutput(ns("tab-item"))
+  fluidRow(
+    column(6, plotOutput(ns("plot1"))),
+    column(6, plotOutput(ns("plot2")))
+  )
 
 }
 
-project_body <- function(input, output, session,
-                         lista_proyectos = "No hay proyectos") {
+project <- function(input, output, session,
+                    project_data = "No Projects") {
 
-  proyectos <- names(lista_proyectos)
-  repositorios <- c()
+  output$plot1 <- renderPlot({
+    plot(project_data)
+  })
 
-  for (proyecto in proyectos) {
-    repositorio <- unname(unlist(lista_proyectos[proyecto]))
-    repositorios <- c(repositorios, repositorio)
-  }
-
-  bodies <- c(proyectos, repositorios)
-  bodies <- make.names(bodies)
-
-  output$project_tabitem <- renderUI({
-      lapply(bodies, function(body) {
-          tabItem(tabName = body,
-              h2(paste("hello, ", body))
-          )
-      })
+  output$plot2 <- renderPlot({
+   plot(project_data)
   })
 }
 
