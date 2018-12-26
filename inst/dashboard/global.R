@@ -1,4 +1,9 @@
 library(shiny)
+library(dplyr)
+library(plotly)
+library(lubridate)
+library(stringr)
+library(gitear)
 # Set global options ----------------------------------------------------------
 
 # Define global functions -----------------------------------------------------
@@ -7,8 +12,8 @@ library(shiny)
 
   get_data <- function() {
     lista_proyectos <- list()
-    lista_proyectos$primero <- c("uno", "dos")
-    lista_proyectos$segundo <- c("hola", "hello", "goodbye")
+    lista_proyectos$sitio_pruebas <- c("uno", "dos")
+    lista_proyectos$asignaciones <- c("hola", "hello", "goodbye")
     return(lista_proyectos)
   }
 
