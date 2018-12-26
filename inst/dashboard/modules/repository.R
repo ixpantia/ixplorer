@@ -94,7 +94,8 @@ repository <- function(input, output, session,
   output$plot1 <- renderPlotly({
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
       add_histogram() %>%
-      layout(barmode = "stack")
+      layout(barmode = "stack") %>%
+      config(displayModeBar = FALSE)
     return(p1)
   })
 
@@ -111,7 +112,8 @@ repository <- function(input, output, session,
       layout(title = 'Issues categories for ixplorer repo_pruebas',
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "Issues total",
-                          showgrid = FALSE))
+                          showgrid = FALSE)) %>%
+      config(displayModeBar = FALSE)
     p
   })
 
