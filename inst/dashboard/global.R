@@ -4,6 +4,7 @@ library(plotly)
 library(lubridate)
 library(stringr)
 library(gitear)
+
 # Set global options ----------------------------------------------------------
 
 # Define global functions -----------------------------------------------------
@@ -12,7 +13,7 @@ library(gitear)
 
   get_data <- function() {
     lista_proyectos <- list()
-    lista_proyectos$sitio_pruebas <- c("uno", "dos")
+    lista_proyectos$sitio_pruebas <- c("Issues", "Commits")
     lista_proyectos$asignaciones <- c("hola", "hello", "goodbye")
     return(lista_proyectos)
   }

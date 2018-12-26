@@ -3,7 +3,7 @@ repository_UI <- function(id) {
 
   fluidRow(
     column(6, plotlyOutput(ns("plot1"))),
-    column(6, plotOutput(ns("plot2")))
+    column(6, plotlyOutput(ns("plot2")))
   )
 }
 
@@ -48,6 +48,49 @@ repository <- function(input, output, session,
   incidentes <- incidentes %>%
     mutate(state = ifelse(created_at %within% int, "last", incidentes$state))
 
+  # Seleccion open issues para cummmulative flow chart
+  open_issues_assignee <- open_issues %>%
+    select(state, created_at, updated_at, assignee.username) %>%
+    mutate(category = ifelse(is.na(open_issues$assignee.username),
+                             "open_unassigned", "open_assigned"))
+
+  #  Seleccion closed issues para cummulative flow chart
+  closed_issues_assignee <-closed_issues %>%
+    select(state, created_at, updated_at, assignee.username) %>%
+    mutate(category = ifelse(is.na(closed_issues$assignee.username),
+                             "closed_unassigned", "closed_assigned"))
+
+  # Asignados completos:
+  asignados <- rbind(open_issues_assignee, closed_issues_assignee) %>%
+    mutate(created_at = lubridate::ymd_hms(created_at)) %>%
+    mutate(updated_at = lubridate::ymd_hms(updated_at))
+
+  # Para este cummulative flow chart necesito darle vuelta a los datos
+  # agrupados por fecha y cada una de las variables
+  cum_flow_chart_data <- asignados %>%
+    group_by(lubridate::date(created_at), category) %>%
+    summarise(
+      total = n()
+    ) %>%
+    rename(
+      date = `lubridate::date(created_at)`
+    )
+
+  # Ahora toca darle vuelta:
+  cum_flow_chart_data <- tidyr::spread(data = cum_flow_chart_data,
+                                       key = category, value = total)
+  # replace_na
+  cum_flow_chart_data[is.na(cum_flow_chart_data)] <- 0
+
+  cum_flow_chart_data <- cum_flow_chart_data %>%
+    ungroup() %>%
+    mutate(open_assigned = cumsum(open_assigned)) %>%
+    mutate(open_unassigned = cumsum(open_unassigned)) %>%
+    mutate(closed_assigned = cumsum(closed_assigned)) %>%
+    mutate(closed_unassigned = cumsum(closed_unassigned))
+
+  cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
+
   output$plot1 <- renderPlotly({
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
       add_histogram() %>%
@@ -55,8 +98,21 @@ repository <- function(input, output, session,
     return(p1)
   })
 
-  output$plot2 <- renderPlot({
-   plot(repo_data)
+  output$plot2 <- renderPlotly({
+    p <- plotly::plot_ly(cum_flow_chart_data, x= ~date, y = ~closed_assigned,
+                         name = "Closed assigned", type = 'scatter', mode = 'none',
+                         stackgroup  = 'one', fillcolor = '#0078B4') %>%
+      add_trace(y = ~closed_unassigned, name = "Closed unassigned",
+                fillcolor = '#A78D7B') %>%
+      add_trace(y = ~open_assigned, name = "Open assigned",
+                fillcolor = '#F8A212') %>%
+      add_trace(y = ~open_unassigned, name = "Open unassigned",
+                fillcolor = '#2A2A2A') %>%
+      layout(title = 'Issues categories for ixplorer repo_pruebas',
+             xaxis = list(title = "", showgrid = FALSE),
+             yaxis = list(title = "Issues total",
+                          showgrid = FALSE))
+    p
   })
 
 }
