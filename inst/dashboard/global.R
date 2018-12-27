@@ -16,13 +16,21 @@ access_file <- verify_ixplorer_file()
 # example data ----------------------------------------------------------------------
 
   get_data <- function() {
-    proyectos <- gitear::get_list_repos_org(
+    repos <- gitear::get_list_repos_org(
       base_url = Sys.getenv("IXURL"),
       api_key = Sys.getenv("IXTOKEN"),
       org = Sys.getenv("IXPROJECT"))
+
+    proyectos <- gitear::get_organizations(
+      base_url = Sys.getenv("IXURL"),
+      api_key = Sys.getenv("IXTOKEN"))
+
     lista_proyectos <- list()
-    lista_proyectos$ixplorer <- proyectos$name
+    lista_proyectos$project_1 <- repos$name
+    lista_proyectos
     lista_proyectos$project_2 <- c("hola", "hello", "goodbye")
+
+    names(lista_proyectos) <- (proyectos$username)
     return(lista_proyectos)
   }
 
