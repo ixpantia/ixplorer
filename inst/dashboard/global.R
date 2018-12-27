@@ -31,9 +31,9 @@ access_file <- verify_ixplorer_file()
     }
 
     lista_proyectos <- list()
-    lista_proyectos$project_1 <- repos$name
+    lista_proyectos$project_1 <- lista[[1]]$name
     lista_proyectos
-    lista_proyectos$project_2 <- c("hola", "hello", "goodbye")
+    lista_proyectos$project_2 <- lista[[2]]$name
 
     names(lista_proyectos) <- (proyectos$username)
     return(lista_proyectos)
