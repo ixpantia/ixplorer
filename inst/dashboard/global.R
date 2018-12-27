@@ -4,12 +4,17 @@ library(plotly)
 library(lubridate)
 library(stringr)
 library(gitear)
-# library(ixplorer)
+library(ixplorer)
 
 # Set global options ----------------------------------------------------------
 ## Si pongo estas funciones no sirve el dashboard. da un error
 access_file <- verify_ixplorer_file()
-# set_authentication(access_data = access_file)
+
+if(access_file == "no access data"){
+  print(access_file)
+} else {
+  set_authentication(access_data = access_file)
+}
 
 # Define global functions -----------------------------------------------------
 
@@ -24,18 +29,17 @@ access_file <- verify_ixplorer_file()
     repos <- list()
     for (i in (proyectos$username)) {
       # cat("nombre proyeto:", i)
-      lista[[i]] <- gitear::get_list_repos_org(
+      repos[[i]] <- gitear::get_list_repos_org(
         base_url = Sys.getenv("IXURL"),
         api_key = Sys.getenv("IXTOKEN"),
         org = i)
     }
 
     lista_proyectos <- list()
-    lista_proyectos$project_1 <- lista[[1]]$name
-    lista_proyectos
-    lista_proyectos$project_2 <- lista[[2]]$name
+    for (i in (names(repos))) {
+      lista_proyectos[[i]] <- repos[[i]]$name
+    }
 
-    names(lista_proyectos) <- (proyectos$username)
     return(lista_proyectos)
   }
 

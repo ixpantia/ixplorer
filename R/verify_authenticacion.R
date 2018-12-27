@@ -6,6 +6,7 @@ NULL
 #' Verify if there is  a .ixplorer file in your working directory and set
 #' the variables.
 #'
+#' @export
 verify_ixplorer_file <- function(){
   # Leer ixplorer y poner condicionales -------------------------
   if(file.exists(".ixplorer")){
@@ -96,10 +97,11 @@ verify_ixuser <- function(gitear_access) {
   }
 }
 
-#' Verify  each of the elements needed to access your repository from a gadget
-#'
 #' Verify each of the steps
 #'
+#' Verify  each of the elements needed to access your repository from a gadget
+#'
+#' @export
 set_authentication <- function(access_data) {
   ixurl <- verify_ixurl(access_data)
   ixtoken <- verify_ixtoken(access_data)
