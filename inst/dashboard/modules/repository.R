@@ -95,7 +95,7 @@ repository <- function(input, output, session,
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
       add_histogram() %>%
       layout(barmode = "stack") %>%
-      config(displayModeBar = FALSE)
+      plotly::config(displayModeBar = FALSE)
     return(p1)
   })
 
@@ -113,7 +113,7 @@ repository <- function(input, output, session,
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "Issues total",
                           showgrid = FALSE)) %>%
-      config(displayModeBar = FALSE)
+      plotly::config(displayModeBar = FALSE)
     p
   })
 
