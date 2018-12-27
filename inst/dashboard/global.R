@@ -13,8 +13,8 @@ library(gitear)
 
   get_data <- function() {
     lista_proyectos <- list()
-    lista_proyectos$sitio_pruebas <- c("Issues", "Commits")
-    lista_proyectos$asignaciones <- c("hola", "hello", "goodbye")
+    lista_proyectos$ixplorer <- c("sitio_pruebas", "asignaciones")
+    lista_proyectos$project_2 <- c("hola", "hello", "goodbye")
     return(lista_proyectos)
   }
 

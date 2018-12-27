@@ -13,3 +13,7 @@ Description: Get overview of repository status
 Binding: ix_issues
 Interactive: false
 
+Name: dashboard
+Description: Get overview of ixplorer status
+Binding: dashboard
+Interactive: true
