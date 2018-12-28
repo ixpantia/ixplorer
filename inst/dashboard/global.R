@@ -4,17 +4,20 @@ library(plotly)
 library(lubridate)
 library(stringr)
 library(gitear)
-library(ixplorer)
+
 
 # Set global options ----------------------------------------------------------
 ## Si pongo estas funciones no sirve el dashboard. da un error
-access_file <- verify_ixplorer_file()
 
-if(access_file == "no access data"){
+access_file <- ixplorer::verify_ixplorer_file()
+
+msg <- if(access_file == "no access data"){
   print(access_file)
 } else {
-  set_authentication(access_data = access_file)
+  ixplorer::set_authentication(access_data = access_file)
 }
+msg
+
 
 # Define global functions -----------------------------------------------------
 

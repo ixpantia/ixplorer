@@ -8,9 +8,11 @@ NULL
 #'
 #' @export
 verify_ixplorer_file <- function(){
+  working_directory <- rstudioapi::getActiveProject()
+  ixplorer_file <- paste0(working_directory, "/.ixplorer")
   # Leer ixplorer y poner condicionales -------------------------
-  if(file.exists(".ixplorer")){
-    gitear_access <- readr::read_csv(".ixplorer") %>%
+  if(file.exists(ixplorer_file)){
+    gitear_access <- readr::read_csv(ixplorer_file) %>%
       tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   } else {
     gitear_access <- "no access data"

@@ -4,7 +4,8 @@
 server <- function(input, output, session) {
 
   # Data ----------------------------------------------------------------------
-
+  working_directory <- getwd()
+  print(working_directory)
   lista_proyectos <- get_data()
   proyectos <- get_projects(lista_proyectos)
 
