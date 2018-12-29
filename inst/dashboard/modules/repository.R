@@ -7,11 +7,11 @@ repository_UI <- function(id) {
     ),
 
     fluidRow(
-      # box(title = "Histogram box title",
-      #     status = "warning", solidHeader = TRUE, collapsible = TRUE,
-      #     plotlyOutput(ns("plot3", height = 250))
-      # ),
-      column(6, plotlyOutput(ns("plot3"))),
+      shinydashboard::box(title = "Histogram box title",
+          status = "warning", solidHeader = TRUE, collapsible = TRUE,
+          plotlyOutput(ns("plot3"))
+      ),
+      # column(6, plotlyOutput(ns("plot3"))),
       column(6, plotlyOutput(ns("plot4")))
     )
 
@@ -132,7 +132,7 @@ repository <- function(input, output, session,
 
   output$plot3 <- renderPlotly({
     # Commits por repositorios de un proyecto
-    commits_repo <- readxl::read_xls("data/commits_repos.xls")
+    commits_repo <- readxl::read_xlsx("data/commits_repos.xlsx")
     # Ahora toca darle vuelta:
     commits <- tidyr::spread(data = commits_repo,
                              key = repository, value = commits)
@@ -149,7 +149,7 @@ repository <- function(input, output, session,
                     stackgroup  = 'one', fillcolor = '#0078B4')%>%
       add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
                 fillcolor = '#A78D7B') %>%
-      layout(title = 'commits ixplorer',
+      layout(title = 'commits total on ixplorer',
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "commits total",
                           showgrid = FALSE)) %>%
@@ -158,7 +158,7 @@ repository <- function(input, output, session,
 
   output$plot4 <- renderPlotly({
     # commits por persona por repositorio barras
-    commits_project <- readxl::read_xls("data/commits_person.xls")
+    commits_project <- readxl::read_xlsx("data/commits_person.xlsx")
 
     # Crear los intervalos de semana y mes
     int_week <- interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
@@ -170,7 +170,8 @@ repository <- function(input, output, session,
 
     p1 <- plot_ly(commits_person, y = ~ person, color = ~ state) %>%
       add_histogram() %>%
-      layout(barmode = "stack") %>%
+      layout(title = 'commits ixplorer per person',
+             barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
 
     p1
