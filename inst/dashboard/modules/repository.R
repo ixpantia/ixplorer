@@ -1,10 +1,23 @@
 repository_UI <- function(id) {
   ns <- NS(id)
+  fluidPage(
+    fluidRow(
+      column(6, plotlyOutput(ns("plot1"))),
+      column(6, plotlyOutput(ns("plot2")))
+    ),
 
-  fluidRow(
-    column(6, plotlyOutput(ns("plot1"))),
-    column(6, plotlyOutput(ns("plot2")))
+    fluidRow(
+      shinydashboard::box(title = "Histogram box title",
+          status = "warning", solidHeader = TRUE, collapsible = TRUE,
+          plotlyOutput(ns("plot3"))
+      ),
+      # column(6, plotlyOutput(ns("plot3"))),
+      column(6, plotlyOutput(ns("plot4")))
+    )
+
   )
+
+
 }
 
 repository <- function(input, output, session,
@@ -115,6 +128,53 @@ repository <- function(input, output, session,
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
     p
+  })
+
+  output$plot3 <- renderPlotly({
+    # Commits por repositorios de un proyecto
+    commits_repo <- readxl::read_xlsx("data/commits_repos.xlsx")
+    # Ahora toca darle vuelta:
+    commits <- tidyr::spread(data = commits_repo,
+                             key = repository, value = commits)
+    # replace_na
+    commits[is.na(commits)] <- 0
+
+    commits_repo <- commits %>%
+      ungroup() %>%
+      mutate(asignaciones = cumsum(asignaciones)) %>%
+      mutate(sitio_pruebas = cumsum(sitio_pruebas))
+
+    plotly::plot_ly(commits_repo, x= ~date, y = ~asignaciones,
+                    name = "asignaciones", type = 'scatter', mode = 'none',
+                    stackgroup  = 'one', fillcolor = '#0078B4')%>%
+      add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
+                fillcolor = '#A78D7B') %>%
+      layout(title = 'commits total on ixplorer',
+             xaxis = list(title = "", showgrid = FALSE),
+             yaxis = list(title = "commits total",
+                          showgrid = FALSE)) %>%
+      plotly::config(displayModeBar = FALSE)
+  })
+
+  output$plot4 <- renderPlotly({
+    # commits por persona por repositorio barras
+    commits_project <- readxl::read_xlsx("data/commits_person.xlsx")
+
+    # Crear los intervalos de semana y mes
+    int_week <- interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
+    int_month <- interval(today() - 37, today() - 7) #Esto porque no agarra el ultimo
+
+    commits_person <- commits_person %>%
+      mutate(state = ifelse(date %within% int_month, "month",
+                            ifelse(date %within% int_week, "week", "older")))
+
+    p1 <- plot_ly(commits_person, y = ~ person, color = ~ state) %>%
+      add_histogram() %>%
+      layout(title = 'commits ixplorer per person',
+             barmode = "stack") %>%
+      plotly::config(displayModeBar = FALSE)
+
+    p1
   })
 
 }
