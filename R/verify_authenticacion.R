@@ -6,10 +6,13 @@ NULL
 #' Verify if there is  a .ixplorer file in your working directory and set
 #' the variables.
 #'
+#' @export
 verify_ixplorer_file <- function(){
+  working_directory <- rstudioapi::getActiveProject()
+  ixplorer_file <- paste0(working_directory, "/.ixplorer")
   # Leer ixplorer y poner condicionales -------------------------
-  if(file.exists(".ixplorer")){
-    gitear_access <- readr::read_csv(".ixplorer") %>%
+  if(file.exists(ixplorer_file)){
+    gitear_access <- readr::read_csv(ixplorer_file) %>%
       tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
   } else {
     gitear_access <- "no access data"
@@ -96,10 +99,11 @@ verify_ixuser <- function(gitear_access) {
   }
 }
 
-#' Verify  each of the elements needed to access your repository from a gadget
-#'
 #' Verify each of the steps
 #'
+#' Verify  each of the elements needed to access your repository from a gadget
+#'
+#' @export
 set_authentication <- function(access_data) {
   ixurl <- verify_ixurl(access_data)
   ixtoken <- verify_ixtoken(access_data)
