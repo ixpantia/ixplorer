@@ -29,10 +29,10 @@ project <- function(input, output, session,
 
   # Incidentes abiertos asignaciones
   open_issues_asignaciones <- gitear::get_issues_open_state(
-    base_url = "https://gitear.ixpantia.com/",
-    api_key = "47c0be813944aaa0132d77a8110d48e9d3a644af",
-    owner = "ixplorer",
-    repo = "asignaciones")
+    base_url = Sys.getenv("IXURL"),
+    api_key = Sys.getenv("IXTOKEN"),
+    owner = Sys.getenv("IXPROJECT"),
+    repo = Sys.getenv("IXREPO"))
 
   open_issues_asignaciones <- jsonlite::flatten(open_issues_asignaciones)
 
@@ -48,10 +48,10 @@ project <- function(input, output, session,
 
   # Incidentes cerrados sitio_pruebas
   closed_issues_sitio <- gitear::get_issues_closed_state(
-    base_url = "https://gitear.ixpantia.com/",
-    api_key = "47c0be813944aaa0132d77a8110d48e9d3a644af",
-    owner = "ixplorer",
-    repo = "sitio_pruebas")
+    base_url = Sys.getenv("IXURL"),
+    api_key = Sys.getenv("IXTOKEN"),
+    owner = Sys.getenv("IXPROJECT"),
+    repo = Sys.getenv("IXREPO"))
 
   closed_issues_sitio <- jsonlite::flatten(closed_issues_sitio)
   etiquetas_cerradas <- closed_issues_sitio$labels
@@ -62,10 +62,10 @@ project <- function(input, output, session,
 
   # Incidentes cerrados asignaciones
   closed_issues_asignaciones <- gitear::get_issues_closed_state(
-    base_url = "https://gitear.ixpantia.com/",
-    api_key = "47c0be813944aaa0132d77a8110d48e9d3a644af",
-    owner = "ixplorer",
-    repo = "asignaciones")
+    base_url = Sys.getenv("IXURL"),
+    api_key = Sys.getenv("IXTOKEN"),
+    owner = Sys.getenv("IXPROJECT"),
+    repo = Sys.getenv("IXREPO"))
 
   closed_issues_asignaciones <- jsonlite::flatten(closed_issues_asignaciones)
   etiquetas_cerradas <- closed_issues_asignaciones$labels
