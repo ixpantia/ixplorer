@@ -5,6 +5,11 @@ repository_UI <- function(id) {
     column(6, plotlyOutput(ns("plot1"))),
     column(6, plotlyOutput(ns("plot2")))
   )
+
+  fluidRow(
+    column(6, plotlyOutput(ns("plot3"))),
+    column(6, plotlyOutput(ns("plot4")))
+  )
 }
 
 repository <- function(input, output, session,
@@ -115,6 +120,32 @@ repository <- function(input, output, session,
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
     p
+  })
+
+  output$plot3 <- renderPlotly({
+    # Commits por repositorios de un proyecto
+    commits_repo <- readxl::read_xls("data/commits_repos.xls")
+    # Ahora toca darle vuelta:
+    commits <- tidyr::spread(data = commits_repo,
+                             key = repository, value = commits)
+    # replace_na
+    commits[is.na(commits)] <- 0
+
+    commits_repo <- commits %>%
+      ungroup() %>%
+      mutate(asignaciones = cumsum(asignaciones)) %>%
+      mutate(sitio_pruebas = cumsum(sitio_pruebas))
+
+    plotly::plot_ly(commits_repo, x= ~date, y = ~asignaciones,
+                    name = "asignaciones", type = 'scatter', mode = 'none',
+                    stackgroup  = 'one', fillcolor = '#0078B4')%>%
+      add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
+                fillcolor = '#A78D7B') %>%
+      layout(title = 'commits ixplorer',
+             xaxis = list(title = "", showgrid = FALSE),
+             yaxis = list(title = "commits total",
+                          showgrid = FALSE)) %>%
+      plotly::config(displayModeBar = FALSE)
   })
 
 }
