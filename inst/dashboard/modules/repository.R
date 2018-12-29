@@ -1,15 +1,23 @@
 repository_UI <- function(id) {
   ns <- NS(id)
+  fluidPage(
+    fluidRow(
+      column(6, plotlyOutput(ns("plot1"))),
+      column(6, plotlyOutput(ns("plot2")))
+    ),
 
-  fluidRow(
-    column(6, plotlyOutput(ns("plot1"))),
-    column(6, plotlyOutput(ns("plot2")))
+    fluidRow(
+      # box(title = "Histogram box title",
+      #     status = "warning", solidHeader = TRUE, collapsible = TRUE,
+      #     plotlyOutput(ns("plot3", height = 250))
+      # ),
+      column(6, plotlyOutput(ns("plot3"))),
+      column(6, plotlyOutput(ns("plot4")))
+    )
+
   )
 
-  fluidRow(
-    column(6, plotlyOutput(ns("plot3"))),
-    column(6, plotlyOutput(ns("plot4")))
-  )
+
 }
 
 repository <- function(input, output, session,
@@ -146,6 +154,26 @@ repository <- function(input, output, session,
              yaxis = list(title = "commits total",
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
+  })
+
+  output$plot4 <- renderPlotly({
+    # commits por persona por repositorio barras
+    commits_project <- readxl::read_xls("data/commits_person.xls")
+
+    # Crear los intervalos de semana y mes
+    int_week <- interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
+    int_month <- interval(today() - 37, today() - 7) #Esto porque no agarra el ultimo
+
+    commits_person <- commits_person %>%
+      mutate(state = ifelse(date %within% int_month, "month",
+                            ifelse(date %within% int_week, "week", "older")))
+
+    p1 <- plot_ly(commits_person, y = ~ person, color = ~ state) %>%
+      add_histogram() %>%
+      layout(barmode = "stack") %>%
+      plotly::config(displayModeBar = FALSE)
+
+    p1
   })
 
 }
