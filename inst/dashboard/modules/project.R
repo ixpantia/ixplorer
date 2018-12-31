@@ -19,10 +19,10 @@ project <- function(input, output, session,
     api_key = Sys.getenv("IXTOKEN"),
     org = Sys.getenv("IXPROJECT"))
 
-  repos_list <- list()
+  open_repos_list <- list()
 
   for (name_repo in repos$name) {
-      repos_list[[name_repo]] <- gitear::get_issues_open_state(
+      open_repos_list[[name_repo]] <- gitear::get_issues_open_state(
       base_url = Sys.getenv("IXURL"),
       api_key = Sys.getenv("IXTOKEN"),
       owner = Sys.getenv("IXPROJECT"),
@@ -30,68 +30,52 @@ project <- function(input, output, session,
         jsonlite::flatten()
   }
 
-  repositories <- do.call(rbind.data.frame, repos_list) %>%
+  open_repositories <- do.call(rbind.data.frame, open_repos_list) %>%
     tibble::rownames_to_column() %>%
     tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
     dplyr::select(-ba)
 
-  # Incidentes ABIERTOS sitio_pruebas
-  open_issues <- gitear::get_issues_open_state(
-    base_url = Sys.getenv("IXURL"),
-    api_key = Sys.getenv("IXTOKEN"),
-    owner = Sys.getenv("IXPROJECT"),
-    repo = Sys.getenv("IXREPO"))
+  closed_repos_list <- list()
 
-  open_issues <- jsonlite::flatten(open_issues)
-
-  etiquetas_abiertas <- data.frame(name = character(0),
-                                   stringsAsFactors = FALSE)
-
-    for (i in seq_along(open_issues$id)) {
-      # TODO: #80
-      etiqueta <- open_issues$labels[[i]]$name[1]
-      if (is.null(etiqueta)) { etiqueta <- NA }
-      etiquetas_abiertas[i,1] <- etiqueta
-    }
-
-  open_issues_etiquetas <- data.frame(etiquetas_abiertas, open_issues)
-  open_issues_etiquetas <- open_issues_etiquetas %>%
-    select(name, state, created_at, updated_at)
-
-  # Incidentes CERRADOS sitio_pruebas
-  closed_issues <- gitear::get_issues_closed_state(
-    base_url = Sys.getenv("IXURL"),
-    api_key = Sys.getenv("IXTOKEN"),
-    owner = Sys.getenv("IXPROJECT"),
-    repo = Sys.getenv("IXREPO"))
-
-  closed_issues <- jsonlite::flatten(closed_issues)
-
-  etiquetas_cerradas <- data.frame(name = character(0),
-                                   stringsAsFactors = FALSE)
-
-  for (i in seq_along(closed_issues$id)) {
-    # TODO: #80
-    etiqueta <- closed_issues$labels[[i]]$name[1]
-    if (is.null(etiqueta)) { etiqueta <- NA }
-    etiquetas_cerradas[i,1] <- etiqueta
+  for (name_repo in repos$name) {
+    closed_repos_list[[name_repo]] <- gitear::get_issues_closed_state(
+      base_url = Sys.getenv("IXURL"),
+      api_key = Sys.getenv("IXTOKEN"),
+      owner = Sys.getenv("IXPROJECT"),
+      repo = name_repo) %>%
+      jsonlite::flatten()
   }
 
-  closed_issues_etiquetas <- data.frame(etiquetas_cerradas, closed_issues)
-  closed_issues_etiquetas <- closed_issues_etiquetas %>%
-    select(name, state, created_at, updated_at)
+  closed_repositories <- do.call(rbind.data.frame, closed_repos_list) %>%
+    tibble::rownames_to_column() %>%
+    tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
+    dplyr::select(-ba)
 
+  repositories <- rbind(open_repositories, closed_repositories)
 
-  # Union de incidentes cerrados/abiertos con etiquetas
-  # y formato de fechas:
-  int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
+  ## Esto tiene que ir aplicado a todos: ------
 
-  incidentes <- rbind(closed_issues_etiquetas, open_issues_etiquetas) %>%
+  etiquetas <- data.frame(name = character(0),
+                                   stringsAsFactors = FALSE)
+
+  for (i in seq_along(repositories$id)) {
+    # TODO: #80
+    etiquetas_repos <- repositories$labels[[i]]$name[1]
+    if (is.null(etiqueta)) { etiqueta <- NA }
+    etiquetas[i,1] <- etiquetas_repos
+  }
+
+  incidentes <- data.frame(etiquetas, repositories) %>%
+    select(name, state, created_at, updated_at) %>%
     mutate(created_at = lubridate::ymd_hms(created_at)) %>%
     mutate(updated_at = lubridate::ymd_hms(updated_at))
 
+  int = interval(today() - 7, today() + 1)
+
   incidentes <- incidentes %>%
     mutate(state = ifelse(created_at %within% int, "last", incidentes$state))
+
+# -------------------------------------------------------------------------
 
   # Seleccion open issues para cummmulative flow chart
   open_issues <- rbind(open_issues_asignaciones, open_issues_sitio)
