@@ -11,7 +11,6 @@ project_UI <- function(id) {
 
 project <- function(input, output, session,
                     project_data = "No Projects") {
-
   # Traigo nombres de repositorios existentes
   repos <- gitear::get_list_repos_org(
     base_url = Sys.getenv("IXURL"),
@@ -137,13 +136,13 @@ project <- function(input, output, session,
     p <- plotly::plot_ly(cum_flow_chart_data, x= ~date, y = ~closed_assigned,
                          name = "Closed assigned", type = 'scatter', mode = 'none',
                          stackgroup  = 'one', fillcolor = '#0078B4') %>%
-      add_trace(y = ~closed_unassigned, name = "Closed unassigned",
+      plotly::add_trace(y = ~closed_unassigned, name = "Closed unassigned",
                 fillcolor = '#A78D7B') %>%
-      add_trace(y = ~open_assigned, name = "Open assigned",
+      plotly::add_trace(y = ~open_assigned, name = "Open assigned",
                 fillcolor = '#F8A212') %>%
-      add_trace(y = ~open_unassigned, name = "Open unassigned",
+      plotly::add_trace(y = ~open_unassigned, name = "Open unassigned",
                 fillcolor = '#2A2A2A') %>%
-      layout(title = 'Issues categories for ixplorer repo_pruebas',
+      plotly::layout(title = 'Issues categories for ixplorer repo_pruebas',
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "Issues total",
                           showgrid = FALSE)) %>%
