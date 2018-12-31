@@ -55,6 +55,14 @@ project <- function(input, output, session,
 
   ## Esto tiene que ir aplicado a todos: ------
 
+  ### Tener cuidado que este segmento se pega por orden.
+  etiqueta <- repositories$labels
+  etiqueta <- do.call(cbind.data.frame, etiquetas) %>%
+    select(name) %>%
+    rename(etiqueta =   name)
+
+  repositories <- cbind(repositories, etiqueta)
+
   etiquetas <- data.frame(name = character(0),
                                    stringsAsFactors = FALSE)
 
