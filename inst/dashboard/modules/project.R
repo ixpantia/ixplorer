@@ -29,13 +29,13 @@ project <- function(input, output, session,
         jsonlite::flatten()
   }
 
-  # Convertirlo en tidydata
+  # Convertir OPEN_issues de todos los repos en tidydata
   open_repositories <- do.call(rbind.data.frame, open_repos_list) %>%
     tibble::rownames_to_column() %>%
     tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
     dplyr::select(-ba)
 
-  # Loop traer todos los datos de open_issues de los repositorios existentes
+  # Loop traer todos los datos de CLOSED_issues de los repositorios existentes
   closed_repos_list <- list()
   for (name_repo in repos$name) {
     closed_repos_list[[name_repo]] <- gitear::get_issues_closed_state(
@@ -46,13 +46,13 @@ project <- function(input, output, session,
       jsonlite::flatten()
   }
 
-  # Convertirlo en tidydata
+  # Convertir CLOSED_issues de todos los repos en tidydata
   closed_repositories <- do.call(rbind.data.frame, closed_repos_list) %>%
     tibble::rownames_to_column() %>%
     tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
     dplyr::select(-ba)
 
-  # Unir open_issues con closed_issues
+  # Unir OPEN_issues con CLOSED_issues
   repositories <- rbind(open_repositories, closed_repositories)
 
   # Terminar de limpiar los datos de incidentes (abiertos y cerrados)
@@ -64,17 +64,20 @@ project <- function(input, output, session,
   for (i in seq_along(repositories$id)) {
     # TODO: #80
     etiqueta <- repositories$labels[[i]]$name[1]
-    if (is.null(etiqueta)) { etiqueta <- NA }
+    if (is.null(etiqueta)) { etiqueta <- "Not labeled" }
     etiquetas[i,1] <- etiqueta
   }
 
+  # Seleccionar columnas deseadas y formato de fechas
   incidentes <- data.frame(etiquetas, repositories) %>%
     select(name, state, created_at, updated_at) %>%
     mutate(created_at = lubridate::ymd_hms(created_at)) %>%
     mutate(updated_at = lubridate::ymd_hms(updated_at))
 
+  # Crear intervalo para clasificar incidentes de la ultima semana
   int = interval(today() - 7, today() + 1)
 
+  # hacer clasficacion de incidentes basados en intervalo
   incidentes <- incidentes %>%
     mutate(state = ifelse(created_at %within% int, "last", incidentes$state))
 
@@ -126,9 +129,9 @@ project <- function(input, output, session,
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
 
   output$plot1 <- renderPlotly({
-    p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
-      add_histogram() %>%
-      layout(barmode = "stack") %>%
+    p1 <- plotly::plot_ly(incidentes, y = ~ name, color = ~ state) %>%
+      plotly::add_histogram() %>%
+      plotly::layout(barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
     p1
   })
