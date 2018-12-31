@@ -29,10 +29,11 @@ project <- function(input, output, session,
   }
 
   # Convertir OPEN_issues de todos los repos en tidydata
-  open_repositories <- do.call(rbind.data.frame, open_repos_list) %>%
+  open_issues <- do.call(rbind.data.frame, open_repos_list) %>%
     tibble::rownames_to_column() %>%
     tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
-    dplyr::select(-ba)
+    dplyr::select(-ba,-assignee.id, -assignee.login, -assignee.full_name,
+                  -assignee.email, -assignee.avatar_url, -assignee.language)
 
   # Loop traer todos los datos de CLOSED_issues de los repositorios existentes
   closed_repos_list <- list()
@@ -46,13 +47,20 @@ project <- function(input, output, session,
   }
 
   # Convertir CLOSED_issues de todos los repos en tidydata
-  closed_repositories <- do.call(rbind.data.frame, closed_repos_list) %>%
+  closed_issues <- do.call(rbind.data.frame, closed_repos_list) %>%
     tibble::rownames_to_column() %>%
     tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
-    dplyr::select(-ba)
+    dplyr::select(-ba, -assignee.id, -assignee.login, -assignee.full_name,
+                  -assignee.email, -assignee.avatar_url, -assignee.language)
+
+
+  if ("assignee.username" %notin% names(closed_issues)) {
+    closed_issues$assignee.username <- NA
+  }
+
 
   # Unir OPEN_issues con CLOSED_issues
-  repositories <- rbind(open_repositories, closed_repositories)
+  repositories <- rbind(open_issues, closed_issues)
 
   ## Terminar de limpiar los datos de incidentes (abiertos y cerrados)
 
