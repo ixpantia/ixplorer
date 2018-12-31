@@ -12,15 +12,14 @@ project_UI <- function(id) {
 project <- function(input, output, session,
                     project_data = "No Projects") {
 
-  # Loop traer todos los datos de los repositorios existentes
-
+  # Traigo nombres de repositorios existentes
   repos <- gitear::get_list_repos_org(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     org = Sys.getenv("IXPROJECT"))
 
+  # Loop traer todos los datos de open_issues de los repositorios existentes
   open_repos_list <- list()
-
   for (name_repo in repos$name) {
       open_repos_list[[name_repo]] <- gitear::get_issues_open_state(
       base_url = Sys.getenv("IXURL"),
@@ -30,13 +29,14 @@ project <- function(input, output, session,
         jsonlite::flatten()
   }
 
+  # Convertirlo en tidydata
   open_repositories <- do.call(rbind.data.frame, open_repos_list) %>%
     tibble::rownames_to_column() %>%
     tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
     dplyr::select(-ba)
 
+  # Loop traer todos los datos de open_issues de los repositorios existentes
   closed_repos_list <- list()
-
   for (name_repo in repos$name) {
     closed_repos_list[[name_repo]] <- gitear::get_issues_closed_state(
       base_url = Sys.getenv("IXURL"),
@@ -46,31 +46,26 @@ project <- function(input, output, session,
       jsonlite::flatten()
   }
 
+  # Convertirlo en tidydata
   closed_repositories <- do.call(rbind.data.frame, closed_repos_list) %>%
     tibble::rownames_to_column() %>%
     tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
     dplyr::select(-ba)
 
+  # Unir open_issues con closed_issues
   repositories <- rbind(open_repositories, closed_repositories)
 
-  ## Esto tiene que ir aplicado a todos: ------
+  # Terminar de limpiar los datos de incidentes (abiertos y cerrados)
 
-  ### Tener cuidado que este segmento se pega por orden.
-  etiqueta <- repositories$labels
-  etiqueta <- do.call(cbind.data.frame, etiquetas) %>%
-    select(name) %>%
-    rename(etiqueta =   name)
-
-  repositories <- cbind(repositories, etiqueta)
-
+  # Loop para poner NA si no hay etiqueta
   etiquetas <- data.frame(name = character(0),
                                    stringsAsFactors = FALSE)
 
   for (i in seq_along(repositories$id)) {
     # TODO: #80
-    etiquetas_repos <- repositories$labels[[i]]$name[1]
+    etiqueta <- repositories$labels[[i]]$name[1]
     if (is.null(etiqueta)) { etiqueta <- NA }
-    etiquetas[i,1] <- etiquetas_repos
+    etiquetas[i,1] <- etiqueta
   }
 
   incidentes <- data.frame(etiquetas, repositories) %>%
