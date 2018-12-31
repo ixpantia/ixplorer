@@ -126,20 +126,30 @@ project <- function(input, output, session,
   # replace_na
   cum_flow_chart_data[is.na(cum_flow_chart_data)] <- 0
 
+  # Condicionales columnas que no xisten con ceros
+  if ("open_assigned"  %notin% names(cum_flow_chart_data)) {
+    cum_flow_chart_data$open_assigned <- 0
+  }
+
+  if ("open_unassigned" %notin% names(cum_flow_chart_data)) {
+    cum_flow_chart_data$open_unassigned <- 0
+  }
+
+  if ("closed_assigned" %notin% names(cum_flow_chart_data)) {
+    cum_flow_chart_data$closed_assigned <- 0
+  }
+
+  if ("closed_unassigned" %notin% names(cum_flow_chart_data)) {
+    cum_flow_chart_data$closed_unassigned <- 0
+  }
+
+  # Suma acumulativa para cada una de las columnas:
   cum_flow_chart_data <- cum_flow_chart_data %>%
     ungroup() %>%
-    mutate(
-      open_assigned = ifelse("open_assigned" %in% names(cum_flow_chart_data),
-                                  cumsum(open_assigned), 0)) %>%
-    mutate(
-      open_unassigned = ifelse("open_unassigned" %in% names(cum_flow_chart_data),
-                               cumsum(open_unassigned), 0)) %>%
-    mutate(
-      closed_assigned = ifelse("closed_assigned" %in% names(cum_flow_chart_data),
-                               cumsum(closed_assigned), 0)) %>%
-    mutate(
-      closed_unassigned = ifelse("closed_unassigned" %in% names(cum_flow_chart_data),
-                                      cumsum(closed_unassigned), 0))
+    mutate(open_assigned = cumsum(open_assigned)) %>%
+    mutate(open_unassigned = cumsum(open_unassigned)) %>%
+    mutate(closed_assigned = cumsum(closed_assigned)) %>%
+    mutate(closed_unassigned = cumsum(closed_unassigned))
 
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
 
