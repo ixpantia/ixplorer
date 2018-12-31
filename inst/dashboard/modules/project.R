@@ -35,6 +35,9 @@ project <- function(input, output, session,
     dplyr::select(-ba,-assignee.id, -assignee.login, -assignee.full_name,
                   -assignee.email, -assignee.avatar_url, -assignee.language)
 
+  if ("assignee.username" %notin% names(open_issues)) {
+    open_issues$assignee.username <- NA
+  }
   # Loop traer todos los datos de CLOSED_issues de los repositorios existentes
   closed_repos_list <- list()
   for (name_repo in repos$name) {
@@ -125,10 +128,18 @@ project <- function(input, output, session,
 
   cum_flow_chart_data <- cum_flow_chart_data %>%
     ungroup() %>%
-    mutate(open_assigned = cumsum(open_assigned)) %>%
-    mutate(open_unassigned = cumsum(open_unassigned)) %>%
-    mutate(closed_assigned = cumsum(closed_assigned)) %>%
-    mutate(closed_unassigned = cumsum(closed_unassigned))
+    mutate(
+      open_assigned = ifelse("open_assigned" %in% names(cum_flow_chart_data),
+                                  cumsum(open_assigned), 0)) %>%
+    mutate(
+      open_unassigned = ifelse("open_unassigned" %in% names(cum_flow_chart_data),
+                               cumsum(open_unassigned), 0)) %>%
+    mutate(
+      closed_assigned = ifelse("closed_assigned" %in% names(cum_flow_chart_data),
+                               cumsum(closed_assigned), 0)) %>%
+    mutate(
+      closed_unassigned = ifelse("closed_unassigned" %in% names(cum_flow_chart_data),
+                                      cumsum(closed_unassigned), 0))
 
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
 
