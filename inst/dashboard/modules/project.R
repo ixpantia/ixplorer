@@ -55,7 +55,7 @@ project <- function(input, output, session,
   # Unir OPEN_issues con CLOSED_issues
   repositories <- rbind(open_repositories, closed_repositories)
 
-  # Terminar de limpiar los datos de incidentes (abiertos y cerrados)
+  ## Terminar de limpiar los datos de incidentes (abiertos y cerrados)
 
   # Loop para poner NA si no hay etiqueta
   etiquetas <- data.frame(name = character(0),
@@ -84,21 +84,18 @@ project <- function(input, output, session,
 # -------------------------------------------------------------------------
 
   # Seleccion open issues para cummmulative flow chart
-  open_issues <- rbind(open_issues_asignaciones, open_issues_sitio)
-  open_issues_assignee <- open_issues %>%
+  # Crear condicional que diga si esta abierto asignado, abierto sin
+  # asignar, cerrado asignado, cerrado sin asignar
+  asignados <- repositories %>%
     select(state, created_at, updated_at, assignee.username) %>%
-    mutate(category = ifelse(is.na(open_issues$assignee.username),
-                             "open_unassigned", "open_assigned"))
-
-  #  Seleccion closed issues para cummulative flow chart
-  closed_issues <- rbind(closed_issues_asignaciones,  closed_issues_sitio)
-  closed_issues_assignee <- closed_issues %>%
-    select(state, created_at, updated_at, assignee.username) %>%
-    mutate(category = ifelse(is.na(closed_issues$assignee.username),
-                             "closed_unassigned", "closed_assigned"))
-
-  # Asignados completos:
-  asignados <- rbind(open_issues_assignee, closed_issues_assignee) %>%
+    mutate(category =
+             ifelse(state == "open",
+                    ifelse(is.na(repositories$assignee.username),
+                           "open_unassigned", "open_assigned"),
+                    ifelse(is.na(repositories$assignee.username),
+                           "closed_unassigned", "closed_assigned")
+                    )
+    ) %>%
     mutate(created_at = lubridate::ymd_hms(created_at)) %>%
     mutate(updated_at = lubridate::ymd_hms(updated_at))
 
