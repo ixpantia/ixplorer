@@ -21,9 +21,17 @@ project <- function(input, output, session,
 
   open_issues_sitio <- jsonlite::flatten(open_issues_sitio)
 
-  etiquetas_abiertas <- open_issues_sitio$labels
-  etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
-  open_issues_sitio <- data.frame(etiquetas_abiertas,  open_issues_sitio)
+  etiquetas_abiertas <- data.frame(name = character(0),
+                                   stringsAsFactors = FALSE)
+
+    for (i in seq_along(open_issues_sitio$id)) {
+      # TODO: #80
+      etiqueta <- open_issues_sitio$labels[[i]]$name[1]
+      if (is.null(etiqueta)) { etiqueta <- NA }
+      etiquetas_abiertas[i,1] <- etiqueta
+    }
+
+  open_issues_sitio <- data.frame(etiquetas_abiertas, open_issues_sitio)
   open_issues_labels_sitio <- open_issues_sitio %>%
     select(name, state, created_at, updated_at)
 
