@@ -1,3 +1,5 @@
+Meta
+doc
 # History files
 .Rhistory
 .Rapp.history
@@ -26,4 +28,4 @@ vignettes/*.pdf
 .Rproj.user
 inst/doc
 .ixplorer
-
+.Renviron
