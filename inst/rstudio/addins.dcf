@@ -3,17 +3,17 @@ Description: Add credentials to authenticate to your ixplorer
 Binding: add_token
 Interactive: false
 
-Name: Create issue
+Name: Create ticket
 Description: Create an issue on ixplorer
 Binding: create_issues
 Interactive: false
 
-Name: ixplorer issues
-Description: Get overview of repository status
+Name: Current tickets
+Description: Get overview of current issues in this repository
 Binding: ix_issues
 Interactive: false
 
 Name: ixplorer Dashboard
-Description: Display the dashboar to check your metrics
+Description: Display the dashboard to check proyect metrics
 Binding: dashboard
 Interactive: true
