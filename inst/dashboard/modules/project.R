@@ -10,7 +10,7 @@ project_UI <- function(id) {
 }
 
 project <- function(input, output, session,
-                    project_data = "No Projects") {
+                    project_name = proyectos) {
   # Traigo nombres de repositorios existentes
   repos <- gitear::get_list_repos_org(
     base_url = Sys.getenv("IXURL"),

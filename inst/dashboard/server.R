@@ -13,7 +13,7 @@ server <- function(input, output, session) {
 
   for (proyecto in proyectos) {
     lapply(proyectos, function(proyecto) {
-      callModule(project, proyecto, project_data = mtcars[, 1:2])
+      callModule(project, proyecto, project_name = proyectos)
     })
   }
 
