@@ -50,7 +50,7 @@ repository <- function(input, output, session,
     owner = project_name,
     repo = repo_name)
 
-  if (nrow(open_issues) == 0) {
+  if (nrow(closed_issues) == 0) {
   }  else {
     closed_issues <- jsonlite::flatten(closed_issues)
 
