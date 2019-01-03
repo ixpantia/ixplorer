@@ -28,7 +28,7 @@ repository <- function(input, output, session,
     owner = project_name,
     repo = repo_name)
 
-  if (nrow(open_issues) == 0){
+  if (nrow(open_issues) == 0) {
   }  else {
     open_issues <- jsonlite::flatten(open_issues)
     # Aplastar labels
@@ -50,7 +50,7 @@ repository <- function(input, output, session,
     owner = project_name,
     repo = repo_name)
 
-  if (nrow(open_issues) == 0){
+  if (nrow(open_issues) == 0) {
   }  else {
     closed_issues <- jsonlite::flatten(closed_issues)
 
@@ -87,38 +87,50 @@ repository <- function(input, output, session,
 
 
   # Seleccion open issues para cummmulative flow chart ------------------------
-  open_issues_assignee <- open_issues %>%
-    select(state, created_at, updated_at, assignee.username) %>%
-    mutate(category = ifelse(is.na(open_issues$assignee.username),
-                             "open_unassigned", "open_assigned"))
+  if (nrow(open_issues) == 0) {
+    print("There are no issues")
+  } else {
+    open_issues_assignee <- open_issues %>%
+      select(state, created_at, updated_at, assignee.username) %>%
+      mutate(category = ifelse(is.na(open_issues$assignee.username),
+                               "open_unassigned", "open_assigned"))
+  }
 
   #  Seleccion closed issues para cummulative flow chart
-  closed_issues_assignee <- closed_issues %>%
-    select(state, created_at, updated_at, assignee.username) %>%
-    mutate(category = ifelse(is.na(closed_issues$assignee.username),
-                             "closed_unassigned", "closed_assigned"))
+  if (nrow(closed_issues) == 0) {
+    print("There are no issues")
+  } else {
+    closed_issues_assignee <- closed_issues %>%
+      select(state, created_at, updated_at, assignee.username) %>%
+      mutate(category = ifelse(is.na(closed_issues$assignee.username),
+                               "closed_unassigned", "closed_assigned"))
+    }
 
   # Asignados completos:
-  asignados <- rbind(open_issues_assignee, closed_issues_assignee) %>%
-    mutate(created_at = lubridate::ymd_hms(created_at)) %>%
-    mutate(updated_at = lubridate::ymd_hms(updated_at))
+  if (nrow(open_issues) == 0 & nrow(closed_issues) == 0) {
+    cum_flow_chart_data <- data_frame("date" = lubridate::today())
+  } else {
+    asignados <- rbind(open_issues_assignee, closed_issues_assignee) %>%
+      mutate(created_at = lubridate::ymd_hms(created_at)) %>%
+      mutate(updated_at = lubridate::ymd_hms(updated_at))
 
-  # Para este cummulative flow chart necesito darle vuelta a los datos
-  # agrupados por fecha y cada una de las variables
-  cum_flow_chart_data <- asignados %>%
-    group_by(lubridate::date(created_at), category) %>%
-    summarise(
-      total = n()
-    ) %>%
-    rename(
-      date = `lubridate::date(created_at)`
-    )
+    # Para este cummulative flow chart necesito darle vuelta a los datos
+    # agrupados por fecha y cada una de las variables
+    cum_flow_chart_data <- asignados %>%
+      group_by(lubridate::date(created_at), category) %>%
+      summarise(
+        total = n()
+      ) %>%
+      rename(
+        date = `lubridate::date(created_at)`
+      )
 
-  # Ahora toca darle vuelta:
-  cum_flow_chart_data <- tidyr::spread(data = cum_flow_chart_data,
-                                       key = category, value = total)
-  # replace_na
-  cum_flow_chart_data[is.na(cum_flow_chart_data)] <- 0
+    # Ahora toca darle vuelta:
+    cum_flow_chart_data <- tidyr::spread(data = cum_flow_chart_data,
+                                         key = category, value = total)
+    # replace_na
+    cum_flow_chart_data[is.na(cum_flow_chart_data)] <- 0
+  }
 
   # Condicionales columnas que no xisten con ceros
   if ("open_assigned"  %notin% names(cum_flow_chart_data)) {
@@ -148,7 +160,6 @@ repository <- function(input, output, session,
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
 
   # PLOTS ----------------------------------------------------------------------
-
   output$plot_bar_issues <- renderPlotly({
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
       add_histogram() %>%
