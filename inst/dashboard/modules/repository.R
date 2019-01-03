@@ -20,23 +20,13 @@ repository_UI <- function(id) {
 
 repository <- function(input, output, session,
                          repo_name, project_name) {
+
   # Incidentes abiertos
   open_issues <- gitear::get_issues_open_state(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
-    owner = Sys.getenv("IXPROJECT"),
-    repo = Sys.getenv("IXREPO"))
-
-  # # Loop traer todos los datos de open_issues de los repositorios existentes
-  # open_issues <- list()
-  # for (name_repo in repos$name) {
-  #   open_issues[[name_repo]] <- gitear::get_issues_open_state(
-  #     base_url = Sys.getenv("IXURL"),
-  #     api_key = Sys.getenv("IXTOKEN"),
-  #     owner = project_name,
-  #     repo = name_repo) %>%
-  #     jsonlite::flatten()
-  # }
+    owner = project_name,
+    repo = repo_name)
 
   open_issues <- jsonlite::flatten(open_issues)
   etiquetas_abiertas <- open_issues$labels
@@ -50,8 +40,8 @@ repository <- function(input, output, session,
   closed_issues <- gitear::get_issues_closed_state(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
-    owner = Sys.getenv("IXPROJECT"),
-    repo = Sys.getenv("IXREPO"))
+    owner = project_name,
+    repo = repo_name)
 
   closed_issues <- jsonlite::flatten(closed_issues)
   etiquetas_cerradas <- closed_issues$labels
