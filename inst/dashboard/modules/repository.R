@@ -75,8 +75,28 @@ repository <- function(input, output, session,
     # incidentes
     incidentes <- data_frame("name" = NA, "incidentes" = NA,
                              "state" = NA)
-  } else {
+  } else if (nrow(closed_issues) == 0) {
+
     int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
+    incidentes <- open_issues_labels %>%
+      mutate(created_at = lubridate::ymd_hms(created_at)) %>%
+      mutate(updated_at = lubridate::ymd_hms(updated_at))
+
+    incidentes <- incidentes %>%
+      mutate(state = ifelse(created_at %within% int, "last", incidentes$state))
+    } else if (nrow(open_issues) == 0) {
+
+      int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
+
+      incidentes <- closed_issues_labels %>%
+        mutate(created_at = lubridate::ymd_hms(created_at)) %>%
+        mutate(updated_at = lubridate::ymd_hms(updated_at))
+
+      incidentes <- incidentes %>%
+        mutate(state = ifelse(created_at %within% int, "last", incidentes$state))
+    } else {
+    int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
+
     incidentes <- rbind(closed_issues_labels, open_issues_labels) %>%
       mutate(created_at = lubridate::ymd_hms(created_at)) %>%
       mutate(updated_at = lubridate::ymd_hms(updated_at))
