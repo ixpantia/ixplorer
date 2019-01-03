@@ -2,17 +2,17 @@ repository_UI <- function(id) {
   ns <- NS(id)
   fluidPage(
     fluidRow(
-      column(6, plotlyOutput(ns("plot1"))),
-      column(6, plotlyOutput(ns("plot2")))
+      column(6, plotlyOutput(ns("plot_bar_issues"))),
+      column(6, plotlyOutput(ns("plot_cumflow_issues")))
     ),
 
     fluidRow(
       shinydashboard::box(title = "Histogram box title",
           status = "warning", solidHeader = TRUE, collapsible = TRUE,
-          plotlyOutput(ns("plot3"))
+          plotlyOutput(ns("plot_commits_repos"))
       ),
       # column(6, plotlyOutput(ns("plot3"))),
-      column(6, plotlyOutput(ns("plot4")))
+      column(6, plotlyOutput(ns("plot_commits_person")))
     )
   )
 
@@ -26,9 +26,10 @@ repository <- function(input, output, session,
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     owner = project_name,
-    repo = repo_name)
+    repo = repo_name) %>%
+    jsonlite::flatten()
 
-  open_issues <- jsonlite::flatten(open_issues)
+  # open_issues <- jsonlite::flatten(open_issues)
   etiquetas_abiertas <- open_issues$labels
   etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
   open_issues <- data.frame(etiquetas_abiertas,  open_issues)
@@ -122,7 +123,7 @@ repository <- function(input, output, session,
 
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
 
-  output$plot1 <- renderPlotly({
+  output$plot_bar_issues <- renderPlotly({
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
       add_histogram() %>%
       layout(barmode = "stack") %>%
@@ -130,7 +131,7 @@ repository <- function(input, output, session,
     return(p1)
   })
 
-  output$plot2 <- renderPlotly({
+  output$plot_cumflow_issues <- renderPlotly({
     p <- plotly::plot_ly(cum_flow_chart_data, x= ~date, y = ~closed_assigned,
                          name = "Closed assigned", type = 'scatter', mode = 'none',
                          stackgroup  = 'one', fillcolor = '#0078B4') %>%
@@ -148,7 +149,7 @@ repository <- function(input, output, session,
     p
   })
 
-  output$plot3 <- renderPlotly({
+  output$plot_commits_repos <- renderPlotly({
 
     # Commits por repositorios de un proyecto
     commits_repo <- readxl::read_xlsx("data/commits_repos.xlsx")
@@ -177,7 +178,7 @@ repository <- function(input, output, session,
       plotly::config(displayModeBar = FALSE)
   })
 
-  output$plot4 <- renderPlotly({
+  output$plot_commits_person <- renderPlotly({
     # commits por persona por repositorio barras
     commits_person <- readxl::read_xlsx("data/commits_person.xlsx")
 
