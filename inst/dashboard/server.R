@@ -31,7 +31,7 @@ server <- function(input, output, session) {
     lapply(lista_proyectos[proyecto][[1]], function(repo) {
       # print(proyecto)
       # print(repo)
-      callModule(repository, repo, repo_name = repo)
+      callModule(repository, repo, repo_name = proyecto, project_name = proyecto)
     })
   }
 

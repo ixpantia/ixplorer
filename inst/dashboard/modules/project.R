@@ -30,6 +30,8 @@ project <- function(input, output, session,
   }
 
   # Convertir OPEN_issues de todos los repos en tidydata
+  # Si un repositorio tiene alguien asignado y los demas no,
+  # el rbind no va a funcionar por diferencia de columnas
   open_issues <- do.call(rbind.data.frame, open_repos_list) %>%
     tibble::rownames_to_column() %>%
     tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%

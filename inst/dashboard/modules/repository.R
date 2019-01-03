@@ -19,13 +19,24 @@ repository_UI <- function(id) {
 }
 
 repository <- function(input, output, session,
-                         repo_name) {
+                         repo_name, project_name) {
   # Incidentes abiertos
   open_issues <- gitear::get_issues_open_state(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     owner = Sys.getenv("IXPROJECT"),
-    repo = repo_name)
+    repo = Sys.getenv("IXREPO"))
+
+  # # Loop traer todos los datos de open_issues de los repositorios existentes
+  # open_issues <- list()
+  # for (name_repo in repos$name) {
+  #   open_issues[[name_repo]] <- gitear::get_issues_open_state(
+  #     base_url = Sys.getenv("IXURL"),
+  #     api_key = Sys.getenv("IXTOKEN"),
+  #     owner = project_name,
+  #     repo = name_repo) %>%
+  #     jsonlite::flatten()
+  # }
 
   open_issues <- jsonlite::flatten(open_issues)
   etiquetas_abiertas <- open_issues$labels
@@ -40,7 +51,7 @@ repository <- function(input, output, session,
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     owner = Sys.getenv("IXPROJECT"),
-    repo = repo_name)
+    repo = Sys.getenv("IXREPO"))
 
   closed_issues <- jsonlite::flatten(closed_issues)
   etiquetas_cerradas <- closed_issues$labels
@@ -148,11 +159,14 @@ repository <- function(input, output, session,
   })
 
   output$plot3 <- renderPlotly({
+
     # Commits por repositorios de un proyecto
     commits_repo <- readxl::read_xlsx("data/commits_repos.xlsx")
+
     # Ahora toca darle vuelta:
     commits <- tidyr::spread(data = commits_repo,
                              key = repository, value = commits)
+
     # replace_na
     commits[is.na(commits)] <- 0
 
@@ -175,12 +189,13 @@ repository <- function(input, output, session,
 
   output$plot4 <- renderPlotly({
     # commits por persona por repositorio barras
-    commits_project <- readxl::read_xlsx("data/commits_person.xlsx")
+    commits_person <- readxl::read_xlsx("data/commits_person.xlsx")
 
     # Crear los intervalos de semana y mes
     int_week <- interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
     int_month <- interval(today() - 37, today() - 7) #Esto porque no agarra el ultimo
 
+    # Clasificacion de commmits en mes semana o mas antiguo
     commits_person <- commits_person %>%
       mutate(state = ifelse(date %within% int_month, "month",
                             ifelse(date %within% int_week, "week", "older")))
