@@ -68,13 +68,23 @@ repository <- function(input, output, session,
 
   # Union de incidentes cerrados/abiertos con etiquetas -----------------------
   # y formato de fechas:
-  int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
-  incidentes <- rbind(closed_issues_labels, open_issues_labels) %>%
-    mutate(created_at = lubridate::ymd_hms(created_at)) %>%
-    mutate(updated_at = lubridate::ymd_hms(updated_at))
 
-  incidentes <- incidentes %>%
-    mutate(state = ifelse(created_at %within% int, "last", incidentes$state))
+  if (nrow(open_issues) == 0 & nrow(closed_issues) == 0) {
+
+    # Hacer aqui un conjunto de datos con 0's con columna name e
+    # incidentes
+    incidentes <- data_frame("name" = NA, "incidentes" = NA,
+                             "state" = NA)
+  } else {
+    int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
+    incidentes <- rbind(closed_issues_labels, open_issues_labels) %>%
+      mutate(created_at = lubridate::ymd_hms(created_at)) %>%
+      mutate(updated_at = lubridate::ymd_hms(updated_at))
+
+    incidentes <- incidentes %>%
+      mutate(state = ifelse(created_at %within% int, "last", incidentes$state))
+  }
+
 
   # Seleccion open issues para cummmulative flow chart ------------------------
   open_issues_assignee <- open_issues %>%
@@ -83,7 +93,7 @@ repository <- function(input, output, session,
                              "open_unassigned", "open_assigned"))
 
   #  Seleccion closed issues para cummulative flow chart
-  closed_issues_assignee <-closed_issues %>%
+  closed_issues_assignee <- closed_issues %>%
     select(state, created_at, updated_at, assignee.username) %>%
     mutate(category = ifelse(is.na(closed_issues$assignee.username),
                              "closed_unassigned", "closed_assigned"))
@@ -135,8 +145,9 @@ repository <- function(input, output, session,
     mutate(closed_assigned = cumsum(closed_assigned)) %>%
     mutate(closed_unassigned = cumsum(closed_unassigned))
 
-
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
+
+  # PLOTS ----------------------------------------------------------------------
 
   output$plot_bar_issues <- renderPlotly({
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
@@ -147,7 +158,7 @@ repository <- function(input, output, session,
   })
 
   output$plot_cumflow_issues <- renderPlotly({
-    p <- plotly::plot_ly(cum_flow_chart_data, x= ~date, y = ~closed_assigned,
+    p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~closed_assigned,
                          name = "Closed assigned", type = 'scatter', mode = 'none',
                          stackgroup  = 'one', fillcolor = '#0078B4') %>%
       add_trace(y = ~closed_unassigned, name = "Closed unassigned",
@@ -181,9 +192,9 @@ repository <- function(input, output, session,
       mutate(asignaciones = cumsum(asignaciones)) %>%
       mutate(sitio_pruebas = cumsum(sitio_pruebas))
 
-    plotly::plot_ly(commits_repo, x= ~date, y = ~asignaciones,
+    plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
                     name = "asignaciones", type = 'scatter', mode = 'none',
-                    stackgroup  = 'one', fillcolor = '#0078B4')%>%
+                    stackgroup  = 'one', fillcolor = '#0078B4') %>%
       add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
                 fillcolor = '#A78D7B') %>%
       layout(title = 'commits total on ixplorer',
