@@ -21,37 +21,52 @@ repository_UI <- function(id) {
 repository <- function(input, output, session,
                          repo_name, project_name) {
 
-  # Incidentes abiertos
+  # Incidentes abiertos OPEN --------------------------
   open_issues <- gitear::get_issues_open_state(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     owner = project_name,
-    repo = repo_name) %>%
-    jsonlite::flatten()
+    repo = repo_name)
 
-  # open_issues <- jsonlite::flatten(open_issues)
-  etiquetas_abiertas <- open_issues$labels
-  etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
-  open_issues <- data.frame(etiquetas_abiertas,  open_issues)
-  # Aqui hay que implementar el loop anterior que frans habia hecho
-  open_issues_labels <- open_issues %>%
-    select(name, state, created_at, updated_at)
+  if (nrow(open_issues) == 0){
+  }  else {
+    open_issues <- jsonlite::flatten(open_issues)
+    # Aplastar labels
+    etiquetas_abiertas <- open_issues$labels
+    etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
 
-  # Incidentes cerrados
+    # Unir a todo el conjunto de datos
+    open_issues <- data.frame(etiquetas_abiertas,  open_issues)
+
+    # Seleccion columnas  necesarias OPEN_issues
+    open_issues_labels <- open_issues %>%
+      select(name, state, created_at, updated_at)
+  }
+
+  # Incidentes cerrados CLOSED --------------------------
   closed_issues <- gitear::get_issues_closed_state(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     owner = project_name,
     repo = repo_name)
 
-  closed_issues <- jsonlite::flatten(closed_issues)
-  etiquetas_cerradas <- closed_issues$labels
-  etiquetas_cerradas <- do.call(rbind.data.frame, etiquetas_cerradas)
-  closed_issues <- data.frame(etiquetas_cerradas,  closed_issues)
-  closed_issues_labels <- closed_issues %>%
-    select(name, state, created_at, updated_at)
+  if (nrow(open_issues) == 0){
+  }  else {
+    closed_issues <- jsonlite::flatten(closed_issues)
 
-  # Union de incidentes cerrados/abiertos con etiquetas
+    # Aplastar labels
+    etiquetas_cerradas <- closed_issues$labels
+    etiquetas_cerradas <- do.call(rbind.data.frame, etiquetas_cerradas)
+
+    # Unir labels a todo el conjunto de datos
+    closed_issues <- data.frame(etiquetas_cerradas,  closed_issues)
+
+    # Seleccion columnas  necesarias CLOSED_issues
+    closed_issues_labels <- closed_issues %>%
+      select(name, state, created_at, updated_at)
+  }
+
+  # Union de incidentes cerrados/abiertos con etiquetas -----------------------
   # y formato de fechas:
   int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
   incidentes <- rbind(closed_issues_labels, open_issues_labels) %>%
@@ -61,7 +76,7 @@ repository <- function(input, output, session,
   incidentes <- incidentes %>%
     mutate(state = ifelse(created_at %within% int, "last", incidentes$state))
 
-  # Seleccion open issues para cummmulative flow chart
+  # Seleccion open issues para cummmulative flow chart ------------------------
   open_issues_assignee <- open_issues %>%
     select(state, created_at, updated_at, assignee.username) %>%
     mutate(category = ifelse(is.na(open_issues$assignee.username),
