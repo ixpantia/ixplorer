@@ -10,12 +10,13 @@ project_UI <- function(id) {
 }
 
 project <- function(input, output, session,
-                    project_data = "No Projects") {
+                    project_name) {
+
   # Traigo nombres de repositorios existentes
   repos <- gitear::get_list_repos_org(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
-    org = Sys.getenv("IXPROJECT"))
+    org = project_name)
 
   # Loop traer todos los datos de open_issues de los repositorios existentes
   open_repos_list <- list()
@@ -23,12 +24,14 @@ project <- function(input, output, session,
       open_repos_list[[name_repo]] <- gitear::get_issues_open_state(
       base_url = Sys.getenv("IXURL"),
       api_key = Sys.getenv("IXTOKEN"),
-      owner = Sys.getenv("IXPROJECT"),
+      owner = project_name,
       repo = name_repo) %>%
         jsonlite::flatten()
   }
 
   # Convertir OPEN_issues de todos los repos en tidydata
+  # Si un repositorio tiene alguien asignado y los demas no,
+  # el rbind no va a funcionar por diferencia de columnas
   open_issues <- do.call(rbind.data.frame, open_repos_list) %>%
     tibble::rownames_to_column() %>%
     tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
@@ -44,7 +47,7 @@ project <- function(input, output, session,
     closed_repos_list[[name_repo]] <- gitear::get_issues_closed_state(
       base_url = Sys.getenv("IXURL"),
       api_key = Sys.getenv("IXTOKEN"),
-      owner = Sys.getenv("IXPROJECT"),
+      owner = project_name,
       repo = name_repo) %>%
       jsonlite::flatten()
   }
@@ -60,7 +63,6 @@ project <- function(input, output, session,
   if ("assignee.username" %notin% names(closed_issues)) {
     closed_issues$assignee.username <- NA
   }
-
 
   # Unir OPEN_issues con CLOSED_issues
   repositories <- rbind(open_issues, closed_issues)

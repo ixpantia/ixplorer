@@ -13,7 +13,7 @@ server <- function(input, output, session) {
 
   for (proyecto in proyectos) {
     lapply(proyectos, function(proyecto) {
-      callModule(project, proyecto, project_data = mtcars[, 1:2])
+      callModule(project, proyecto, project_name = proyecto)
     })
   }
 
@@ -29,7 +29,7 @@ server <- function(input, output, session) {
   # Repositories --------------------------------------------------------------
   for (proyecto in proyectos) {
     lapply(lista_proyectos[proyecto][[1]], function(repo) {
-      callModule(repository, repo, repo_data = mtcars[3:5])
+      callModule(repository, repo, repo_name = repo, project_name = proyecto)
     })
   }
 

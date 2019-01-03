@@ -68,6 +68,8 @@ ix_issues <- function() {
     output$my_issues <- function() {
       if (issues == "no access data") {
         issues_kable <- "No access data. Use authentication gadget"
+      } else if (nrow(issues) == 0) {
+        issues_kable <- "No issues found in repository"
       } else {
         # Select issues by user and issues link creation
         issues <- issues %>%
