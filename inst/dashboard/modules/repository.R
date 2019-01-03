@@ -129,6 +129,48 @@ repository <- function(input, output, session,
   # Asignados completos:
   if (nrow(open_issues) == 0 & nrow(closed_issues) == 0) {
     cum_flow_chart_data <- data_frame("date" = lubridate::today())
+  } else if (nrow(closed_issues) == 0) {
+    asignados <- open_issues_assignee %>%
+      mutate(created_at = lubridate::ymd_hms(created_at)) %>%
+      mutate(updated_at = lubridate::ymd_hms(updated_at))
+
+    # Para este cummulative flow chart necesito darle vuelta a los datos
+    # agrupados por fecha y cada una de las variables
+    cum_flow_chart_data <- asignados %>%
+      group_by(lubridate::date(created_at), category) %>%
+      summarise(
+        total = n()
+      ) %>%
+      rename(
+        date = `lubridate::date(created_at)`
+      )
+
+    # Ahora toca darle vuelta:
+    cum_flow_chart_data <- tidyr::spread(data = cum_flow_chart_data,
+                                         key = category, value = total)
+    # replace_na
+    cum_flow_chart_data[is.na(cum_flow_chart_data)] <- 0
+  } else if (nrow(open_issues) == 0) {
+    asignados <- closed_issues_assignee %>%
+      mutate(created_at = lubridate::ymd_hms(created_at)) %>%
+      mutate(updated_at = lubridate::ymd_hms(updated_at))
+
+    # Para este cummulative flow chart necesito darle vuelta a los datos
+    # agrupados por fecha y cada una de las variables
+    cum_flow_chart_data <- asignados %>%
+      group_by(lubridate::date(created_at), category) %>%
+      summarise(
+        total = n()
+      ) %>%
+      rename(
+        date = `lubridate::date(created_at)`
+      )
+
+    # Ahora toca darle vuelta:
+    cum_flow_chart_data <- tidyr::spread(data = cum_flow_chart_data,
+                                         key = category, value = total)
+    # replace_na
+    cum_flow_chart_data[is.na(cum_flow_chart_data)] <- 0
   } else {
     asignados <- rbind(open_issues_assignee, closed_issues_assignee) %>%
       mutate(created_at = lubridate::ymd_hms(created_at)) %>%
