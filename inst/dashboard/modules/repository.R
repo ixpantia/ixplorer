@@ -33,7 +33,14 @@ repository <- function(input, output, session,
     open_issues <- jsonlite::flatten(open_issues)
     # Aplastar labels
     etiquetas_abiertas <- open_issues$labels
+
+    # for (i in (etiquetas_abiertas)) {
+    #   print(nrow(etiquetas_abiertas[[]]))
+    # }
+
     etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
+
+    # aqui con varias etiquetas va bien
 
     # Unir a todo el conjunto de datos
     open_issues <- data.frame(etiquetas_abiertas,  open_issues)
