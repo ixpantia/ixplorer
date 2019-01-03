@@ -7,10 +7,7 @@ server <- function(input, output, session) {
   working_directory <- getwd()
   print(working_directory)
   lista_proyectos <- get_data()
-  # lista_proyectos <- list()
-  # lista_proyectos$paramo <- c("cerro_vueltas", "cerro_muerte")
   proyectos <- get_projects(lista_proyectos)
-
 
   # Projects ------------------------------------------------------------------
 
@@ -32,7 +29,9 @@ server <- function(input, output, session) {
   # Repositories --------------------------------------------------------------
   for (proyecto in proyectos) {
     lapply(lista_proyectos[proyecto][[1]], function(repo) {
-      callModule(repository, repo, repo_data = mtcars[3:5])
+      # print(proyecto)
+      # print(repo)
+      callModule(repository, repo, repo_name = repo)
     })
   }
 

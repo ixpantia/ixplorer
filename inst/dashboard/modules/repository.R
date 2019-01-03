@@ -14,35 +14,33 @@ repository_UI <- function(id) {
       # column(6, plotlyOutput(ns("plot3"))),
       column(6, plotlyOutput(ns("plot4")))
     )
-
   )
-
 
 }
 
 repository <- function(input, output, session,
-                         repo_data = "No Repositories") {
-
+                         repo_name) {
   # Incidentes abiertos
   open_issues <- gitear::get_issues_open_state(
-    base_url = "https://gitear.ixpantia.com/",
-    api_key = "47c0be813944aaa0132d77a8110d48e9d3a644af",
-    owner = "ixplorer",
-    repo = "sitio_pruebas")
+    base_url = Sys.getenv("IXURL"),
+    api_key = Sys.getenv("IXTOKEN"),
+    owner = Sys.getenv("IXPROJECT"),
+    repo = repo_name)
 
   open_issues <- jsonlite::flatten(open_issues)
   etiquetas_abiertas <- open_issues$labels
   etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
   open_issues <- data.frame(etiquetas_abiertas,  open_issues)
+  # Aqui hay que implementar el loop anterior que frans habia hecho
   open_issues_labels <- open_issues %>%
     select(name, state, created_at, updated_at)
 
   # Incidentes cerrados
   closed_issues <- gitear::get_issues_closed_state(
-    base_url = "https://gitear.ixpantia.com/",
-    api_key = "47c0be813944aaa0132d77a8110d48e9d3a644af",
-    owner = "ixplorer",
-    repo = "sitio_pruebas")
+    base_url = Sys.getenv("IXURL"),
+    api_key = Sys.getenv("IXTOKEN"),
+    owner = Sys.getenv("IXPROJECT"),
+    repo = repo_name)
 
   closed_issues <- jsonlite::flatten(closed_issues)
   etiquetas_cerradas <- closed_issues$labels
@@ -95,12 +93,31 @@ repository <- function(input, output, session,
   # replace_na
   cum_flow_chart_data[is.na(cum_flow_chart_data)] <- 0
 
+  # Condicionales columnas que no xisten con ceros
+  if ("open_assigned"  %notin% names(cum_flow_chart_data)) {
+    cum_flow_chart_data$open_assigned <- 0
+  }
+
+  if ("open_unassigned" %notin% names(cum_flow_chart_data)) {
+    cum_flow_chart_data$open_unassigned <- 0
+  }
+
+  if ("closed_assigned" %notin% names(cum_flow_chart_data)) {
+    cum_flow_chart_data$closed_assigned <- 0
+  }
+
+  if ("closed_unassigned" %notin% names(cum_flow_chart_data)) {
+    cum_flow_chart_data$closed_unassigned <- 0
+  }
+
+  # Suma acumulativa para cada una de las columnas:
   cum_flow_chart_data <- cum_flow_chart_data %>%
     ungroup() %>%
     mutate(open_assigned = cumsum(open_assigned)) %>%
     mutate(open_unassigned = cumsum(open_unassigned)) %>%
     mutate(closed_assigned = cumsum(closed_assigned)) %>%
     mutate(closed_unassigned = cumsum(closed_unassigned))
+
 
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
 

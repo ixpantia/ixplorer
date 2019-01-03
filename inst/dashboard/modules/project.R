@@ -62,7 +62,6 @@ project <- function(input, output, session,
     closed_issues$assignee.username <- NA
   }
 
-
   # Unir OPEN_issues con CLOSED_issues
   repositories <- rbind(open_issues, closed_issues)
 
