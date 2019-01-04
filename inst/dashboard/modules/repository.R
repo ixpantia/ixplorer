@@ -74,7 +74,7 @@ repository <- function(input, output, session,
     }
 
     # Unir labels a todo el conjunto de datos
-    closed_issues <- data.frame(etiquetas_cerradas,  closed_issues)
+    closed_issues <- data.frame(etiquetas,  closed_issues)
 
     # Seleccion columnas  necesarias CLOSED_issues
     closed_issues_labels <- closed_issues %>%
