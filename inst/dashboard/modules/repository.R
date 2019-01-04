@@ -34,9 +34,14 @@ repository <- function(input, output, session,
     # Aplastar labels
     etiquetas_abiertas <- open_issues$labels
 
-    # for (i in (etiquetas_abiertas)) {
-    #   print(nrow(etiquetas_abiertas[[]]))
-    # }
+    for (i in (etiquetas_abiertas)) {
+      print(nrow(i))
+      if (nrow(i) > 1) {
+        print("funciona")
+      } else {
+        print("esta bien")
+      }
+    }
 
     etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
 
