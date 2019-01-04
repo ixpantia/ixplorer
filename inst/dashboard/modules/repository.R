@@ -37,7 +37,7 @@ repository <- function(input, output, session,
     etiquetas <- data.frame(name = character(0),
                             stringsAsFactors = FALSE)
 
-    # Loop para elegir primera etiqueta
+    # Loop para elegir primera etiqueta OPEN issues
     for (i in seq_along(open_issues$labels)) {
       # TODO: #80
       etiqueta <- open_issues$labels[[i]]$name[1]
@@ -66,7 +66,7 @@ repository <- function(input, output, session,
     etiquetas <- data.frame(name = character(0),
                             stringsAsFactors = FALSE)
 
-    # Loop para elegir primera etiqueta
+    # Loop para elegir primera etiqueta de CLOSED issues
     for (i in seq_along(closed_issues$labels)) {
       # TODO: #80
       etiqueta <- closed_issues$labels[[i]]$name[1]
