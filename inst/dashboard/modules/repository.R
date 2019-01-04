@@ -34,9 +34,9 @@ repository <- function(input, output, session,
     # Aplastar labels
     etiquetas_abiertas <- open_issues$labels
 
-    for (i in (open_issues$labels)) {
+    for (i in seq_along(open_issues$labels)) {
       # TODO: #80
-      print(i)
+      # print(i)
       etiquetas_abiertas <- open_issues$labels[[i]]$name[1]
     }
 
