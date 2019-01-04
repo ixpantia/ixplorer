@@ -34,6 +34,12 @@ repository <- function(input, output, session,
     # Aplastar labels
     etiquetas_abiertas <- open_issues$labels
 
+    for (i in (open_issues$labels)) {
+      # TODO: #80
+      print(i)
+      etiquetas_abiertas <- open_issues$labels[[i]]$name[1]
+    }
+
     etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
 
     # aqui con varias etiquetas va bien
