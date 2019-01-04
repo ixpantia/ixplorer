@@ -63,9 +63,15 @@ repository <- function(input, output, session,
   }  else {
     closed_issues <- jsonlite::flatten(closed_issues)
 
-    # Aplastar labels
-    etiquetas_cerradas <- closed_issues$labels
-    etiquetas_cerradas <- do.call(rbind.data.frame, etiquetas_cerradas)
+    etiquetas <- data.frame(name = character(0),
+                            stringsAsFactors = FALSE)
+
+    # Loop para elegir primera etiqueta
+    for (i in seq_along(closed_issues$labels)) {
+      # TODO: #80
+      etiqueta <- closed_issues$labels[[i]]$name[1]
+      etiquetas[i,1] <- etiqueta
+    }
 
     # Unir labels a todo el conjunto de datos
     closed_issues <- data.frame(etiquetas_cerradas,  closed_issues)
