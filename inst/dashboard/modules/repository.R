@@ -32,20 +32,20 @@ repository <- function(input, output, session,
   }  else {
     open_issues <- jsonlite::flatten(open_issues)
     # Aplastar labels
-    etiquetas_abiertas <- open_issues$labels
+    # etiquetas_abiertas <- open_issues$labels
 
+    etiquetas <- data.frame(name = character(0),
+                            stringsAsFactors = FALSE)
+
+    # Loop para elegir primera etiqueta
     for (i in seq_along(open_issues$labels)) {
       # TODO: #80
-      # print(i)
-      etiquetas_abiertas <- open_issues$labels[[i]]$name[1]
+      etiqueta <- open_issues$labels[[i]]$name[1]
+      etiquetas[i,1] <- etiqueta
     }
 
-    etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
-
-    # aqui con varias etiquetas va bien
-
     # Unir a todo el conjunto de datos
-    open_issues <- data.frame(etiquetas_abiertas,  open_issues)
+    open_issues <- data.frame(etiquetas,  open_issues)
 
     # Seleccion columnas  necesarias OPEN_issues
     open_issues_labels <- open_issues %>%
