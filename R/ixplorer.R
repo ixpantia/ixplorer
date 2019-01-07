@@ -37,14 +37,14 @@ ix_issues <- function() {
 
     access_file <- verify_ixplorer_file()
 
-    msg <- if(access_file == "no access data"){
+    msg <- if (access_file == "no access data") {
       print(access_file)
     } else {
       set_authentication(access_data = access_file)
     }
 
     output$warning <- renderText({
-      msg <- if(access_file == "no access data"){
+      msg <- if (access_file == "no access data") {
         print(access_file)
       } else {
         set_authentication(access_data = access_file)
@@ -53,20 +53,24 @@ ix_issues <- function() {
     })
 
     # Get issues and configurate credentials
-    issues <- if(is.logical(msg) != TRUE){
+    issues <- if (is.logical(msg) != TRUE) {
       print("no access data")
-    } else {
-      issues <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
+    } else{
+      issues <- try(gitear::get_issues_open_state(base_url = "https://gitear.ixpantia.com/",
                                               api_key = Sys.getenv("IXTOKEN"),
                                               owner = Sys.getenv("IXPROJECT"),
-                                              repo = Sys.getenv("IXREPO"))
-      ixplorer_user = Sys.getenv("IXUSER")
-      # Untie table
-      issues <- jsonlite::flatten(issues)
+                                              repo = Sys.getenv("IXREPO")))
+      if (class(issues) == "try-error") {
+        print("Invalid credentials")
+      } else {
+        ixplorer_user = Sys.getenv("IXUSER")
+        # Untie table
+        issues <- jsonlite::flatten(issues)
+      }
     }
 
     output$my_issues <- function() {
-      if (issues == "no access data") {
+      if (issues == "no access data" | issues == "Invalid credentials") {
         issues_kable <- "No access data. Use authentication gadget"
       } else if (nrow(issues) == 0) {
         issues_kable <- "No issues found in repository"
@@ -104,7 +108,7 @@ ix_issues <- function() {
     }
 
     output$team_issues <- function(){
-      if (issues == "no access data") {
+      if (issues == "no access data" | issues == "Invalid credentials") {
         issues_kable <- "No access data. Use authentication gadget"
       } else {
         # Select issues by open status
