@@ -32,11 +32,21 @@ repository <- function(input, output, session,
   }  else {
     open_issues <- jsonlite::flatten(open_issues)
     # Aplastar labels
-    etiquetas_abiertas <- open_issues$labels
-    etiquetas_abiertas <- do.call(rbind.data.frame, etiquetas_abiertas)
+    # etiquetas_abiertas <- open_issues$labels
+
+    etiquetas <- data.frame(name = character(0),
+                            stringsAsFactors = FALSE)
+
+    # Loop para elegir primera etiqueta OPEN issues
+    for (i in seq_along(open_issues$labels)) {
+      # TODO: #80
+      etiqueta <- open_issues$labels[[i]]$name[1]
+      if (is.null(etiqueta)) { etiqueta <- "Not labeled" }
+      etiquetas[i,1] <- etiqueta
+    }
 
     # Unir a todo el conjunto de datos
-    open_issues <- data.frame(etiquetas_abiertas,  open_issues)
+    open_issues <- data.frame(etiquetas,  open_issues)
 
     # Seleccion columnas  necesarias OPEN_issues
     open_issues_labels <- open_issues %>%
@@ -54,12 +64,19 @@ repository <- function(input, output, session,
   }  else {
     closed_issues <- jsonlite::flatten(closed_issues)
 
-    # Aplastar labels
-    etiquetas_cerradas <- closed_issues$labels
-    etiquetas_cerradas <- do.call(rbind.data.frame, etiquetas_cerradas)
+    etiquetas <- data.frame(name = character(0),
+                            stringsAsFactors = FALSE)
+
+    # Loop para elegir primera etiqueta de CLOSED issues
+    for (i in seq_along(closed_issues$labels)) {
+      # TODO: #80
+      etiqueta <- closed_issues$labels[[i]]$name[1]
+      if (is.null(etiqueta)) { etiqueta <- "Not labeled" }
+      etiquetas[i,1] <- etiqueta
+    }
 
     # Unir labels a todo el conjunto de datos
-    closed_issues <- data.frame(etiquetas_cerradas,  closed_issues)
+    closed_issues <- data.frame(etiquetas,  closed_issues)
 
     # Seleccion columnas  necesarias CLOSED_issues
     closed_issues_labels <- closed_issues %>%
