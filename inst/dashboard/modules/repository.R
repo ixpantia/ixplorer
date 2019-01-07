@@ -2,8 +2,8 @@ repository_UI <- function(id) {
   ns <- NS(id)
   fluidPage(
     fluidRow(
-      column(6, plotlyOutput(ns("plot_bar_issues"))),
-      column(6, plotlyOutput(ns("plot_cumflow_issues")))
+      column(6, plotlyOutput(ns("plot_bar_tickets"))),
+      column(6, plotlyOutput(ns("plot_cumflow_tickets")))
     ),
 
     fluidRow(
@@ -22,90 +22,90 @@ repository <- function(input, output, session,
                          repo_name, project_name) {
 
   # Incidentes abiertos OPEN --------------------------
-  open_issues <- gitear::get_issues_open_state(
+  open_tickets <- gitear::get_issues_open_state(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     owner = project_name,
     repo = repo_name)
 
-  if (nrow(open_issues) == 0) {
+  if (nrow(open_tickets) == 0) {
   }  else {
-    open_issues <- jsonlite::flatten(open_issues)
+    open_tickets <- jsonlite::flatten(open_tickets)
     # Aplastar labels
-    # etiquetas_abiertas <- open_issues$labels
+    # etiquetas_abiertas <- open_tickets$labels
 
     etiquetas <- data.frame(name = character(0),
                             stringsAsFactors = FALSE)
 
-    # Loop para elegir primera etiqueta OPEN issues
-    for (i in seq_along(open_issues$labels)) {
+    # Loop para elegir primera etiqueta OPEN tickets
+    for (i in seq_along(open_tickets$labels)) {
       # TODO: #80
-      etiqueta <- open_issues$labels[[i]]$name[1]
+      etiqueta <- open_tickets$labels[[i]]$name[1]
       if (is.null(etiqueta)) { etiqueta <- "Not labeled" }
       etiquetas[i,1] <- etiqueta
     }
 
     # Unir a todo el conjunto de datos
-    open_issues <- data.frame(etiquetas,  open_issues)
+    open_tickets <- data.frame(etiquetas,  open_tickets)
 
-    # Seleccion columnas  necesarias OPEN_issues
-    open_issues_labels <- open_issues %>%
+    # Seleccion columnas  necesarias OPEN_tickets
+    open_tickets_labels <- open_tickets %>%
       select(name, state, created_at, updated_at)
   }
 
   # Incidentes cerrados CLOSED --------------------------
-  closed_issues <- gitear::get_issues_closed_state(
+  closed_tickets <- gitear::get_issues_closed_state(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     owner = project_name,
     repo = repo_name)
 
-  if (nrow(closed_issues) == 0) {
+  if (nrow(closed_tickets) == 0) {
   }  else {
-    closed_issues <- jsonlite::flatten(closed_issues)
+    closed_tickets <- jsonlite::flatten(closed_tickets)
 
     etiquetas <- data.frame(name = character(0),
                             stringsAsFactors = FALSE)
 
-    # Loop para elegir primera etiqueta de CLOSED issues
-    for (i in seq_along(closed_issues$labels)) {
+    # Loop para elegir primera etiqueta de CLOSED tickets
+    for (i in seq_along(closed_tickets$labels)) {
       # TODO: #80
-      etiqueta <- closed_issues$labels[[i]]$name[1]
+      etiqueta <- closed_tickets$labels[[i]]$name[1]
       if (is.null(etiqueta)) { etiqueta <- "Not labeled" }
       etiquetas[i,1] <- etiqueta
     }
 
     # Unir labels a todo el conjunto de datos
-    closed_issues <- data.frame(etiquetas,  closed_issues)
+    closed_tickets <- data.frame(etiquetas,  closed_tickets)
 
-    # Seleccion columnas  necesarias CLOSED_issues
-    closed_issues_labels <- closed_issues %>%
+    # Seleccion columnas  necesarias CLOSED_tickets
+    closed_tickets_labels <- closed_tickets %>%
       select(name, state, created_at, updated_at)
   }
 
   # Union de incidentes cerrados/abiertos con etiquetas -----------------------
   # y formato de fechas:
 
-  if (nrow(open_issues) == 0 & nrow(closed_issues) == 0) {
+  if (nrow(open_tickets) == 0 & nrow(closed_tickets) == 0) {
 
     # Hacer aqui un conjunto de datos con 0's con columna name e
     # incidentes
     incidentes <- data_frame("name" = NA, "incidentes" = NA,
                              "state" = NA)
-  } else if (nrow(closed_issues) == 0) {
+  } else if (nrow(closed_tickets) == 0) {
 
     int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
-    incidentes <- open_issues_labels %>%
+    incidentes <- open_tickets_labels %>%
       mutate(created_at = lubridate::ymd_hms(created_at)) %>%
       mutate(updated_at = lubridate::ymd_hms(updated_at))
 
     incidentes <- incidentes %>%
       mutate(state = ifelse(created_at %within% int, "last", incidentes$state))
-    } else if (nrow(open_issues) == 0) {
+    } else if (nrow(open_tickets) == 0) {
 
       int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
 
-      incidentes <- closed_issues_labels %>%
+      incidentes <- closed_tickets_labels %>%
         mutate(created_at = lubridate::ymd_hms(created_at)) %>%
         mutate(updated_at = lubridate::ymd_hms(updated_at))
 
@@ -114,7 +114,7 @@ repository <- function(input, output, session,
     } else {
     int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
 
-    incidentes <- rbind(closed_issues_labels, open_issues_labels) %>%
+    incidentes <- rbind(closed_tickets_labels, open_tickets_labels) %>%
       mutate(created_at = lubridate::ymd_hms(created_at)) %>%
       mutate(updated_at = lubridate::ymd_hms(updated_at))
 
@@ -123,31 +123,31 @@ repository <- function(input, output, session,
   }
 
 
-  # Seleccion open issues para cummmulative flow chart ------------------------
-  if (nrow(open_issues) == 0) {
-    print("There are no issues")
+  # Seleccion open tickets para cummmulative flow chart ------------------------
+  if (nrow(open_tickets) == 0) {
+    print("There are no tickets")
   } else {
-    open_issues_assignee <- open_issues %>%
+    open_tickets_assignee <- open_tickets %>%
       select(state, created_at, updated_at, assignee.username) %>%
-      mutate(category = ifelse(is.na(open_issues$assignee.username),
+      mutate(category = ifelse(is.na(open_tickets$assignee.username),
                                "open_unassigned", "open_assigned"))
   }
 
-  #  Seleccion closed issues para cummulative flow chart
-  if (nrow(closed_issues) == 0) {
-    print("There are no issues")
+  #  Seleccion closed tickets para cummulative flow chart
+  if (nrow(closed_tickets) == 0) {
+    print("There are no tickets")
   } else {
-    closed_issues_assignee <- closed_issues %>%
+    closed_tickets_assignee <- closed_tickets %>%
       select(state, created_at, updated_at, assignee.username) %>%
-      mutate(category = ifelse(is.na(closed_issues$assignee.username),
+      mutate(category = ifelse(is.na(closed_tickets$assignee.username),
                                "closed_unassigned", "closed_assigned"))
     }
 
   # Asignados completos:
-  if (nrow(open_issues) == 0 & nrow(closed_issues) == 0) {
+  if (nrow(open_tickets) == 0 & nrow(closed_tickets) == 0) {
     cum_flow_chart_data <- data_frame("date" = lubridate::today())
-  } else if (nrow(closed_issues) == 0) {
-    asignados <- open_issues_assignee %>%
+  } else if (nrow(closed_tickets) == 0) {
+    asignados <- open_tickets_assignee %>%
       mutate(created_at = lubridate::ymd_hms(created_at)) %>%
       mutate(updated_at = lubridate::ymd_hms(updated_at))
 
@@ -167,8 +167,8 @@ repository <- function(input, output, session,
                                          key = category, value = total)
     # replace_na
     cum_flow_chart_data[is.na(cum_flow_chart_data)] <- 0
-  } else if (nrow(open_issues) == 0) {
-    asignados <- closed_issues_assignee %>%
+  } else if (nrow(open_tickets) == 0) {
+    asignados <- closed_tickets_assignee %>%
       mutate(created_at = lubridate::ymd_hms(created_at)) %>%
       mutate(updated_at = lubridate::ymd_hms(updated_at))
 
@@ -189,7 +189,7 @@ repository <- function(input, output, session,
     # replace_na
     cum_flow_chart_data[is.na(cum_flow_chart_data)] <- 0
   } else {
-    asignados <- rbind(open_issues_assignee, closed_issues_assignee) %>%
+    asignados <- rbind(open_tickets_assignee, closed_tickets_assignee) %>%
       mutate(created_at = lubridate::ymd_hms(created_at)) %>%
       mutate(updated_at = lubridate::ymd_hms(updated_at))
 
@@ -239,7 +239,7 @@ repository <- function(input, output, session,
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
 
   # PLOTS ----------------------------------------------------------------------
-  output$plot_bar_issues <- renderPlotly({
+  output$plot_bar_tickets <- renderPlotly({
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
       add_histogram() %>%
       layout(barmode = "stack") %>%
@@ -247,7 +247,7 @@ repository <- function(input, output, session,
     return(p1)
   })
 
-  output$plot_cumflow_issues <- renderPlotly({
+  output$plot_cumflow_tickets <- renderPlotly({
     p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~closed_assigned,
                          name = "Closed assigned", type = 'scatter', mode = 'none',
                          stackgroup  = 'one', fillcolor = '#0078B4') %>%
@@ -257,9 +257,9 @@ repository <- function(input, output, session,
                 fillcolor = '#F8A212') %>%
       add_trace(y = ~open_unassigned, name = "Open unassigned",
                 fillcolor = '#2A2A2A') %>%
-      layout(title = 'Issues categories for ixplorer repo_pruebas',
+      layout(title = 'tickets categories for ixplorer repo_pruebas',
              xaxis = list(title = "", showgrid = FALSE),
-             yaxis = list(title = "Issues total",
+             yaxis = list(title = "tickets total",
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
     p

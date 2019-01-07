@@ -2,14 +2,14 @@
 #' @import miniUI
 NULL
 
-#' Create issue
+#' Create ticket
 #'
-#' Create issues (Title and body) from the ixplorer addin without loosing the
-#' ideas during your workflow. Issues will be in the repository that corresponds
+#' Create tickets (Title and body) from the ixplorer addin without loosing the
+#' ideas during your workflow. tickets will be in the repository that corresponds
 #' to the information youo give in the authenticate gadget.
 #'
 #' @export
-create_issues <- function() {
+create_tickets <- function() {
 
   ui <- miniPage(
     gadgetTitleBar("Create a new issue",
