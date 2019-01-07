@@ -37,7 +37,7 @@ The page of a project would like similar to this one:
 ## What is a repository?
 
 A repository can be viewed as a folder where you keep all your files. This files
-can be share with other team members and start to collaborate on differente issues.
+can be share with other team members and start to collaborate on differente tickets.
 
 ![](img/repo.png)
 
