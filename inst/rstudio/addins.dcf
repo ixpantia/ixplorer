@@ -4,7 +4,7 @@ Binding: add_token
 Interactive: false
 
 Name: Create ticket
-Description: Create an issue on ixplorer
+Description: Create a ticket on ixplorer
 Binding: create_tickets
 Interactive: false
 
