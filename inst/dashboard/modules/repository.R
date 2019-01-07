@@ -41,6 +41,7 @@ repository <- function(input, output, session,
     for (i in seq_along(open_issues$labels)) {
       # TODO: #80
       etiqueta <- open_issues$labels[[i]]$name[1]
+      if (is.null(etiqueta)) { etiqueta <- "Not labeled" }
       etiquetas[i,1] <- etiqueta
     }
 
@@ -70,6 +71,7 @@ repository <- function(input, output, session,
     for (i in seq_along(closed_issues$labels)) {
       # TODO: #80
       etiqueta <- closed_issues$labels[[i]]$name[1]
+      if (is.null(etiqueta)) { etiqueta <- "Not labeled" }
       etiquetas[i,1] <- etiqueta
     }
 
