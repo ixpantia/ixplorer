@@ -2,7 +2,9 @@ context("verificacion")
 
 # Como hago para que el archivo lo busque en testdata, o lo dejo en este wd?
 test_that("Finds file .ixplorer", {
-  file <- verify_ixplorer_file()
+  working_directory <- rstudioapi::getActiveProject()
+  ixplorer_file <- paste0(working_directory, "/.ixplorer")
+  file <- verify_ixplorer_file(ixplorer_file)
   expect_true(any(class(file) == "data.frame"))
 })
 

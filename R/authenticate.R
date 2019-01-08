@@ -5,7 +5,7 @@ NULL
 #' Authenticate to ixplorer
 #'
 #' Make the connection to your repository through the ixplorer gadget and be
-#' able to create issues, review issues without re-writing your credentials
+#' able to create tickets, review tickets without re-writing your credentials
 #'
 #' @export
 add_token <- function() {

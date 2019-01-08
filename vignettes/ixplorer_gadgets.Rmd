@@ -77,6 +77,23 @@ personal authentication data is going to be stored on that machine. Should you
 work on a shared or public computer, it it best to leave the **persist token**
 option without a checkmark.
 
+#### How the .ixplorer looks like?
+
+At the end of your authentication through yout authentication gadget, a 
+resulting ixplorer file with your credentials will look like this:
+
+IXTOKEN= 08864824783ec0b589101191f65e643e54c8ad76c
+IXURL= https://ixplorer_name.ixpantia.com/
+IXPROJECT= your_project_name
+IXREPO= your_repo_name
+IXUSER= your_user_name
+
+Every time you use the other gadgets, they are going to check this .ixplorer
+file and make this credentials part of your session environment variables.
+
+If you use the function `Sys.getenv()` you are going to be able to see this
+credentials with the IX names on it.
+
 ## Create ticket gadget
 
 At this point you should have all your authentication done. If that is correct

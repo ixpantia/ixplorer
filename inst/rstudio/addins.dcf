@@ -4,13 +4,13 @@ Binding: add_token
 Interactive: false
 
 Name: Create ticket
-Description: Create an issue on ixplorer
-Binding: create_issues
+Description: Create a ticket on ixplorer
+Binding: create_tickets
 Interactive: false
 
 Name: Current tickets
-Description: Get overview of current issues in this repository
-Binding: ix_issues
+Description: Get overview of current tickets in this repository
+Binding: ix_tickets
 Interactive: false
 
 Name: ixplorer Dashboard
