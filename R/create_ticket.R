@@ -12,7 +12,7 @@ NULL
 create_tickets <- function() {
 
   ui <- miniPage(
-    gadgetTitleBar("Create a new issue",
+    gadgetTitleBar("Create a new ticket",
                    left = miniTitleBarCancelButton(inputId = "cancel",
                                                    label = "Cancel",
                                                    primary = FALSE),
@@ -23,21 +23,21 @@ create_tickets <- function() {
     miniContentPanel(
       verbatimTextOutput("warning", placeholder = FALSE),
 
-      textInput(inputId = "issue_title",
-                label = "Issue title",
+      textInput(inputId = "ticket_title",
+                label = "ticket title",
                 width = "150%",
-                placeholder = "Brief description of your issue"),
+                placeholder = "Brief description of your ticket"),
 
-      textAreaInput(inputId = "issue_description",
+      textAreaInput(inputId = "ticket_description",
                     label = "Description",
                     width = "190%",
                     height = "100%",
                     resize = "vertical",
                     rows = 13,
-                    placeholder = "Describe the issue you have encountered")
+                    placeholder = "Describe the ticket you have encountered")
     ),
     miniButtonBlock(
-      actionButton(inputId = "create", label = "Create Issue")
+      actionButton(inputId = "create", label = "Create ticket")
     )
   )
 
@@ -60,8 +60,8 @@ create_tickets <- function() {
                            api_key = Sys.getenv("IXTOKEN"),
                            owner = Sys.getenv("IXPROJECT"),
                            repo = Sys.getenv("IXREPO"),
-                           title = input$issue_title,
-                           body =  input$issue_description)
+                           title = input$ticket_title,
+                           body =  input$ticket_description)
       stopApp(NULL)
     })
 
@@ -75,8 +75,8 @@ create_tickets <- function() {
                            api_key = Sys.getenv("IXTOKEN"),
                            owner = Sys.getenv("IXPROJECT"),
                            repo = Sys.getenv("IXREPO"),
-                           title = input$issue_title,
-                           body =  input$issue_description)
+                           title = input$ticket_title,
+                           body =  input$ticket_description)
       stopApp(NULL)
     })
   }
