@@ -81,7 +81,7 @@ ix_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
+          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/"))
 
         tickets <- rename(tickets, Title = title)
         tickets <- rename(tickets, Nr = number)
@@ -117,7 +117,7 @@ ix_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
+          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/"))
 
         tickets <- rename(tickets, Title = title)
         tickets <- rename(tickets, Nr = number)
