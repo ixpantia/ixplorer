@@ -67,7 +67,6 @@ ix_tickets <- function() {
     }
 
     output$my_tickets <- function() {
-      print(tickets)
       if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"
       } else {
