@@ -110,6 +110,7 @@ ix_tickets <- function() {
         # Select tickets by open status
         tickets <- tickets %>%
           select(assignee.login, number, title, due_date, url) %>%
+          filter(assignee.login != ixplorer_user) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
           select(-hour) %>%
           mutate(due_date = lubridate::ymd(due_date) - lubridate::today()) %>%
@@ -134,10 +135,6 @@ ix_tickets <- function() {
                                    bold = TRUE, background = rojos),
                          cell_spec(Due, color = "white",
                                    bold = TRUE, background = verdes)),
-            # User = cell_spec(User,
-            #              bold = ifelse(ixplorer_user == User, TRUE, FALSE),
-            #              color = ifelse(ixplorer_user  == User,
-            #                             "gray", "black")),
             Nr = text_spec(Nr, link = issue_url)) %>%
           select(-issue_url) %>%
           kable(escape = FALSE) %>%
