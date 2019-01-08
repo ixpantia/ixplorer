@@ -63,6 +63,7 @@ ix_tickets <- function() {
                                               repo = Sys.getenv("IXREPO"))
       ixplorer_user = Sys.getenv("IXUSER")
       # Untie table
+      #TODO  revisar porque es necesario este flatten
       tickets <- jsonlite::flatten(tickets)
     }
 
