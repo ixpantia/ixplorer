@@ -46,11 +46,10 @@ create_tickets <- function() {
     access_file <- verify_ixplorer_file()
 
     output$warning <- renderText({
-
-    msg <- if(access_file == "no access data"){
-        print(access_file)
+      msg <- if (access_file$empty == TRUE) {
+        "no credential file available"
       } else {
-        set_authentication(access_data = access_file)
+        set_authentication(access_data = access_file$gitear_access)
       }
       return(msg)
     })
@@ -59,7 +58,7 @@ create_tickets <- function() {
     observeEvent(input$done, {
       gitear::create_issue(base_url = Sys.getenv("IXURL"),
                            api_key = Sys.getenv("IXTOKEN"),
-                           project = Sys.getenv("IXPROJECT"),
+                           owner = Sys.getenv("IXPROJECT"),
                            repo = Sys.getenv("IXREPO"),
                            title = input$issue_title,
                            body =  input$issue_description)
