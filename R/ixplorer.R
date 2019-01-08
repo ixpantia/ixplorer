@@ -55,13 +55,17 @@ ix_tickets <- function() {
     tickets <- if (!is.null(msg)) {
       print("no access data")
     } else {
-      tickets <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
+      tickets <- try(gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
                                               api_key = Sys.getenv("IXTOKEN"),
                                               owner = Sys.getenv("IXPROJECT"),
-                                              repo = Sys.getenv("IXREPO"))
-      ixplorer_user = Sys.getenv("IXUSER")
-      # Untie table
-      tickets <- jsonlite::flatten(tickets)
+                                              repo = Sys.getenv("IXREPO")))
+      if (class(tickets) == "try-error") {
+        print("Invalid credentials")
+      } else {
+        ixplorer_user = Sys.getenv("IXUSER")
+        # Untie table
+        tickets <- jsonlite::flatten(tickets)
+      }
     }
 
     output$my_tickets <- function() {
