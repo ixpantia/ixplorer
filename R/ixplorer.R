@@ -53,7 +53,7 @@ ix_tickets <- function() {
     })
 
     # Get tickets and configurate credentials
-    tickets <- if(is.logical(msg) != TRUE){
+    tickets <- if (is.logical(msg) != TRUE) {
       print("no access data")
     } else {
       tickets <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
@@ -109,7 +109,7 @@ ix_tickets <- function() {
       } else {
         # Select tickets by open status
         tickets <- tickets %>%
-          select(user.login, number, title, due_date, url) %>%
+          select(assignee.login, number, title, due_date, url) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
           select(-hour) %>%
           mutate(due_date = lubridate::ymd(due_date) - lubridate::today()) %>%
@@ -122,7 +122,7 @@ ix_tickets <- function() {
         tickets <- rename(tickets, Title = title)
         tickets <- rename(tickets, Nr = number)
         tickets <- rename(tickets, Due = due_date)
-        tickets <- rename(tickets,  User = user.login)
+        tickets <- rename(tickets,  User = assignee.login)
 
         verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens")
         rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds")
@@ -134,10 +134,10 @@ ix_tickets <- function() {
                                    bold = TRUE, background = rojos),
                          cell_spec(Due, color = "white",
                                    bold = TRUE, background = verdes)),
-            User = cell_spec(User,
-                         bold = ifelse(ixplorer_user == User, TRUE, FALSE),
-                         color = ifelse(ixplorer_user  == User,
-                                        "gray", "black")),
+            # User = cell_spec(User,
+            #              bold = ifelse(ixplorer_user == User, TRUE, FALSE),
+            #              color = ifelse(ixplorer_user  == User,
+            #                             "gray", "black")),
             Nr = text_spec(Nr, link = issue_url)) %>%
           select(-issue_url) %>%
           kable(escape = FALSE) %>%
