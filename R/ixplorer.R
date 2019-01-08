@@ -37,23 +37,23 @@ ix_tickets <- function() {
 
     access_file <- verify_ixplorer_file()
 
-    msg <- if(access_file == "no access data"){
-      print(access_file)
+    msg <- if (access_file$empty == TRUE) {
+      "no credential file available"
     } else {
-      set_authentication(access_data = access_file)
+      ixplorer:::set_authentication(access_data = access_file$gitear_access)
     }
 
     output$warning <- renderText({
-      msg <- if(access_file == "no access data"){
-        print(access_file)
+      msg <- if (access_file$empty == TRUE) {
+        "no credential file available"
       } else {
-        set_authentication(access_data = access_file)
+        set_authentication(access_data = access_file$gitear_access)
       }
       return(msg)
     })
 
     # Get tickets and configurate credentials
-    tickets <- if(is.logical(msg) != TRUE){
+    tickets <- if (!is.null(msg)) {
       print("no access data")
     } else {
       tickets <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
