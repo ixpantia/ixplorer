@@ -11,10 +11,10 @@ library(gitear)
 
 access_file <- ixplorer:::verify_ixplorer_file()
 
-msg <- if(access_file == "no access data"){
-  print(access_file)
+msg <- if (access_file$empty == TRUE) {
+  "no credential file available"
 } else {
-  ixplorer:::set_authentication(access_data = access_file)
+  ixplorer:::set_authentication(access_data = access_file$gitear_access)
 }
 warning(msg)
 
