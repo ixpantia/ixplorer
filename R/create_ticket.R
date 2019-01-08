@@ -2,17 +2,17 @@
 #' @import miniUI
 NULL
 
-#' Create issue
+#' Create ticket
 #'
-#' Create issues (Title and body) from the ixplorer addin without loosing the
-#' ideas during your workflow. Issues will be in the repository that corresponds
+#' Create tickets (Title and body) from the ixplorer addin without loosing the
+#' ideas during your workflow. tickets will be in the repository that corresponds
 #' to the information youo give in the authenticate gadget.
 #'
 #' @export
-create_issues <- function() {
+create_tickets <- function() {
 
   ui <- miniPage(
-    gadgetTitleBar("Create a new issue",
+    gadgetTitleBar("Create a new ticket",
                    left = miniTitleBarCancelButton(inputId = "cancel",
                                                    label = "Cancel",
                                                    primary = FALSE),
@@ -23,21 +23,21 @@ create_issues <- function() {
     miniContentPanel(
       verbatimTextOutput("warning", placeholder = FALSE),
 
-      textInput(inputId = "issue_title",
-                label = "Issue title",
+      textInput(inputId = "ticket_title",
+                label = "ticket title",
                 width = "150%",
-                placeholder = "Brief description of your issue"),
+                placeholder = "Brief description of your ticket"),
 
-      textAreaInput(inputId = "issue_description",
+      textAreaInput(inputId = "ticket_description",
                     label = "Description",
                     width = "190%",
                     height = "100%",
                     resize = "vertical",
                     rows = 13,
-                    placeholder = "Describe the issue you have encountered")
+                    placeholder = "Describe the ticket you have encountered")
     ),
     miniButtonBlock(
-      actionButton(inputId = "create", label = "Create Issue")
+      actionButton(inputId = "create", label = "Create ticket")
     )
   )
 
@@ -46,11 +46,10 @@ create_issues <- function() {
     access_file <- verify_ixplorer_file()
 
     output$warning <- renderText({
-
-    msg <- if(access_file == "no access data"){
-        print(access_file)
+      msg <- if (access_file$empty == TRUE) {
+        "no credential file available"
       } else {
-        set_authentication(access_data = access_file)
+        set_authentication(access_data = access_file$gitear_access)
       }
       return(msg)
     })
@@ -59,10 +58,10 @@ create_issues <- function() {
     observeEvent(input$done, {
       gitear::create_issue(base_url = Sys.getenv("IXURL"),
                            api_key = Sys.getenv("IXTOKEN"),
-                           project = Sys.getenv("IXPROJECT"),
+                           owner = Sys.getenv("IXPROJECT"),
                            repo = Sys.getenv("IXREPO"),
-                           title = input$issue_title,
-                           body =  input$issue_description)
+                           title = input$ticket_title,
+                           body =  input$ticket_description)
       stopApp(NULL)
     })
 
@@ -76,8 +75,8 @@ create_issues <- function() {
                            api_key = Sys.getenv("IXTOKEN"),
                            owner = Sys.getenv("IXPROJECT"),
                            repo = Sys.getenv("IXREPO"),
-                           title = input$issue_title,
-                           body =  input$issue_description)
+                           title = input$ticket_title,
+                           body =  input$ticket_description)
       stopApp(NULL)
     })
   }

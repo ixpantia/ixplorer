@@ -6,23 +6,23 @@ NULL
 
 #' ixplorer reports
 #'
-#' Visualize the issues of an specific user, a team and get the quick links to
+#' Visualize the tickets of an specific user, a team and get the quick links to
 #' your ixplorer based on the credentials used in gadget authenticate.
 #'
 #' @export
-ix_issues <- function() {
+ix_tickets <- function() {
   ui <- miniPage(
     gadgetTitleBar("ixplorer Reports"),
     verbatimTextOutput("warning", placeholder = FALSE),
     miniTabstripPanel(
-      miniTabPanel("My issues", icon = icon("user"),
+      miniTabPanel("My tickets", icon = icon("user"),
                    miniContentPanel(
-                     tableOutput("my_issues")
+                     tableOutput("my_tickets")
                    )
       ),
-      miniTabPanel("Team issues", icon = icon("users"),
+      miniTabPanel("Team tickets", icon = icon("users"),
                    miniContentPanel(
-                     tableOutput("team_issues")
+                     tableOutput("team_tickets")
                    )
       ),
       miniTabPanel("Quick links", icon = icon("link"),
@@ -36,47 +36,42 @@ ix_issues <- function() {
   server <- function(input, output, session){
 
     access_file <- verify_ixplorer_file()
-
-    msg <- if (access_file == "no access data") {
-      print(access_file)
+    msg <- if (access_file$empty == TRUE) {
+      "no credential file available"
     } else {
-      set_authentication(access_data = access_file)
+      ixplorer:::set_authentication(access_data = access_file$gitear_access)
     }
 
     output$warning <- renderText({
-      msg <- if (access_file == "no access data") {
-        print(access_file)
+      msg <- if (access_file$empty == TRUE) {
+        "no credential file available"
       } else {
-        set_authentication(access_data = access_file)
+        set_authentication(access_data = access_file$gitear_access)
       }
       return(msg)
     })
 
-    # Get issues and configurate credentials
-    issues <- if (is.logical(msg) != TRUE) {
+    # Get tickets and configurate credentials
+    tickets <- if (!is.null(msg)) {
       print("no access data")
-    } else{
-      issues <- try(gitear::get_issues_open_state(base_url = "https://gitear.ixpantia.com/",
+    } else {
+      tickets <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
                                               api_key = Sys.getenv("IXTOKEN"),
                                               owner = Sys.getenv("IXPROJECT"),
-                                              repo = Sys.getenv("IXREPO")))
-      if (class(issues) == "try-error") {
-        print("Invalid credentials")
-      } else {
-        ixplorer_user = Sys.getenv("IXUSER")
-        # Untie table
-        issues <- jsonlite::flatten(issues)
-      }
+                                              repo = Sys.getenv("IXREPO"))
+      ixplorer_user = Sys.getenv("IXUSER")
+      # Untie table
+      tickets <- jsonlite::flatten(tickets)
     }
 
-    output$my_issues <- function() {
-      if (issues == "no access data" | issues == "Invalid credentials") {
-        issues_kable <- "No access data. Use authentication gadget"
-      } else if (nrow(issues) == 0) {
-        issues_kable <- "No issues found in repository"
+    output$my_tickets <- function() {
+      if (tickets == "no access data") {
+        tickets_kable <- "No access data. Use authentication gadget"
+      } else if (nrow(tickets) == 0) {
+        tickets_kable <- "No tickets found in repository"
       } else {
-        # Select issues by user and issues link creation
-        issues <- issues %>%
+        # Select tickets by user and tickets link creation
+        tickets <- tickets %>%
           filter(assignee.login == ixplorer_user) %>%
           select(number, title, due_date, url) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
@@ -85,16 +80,16 @@ ix_issues <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
+          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/"))
 
-        issues <- rename(issues, Title = title)
-        issues <- rename(issues, Nr = number)
-        issues <- rename(issues, Due = due_date)
+        tickets <- rename(tickets, Title = title)
+        tickets <- rename(tickets, Nr = number)
+        tickets <- rename(tickets, Due = due_date)
 
-        verdes <- RColorBrewer::brewer.pal(nrow(issues), "Greens")
-        rojos <- RColorBrewer::brewer.pal(nrow(issues), "Reds")
+        verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens")
+        rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds")
 
-        issues_kable <- issues %>%
+        tickets_kable <- tickets %>%
           mutate(Due = ifelse(Due < 0, cell_spec(Due, color = "white",
                                                  bold = TRUE, background = rojos),
                               cell_spec(Due, color = "white",
@@ -104,15 +99,15 @@ ix_issues <- function() {
           kable(escape = FALSE) %>%
           kable_styling("striped", "condensed")
       }
-      return(issues_kable)
+      return(tickets_kable)
     }
 
-    output$team_issues <- function(){
-      if (issues == "no access data" | issues == "Invalid credentials") {
-        issues_kable <- "No access data. Use authentication gadget"
+    output$team_tickets <- function(){
+      if (tickets == "no access data") {
+        tickets_kable <- "No access data. Use authentication gadget"
       } else {
-        # Select issues by open status
-        issues <- issues %>%
+        # Select tickets by open status
+        tickets <- tickets %>%
           select(user.login, number, title, due_date, url) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
           select(-hour) %>%
@@ -121,17 +116,17 @@ ix_issues <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = ""))
+          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/"))
 
-        issues <- rename(issues, Title = title)
-        issues <- rename(issues, Nr = number)
-        issues <- rename(issues, Due = due_date)
-        issues <- rename(issues,  User = user.login)
+        tickets <- rename(tickets, Title = title)
+        tickets <- rename(tickets, Nr = number)
+        tickets <- rename(tickets, Due = due_date)
+        tickets <- rename(tickets,  User = user.login)
 
-        verdes <- RColorBrewer::brewer.pal(nrow(issues), "Greens")
-        rojos <- RColorBrewer::brewer.pal(nrow(issues), "Reds")
+        verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens")
+        rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds")
 
-        issues_kable <- issues %>%
+        tickets_kable <- tickets %>%
           mutate(
             Due = ifelse(Due < 0,
                          cell_spec(Due, color = "white",
@@ -147,16 +142,16 @@ ix_issues <- function() {
           kable(escape = FALSE) %>%
           kable_styling("striped", "condensed")
       }
-      return(issues_kable)
+      return(tickets_kable)
 
     }
 
     output$quick_links <- function(){
-      # Get closed issues link
-      close_issues_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
+      # Get closed tickets link
+      close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
       ixurl <- sub("/$", "", Sys.getenv("IXURL"))
-      close_issues_url <- paste(ixurl, Sys.getenv("IXPROJECT"), Sys.getenv("IXREPO"),
-            close_issues_url, sep = "/")
+      close_tickets_url <- paste(ixurl, Sys.getenv("IXPROJECT"), Sys.getenv("IXREPO"),
+            close_tickets_url, sep = "/")
 
       # Get milestones link
       milestones_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
@@ -170,8 +165,8 @@ ix_issues <- function() {
       project_url <- paste(ixurl, Sys.getenv("IXPROJECT"), sep = "/")
 
       # Final table
-      links <- c(close_issues_url, milestones_url, wiki_url, project_url)
-      URL <- c("Clossed issues", "Milestones", "Wiki", "Project")
+      links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
+      URL <- c("Clossed tickets", "Milestones", "Wiki", "Project")
       quick_links <- data_frame(links, URL)
 
       # Table with kableExtra

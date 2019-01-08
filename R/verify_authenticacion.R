@@ -8,16 +8,27 @@ NULL
 #'
 #'
 verify_ixplorer_file <- function(){
+  api_creds <- list()
   working_directory <- rstudioapi::getActiveProject()
   ixplorer_file <- paste0(working_directory, "/.ixplorer")
   # Leer ixplorer y poner condicionales -------------------------
-  if(file.exists(ixplorer_file)){
-    gitear_access <- readr::read_csv(ixplorer_file) %>%
-      tidyr::separate(col = V1, into = c("object", "value"), sep = " ")
+  if (file.exists(ixplorer_file)) {
+    readRenviron(ixplorer_file)
+    #gitear_access <- readr::read_csv(ixplorer_file) %>%
+
+    conn <- file(ixplorer_file, open = "r")
+    lines <- readLines(conn)
+    close(conn)
+
+    gitear_access <- as.data.frame(lines)
+    api_creds$empty <- FALSE
+    api_creds$gitear_access <- tidyr::separate(gitear_access, lines,
+                                     into = c("variable", "value"), sep = "=")
+
   } else {
-    gitear_access <- "no access data"
+    api_creds$empty <- TRUE
   }
-  return(gitear_access)
+  return(api_creds)
 }
 
 #' Verify  ixtoken
@@ -25,13 +36,8 @@ verify_ixplorer_file <- function(){
 #' Verify if there is a token to your ixplorer repository
 #'
 verify_ixtoken <- function(gitear_access){
-
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXTOKEN") && FALSE %in% any(is.na(gitear_access[1,2]))) {
-    entry <- gitear_access %>%
-      filter(object == "IXTOKEN=") %>%
-      select(value)
-    Sys.setenv("IXTOKEN" = entry)
-  } else {
+  if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXTOKEN") &&
+        FALSE %in% any(is.na(gitear_access[1,2])))) {
     print("There is no ixplorer TOKEN, please use the Authentication gadget")
   }
 }
@@ -41,13 +47,9 @@ verify_ixtoken <- function(gitear_access){
 #' Verify if there is an URL to your ixplorer repository
 #'
 verify_ixurl <- function(gitear_access){
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXURL") && FALSE %in% any(is.na(gitear_access[2,2]))) {
-    entry <- gitear_access %>%
-      filter(object == "IXURL=") %>%
-      select(value)
-    Sys.setenv("IXURL" = entry)
-  } else {
-    print("There is no ixplorer URL, please use the Authentication gadget")
+  if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXURL") &&
+        FALSE %in% any(is.na(gitear_access[2,2])))) {
+        print("There is no ixplorer URL, please use the Authentication gadget")
   }
 }
 
@@ -57,13 +59,9 @@ verify_ixurl <- function(gitear_access){
 #' Verify if there is a project name where your ixplorer repository belongs.
 #'
 verify_ixproject <- function(gitear_access){
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXPROJECT") && FALSE %in% any(is.na(gitear_access[3,2]))) {
-    entry <- gitear_access %>%
-      filter(object == "IXPROJECT=") %>%
-      select(value)
-    Sys.setenv("IXPROJECT" = entry)
-  } else {
-    print("There is no ixplorer PROJECT name, please use the Authentication gadget")
+  if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXPROJECT") &&
+     FALSE %in% any(is.na(gitear_access[3,2])))) {
+        print("There is no ixplorer PROJECT name, please use the Authentication gadget")
   }
 }
 
@@ -73,12 +71,8 @@ verify_ixproject <- function(gitear_access){
 #' Verify if there is the name of your ixplorer repository
 #'
 verify_ixrepo <- function(gitear_access){
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXREPO") && FALSE %in% any(is.na(gitear_access[4,2]))){
-    entry <- gitear_access %>%
-      filter(object == "IXREPO=") %>%
-      select(value)
-    Sys.setenv("IXREPO" = entry)
-  } else {
+  if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXREPO") &&
+      FALSE %in% any(is.na(gitear_access[4,2])))) {
     print("There is no ixplorer REPOSITORY, please use the Authentication gadget")
   }
 }
@@ -89,13 +83,9 @@ verify_ixrepo <- function(gitear_access){
 #' Verify if there is an user name.
 #'
 verify_ixuser <- function(gitear_access) {
-  if(TRUE %in% stringr::str_detect(gitear_access$object, "IXUSER") && FALSE %in% any(is.na(gitear_access[5,2]))){
-    entry <- gitear_access %>%
-      filter(object == "IXUSER=") %>%
-      select(value)
-    Sys.setenv("IXUSER" = entry)
-  } else {
-    print("There is no ixplorer USER, please use the Authentication gadget")
+  if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXUSER") &&
+     FALSE %in% any(is.na(gitear_access[5,2])))) {
+       print("There is no ixplorer USER, please use the Authentication gadget")
   }
 }
 
@@ -111,6 +101,6 @@ set_authentication <- function(access_data) {
   ixrepo <- verify_ixrepo(access_data)
   ixuser <- verify_ixuser(access_data)
   msj <- c(ixurl, ixtoken, ixproject, ixrepo, ixuser)
-  print(msj[!msj == "TRUE"])
+  return(msj)
 }
 

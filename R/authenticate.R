@@ -5,7 +5,7 @@ NULL
 #' Authenticate to ixplorer
 #'
 #' Make the connection to your repository through the ixplorer gadget and be
-#' able to create issues, review issues without re-writing your credentials
+#' able to create tickets, review tickets without re-writing your credentials
 #'
 #' @export
 add_token <- function() {
@@ -65,17 +65,20 @@ add_token <- function() {
       Sys.setenv("IXREPO"  = input$ixplorer_repo_name)
       Sys.setenv("IXUSER"  = input$ixplorer_user_name)
 
-      token <- paste("IXTOKEN=", input$ixplorer_token, sep = " ")
-      url   <- paste("IXURL=", input$ixplorer_url, sep = " ")
-      project <- paste("IXPROJECT=", input$ixplorer_project_name, sep = " ")
-      repo  <- paste("IXREPO=", input$ixplorer_repo_name, sep = " ")
-      user  <- paste("IXUSER=", input$ixplorer_user_name, sep = " ")
+      token   <- paste0("IXTOKEN=", input$ixplorer_token)
+      url     <- paste0("IXURL=", input$ixplorer_url)
+      project <- paste0("IXPROJECT=", input$ixplorer_project_name)
+      repo    <- paste0("IXREPO=", input$ixplorer_repo_name)
+      user    <- paste0("IXUSER=", input$ixplorer_user_name)
 
-      access_data <- rbind(token, url, project, repo, user)
-      access_data <- as.data.frame(access_data)
+      access_data <- c(token, url, project, repo, user)
 
       if (input$token_persist == 1) {
-        readr::write_csv(access_data, col_names = TRUE, path = ".ixplorer")
+        working_directory <- rstudioapi::getActiveProject()
+        ixplorer_file <- paste0(working_directory, "/.ixplorer")
+        conn <- file(ixplorer_file, open = "w")
+        writeLines(access_data, con = conn, sep = "\n", useBytes = FALSE)
+        close(conn)
       }
       stopApp(NULL)
     })

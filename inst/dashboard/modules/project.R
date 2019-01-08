@@ -18,7 +18,7 @@ project <- function(input, output, session,
     api_key = Sys.getenv("IXTOKEN"),
     org = project_name)
 
-  # Loop traer todos los datos de open_issues de los repositorios existentes
+  # Loop traer todos los datos de open_tickets de los repositorios existentes
   open_repos_list <- list()
   for (name_repo in repos$name) {
       open_repos_list[[name_repo]] <- gitear::get_issues_open_state(
@@ -26,22 +26,23 @@ project <- function(input, output, session,
       api_key = Sys.getenv("IXTOKEN"),
       owner = project_name,
       repo = name_repo) %>%
-        jsonlite::flatten()
+        jsonlite::flatten(.)
   }
 
-  # Convertir OPEN_issues de todos los repos en tidydata
-  # Si un repositorio tiene alguien asignado y los demas no,
-  # el rbind no va a funcionar por diferencia de columnas
-  open_issues <- do.call(rbind.data.frame, open_repos_list) %>%
-    tibble::rownames_to_column() %>%
-    tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
-    dplyr::select(-ba,-assignee.id, -assignee.login, -assignee.full_name,
+  for (repo in names(open_repos_list)) {
+    n_elements <- length(open_repos_list[repo][[1]]$id)
+    open_repos_list[repo][[1]]$repo <- rep(repo, n_elements)
+  }
+
+  open_tickets <-  open_repos_list %>%
+    bind_rows() %>%
+    dplyr::select(-assignee.id, -assignee.login, -assignee.full_name,
                   -assignee.email, -assignee.avatar_url, -assignee.language)
 
-  if ("assignee.username" %notin% names(open_issues)) {
-    open_issues$assignee.username <- NA
+  if ("assignee.username" %notin% names(open_tickets)) {
+    open_tickets$assignee.username <- NA
   }
-  # Loop traer todos los datos de CLOSED_issues de los repositorios existentes
+  # Loop traer todos los datos de CLOSED_tickets de los repositorios existentes
   closed_repos_list <- list()
   for (name_repo in repos$name) {
     closed_repos_list[[name_repo]] <- gitear::get_issues_closed_state(
@@ -49,24 +50,31 @@ project <- function(input, output, session,
       api_key = Sys.getenv("IXTOKEN"),
       owner = project_name,
       repo = name_repo) %>%
-      jsonlite::flatten()
+      jsonlite::flatten(.)
   }
 
-  # Convertir CLOSED_issues de todos los repos en tidydata
-  closed_issues <- do.call(rbind.data.frame, closed_repos_list) %>%
-    tibble::rownames_to_column() %>%
-    tidyr::separate(col = rowname, into  = c("repo", "ba"), sep = "\\.") %>%
-    dplyr::select(-ba, -assignee.id, -assignee.login, -assignee.full_name,
+  for (repo in names(closed_repos_list)) {
+    n_elements <- length(closed_repos_list[repo][[1]]$id)
+    closed_repos_list[repo][[1]]$repo <- rep(repo, n_elements)
+  }
+
+  # Convertir CLOSED_tickets de todos los repos en tidydata
+  if (nrow(closed_repos_list[[1]]) > 1) {
+  closed_tickets <- closed_repos_list %>%
+    bind_rows() %>%
+    dplyr::select( -assignee.id, -assignee.login, -assignee.full_name,
                   -assignee.email, -assignee.avatar_url, -assignee.language)
 
 
-  if ("assignee.username" %notin% names(closed_issues)) {
-    closed_issues$assignee.username <- NA
+  if ("assignee.username" %notin% names(closed_tickets)) {
+    closed_tickets$assignee.username <- NA
   }
 
-  # Unir OPEN_issues con CLOSED_issues
-  repositories <- rbind(open_issues, closed_issues)
-
+  # Unir OPEN_tickets con CLOSED_tickets
+  repositories <- rbind(open_tickets, closed_tickets)
+  } else {
+  repositories <- open_tickets
+  }
   ## Terminar de limpiar los datos de incidentes (abiertos y cerrados)
 
   # Loop para poner NA si no hay etiqueta
@@ -95,7 +103,7 @@ project <- function(input, output, session,
 
 # -------------------------------------------------------------------------
 
-  # Seleccion open issues para cummmulative flow chart
+  # Seleccion open tickets para cummmulative flow chart
   # Crear condicional que diga si esta abierto asignado, abierto sin
   # asignar, cerrado asignado, cerrado sin asignar
   asignados <- repositories %>%
@@ -164,7 +172,7 @@ project <- function(input, output, session,
   })
 
   output$plot2 <- renderPlotly({
-    p <- plotly::plot_ly(cum_flow_chart_data, x= ~date, y = ~closed_assigned,
+    p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~closed_assigned,
                          name = "Closed assigned", type = 'scatter', mode = 'none',
                          stackgroup  = 'one', fillcolor = '#0078B4') %>%
       plotly::add_trace(y = ~closed_unassigned, name = "Closed unassigned",
@@ -173,9 +181,9 @@ project <- function(input, output, session,
                 fillcolor = '#F8A212') %>%
       plotly::add_trace(y = ~open_unassigned, name = "Open unassigned",
                 fillcolor = '#2A2A2A') %>%
-      plotly::layout(title = 'Issues categories for ixplorer repo_pruebas',
+      plotly::layout(title = 'tickets categories for ixplorer repo_pruebas',
              xaxis = list(title = "", showgrid = FALSE),
-             yaxis = list(title = "Issues total",
+             yaxis = list(title = "tickets total",
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
     p
