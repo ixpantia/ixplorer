@@ -80,7 +80,8 @@ ix_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/"))
+          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
+          arrange(desc(due_date))
 
         tickets <- rename(tickets, Title = title)
         tickets <- rename(tickets, Nr = number)
@@ -109,7 +110,8 @@ ix_tickets <- function() {
         # Select tickets by open status
         tickets <- tickets %>%
           select(assignee.login, number, title, due_date, url) %>%
-          mutate(assignee.login = ifelse(is.na(assignee.login), "-", assignee.login)) %>%
+          mutate(assignee.login = ifelse(is.na(assignee.login), "-",
+                                         assignee.login)) %>%
           filter(assignee.login != ixplorer_user) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
           select(-hour) %>%
@@ -118,7 +120,8 @@ ix_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/"))
+          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
+          arrange(desc(due_date))
 
         tickets <- rename(tickets, Title = title)
         tickets <- rename(tickets, Nr = number)
