@@ -22,11 +22,15 @@ repository <- function(input, output, session,
                          repo_name, project_name) {
 
   # Incidentes abiertos OPEN --------------------------
+  open_tickets <- data.frame(character(0))
+
+  try(
   open_tickets <- gitear::get_issues_open_state(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     owner = project_name,
     repo = repo_name)
+  )
 
   if (nrow(open_tickets) == 0) {
   }  else {
@@ -54,11 +58,14 @@ repository <- function(input, output, session,
   }
 
   # Incidentes cerrados CLOSED --------------------------
+  closed_tickets <- data.frame(character(0))
+  try(
   closed_tickets <- gitear::get_issues_closed_state(
     base_url = Sys.getenv("IXURL"),
     api_key = Sys.getenv("IXTOKEN"),
     owner = project_name,
     repo = repo_name)
+  )
 
   if (nrow(closed_tickets) == 0) {
   }  else {
@@ -125,8 +132,11 @@ repository <- function(input, output, session,
 
   # Seleccion open tickets para cummmulative flow chart ------------------------
   if (nrow(open_tickets) == 0) {
-    print("There are no tickets")
+    cat("There are no open tickets in ", project_name, "::", repo_name, "\n")
   } else {
+    if ("assignee.username" %notin% names(open_tickets)) {
+      open_tickets$assignee.username <- NA
+    }
     open_tickets_assignee <- open_tickets %>%
       select(state, created_at, updated_at, assignee.username) %>%
       mutate(category = ifelse(is.na(open_tickets$assignee.username),
@@ -135,8 +145,11 @@ repository <- function(input, output, session,
 
   #  Seleccion closed tickets para cummulative flow chart
   if (nrow(closed_tickets) == 0) {
-    print("There are no tickets")
+    cat("There are no closed tickets in ", project_name, "::", repo_name, "\n")
   } else {
+    if ("assignee.username" %notin% names(closed_tickets)) {
+      closed_tickets$assignee.username <- NA
+    }
     closed_tickets_assignee <- closed_tickets %>%
       select(state, created_at, updated_at, assignee.username) %>%
       mutate(category = ifelse(is.na(closed_tickets$assignee.username),
@@ -250,7 +263,8 @@ repository <- function(input, output, session,
   output$plot_cumflow_tickets <- renderPlotly({
     p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~closed_assigned,
                          name = "Closed assigned", type = 'scatter', mode = 'none',
-                         stackgroup  = 'one', fillcolor = '#0078B4') %>%
+                         fillcolor = '#0078B4') %>%
+                         #stackgroup  = 'one', fillcolor = '#0078B4') %>%
       add_trace(y = ~closed_unassigned, name = "Closed unassigned",
                 fillcolor = '#A78D7B') %>%
       add_trace(y = ~open_assigned, name = "Open assigned",

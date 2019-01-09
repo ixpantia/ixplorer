@@ -11,7 +11,7 @@ project_UI <- function(id) {
 
 project <- function(input, output, session,
                     project_name) {
-  print(project_name)
+
   # Traigo nombres de repositorios existentes
   repos <- gitear::get_list_repos_org(
     base_url = Sys.getenv("IXURL"),
@@ -19,30 +19,44 @@ project <- function(input, output, session,
     org = project_name)
 
   # Loop traer todos los datos de open_tickets de los repositorios existentes
-  open_repos_list <- list()
-  for (name_repo in repos$name) {
-    try(
-      open_repos_list[[name_repo]] <- gitear::get_issues_open_state(
-      base_url = Sys.getenv("IXURL"),
-      api_key = Sys.getenv("IXTOKEN"),
-      owner = project_name,
-      repo = name_repo) %>%
-        jsonlite::flatten(.)
-    )
-  }
+    open_repos_list <- list()
+    for (name_repo in repos$name) {
+      try(
+        open_repos_list[[name_repo]] <- gitear::get_issues_open_state(
+        base_url = Sys.getenv("IXURL"),
+        api_key = Sys.getenv("IXTOKEN"),
+        owner = project_name,
+        repo = name_repo) %>%
+          jsonlite::flatten(.)
+      )
+    }
 
   for (repo in names(open_repos_list)) {
     n_elements <- length(open_repos_list[repo][[1]]$id)
-    open_repos_list[repo][[1]]$repo <- rep(repo, n_elements)
+    if (n_elements == 0 ) {
+      open_repos_list[repo] <- NULL
+      } else {
+      open_repos_list[repo][[1]]$repo <- rep(repo, n_elements)
+      }
   }
 
   open_tickets <-  open_repos_list %>%
-    bind_rows() %>%
+    bind_rows()
+
+  if ("assignee.id" %notin% names(open_tickets)) {
+    open_tickets <- open_tickets
+  } else {
+    open_tickets <- open_tickets %>%
     dplyr::select(-assignee.id, -assignee.login, -assignee.full_name,
                   -assignee.email, -assignee.avatar_url, -assignee.language)
+  }
 
-  if ("assignee.username" %notin% names(open_tickets)) {
+ if ("assignee.username" %notin% names(open_tickets)) {
     open_tickets$assignee.username <- NA
+  }
+  if ("assignee" %notin% names(open_tickets)) {
+    open_tickets$assignee <- NA
+
   }
   # Loop traer todos los datos de CLOSED_tickets de los repositorios existentes
   closed_repos_list <- list()
@@ -70,15 +84,15 @@ project <- function(input, output, session,
                   -assignee.email, -assignee.avatar_url, -assignee.language)
 
 
-  if ("assignee.username" %notin% names(closed_tickets)) {
-    closed_tickets$assignee.username <- NA
-  }
+    if ("assignee.username" %notin% names(closed_tickets)) {
+      closed_tickets$assignee.username <- NA
+    }
 
-  # Unir OPEN_tickets con CLOSED_tickets
-  repositories <- rbind(open_tickets, closed_tickets)
+    # Unir OPEN_tickets con CLOSED_tickets
+    repositories <- rbind(open_tickets, closed_tickets)
   } else {
-  repositories <- open_tickets
-  }
+    repositories <- open_tickets
+    }
   ## Terminar de limpiar los datos de incidentes (abiertos y cerrados)
 
   # Loop para poner NA si no hay etiqueta
