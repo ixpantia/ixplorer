@@ -1,21 +1,16 @@
-
 # Server ----------------------------------------------------------------------
 
 server <- function(input, output, session) {
 
   # Data ----------------------------------------------------------------------
-  working_directory <- getwd()
-  print(working_directory)
   lista_proyectos <- get_data()
   proyectos <- get_projects(lista_proyectos)
 
   # Projects ------------------------------------------------------------------
 
-  for (proyecto in proyectos) {
     lapply(proyectos, function(proyecto) {
       callModule(project, proyecto, project_name = proyecto)
     })
-  }
 
   observe({
     lapply(proyectos, function(proyecto) {
@@ -51,6 +46,4 @@ server <- function(input, output, session) {
             project_UI(proyecto)))
     }
   })
-
 }
-
