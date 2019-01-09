@@ -253,11 +253,13 @@ repository <- function(input, output, session,
 
   # PLOTS ----------------------------------------------------------------------
   output$plot_bar_tickets <- renderPlotly({
-    p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
+    p1 <- plot_ly(incidentes, y = ~ name, color = ~ state,
+                  colors = c("grey50", "blue")) %>%
       add_histogram() %>%
       layout(barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
     return(p1)
+    # suppressWarnings(print(p1))
   })
 
   output$plot_cumflow_tickets <- renderPlotly({
@@ -276,7 +278,9 @@ repository <- function(input, output, session,
              yaxis = list(title = "tickets total",
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
-    p
+
+    return(p1)
+    # suppressWarnings(print(p))
   })
 
   output$plot_commits_repos <- renderPlotly({
@@ -296,7 +300,7 @@ repository <- function(input, output, session,
       mutate(asignaciones = cumsum(asignaciones)) %>%
       mutate(sitio_pruebas = cumsum(sitio_pruebas))
 
-    plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
+    p1 <- plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
                     name = "asignaciones", type = 'scatter', mode = 'none',
                     fillcolor = '#0078B4') %>%
                     #stackgroup  = 'one', fillcolor = '#0078B4') %>%
@@ -307,6 +311,10 @@ repository <- function(input, output, session,
              yaxis = list(title = "commits total",
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
+
+    return(p1)
+    # suppressWarnings(print(p1))
+
   })
 
   output$plot_commits_person <- renderPlotly({
@@ -322,13 +330,16 @@ repository <- function(input, output, session,
       mutate(state = ifelse(date %within% int_month, "month",
                             ifelse(date %within% int_week, "week", "older")))
 
-    p1 <- plot_ly(commits_person, y = ~ person, color = ~ state) %>%
+    p1 <- plot_ly(commits_person, y = ~ person, color = ~ state,
+                  colors = c("dodgerblue3", "gray41")) %>%
       add_histogram() %>%
       layout(title = 'commits ixplorer per person',
              barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
 
-    p1
+    return(p1)
+
+    # suppressWarnings(print(p1))
   })
 
 }

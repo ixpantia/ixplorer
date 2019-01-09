@@ -114,7 +114,7 @@ project <- function(input, output, session,
     mutate(updated_at = lubridate::ymd_hms(updated_at))
 
   # Crear intervalo para clasificar incidentes de la ultima semana
-  int = interval(today() - 7, today() + 1)
+  int = lubridate::interval(lubridate::today() - 7, lubridate::today() + 1)
 
   # hacer clasficacion de incidentes basados en intervalo
   incidentes <- incidentes %>%
@@ -183,11 +183,14 @@ project <- function(input, output, session,
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
 
   output$plot1 <- renderPlotly({
-    p1 <- plotly::plot_ly(incidentes, y = ~ name, color = ~ state) %>%
+    p1 <- plotly::plot_ly(incidentes, y = ~ name, color = ~ state,
+                          colors = c("slateblue", "grey")) %>%
       plotly::add_histogram() %>%
       plotly::layout(barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
-    p1
+
+    return(p1)
+    # suppressWarnings(print(p1))
   })
 
   output$plot2 <- renderPlotly({
