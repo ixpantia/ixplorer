@@ -97,7 +97,7 @@ repository <- function(input, output, session,
     # Hacer aqui un conjunto de datos con 0's con columna name e
     # incidentes
     incidentes <- tibble("name" = NA, "incidentes" = NA,
-                             "state" = NA)
+                             "state" = c("abiertos", "cerrados"))
   } else if (nrow(closed_tickets) == 0) {
 
     int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
@@ -252,6 +252,13 @@ repository <- function(input, output, session,
 
   # PLOTS ----------------------------------------------------------------------
   output$plot_bar_tickets <- renderPlotly({
+
+    # Condicional en caso que no hayan incidentes para que grafico no
+    # genere tantos warnings:
+
+    # replace_na
+    incidentes[is.na(incidentes)] <- 0
+
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state,
                   colors = c("grey50", "slateblue")) %>%
       add_histogram() %>%
