@@ -254,7 +254,7 @@ repository <- function(input, output, session,
   # PLOTS ----------------------------------------------------------------------
   output$plot_bar_tickets <- renderPlotly({
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state,
-                  colors = c("grey50", "blue")) %>%
+                  colors = c("grey50", "slateblue")) %>%
       add_histogram() %>%
       layout(barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
@@ -266,21 +266,20 @@ repository <- function(input, output, session,
     p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~closed_assigned,
                          name = "Closed assigned", type = 'scatter', mode = 'none',
                          fillcolor = '#0078B4') %>%
-                         #stackgroup  = 'one', fillcolor = '#0078B4') %>%
       add_trace(y = ~closed_unassigned, name = "Closed unassigned",
                 fillcolor = '#A78D7B') %>%
       add_trace(y = ~open_assigned, name = "Open assigned",
                 fillcolor = '#F8A212') %>%
       add_trace(y = ~open_unassigned, name = "Open unassigned",
                 fillcolor = '#2A2A2A') %>%
-      layout(title = 'tickets categories for ixplorer repo_pruebas',
+      layout(title = "tickets categories for ixplorer repo_pruebas",
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "tickets total",
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
 
-    return(p1)
-    # suppressWarnings(print(p))
+    return(p)
+
   })
 
   output$plot_commits_repos <- renderPlotly({
@@ -331,7 +330,7 @@ repository <- function(input, output, session,
                             ifelse(date %within% int_week, "week", "older")))
 
     p1 <- plot_ly(commits_person, y = ~ person, color = ~ state,
-                  colors = c("dodgerblue3", "gray41")) %>%
+                  colors = c("darkred", "gray")) %>%
       add_histogram() %>%
       layout(title = 'commits ixplorer per person',
              barmode = "stack") %>%
@@ -339,7 +338,6 @@ repository <- function(input, output, session,
 
     return(p1)
 
-    # suppressWarnings(print(p1))
   })
 
 }
