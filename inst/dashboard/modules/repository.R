@@ -7,11 +7,11 @@ repository_UI <- function(id) {
     ),
 
     fluidRow(
-      shinydashboard::box(title = "Histogram box title",
-          status = "warning", solidHeader = TRUE, collapsible = TRUE,
-          plotlyOutput(ns("plot_commits_repos"))
-      ),
-      # column(6, plotlyOutput(ns("plot3"))),
+      # shinydashboard::box(title = "Histogram box title",
+      #     status = "warning", solidHeader = TRUE, collapsible = TRUE,
+      #     plotlyOutput(ns("plot_commits_repos"))
+      # ),
+      column(6, plotlyOutput(ns("plot_commits_repos"))),
       column(6, plotlyOutput(ns("plot_commits_person")))
     )
   )
@@ -36,7 +36,6 @@ repository <- function(input, output, session,
   }  else {
     open_tickets <- jsonlite::flatten(open_tickets)
     # Aplastar labels
-    # etiquetas_abiertas <- open_tickets$labels
 
     etiquetas <- data.frame(name = character(0),
                             stringsAsFactors = FALSE)
@@ -97,7 +96,7 @@ repository <- function(input, output, session,
 
     # Hacer aqui un conjunto de datos con 0's con columna name e
     # incidentes
-    incidentes <- data_frame("name" = NA, "incidentes" = NA,
+    incidentes <- tibble("name" = NA, "incidentes" = NA,
                              "state" = NA)
   } else if (nrow(closed_tickets) == 0) {
 
@@ -158,7 +157,7 @@ repository <- function(input, output, session,
 
   # Asignados completos:
   if (nrow(open_tickets) == 0 & nrow(closed_tickets) == 0) {
-    cum_flow_chart_data <- data_frame("date" = lubridate::today())
+    cum_flow_chart_data <- tibble("date" = lubridate::today())
   } else if (nrow(closed_tickets) == 0) {
     asignados <- open_tickets_assignee %>%
       mutate(created_at = lubridate::ymd_hms(created_at)) %>%
@@ -264,14 +263,14 @@ repository <- function(input, output, session,
   })
 
   output$plot_cumflow_tickets <- renderPlotly({
-    p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~closed_assigned,
+    p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~(closed_assigned),
                          name = "Closed assigned", type = 'scatter', mode = 'none',
                          stackgroup  = 'one', fillcolor = '#0078B4') %>%
-      add_trace(y = ~closed_unassigned, name = "Closed unassigned",
+      add_trace(y = ~(closed_unassigned), name = "Closed unassigned",
                 fillcolor = '#A78D7B') %>%
-      add_trace(y = ~open_assigned, name = "Open assigned",
+      add_trace(y = ~(open_assigned), name = "Open assigned",
                 fillcolor = '#F8A212') %>%
-      add_trace(y = ~open_unassigned, name = "Open unassigned",
+      add_trace(y = ~(open_unassigned), name = "Open unassigned",
                 fillcolor = '#2A2A2A') %>%
       layout(title = "tickets categories for ixplorer repo_pruebas",
              xaxis = list(title = "", showgrid = FALSE),
