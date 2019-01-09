@@ -298,7 +298,8 @@ repository <- function(input, output, session,
 
     plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
                     name = "asignaciones", type = 'scatter', mode = 'none',
-                    stackgroup  = 'one', fillcolor = '#0078B4') %>%
+                    fillcolor = '#0078B4') %>%
+                    #stackgroup  = 'one', fillcolor = '#0078B4') %>%
       add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
                 fillcolor = '#A78D7B') %>%
       layout(title = 'commits total on ixplorer',

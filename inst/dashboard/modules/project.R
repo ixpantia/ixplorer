@@ -56,7 +56,6 @@ project <- function(input, output, session,
   }
   if ("assignee" %notin% names(open_tickets)) {
     open_tickets$assignee <- NA
-
   }
   # Loop traer todos los datos de CLOSED_tickets de los repositorios existentes
   closed_repos_list <- list()
@@ -87,7 +86,9 @@ project <- function(input, output, session,
     if ("assignee.username" %notin% names(closed_tickets)) {
       closed_tickets$assignee.username <- NA
     }
-
+    if ("assignee" %notin% names(closed_tickets)) {
+      closed_tickets$assignee <- NA
+    }
     # Unir OPEN_tickets con CLOSED_tickets
     repositories <- rbind(open_tickets, closed_tickets)
   } else {
