@@ -256,16 +256,17 @@ repository <- function(input, output, session,
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state,
                   colors = c("grey50", "slateblue")) %>%
       add_histogram() %>%
-      layout(barmode = "stack") %>%
+      layout(title = "State of repository tickets",
+             barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
     return(p1)
-    # suppressWarnings(print(p1))
+
   })
 
   output$plot_cumflow_tickets <- renderPlotly({
     p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~closed_assigned,
                          name = "Closed assigned", type = 'scatter', mode = 'none',
-                         fillcolor = '#0078B4') %>%
+                         stackgroup  = 'one', fillcolor = '#0078B4') %>%
       add_trace(y = ~closed_unassigned, name = "Closed unassigned",
                 fillcolor = '#A78D7B') %>%
       add_trace(y = ~open_assigned, name = "Open assigned",
@@ -301,8 +302,8 @@ repository <- function(input, output, session,
 
     p1 <- plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
                     name = "asignaciones", type = 'scatter', mode = 'none',
-                    fillcolor = '#0078B4') %>%
-                    #stackgroup  = 'one', fillcolor = '#0078B4') %>%
+                    # fillcolor = '#0078B4') %>%
+                    stackgroup  = 'one', fillcolor = '#0078B4') %>%
       add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
                 fillcolor = '#A78D7B') %>%
       layout(title = 'commits total on ixplorer',
@@ -312,7 +313,6 @@ repository <- function(input, output, session,
       plotly::config(displayModeBar = FALSE)
 
     return(p1)
-    # suppressWarnings(print(p1))
 
   })
 
