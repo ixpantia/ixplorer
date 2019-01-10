@@ -7,11 +7,11 @@ repository_UI <- function(id) {
     ),
 
     fluidRow(
-      shinydashboard::box(title = "Histogram box title",
-          status = "warning", solidHeader = TRUE, collapsible = TRUE,
-          plotlyOutput(ns("plot_commits_repos"))
-      ),
-      # column(6, plotlyOutput(ns("plot3"))),
+      # shinydashboard::box(title = "Histogram box title",
+      #     status = "warning", solidHeader = TRUE, collapsible = TRUE,
+      #     plotlyOutput(ns("plot_commits_repos"))
+      # ),
+      column(6, plotlyOutput(ns("plot_commits_repos"))),
       column(6, plotlyOutput(ns("plot_commits_person")))
     )
   )
@@ -36,7 +36,6 @@ repository <- function(input, output, session,
   }  else {
     open_tickets <- jsonlite::flatten(open_tickets)
     # Aplastar labels
-    # etiquetas_abiertas <- open_tickets$labels
 
     etiquetas <- data.frame(name = character(0),
                             stringsAsFactors = FALSE)
@@ -97,8 +96,8 @@ repository <- function(input, output, session,
 
     # Hacer aqui un conjunto de datos con 0's con columna name e
     # incidentes
-    incidentes <- data_frame("name" = NA, "incidentes" = NA,
-                             "state" = NA)
+    incidentes <- tibble("name" = NA, "incidentes" = NA,
+                             "state" = c("abiertos", "cerrados"))
   } else if (nrow(closed_tickets) == 0) {
 
     int = interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
@@ -158,7 +157,7 @@ repository <- function(input, output, session,
 
   # Asignados completos:
   if (nrow(open_tickets) == 0 & nrow(closed_tickets) == 0) {
-    cum_flow_chart_data <- data_frame("date" = lubridate::today())
+    cum_flow_chart_data <- tibble("date" = lubridate::today())
   } else if (nrow(closed_tickets) == 0) {
     asignados <- open_tickets_assignee %>%
       mutate(created_at = lubridate::ymd_hms(created_at)) %>%
@@ -253,30 +252,43 @@ repository <- function(input, output, session,
 
   # PLOTS ----------------------------------------------------------------------
   output$plot_bar_tickets <- renderPlotly({
-    p1 <- plot_ly(incidentes, y = ~ name, color = ~ state) %>%
+
+    # Condicional en caso que no hayan incidentes para que grafico no
+    # genere tantos warnings:
+
+    # replace_na
+    # incidentes[is.na(incidentes)] <- 0
+
+    p1 <- plot_ly(incidentes, y = ~ name, color = ~ state,
+                  colors = c("grey50", "slateblue")) %>%
       add_histogram() %>%
-      layout(barmode = "stack") %>%
+      layout(title = "State of repository tickets",
+             barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
-    return(p1)
+
+    suppressWarnings(print(p1))
+
+
   })
 
   output$plot_cumflow_tickets <- renderPlotly({
-    p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~closed_assigned,
+    p <- plotly::plot_ly(cum_flow_chart_data, x = ~date, y = ~(closed_assigned),
                          name = "Closed assigned", type = 'scatter', mode = 'none',
-                         fillcolor = '#0078B4') %>%
-                         #stackgroup  = 'one', fillcolor = '#0078B4') %>%
-      add_trace(y = ~closed_unassigned, name = "Closed unassigned",
+                         stackgroup  = 'one', fillcolor = '#0078B4') %>%
+      add_trace(y = ~(closed_unassigned), name = "Closed unassigned",
                 fillcolor = '#A78D7B') %>%
-      add_trace(y = ~open_assigned, name = "Open assigned",
+      add_trace(y = ~(open_assigned), name = "Open assigned",
                 fillcolor = '#F8A212') %>%
-      add_trace(y = ~open_unassigned, name = "Open unassigned",
+      add_trace(y = ~(open_unassigned), name = "Open unassigned",
                 fillcolor = '#2A2A2A') %>%
-      layout(title = 'tickets categories for ixplorer repo_pruebas',
+      layout(title = "tickets categories for ixplorer repo_pruebas",
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "tickets total",
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
-    p
+
+    return(p)
+
   })
 
   output$plot_commits_repos <- renderPlotly({
@@ -296,10 +308,10 @@ repository <- function(input, output, session,
       mutate(asignaciones = cumsum(asignaciones)) %>%
       mutate(sitio_pruebas = cumsum(sitio_pruebas))
 
-    plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
+    p1 <- plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
                     name = "asignaciones", type = 'scatter', mode = 'none',
-                    fillcolor = '#0078B4') %>%
-                    #stackgroup  = 'one', fillcolor = '#0078B4') %>%
+                    # fillcolor = '#0078B4') %>%
+                    stackgroup  = 'one', fillcolor = '#0078B4') %>%
       add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
                 fillcolor = '#A78D7B') %>%
       layout(title = 'commits total on ixplorer',
@@ -307,6 +319,9 @@ repository <- function(input, output, session,
              yaxis = list(title = "commits total",
                           showgrid = FALSE)) %>%
       plotly::config(displayModeBar = FALSE)
+
+    return(p1)
+
   })
 
   output$plot_commits_person <- renderPlotly({
@@ -322,13 +337,15 @@ repository <- function(input, output, session,
       mutate(state = ifelse(date %within% int_month, "month",
                             ifelse(date %within% int_week, "week", "older")))
 
-    p1 <- plot_ly(commits_person, y = ~ person, color = ~ state) %>%
+    p1 <- plot_ly(commits_person, y = ~ person, color = ~ state,
+                  colors = c("darkred", "gray")) %>%
       add_histogram() %>%
       layout(title = 'commits ixplorer per person',
              barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
 
-    p1
+    return(p1)
+
   })
 
 }
