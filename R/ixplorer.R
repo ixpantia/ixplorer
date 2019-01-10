@@ -11,8 +11,13 @@ NULL
 #'
 #' @export
 ix_tickets <- function() {
+
   ui <- miniPage(
-    gadgetTitleBar("ixplorer Reports"),
+    miniTitleBar("ixplorer Reports",
+                 right = miniTitleBarCancelButton(inputId = "done",
+                                                 label = "Done",
+                                                 primary = TRUE)
+                 ),
     verbatimTextOutput("warning", placeholder = FALSE),
     miniTabstripPanel(
       miniTabPanel("My tickets", icon = icon("user"),
@@ -187,9 +192,6 @@ ix_tickets <- function() {
       stopApp(TRUE)
     })
 
-    observeEvent(input$cancel, {
-      stopApp(TRUE)
-    })
   }
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
