@@ -37,7 +37,8 @@ create_tickets <- function() {
                     placeholder = "Describe the ticket you have encountered")
     ),
     miniButtonBlock(
-      actionButton(inputId = "create", label = "Create ticket")
+      actionButton(inputId = "create", label = "Create ticket",
+                   style = "color: #fff; background-color: #73CF56")
     )
   )
 
