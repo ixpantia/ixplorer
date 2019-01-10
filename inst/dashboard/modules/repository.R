@@ -257,7 +257,7 @@ repository <- function(input, output, session,
     # genere tantos warnings:
 
     # replace_na
-    incidentes[is.na(incidentes)] <- 0
+    # incidentes[is.na(incidentes)] <- 0
 
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state,
                   colors = c("grey50", "slateblue")) %>%
@@ -265,7 +265,9 @@ repository <- function(input, output, session,
       layout(title = "State of repository tickets",
              barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
-    return(p1)
+
+    suppressWarnings(print(p1))
+
 
   })
 
