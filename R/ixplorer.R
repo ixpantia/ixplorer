@@ -52,8 +52,9 @@ ix_tickets <- function() {
     })
 
     # Get tickets and configurate credentials
-    tickets <- if (!is.null(msg)) {
-      print("no access data")
+    tickets <- if (access_file$empty == TRUE) {
+      tickets <- data.frame(character(0))
+      warning("no access data")
     } else {
       tickets <- try(gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
                                               api_key = Sys.getenv("IXTOKEN"),
@@ -66,12 +67,10 @@ ix_tickets <- function() {
         # Untie table
         tickets <- jsonlite::flatten(tickets)
       }
-    }
+
 
     output$my_tickets <- function() {
-      if (tickets == "no access data") {
-        tickets_kable <- "No access data. Use authentication gadget"
-      } else if (nrow(tickets) == 0) {
+      if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"
       } else {
         # Select tickets by user and tickets link creation
@@ -84,7 +83,8 @@ ix_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/"))
+          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
+          arrange(desc(due_date))
 
         tickets <- rename(tickets, Title = title)
         tickets <- rename(tickets, Nr = number)
@@ -107,12 +107,15 @@ ix_tickets <- function() {
     }
 
     output$team_tickets <- function(){
-      if (tickets == "no access data") {
-        tickets_kable <- "No access data. Use authentication gadget"
-      } else {
+      if (nrow(tickets) == 0) {
+        tickets_kable <- "No tickets found in repository"
+      }  else {
         # Select tickets by open status
         tickets <- tickets %>%
-          select(user.login, number, title, due_date, url) %>%
+          select(assignee.login, number, title, due_date, url) %>%
+          mutate(assignee.login = ifelse(is.na(assignee.login), "-",
+                                         assignee.login)) %>%
+          filter(assignee.login != ixplorer_user) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
           select(-hour) %>%
           mutate(due_date = lubridate::ymd(due_date) - lubridate::today()) %>%
@@ -120,12 +123,13 @@ ix_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/"))
+          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
+          arrange(desc(due_date))
 
         tickets <- rename(tickets, Title = title)
         tickets <- rename(tickets, Nr = number)
         tickets <- rename(tickets, Due = due_date)
-        tickets <- rename(tickets,  User = user.login)
+        tickets <- rename(tickets,  User = assignee.login)
 
         verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens")
         rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds")
@@ -137,10 +141,6 @@ ix_tickets <- function() {
                                    bold = TRUE, background = rojos),
                          cell_spec(Due, color = "white",
                                    bold = TRUE, background = verdes)),
-            User = cell_spec(User,
-                         bold = ifelse(ixplorer_user == User, TRUE, FALSE),
-                         color = ifelse(ixplorer_user  == User,
-                                        "gray", "black")),
             Nr = text_spec(Nr, link = issue_url)) %>%
           select(-issue_url) %>%
           kable(escape = FALSE) %>%

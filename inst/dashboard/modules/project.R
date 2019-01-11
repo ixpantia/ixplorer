@@ -31,38 +31,57 @@ project <- function(input, output, session,
   }
 
   # Loop traer todos los datos de open_tickets de los repositorios existentes
-  open_repos_list <- list()
+
+    open_repos_list <- list()
+    for (name_repo in repos$name) {
+      try(
+        open_repos_list[[name_repo]] <- gitear::get_issues_open_state(
+        base_url = Sys.getenv("IXURL"),
+        api_key = Sys.getenv("IXTOKEN"),
+        owner = project_name,
+        repo = name_repo) %>%
+          jsonlite::flatten(.)
+      )
+    }
+
+
+  for (repo in names(open_repos_list)) {
+    n_elements <- length(open_repos_list[repo][[1]]$id)
+    if (n_elements == 0 ) {
+      open_repos_list[repo] <- NULL
+      } else {
+      open_repos_list[repo][[1]]$repo <- rep(repo, n_elements)
+      }
+  }
+
+  open_tickets <-  open_repos_list %>%
+    bind_rows()
+
+  if ("assignee.id" %notin% names(open_tickets)) {
+    open_tickets <- open_tickets
+  } else {
+    open_tickets <- open_tickets %>%
+    dplyr::select(-assignee.id, -assignee.login, -assignee.full_name,
+                  -assignee.email, -assignee.avatar_url, -assignee.language)
+  }
+
+ if ("assignee.username" %notin% names(open_tickets)) {
+    open_tickets$assignee.username <- NA
+  }
+  if ("assignee" %notin% names(open_tickets)) {
+    open_tickets$assignee <- NA
+  }
+  # Loop traer todos los datos de CLOSED_tickets de los repositorios existentes
+  closed_repos_list <- list()
   for (name_repo in repos$name) {
-      open_repos_list[[name_repo]] <- gitear::get_issues_open_state(
+    try(
+      closed_repos_list[[name_repo]] <- gitear::get_issues_closed_state(
         base_url = Sys.getenv("IXURL"),
         api_key = Sys.getenv("IXTOKEN"),
         owner = project_name,
         repo = name_repo) %>%
         jsonlite::flatten(.)
-  }
-
-  for (repo in names(open_repos_list)) {
-    n_elements <- length(open_repos_list[repo][[1]]$id)
-    open_repos_list[repo][[1]]$repo <- rep(repo, n_elements)
-  }
-
-  open_tickets <-  open_repos_list %>%
-    bind_rows() %>%
-    dplyr::select(-assignee.id, -assignee.login, -assignee.full_name,
-                  -assignee.email, -assignee.avatar_url, -assignee.language)
-
-  if ("assignee.username" %notin% names(open_tickets)) {
-    open_tickets$assignee.username <- NA
-  }
-  # Loop traer todos los datos de CLOSED_tickets de los repositorios existentes
-  closed_repos_list <- list()
-  for (name_repo in repos$name) {
-    closed_repos_list[[name_repo]] <- gitear::get_issues_closed_state(
-      base_url = Sys.getenv("IXURL"),
-      api_key = Sys.getenv("IXTOKEN"),
-      owner = project_name,
-      repo = name_repo) %>%
-      jsonlite::flatten(.)
+    )
   }
 
   for (repo in names(closed_repos_list)) {
@@ -78,15 +97,17 @@ project <- function(input, output, session,
                   -assignee.email, -assignee.avatar_url, -assignee.language)
 
 
-  if ("assignee.username" %notin% names(closed_tickets)) {
-    closed_tickets$assignee.username <- NA
-  }
-
-  # Unir OPEN_tickets con CLOSED_tickets
-  repositories <- rbind(open_tickets, closed_tickets)
+    if ("assignee.username" %notin% names(closed_tickets)) {
+      closed_tickets$assignee.username <- NA
+    }
+    if ("assignee" %notin% names(closed_tickets)) {
+      closed_tickets$assignee <- NA
+    }
+    # Unir OPEN_tickets con CLOSED_tickets
+    repositories <- rbind(open_tickets, closed_tickets)
   } else {
-  repositories <- open_tickets
-  }
+    repositories <- open_tickets
+    }
   ## Terminar de limpiar los datos de incidentes (abiertos y cerrados)
 
   # Loop para poner NA si no hay etiqueta
@@ -107,7 +128,7 @@ project <- function(input, output, session,
     mutate(updated_at = lubridate::ymd_hms(updated_at))
 
   # Crear intervalo para clasificar incidentes de la ultima semana
-  int = interval(today() - 7, today() + 1)
+  int = lubridate::interval(lubridate::today() - 7, lubridate::today() + 1)
 
   # hacer clasficacion de incidentes basados en intervalo
   incidentes <- incidentes %>%
@@ -176,11 +197,14 @@ project <- function(input, output, session,
   cum_flow_chart_data$date <- as.factor(cum_flow_chart_data$date)
 
   output$plot1 <- renderPlotly({
-    p1 <- plotly::plot_ly(incidentes, y = ~ name, color = ~ state) %>%
+    p1 <- plotly::plot_ly(incidentes, y = ~ name, color = ~ state,
+                          colors = c("slateblue", "grey")) %>%
       plotly::add_histogram() %>%
       plotly::layout(barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
-    p1
+
+    return(p1)
+    # suppressWarnings(print(p1))
   })
 
   output$plot2 <- renderPlotly({

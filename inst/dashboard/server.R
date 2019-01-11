@@ -1,21 +1,16 @@
-
 # Server ----------------------------------------------------------------------
 
 server <- function(input, output, session) {
 
   # Data ----------------------------------------------------------------------
-  working_directory <- getwd()
-  print(working_directory)
   lista_proyectos <- get_data()
   proyectos <- get_projects(lista_proyectos)
 
   # Projects ------------------------------------------------------------------
 
-  for (proyecto in proyectos) {
     lapply(proyectos, function(proyecto) {
       callModule(project, proyecto, project_name = proyecto)
     })
-  }
 
   observe({
     lapply(proyectos, function(proyecto) {
@@ -39,7 +34,7 @@ server <- function(input, output, session) {
         appendTab(
           inputId = proyecto,
           tabPanel(repo,
-            h2(paste("encabezado de ", repo)),
+            h2(paste("Resumen de actividad del repositorio: ", repo)),
             repository_UI(repo)))
       })
     }
@@ -47,10 +42,8 @@ server <- function(input, output, session) {
         prependTab(
           inputId = proyecto,
           tabPanel("Overview",
-            h2(paste("pagina principal de ", proyecto)),
+            h2(paste("Resumen general del proyecto:", proyecto)),
             project_UI(proyecto)))
     }
   })
-
 }
-
