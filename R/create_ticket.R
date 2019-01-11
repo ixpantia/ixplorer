@@ -71,12 +71,18 @@ create_tickets <- function() {
     })
 
     observeEvent(input$create, {
-      gitear::create_issue(base_url = Sys.getenv("IXURL"),
-                           api_key = Sys.getenv("IXTOKEN"),
-                           owner = Sys.getenv("IXPROJECT"),
-                           repo = Sys.getenv("IXREPO"),
-                           title = input$ticket_title,
-                           body =  input$ticket_description)
+      tryCatch(
+        {
+          gitear::create_issue(base_url = Sys.getenv("IXURL"),
+                               api_key = Sys.getenv("IXTOKEN"),
+                               owner = Sys.getenv("IXPROJECT"),
+                               repo = Sys.getenv("IXREPO"),
+                               title = input$ticket_title,
+                               body =  input$ticket_description)
+        },
+        error = print("No ticket were created because of invalid credentials. Please use authentication gadget.")
+      )
+
       stopApp(NULL)
     })
   }
