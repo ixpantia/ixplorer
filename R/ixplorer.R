@@ -68,6 +68,26 @@ ix_tickets <- function() {
         tickets <- jsonlite::flatten(tickets)
       }
 
+    }
+
+      # tickets <- if (access_file$empty == TRUE) {
+      #   tickets <- data.frame(character(0))
+      #   warning("no access data")
+      # } else {
+      #   tickets <- tryCatch(gitear::get_issues_open_state(base_url =
+      #                                        Sys.getenv("IXURL"),
+      #                                        api_key = Sys.getenv("IXTOKEN"),
+      #                                        owner = Sys.getenv("IXPROJECT"),
+      #                                        repo = Sys.getenv("IXREPO")),
+      #                        ixplorer_user = Sys.getenv("IXUSER"),
+      #                        # Untie table
+      #                        tickets <- jsonlite::flatten(tickets),
+      #
+      #                        error = function(e) print("Invalid credentials")
+      #
+      #   )
+      # }
+
 
     output$my_tickets <- function() {
       if (nrow(tickets) == 0) {
