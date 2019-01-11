@@ -52,33 +52,29 @@ ix_tickets <- function() {
     })
 
     # Get tickets and configurate credentials
-    tickets <- if (access_file$empty == TRUE) {
-        tickets <- data.frame(character(0))
-        warning("no access data")
-      } else {
-        tickets <- tryCatch(
-          {
-            gitear::get_issues_open_state(base_url =
-                                            Sys.getenv("IXURL"),
-                                          api_key = Sys.getenv("IXTOKEN"),
-                                          owner = Sys.getenv("IXPROJECT"),
-                                          repo = Sys.getenv("IXREPO"))
+    tickets <- tryCatch(
+      {
+         if (access_file$empty == TRUE) {
+          data.frame(character(0))
+          warning("no access data")
+        } else {
+          ixplorer_user = Sys.getenv("IXUSER")
 
-
-            ixplorer_user = Sys.getenv("IXUSER")
-
-            # Untie table
-            tickets <- jsonlite::flatten(tickets)
-          },
-          error = function(cond) {
-            tickets <- "Invalid"
-          }
-        )
+          gitear::get_issues_open_state(
+            base_url = Sys.getenv("IXURL"),
+           api_key = Sys.getenv("IXTOKEN"),
+           owner = Sys.getenv("IXPROJECT"),
+           repo = Sys.getenv("IXREPO"))
+        }
+      },
+      error = function(cond) {
+        tickets <- "Invalid"
       }
+    )
 
 
     output$my_tickets <- function() {
-      if (tickets == "Invalid") {
+      if (class(tickets) != "data.frame") {
         tickets_kable <- "Invalid credentials. Please use authentication gadget."
       } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"

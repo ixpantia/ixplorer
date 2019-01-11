@@ -24,9 +24,7 @@ warning(msg)
 
 # example data ----------------------------------------------------------------------
 
-  get_data <- tryCatch(
-    {
-      function() {
+  get_data <- function() {
 
         proyectos <- gitear::get_organizations(
           base_url = Sys.getenv("IXURL"),
@@ -47,25 +45,11 @@ warning(msg)
 
         return(lista_proyectos)
       }
-    },
-    error = function(cond){
-      stopApp(TRUE)
-      print("Invalid credentials")
-    }
-  )
 
-  get_projects <- tryCatch(
-    {
-      function(ixplorer_data) {
+  get_projects <- function(ixplorer_data) {
         proyectos <- names(ixplorer_data)
         return(proyectos)
       }
-    },
-    error = function(cond){
-      stopApp(TRUE)
-      print("Invalid credentials")
-    }
-  )
 
 # Load modules ----------------------------------------------------------------
 source("modules/project.R", encoding = "UTF-8")
