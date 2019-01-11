@@ -9,7 +9,6 @@ server <- function(input, output, session) {
     },
     error = function(cond){
       stopApp("Invalid credentials. Please use authentication gadget.")
-      # print("Invalid credentials. Please use authentication gadget.")
     }
   )
 
@@ -19,10 +18,8 @@ server <- function(input, output, session) {
     },
     error = function(cond){
       stopApp("Invalid credentials. Please use authentication gadget.")
-      # print("Invalid credentials. Please use authentication gadget.")
     }
   )
-
 
   # Projects ------------------------------------------------------------------
 
