@@ -79,7 +79,7 @@ ix_tickets <- function() {
 
     output$my_tickets <- function() {
       if (tickets == "Invalid") {
-        tickets_kable <- "Invalid credentials. Use authentication gadget"
+        tickets_kable <- "Invalid credentials. Please use authentication gadget."
       } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"
       } else {
@@ -118,7 +118,7 @@ ix_tickets <- function() {
 
     output$team_tickets <- function(){
       if (tickets == "Invalid") {
-        tickets_kable <- "Invalid credentials. Use authentication gadget"
+        tickets_kable <- "Invalid credentials. Please use authentication gadget."
       } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"
       }  else {
@@ -164,7 +164,7 @@ ix_tickets <- function() {
 
     output$quick_links <- function(){
       if (tickets == "Invalid") {
-        quick_links <- "Invalid credentials. Use authentication gadget"
+        quick_links <- "Invalid credentials. Please use authentication gadget."
       } else {
         # Get closed tickets link
         close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
