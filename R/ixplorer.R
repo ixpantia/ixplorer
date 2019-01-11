@@ -52,41 +52,49 @@ ix_tickets <- function() {
     })
 
     # Get tickets and configurate credentials
+    # tickets <- if (access_file$empty == TRUE) {
+    #   tickets <- data.frame(character(0))
+    #   warning("no access data")
+    # } else {
+    #   tickets <- try(gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
+    #                                           api_key = Sys.getenv("IXTOKEN"),
+    #                                           owner = Sys.getenv("IXPROJECT"),
+    #                                           repo = Sys.getenv("IXREPO")))
+    #   if (class(tickets) == "try-error") {
+    #     print("Invalid credentials")
+    #   } else {
+    #     ixplorer_user = Sys.getenv("IXUSER")
+    #     # Untie table
+    #     tickets <- jsonlite::flatten(tickets)
+    #   }
+    #
+    # }
+
     tickets <- if (access_file$empty == TRUE) {
-      tickets <- data.frame(character(0))
-      warning("no access data")
-    } else {
-      tickets <- try(gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
-                                              api_key = Sys.getenv("IXTOKEN"),
-                                              owner = Sys.getenv("IXPROJECT"),
-                                              repo = Sys.getenv("IXREPO")))
-      if (class(tickets) == "try-error") {
-        print("Invalid credentials")
+        tickets <- data.frame(character(0))
+        warning("no access data")
       } else {
-        ixplorer_user = Sys.getenv("IXUSER")
-        # Untie table
-        tickets <- jsonlite::flatten(tickets)
+        tickets <- tryCatch(
+          {
+            gitear::get_issues_open_state(base_url =
+                                            Sys.getenv("IXURL"),
+                                          api_key = Sys.getenv("IXTOKEN"),
+                                          owner = Sys.getenv("IXPROJECT"),
+                                          repo = Sys.getenv("IXREPO"))
+
+
+            ixplorer_user = Sys.getenv("IXUSER")
+
+            # Untie table
+            tickets <- jsonlite::flatten(tickets)
+          },
+          error = function(cond) {
+            tickets <- dplyr::tibble()
+          }
+        )
+
+
       }
-
-    }
-
-      # tickets <- if (access_file$empty == TRUE) {
-      #   tickets <- data.frame(character(0))
-      #   warning("no access data")
-      # } else {
-      #   tickets <- tryCatch(gitear::get_issues_open_state(base_url =
-      #                                        Sys.getenv("IXURL"),
-      #                                        api_key = Sys.getenv("IXTOKEN"),
-      #                                        owner = Sys.getenv("IXPROJECT"),
-      #                                        repo = Sys.getenv("IXREPO")),
-      #                        ixplorer_user = Sys.getenv("IXUSER"),
-      #                        # Untie table
-      #                        tickets <- jsonlite::flatten(tickets),
-      #
-      #                        error = function(e) print("Invalid credentials")
-      #
-      #   )
-      # }
 
 
     output$my_tickets <- function() {
