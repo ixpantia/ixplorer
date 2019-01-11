@@ -52,24 +52,6 @@ ix_tickets <- function() {
     })
 
     # Get tickets and configurate credentials
-    # tickets <- if (access_file$empty == TRUE) {
-    #   tickets <- data.frame(character(0))
-    #   warning("no access data")
-    # } else {
-    #   tickets <- try(gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
-    #                                           api_key = Sys.getenv("IXTOKEN"),
-    #                                           owner = Sys.getenv("IXPROJECT"),
-    #                                           repo = Sys.getenv("IXREPO")))
-    #   if (class(tickets) == "try-error") {
-    #     print("Invalid credentials")
-    #   } else {
-    #     ixplorer_user = Sys.getenv("IXUSER")
-    #     # Untie table
-    #     tickets <- jsonlite::flatten(tickets)
-    #   }
-    #
-    # }
-
     tickets <- if (access_file$empty == TRUE) {
         tickets <- data.frame(character(0))
         warning("no access data")
@@ -89,16 +71,16 @@ ix_tickets <- function() {
             tickets <- jsonlite::flatten(tickets)
           },
           error = function(cond) {
-            tickets <- dplyr::tibble()
+            tickets <- "Invalid"
           }
         )
-
-
       }
 
 
     output$my_tickets <- function() {
-      if (nrow(tickets) == 0) {
+      if (tickets == "Invalid") {
+        tickets_kable <- "Invalid credentials. Use authentication gadget"
+      } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"
       } else {
         # Select tickets by user and tickets link creation
@@ -135,7 +117,9 @@ ix_tickets <- function() {
     }
 
     output$team_tickets <- function(){
-      if (nrow(tickets) == 0) {
+      if (tickets == "Invalid") {
+        tickets_kable <- "Invalid credentials. Use authentication gadget"
+      } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"
       }  else {
         # Select tickets by open status
@@ -179,36 +163,40 @@ ix_tickets <- function() {
     }
 
     output$quick_links <- function(){
-      # Get closed tickets link
-      close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
-      ixurl <- sub("/$", "", Sys.getenv("IXURL"))
-      close_tickets_url <- paste(ixurl, Sys.getenv("IXPROJECT"), Sys.getenv("IXREPO"),
-            close_tickets_url, sep = "/")
+      if (tickets == "Invalid") {
+        quick_links <- "Invalid credentials. Use authentication gadget"
+      } else {
+        # Get closed tickets link
+        close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
+        ixurl <- sub("/$", "", Sys.getenv("IXURL"))
+        close_tickets_url <- paste(ixurl, Sys.getenv("IXPROJECT"), Sys.getenv("IXREPO"),
+                                   close_tickets_url, sep = "/")
 
-      # Get milestones link
-      milestones_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
-                              Sys.getenv("IXREPO"), "milestones", sep = "/")
+        # Get milestones link
+        milestones_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
+                                Sys.getenv("IXREPO"), "milestones", sep = "/")
 
-      # Get Wiki link
-      wiki_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
-                        Sys.getenv("IXREPO"), "wiki", sep = "/")
+        # Get Wiki link
+        wiki_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
+                          Sys.getenv("IXREPO"), "wiki", sep = "/")
 
-      # Get project link
-      project_url <- paste(ixurl, Sys.getenv("IXPROJECT"), sep = "/")
+        # Get project link
+        project_url <- paste(ixurl, Sys.getenv("IXPROJECT"), sep = "/")
 
-      # Final table
-      links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
-      URL <- c("Clossed tickets", "Milestones", "Wiki", "Project")
-      quick_links <- data_frame(links, URL)
+        # Final table
+        links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
+        URL <- c("Clossed tickets", "Milestones", "Wiki", "Project")
+        quick_links <- data_frame(links, URL)
 
-      # Table with kableExtra
-      quick_links <- quick_links %>%
-        mutate(
-          URL = text_spec(URL, link = links)) %>%
-        select(-links) %>%
-        kable(escape = FALSE, align = "c") %>%
-        kable_styling("striped", "condensed", position = "center",
-                      font_size = 20)
+        # Table with kableExtra
+        quick_links <- quick_links %>%
+          mutate(
+            URL = text_spec(URL, link = links)) %>%
+          select(-links) %>%
+          kable(escape = FALSE, align = "c") %>%
+          kable_styling("striped", "condensed", position = "center",
+                        font_size = 20)
+      }
 
       return(quick_links)
     }
