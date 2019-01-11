@@ -48,7 +48,8 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$close_app, {
-    stopApp(TRUE)
+    js$closeWindow()
+    stopApp()
   })
 
 }
