@@ -210,5 +210,6 @@ project <- function(input, output, session,
       plotly::config(displayModeBar = FALSE)
     p
   })
+
 }
 

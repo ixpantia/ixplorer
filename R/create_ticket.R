@@ -12,13 +12,11 @@ NULL
 create_tickets <- function() {
 
   ui <- miniPage(
-    gadgetTitleBar("Create a new ticket",
+    miniTitleBar("Create a new ticket",
                    left = miniTitleBarCancelButton(inputId = "cancel",
                                                    label = "Cancel",
-                                                   primary = FALSE),
-                   right = miniTitleBarButton(inputId = "done",
-                                              label = "Done",
-                                              primary = TRUE)),
+                                                   primary = TRUE)
+                   ),
 
     miniContentPanel(
       verbatimTextOutput("warning", placeholder = FALSE),
@@ -37,7 +35,8 @@ create_tickets <- function() {
                     placeholder = "Describe the ticket you have encountered")
     ),
     miniButtonBlock(
-      actionButton(inputId = "create", label = "Create ticket")
+      actionButton(inputId = "create", label = "Create ticket",
+                   style = "color: #fff; background-color: #73CF56")
     )
   )
 
@@ -54,17 +53,7 @@ create_tickets <- function() {
       return(msg)
     })
 
-    # ----------------------------------------------------------------
-    observeEvent(input$done, {
-      gitear::create_issue(base_url = Sys.getenv("IXURL"),
-                           api_key = Sys.getenv("IXTOKEN"),
-                           owner = Sys.getenv("IXPROJECT"),
-                           repo = Sys.getenv("IXREPO"),
-                           title = input$ticket_title,
-                           body =  input$ticket_description)
-      stopApp(NULL)
-    })
-
+    # Botones ----------------------------------------------------------------
     observeEvent(input$cancel, {
       # do nothing
       stopApp(NULL)

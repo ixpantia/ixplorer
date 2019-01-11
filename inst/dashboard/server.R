@@ -46,4 +46,10 @@ server <- function(input, output, session) {
             project_UI(proyecto)))
     }
   })
+
+  observeEvent(input$close_app, {
+    js$closeWindow()
+    stopApp()
+  })
+
 }
