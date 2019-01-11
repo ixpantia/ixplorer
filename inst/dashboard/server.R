@@ -3,8 +3,26 @@
 server <- function(input, output, session) {
 
   # Data ----------------------------------------------------------------------
-  lista_proyectos <- get_data()
-  proyectos <- get_projects(lista_proyectos)
+  lista_proyectos <- tryCatch(
+    {
+      get_data()
+    },
+    error = function(cond){
+      stopApp("Invalid credentials. Please use authentication gadget.")
+      # print("Invalid credentials. Please use authentication gadget.")
+    }
+  )
+
+  proyectos <- tryCatch(
+    {
+      get_projects(lista_proyectos)
+    },
+    error = function(cond){
+      stopApp("Invalid credentials. Please use authentication gadget.")
+      # print("Invalid credentials. Please use authentication gadget.")
+    }
+  )
+
 
   # Projects ------------------------------------------------------------------
 
