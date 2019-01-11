@@ -175,15 +175,11 @@ ix_tickets <- function() {
       quick_links <- quick_links %>%
         mutate(
           URL = text_spec(URL, link = links)) %>%
-        select(-links)
-
-
-      names(quick_links) <- "Your project links"
-
-      quick_links <- quick_links %>%
+        select(-links) %>%
         kable(escape = FALSE, align = "c") %>%
         kable_styling("striped", "condensed", position = "center",
                       font_size = 20)
+      quick_links <- gsub("<thead>.*</thead>", "", quick_links)
 
       return(quick_links)
     }
