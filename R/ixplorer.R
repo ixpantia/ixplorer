@@ -184,6 +184,7 @@ ix_tickets <- function() {
         kable(escape = FALSE, align = "c") %>%
         kable_styling("striped", "condensed", position = "center",
                       font_size = 20)
+      quick_links <- gsub("<thead>.*</thead>", "", quick_links)
 
       return(quick_links)
     }
