@@ -11,8 +11,13 @@ NULL
 #'
 #' @export
 ix_tickets <- function() {
+
   ui <- miniPage(
-    gadgetTitleBar("ixplorer Reports"),
+    miniTitleBar("ixplorer Reports",
+                 right = miniTitleBarCancelButton(inputId = "done",
+                                                 label = "Done",
+                                                 primary = TRUE)
+                 ),
     verbatimTextOutput("warning", placeholder = FALSE),
     miniTabstripPanel(
       miniTabPanel("My tickets", icon = icon("user"),
@@ -113,7 +118,7 @@ ix_tickets <- function() {
     }
 
     output$team_tickets <- function(){
-      if (tickets == "Invalid") {
+      if (class(tickets) != "data.frame") {
         tickets_kable <- "Invalid credentials. Please use authentication gadget."
       } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"
@@ -158,53 +163,52 @@ ix_tickets <- function() {
 
     }
 
-    output$quick_links <- function(){
-      if (tickets == "Invalid") {
+    output$quick_links <- function()  {
+      if (class(tickets) != "data.frame") {
         quick_links <- "Invalid credentials. Please use authentication gadget."
       } else {
-        # Get closed tickets link
-        close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
-        ixurl <- sub("/$", "", Sys.getenv("IXURL"))
-        close_tickets_url <- paste(ixurl, Sys.getenv("IXPROJECT"), Sys.getenv("IXREPO"),
-                                   close_tickets_url, sep = "/")
+      # Get closed tickets link
+      close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
+      ixurl <- sub("/$", "", Sys.getenv("IXURL"))
+      close_tickets_url <- paste(ixurl, Sys.getenv("IXPROJECT"), Sys.getenv("IXREPO"),
+            close_tickets_url, sep = "/")
 
-        # Get milestones link
-        milestones_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
-                                Sys.getenv("IXREPO"), "milestones", sep = "/")
+      # Get milestones link
+      milestones_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
+                              Sys.getenv("IXREPO"), "milestones", sep = "/")
 
-        # Get Wiki link
-        wiki_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
-                          Sys.getenv("IXREPO"), "wiki", sep = "/")
+      # Get Wiki link
+      wiki_url <- paste(ixurl, Sys.getenv("IXPROJECT"),
+                        Sys.getenv("IXREPO"), "wiki", sep = "/")
 
-        # Get project link
-        project_url <- paste(ixurl, Sys.getenv("IXPROJECT"), sep = "/")
+      # Get project link
+      project_url <- paste(ixurl, Sys.getenv("IXPROJECT"), sep = "/")
 
-        # Final table
-        links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
-        URL <- c("Clossed tickets", "Milestones", "Wiki", "Project")
-        quick_links <- data_frame(links, URL)
+      # Final table
+      links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
+      URL <- c("Clossed tickets", "Milestones", "Wiki", "Project")
+      quick_links <- data_frame(links, URL)
 
-        # Table with kableExtra
-        quick_links <- quick_links %>%
-          mutate(
-            URL = text_spec(URL, link = links)) %>%
-          select(-links) %>%
-          kable(escape = FALSE, align = "c") %>%
-          kable_styling("striped", "condensed", position = "center",
-                        font_size = 20)
+      # Table with kableExtra
+      quick_links <- quick_links %>%
+        mutate(
+          URL = text_spec(URL, link = links)) %>%
+        select(-links) %>%
+        kable(escape = FALSE, align = "c") %>%
+        kable_styling("striped", "condensed", position = "center",
+                      font_size = 20)
+      quick_links <- gsub("<thead>.*</thead>", "", quick_links)
       }
-
       return(quick_links)
     }
+
+
 
     observeEvent(input$done, {
       stopApp(TRUE)
     })
 
-    observeEvent(input$cancel, {
-      stopApp(TRUE)
-    })
-  }
+    }
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
 

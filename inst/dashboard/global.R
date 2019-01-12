@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyjs)
 library(dplyr)
 library(plotly)
 library(lubridate)

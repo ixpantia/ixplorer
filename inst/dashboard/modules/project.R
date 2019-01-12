@@ -195,9 +195,10 @@ project <- function(input, output, session,
 
   output$plot1 <- renderPlotly({
     p1 <- plotly::plot_ly(incidentes, y = ~ name, color = ~ state,
-                          colors = c("slateblue", "grey")) %>%
+                          colors = c("#F8A212", "#A78D7B")) %>%
       plotly::add_histogram() %>%
-      plotly::layout(barmode = "stack") %>%
+      plotly::layout(title = "Total tickets categories per status",
+                     barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
 
     return(p1)
@@ -213,7 +214,7 @@ project <- function(input, output, session,
       plotly::add_trace(y = ~open_assigned, name = "Open assigned",
                 fillcolor = '#F8A212') %>%
       plotly::add_trace(y = ~open_unassigned, name = "Open unassigned",
-                fillcolor = '#2A2A2A') %>%
+                fillcolor = '#FFCF4D') %>%
       plotly::layout(title = 'tickets categories for ixplorer repo_pruebas',
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "tickets total",
@@ -221,5 +222,6 @@ project <- function(input, output, session,
       plotly::config(displayModeBar = FALSE)
     p
   })
+
 }
 

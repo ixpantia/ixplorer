@@ -260,7 +260,7 @@ repository <- function(input, output, session,
     # incidentes[is.na(incidentes)] <- 0
 
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state,
-                  colors = c("grey50", "slateblue")) %>%
+                  colors = c("#F8A212", "#A78D7B")) %>%
       add_histogram() %>%
       layout(title = "State of repository tickets",
              barmode = "stack") %>%
@@ -280,7 +280,7 @@ repository <- function(input, output, session,
       add_trace(y = ~(open_assigned), name = "Open assigned",
                 fillcolor = '#F8A212') %>%
       add_trace(y = ~(open_unassigned), name = "Open unassigned",
-                fillcolor = '#2A2A2A') %>%
+                fillcolor = '#FFCF4D') %>%
       layout(title = "tickets categories for ixplorer repo_pruebas",
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "tickets total",
@@ -310,10 +310,10 @@ repository <- function(input, output, session,
 
     p1 <- plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
                     name = "asignaciones", type = 'scatter', mode = 'none',
-                    # fillcolor = '#0078B4') %>%
-                    stackgroup  = 'one', fillcolor = '#0078B4') %>%
+                    # fillcolor = '#2BAD7E') %>%
+                    stackgroup  = 'one', fillcolor = '#2BAD7E') %>%
       add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
-                fillcolor = '#A78D7B') %>%
+                fillcolor = '#3C558B') %>%
       layout(title = 'commits total on ixplorer',
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "commits total",
@@ -338,7 +338,7 @@ repository <- function(input, output, session,
                             ifelse(date %within% int_week, "week", "older")))
 
     p1 <- plot_ly(commits_person, y = ~ person, color = ~ state,
-                  colors = c("darkred", "gray")) %>%
+                  colors = c("#2A2A2A", "#BC7D22")) %>%
       add_histogram() %>%
       layout(title = 'commits ixplorer per person',
              barmode = "stack") %>%
