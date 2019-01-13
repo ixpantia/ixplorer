@@ -4,13 +4,13 @@
 #' @import kableExtra
 NULL
 
-#' ixplorer reports
+#' Current tickets
 #'
 #' Visualize the tickets of an specific user, a team and get the quick links to
 #' your ixplorer based on the credentials used in gadget authenticate.
 #'
 #' @export
-ix_tickets <- function() {
+current_tickets <- function() {
 
   ui <- miniPage(
     miniTitleBar("ixplorer Reports",
