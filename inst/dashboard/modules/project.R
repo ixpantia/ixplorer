@@ -13,12 +13,22 @@ project <- function(input, output, session,
                     project_name) {
 
   # Traigo nombres de repositorios existentes
-  repos <- gitear::get_list_repos_org(
-    base_url = Sys.getenv("IXURL"),
-    api_key = Sys.getenv("IXTOKEN"),
-    org = project_name)
+
+  repos <- tryCatch(
+    {
+      (gitear::get_list_repos_org(
+        base_url = Sys.getenv("IXURL"),
+        api_key = Sys.getenv("IXTOKEN"),
+        org = project_name))
+    },
+    error = function(cond){
+      stopApp(TRUE)
+      print("Invalid credentials")
+    }
+  )
 
   # Loop traer todos los datos de open_tickets de los repositorios existentes
+
     open_repos_list <- list()
     for (name_repo in repos$name) {
       try(
@@ -30,6 +40,7 @@ project <- function(input, output, session,
           jsonlite::flatten(.)
       )
     }
+
 
   for (repo in names(open_repos_list)) {
     n_elements <- length(open_repos_list[repo][[1]]$id)
