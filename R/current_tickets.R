@@ -41,7 +41,6 @@ current_tickets <- function() {
   server <- function(input, output, session){
 
     access_file <- verify_ixplorer_file()
-
     msg <- if (access_file$empty == TRUE) {
       "no credential file available"
     } else {
@@ -58,22 +57,31 @@ current_tickets <- function() {
     })
 
     # Get tickets and configurate credentials
-    tickets <- if (access_file$empty == TRUE) {
-      tickets <- data.frame(character(0))
-      warning("no access data")
-    } else {
-      tickets <- gitear::get_issues_open_state(base_url = Sys.getenv("IXURL"),
-                                              api_key = Sys.getenv("IXTOKEN"),
-                                              owner = Sys.getenv("IXPROJECT"),
-                                              repo = Sys.getenv("IXREPO"))
-      ixplorer_user = Sys.getenv("IXUSER")
-      # Untie table
-      #TODO  revisar porque es necesario este flatten
-      tickets <- jsonlite::flatten(tickets)
-    }
+    tickets <- tryCatch(
+      {
+         if (access_file$empty == TRUE) {
+          data.frame(character(0))
+          warning("no access data")
+        } else {
+          ixplorer_user = Sys.getenv("IXUSER")
+
+          gitear::get_issues_open_state(
+            base_url = Sys.getenv("IXURL"),
+           api_key = Sys.getenv("IXTOKEN"),
+           owner = Sys.getenv("IXPROJECT"),
+           repo = Sys.getenv("IXREPO"))
+        }
+      },
+      error = function(cond) {
+        tickets <- "Invalid"
+      }
+    )
+
 
     output$my_tickets <- function() {
-      if (nrow(tickets) == 0) {
+      if (class(tickets) != "data.frame") {
+        tickets_kable <- "Invalid credentials. Please use authentication gadget."
+      } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"
       } else {
         # Select tickets by user and tickets link creation
@@ -110,7 +118,9 @@ current_tickets <- function() {
     }
 
     output$team_tickets <- function(){
-      if (nrow(tickets) == 0) {
+      if (class(tickets) != "data.frame") {
+        tickets_kable <- "Invalid credentials. Please use authentication gadget."
+      } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets found in repository"
       }  else {
         # Select tickets by open status
@@ -153,7 +163,10 @@ current_tickets <- function() {
 
     }
 
-    output$quick_links <- function(){
+    output$quick_links <- function()  {
+      if (class(tickets) != "data.frame") {
+        quick_links <- "Invalid credentials. Please use authentication gadget."
+      } else {
       # Get closed tickets link
       close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
       ixurl <- sub("/$", "", Sys.getenv("IXURL"))
@@ -185,15 +198,17 @@ current_tickets <- function() {
         kable_styling("striped", "condensed", position = "center",
                       font_size = 20)
       quick_links <- gsub("<thead>.*</thead>", "", quick_links)
-
+      }
       return(quick_links)
     }
+
+
 
     observeEvent(input$done, {
       stopApp(TRUE)
     })
 
-  }
+    }
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
 
