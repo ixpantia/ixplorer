@@ -2,6 +2,10 @@
 
 server <- function(input, output, session) {
 
+  session$onSessionEnded(function() {
+    stopApp()
+  })
+
   # Data ----------------------------------------------------------------------
   lista_proyectos <- tryCatch(
     {
@@ -60,11 +64,6 @@ server <- function(input, output, session) {
             h2(paste("Resumen general del proyecto:", proyecto)),
             project_UI(proyecto)))
     }
-  })
-
-  observeEvent(input$close_app, {
-    js$closeWindow()
-    stopApp()
   })
 
 }
