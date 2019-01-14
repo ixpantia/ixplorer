@@ -101,8 +101,8 @@ current_tickets <- function() {
         tickets <- rename(tickets, Nr = number)
         tickets <- rename(tickets, Due = due_date)
 
-        verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens")
-        rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds")
+        suppressWarnings(verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens"))
+        suppressWarnings(rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds"))
 
         tickets_kable <- tickets %>%
           mutate(Due = ifelse(Due < 0, cell_spec(Due, color = "white",
