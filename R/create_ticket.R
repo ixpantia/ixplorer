@@ -22,7 +22,7 @@ create_tickets <- function() {
       verbatimTextOutput("warning", placeholder = FALSE),
 
       textInput(inputId = "ticket_title",
-                label = "ticket title",
+                label = "Ticket title",
                 width = "150%",
                 placeholder = "Brief description of your ticket"),
 
