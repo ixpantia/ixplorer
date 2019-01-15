@@ -69,7 +69,7 @@ create_tickets <- function() {
                                title = input$ticket_title,
                                body =  input$ticket_description)
         },
-        error = print("No ticket were created because of invalid credentials. Please use authentication gadget.")
+        error = print("No ticket was created because of invalid credentials. Please use authentication gadget.")
       )
 
       stopApp(NULL)
