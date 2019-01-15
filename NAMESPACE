@@ -2,8 +2,8 @@
 
 export(add_token)
 export(create_tickets)
+export(current_tickets)
 export(dashboard)
-export(ix_tickets)
 import(dplyr)
 import(kableExtra)
 import(miniUI)

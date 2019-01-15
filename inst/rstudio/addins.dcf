@@ -1,19 +1,19 @@
 Name: Authenticate
 Description: Add credentials to authenticate to your ixplorer
 Binding: add_token
-Interactive: false
+Interactive: true
 
 Name: Create ticket
 Description: Create a ticket on ixplorer
 Binding: create_tickets
-Interactive: false
+Interactive: true
 
 Name: Current tickets
 Description: Get overview of current tickets in this repository
-Binding: ix_tickets
-Interactive: false
+Binding: current_tickets
+Interactive: true
 
-Name: ixplorer Dashboard
+Name: Dashboard ixplorer 
 Description: Display the dashboard to check proyect metrics
 Binding: dashboard
 Interactive: true

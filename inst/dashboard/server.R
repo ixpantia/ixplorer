@@ -2,9 +2,28 @@
 
 server <- function(input, output, session) {
 
+  session$onSessionEnded(function() {
+    stopApp()
+  })
+
   # Data ----------------------------------------------------------------------
-  lista_proyectos <- get_data()
-  proyectos <- get_projects(lista_proyectos)
+  lista_proyectos <- tryCatch(
+    {
+      get_data()
+    },
+    error = function(cond){
+      stopApp("Invalid credentials. Please use authentication gadget.")
+    }
+  )
+
+  proyectos <- tryCatch(
+    {
+      get_projects(lista_proyectos)
+    },
+    error = function(cond){
+      stopApp("Invalid credentials. Please use authentication gadget.")
+    }
+  )
 
   # Projects ------------------------------------------------------------------
 
@@ -45,11 +64,6 @@ server <- function(input, output, session) {
             h2(paste("Resumen general del proyecto:", proyecto)),
             project_UI(proyecto)))
     }
-  })
-
-  observeEvent(input$close_app, {
-    js$closeWindow()
-    stopApp()
   })
 
 }
