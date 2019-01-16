@@ -129,7 +129,6 @@ current_tickets <- function() {
           select(assignee.login, number, title, due_date, url) %>%
           mutate(assignee.login = ifelse(is.na(assignee.login), "-",
                                          assignee.login)) %>%
-          mutate(due_date = ifelse(is.na(due_date), "-", due_date)) %>%
           filter(assignee.login != ixplorer_user) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"), sep = "T") %>%
           select(-hour) %>%
@@ -139,7 +138,8 @@ current_tickets <- function() {
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
           mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
-          arrange(desc(due_date))
+          arrange(desc(due_date)) %>%
+          mutate(due_date = ifelse(is.na(due_date), "-", due_date))
 
         tickets <- rename(tickets, Title = title)
         tickets <- rename(tickets, Nr = number)
