@@ -138,8 +138,8 @@ current_tickets <- function() {
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
           mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
-          arrange(desc(due_date)) %>%
-          mutate(due_date = ifelse(is.na(due_date), "-", due_date))
+          arrange(desc(due_date)) #%>%
+          # mutate(due_date = ifelse(is.na(due_date), "-", due_date))
 
         tickets <- rename(tickets, Title = title)
         tickets <- rename(tickets, Nr = number)
@@ -156,7 +156,8 @@ current_tickets <- function() {
                                    bold = TRUE, background = rojos),
                          cell_spec(Due, color = "white",
                                    bold = TRUE, background = verdes)),
-            Nr = text_spec(Nr, link = issue_url)) %>%
+            Nr = text_spec(Nr, link = issue_url),
+            Due = ifelse(is.na(Due), "-", Due)) %>%
           select(-issue_url) %>%
           kable(escape = FALSE) %>%
           kable_styling("striped", "condensed")
