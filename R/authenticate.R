@@ -79,6 +79,8 @@ add_token <- function() {
         conn <- file(ixplorer_file, open = "w")
         writeLines(access_data, con = conn, sep = "\n", useBytes = FALSE)
         close(conn)
+
+
       }
       stopApp(NULL)
     })
