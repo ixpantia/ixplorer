@@ -83,7 +83,8 @@ add_token <- function() {
         if (file.exists(.gitignore)) {
           gitignore <- paste0(working_directory, "/.gitignore")
           conn <- file(gitignore)
-          writeLines(".ixplorer", conn) #lo sobre escribe
+          archivos_ignorados <- readLines(conn)
+          writeLines(c(archivos_ignorados,".ixplorer"), conn) #lo sobre escribe
           close(conn)
         } else {
           ixplorer_file <- paste0(working_directory, "/.gitignore")
