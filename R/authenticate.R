@@ -80,6 +80,8 @@ add_token <- function() {
         writeLines(access_data, con = conn, sep = "\n", useBytes = FALSE)
         close(conn)
 
+        if (file.exists(.gitignore)) {}
+
 
       }
       stopApp(NULL)
