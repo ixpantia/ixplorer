@@ -27,6 +27,7 @@ vignettes/*.pdf
 *.knit.md
 .Rproj.user
 inst/doc
-.ixplorer
-.ixplorer*
 .Renviron
+.gitignore
+.gitignore
+.ixplorer
