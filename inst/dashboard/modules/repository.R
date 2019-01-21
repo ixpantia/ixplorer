@@ -253,16 +253,10 @@ repository <- function(input, output, session,
   # PLOTS ----------------------------------------------------------------------
   output$plot_bar_tickets <- renderPlotly({
 
-    # Condicional en caso que no hayan incidentes para que grafico no
-    # genere tantos warnings:
-
-    # replace_na
-    # incidentes[is.na(incidentes)] <- 0
-
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state,
                   colors = c("#F8A212", "#A78D7B")) %>%
       add_histogram() %>%
-      layout(title = "State of repository tickets",
+      layout(title = "Repository tickets",
              barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
 
@@ -281,7 +275,7 @@ repository <- function(input, output, session,
                 fillcolor = '#F8A212') %>%
       add_trace(y = ~(open_unassigned), name = "Open unassigned",
                 fillcolor = '#FFCF4D') %>%
-      layout(title = "tickets categories for ixplorer repo_pruebas",
+      layout(title = "Cummulative flow chart for tickets status",
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "tickets total",
                           showgrid = FALSE)) %>%

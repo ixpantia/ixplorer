@@ -197,7 +197,7 @@ project <- function(input, output, session,
     p1 <- plotly::plot_ly(incidentes, y = ~ name, color = ~ state,
                           colors = c("#F8A212", "#A78D7B")) %>%
       plotly::add_histogram() %>%
-      plotly::layout(title = "Total tickets categories per status",
+      plotly::layout(title = "Tickets categories per status",
                      barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
 
@@ -215,7 +215,7 @@ project <- function(input, output, session,
                 fillcolor = '#F8A212') %>%
       plotly::add_trace(y = ~open_unassigned, name = "Open unassigned",
                 fillcolor = '#FFCF4D') %>%
-      plotly::layout(title = 'tickets categories for ixplorer repo_pruebas',
+      plotly::layout(title = 'Cummulative flow chart for tickets status',
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "tickets total",
                           showgrid = FALSE)) %>%
