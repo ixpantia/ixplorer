@@ -13,7 +13,7 @@ NULL
 current_tickets <- function() {
 
   ui <- miniPage(
-    miniTitleBar("ixplorer Reports",
+    miniTitleBar("Current tickets",
                  right = miniTitleBarCancelButton(inputId = "done",
                                                  label = "Done",
                                                  primary = TRUE)
