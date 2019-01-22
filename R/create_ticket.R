@@ -22,7 +22,7 @@ create_tickets <- function() {
       verbatimTextOutput("warning", placeholder = FALSE),
 
       textInput(inputId = "ticket_title",
-                label = "ticket title",
+                label = "Ticket title",
                 width = "150%",
                 placeholder = "Brief description of your ticket"),
 
@@ -69,7 +69,7 @@ create_tickets <- function() {
                                title = input$ticket_title,
                                body =  input$ticket_description)
         },
-        error = print("No ticket were created because of invalid credentials. Please use authentication gadget.")
+        error = print("No ticket was created because of invalid credentials. Please use authentication gadget.")
       )
 
       stopApp(NULL)

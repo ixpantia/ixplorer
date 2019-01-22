@@ -13,7 +13,7 @@ NULL
 current_tickets <- function() {
 
   ui <- miniPage(
-    miniTitleBar("ixplorer Reports",
+    miniTitleBar("Current tickets",
                  right = miniTitleBarCancelButton(inputId = "done",
                                                  label = "Done",
                                                  primary = TRUE)
@@ -109,7 +109,8 @@ current_tickets <- function() {
                                                  bold = TRUE, background = rojos),
                               cell_spec(Due, color = "white",
                                         bold = TRUE, background = verdes)),
-                 Nr = text_spec(Nr, link = issue_url)) %>%
+                 Nr = text_spec(Nr, link = issue_url),
+                 Due = ifelse(is.na(Due), "-", Due)) %>%
           select(-issue_url) %>%
           kable(escape = FALSE) %>%
           kable_styling("striped", "condensed")
@@ -154,7 +155,8 @@ current_tickets <- function() {
                                    bold = TRUE, background = rojos),
                          cell_spec(Due, color = "white",
                                    bold = TRUE, background = verdes)),
-            Nr = text_spec(Nr, link = issue_url)) %>%
+            Nr = text_spec(Nr, link = issue_url),
+            Due = ifelse(is.na(Due), "-", Due)) %>%
           select(-issue_url) %>%
           kable(escape = FALSE) %>%
           kable_styling("striped", "condensed")
