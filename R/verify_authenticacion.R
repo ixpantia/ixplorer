@@ -18,13 +18,18 @@ verify_ixplorer_file <- function() {
       Sys.getenv("IXREPO")  != "" &
       Sys.getenv("IXUSER")  != "") {
 
-    token   <- paste0("IXTOKEN=", input$ixplorer_token)
-    url     <- paste0("IXURL=", input$ixplorer_url)
-    project <- paste0("IXPROJECT=", input$ixplorer_project_name)
-    repo    <- paste0("IXREPO=", input$ixplorer_repo_name)
-    user    <- paste0("IXUSER=", input$ixplorer_user_name)
+    token   <- paste0("IXTOKEN=", Sys.getenv("IXTOKEN"))
+    url     <- paste0("IXURL=", Sys.getenv("IXURL"))
+    project <- paste0("IXPROJECT=", Sys.getenv("IXPROJECT"))
+    repo    <- paste0("IXREPO=", Sys.getenv("IXREPO"))
+    user    <- paste0("IXUSER=", Sys.getenv("IXUSER"))
 
-    api_creds <- c(token, url, project, repo, user)
+    lines <- c(token, url, project, repo, user)
+    lines <- as.data.frame(lines)
+    api_creds$empty <- FALSE
+    api_creds$gitear_access <- tidyr::separate(lines, lines,
+                                               into = c("variable", "value"),
+                                               sep = "=")
 
   } else if (file.exists(ixplorer_file)) {
     readRenviron(ixplorer_file)
