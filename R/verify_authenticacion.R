@@ -33,8 +33,6 @@ verify_ixplorer_file <- function() {
 
   } else if (file.exists(ixplorer_file)) {
     readRenviron(ixplorer_file)
-    #gitear_access <- readr::read_csv(ixplorer_file) %>%
-
     conn <- file(ixplorer_file, open = "r")
     lines <- readLines(conn)
     close(conn)
