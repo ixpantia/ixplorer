@@ -66,8 +66,8 @@ create_tickets <- function() {
                                api_key = Sys.getenv("IXTOKEN"),
                                owner = Sys.getenv("IXPROJECT"),
                                repo = Sys.getenv("IXREPO"),
-                               title = input$ticket_title,
-                               body =  input$ticket_description)
+                               title = "hola", #input$ticket_title,
+                               body =  "prueba") #input$ticket_description)
         },
         error = print("No ticket was created because of invalid credentials. Please use authentication gadget.")
       )
