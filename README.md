@@ -68,6 +68,33 @@ The ixplorer package takes the functionality of ixplorer close to the client.
 
 ## Installation 
 
+Thanks for using ixplorer. To completely use the ixplorer package you will also
+need to install the **gitear** package. If you haven't install it yet, with this
+instruction you can do it:
+
+```
+devtools::install_github("ixpantia/gitear")
+```
+In case you do not have the devtools package installed on your computer, you
+can do it with:
+
+```
+install.packages("devtools")
+```
+
+To install the *ixplorer* package, we have two ways to do it:
+  1 - The first one consist in the installation of a zip file, in which the 
+  the content is the latest package version reviewed and functional.
+  2 - The second one is the develop version that could have new functionalities,
+  nonetheless it's no guaranted that it's error free.
+
+#### Last version installation:
+
+```
+devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.0.2.tar.gz")
+```
+#### Dev version installation:
+
 For the installation copy and paste the following in your console and press enter
 
 ```
@@ -90,9 +117,6 @@ for your username. Please complete this with your ixplorer username.
 The next step is a second box asking for your password. Please fill this with
 your ixplorer password.
 
-## Where can I find my username and password for ixplorer?
+##### Where can I find my username and password for ixplorer?
 Your provider or data science project manager should provide you with this
 credentials. 
-
-
-This is going to install the latest version of the ixplorer package.
