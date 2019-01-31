@@ -56,15 +56,11 @@ nombre de usuario de ixplorer.
 
 El segundo paso será un cuadro preguntando por su contraseña. Por favor llene
 el cuadro con su contraseña de ixplorer.
-The next step is a second box asking for your password. Please fill this with
-your ixplorer password.
 
-## Where can I find my username and password for ixplorer?
-Your provider or data science project manager should provide you with this
-credentials. 
+##### ¿Dónde puedo encontrar mi nombre de usuario y contraseña para ixplorer?
 
-
-This is going to install the latest version of the ixplorer package.
+Su proveedor del servicio o bien supervisor de proyectos de ciencia de datos
+debe de otorgarle los derechos respectivos.
 
 # ixplorer (english)
 
