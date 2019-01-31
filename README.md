@@ -1,6 +1,36 @@
-# ixplorer
+# ixplorer (Español)
 
 El paquete ixplorer para llevar funcionalidad de ixplorer cerca al cliente. 
+
+## Instalación
+
+Gracias por hacer uso de ixplorer. Las siguientes son instrucciones para su 
+correcta instalación. Estas instrucciones han de ser usadas desde R. Una vez instalados los paquetes podrá hacer uso de las utilidades del ixplorer.
+
+Como primer paso debemos de instalar el paquete gitear desde github. Si ya
+tenemos este paquete instalado no debemos de correr la instrucción
+
+```
+devtools::install_github("ixpantia/gitear")
+```
+
+En caso de no contar con el paquete devtools instalado, lo podemos realizar con:
+
+```
+install.packages("devtools")
+```
+
+El segundo paso es instalar el paquete ixplorer, lo cual podemos realizar con la instrucción:
+
+```
+devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.0.2.tar.gz")
+```
+
+Una vez concluidos estos pasos seremos capaces de aprovechar las utilidades de ixplorer.
+
+# ixplorer (english)
+
+The ixplorer package takes the functionality of ixplorer close to the client.
 
 ## Installation 
 
