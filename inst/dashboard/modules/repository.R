@@ -4,16 +4,16 @@ repository_UI <- function(id) {
     fluidRow(
       column(6, plotlyOutput(ns("plot_bar_tickets"))),
       column(6, plotlyOutput(ns("plot_cumflow_tickets")))
-    ),
-
-    fluidRow(
-      # shinydashboard::box(title = "Histogram box title",
-      #     status = "warning", solidHeader = TRUE, collapsible = TRUE,
-      #     plotlyOutput(ns("plot_commits_repos"))
-      # ),
-      column(6, plotlyOutput(ns("plot_commits_repos"))),
-      column(6, plotlyOutput(ns("plot_commits_person")))
     )
+
+    # fluidRow(
+    #   # shinydashboard::box(title = "Histogram box title",
+    #   #     status = "warning", solidHeader = TRUE, collapsible = TRUE,
+    #   #     plotlyOutput(ns("plot_commits_repos"))
+    #   # ),
+    #   column(6, plotlyOutput(ns("plot_commits_repos"))),
+    #   column(6, plotlyOutput(ns("plot_commits_person")))
+    # )
   )
 
 }
@@ -253,16 +253,10 @@ repository <- function(input, output, session,
   # PLOTS ----------------------------------------------------------------------
   output$plot_bar_tickets <- renderPlotly({
 
-    # Condicional en caso que no hayan incidentes para que grafico no
-    # genere tantos warnings:
-
-    # replace_na
-    # incidentes[is.na(incidentes)] <- 0
-
     p1 <- plot_ly(incidentes, y = ~ name, color = ~ state,
                   colors = c("#F8A212", "#A78D7B")) %>%
       add_histogram() %>%
-      layout(title = "State of repository tickets",
+      layout(title = "Repository tickets",
              barmode = "stack") %>%
       plotly::config(displayModeBar = FALSE)
 
@@ -281,7 +275,7 @@ repository <- function(input, output, session,
                 fillcolor = '#F8A212') %>%
       add_trace(y = ~(open_unassigned), name = "Open unassigned",
                 fillcolor = '#FFCF4D') %>%
-      layout(title = "tickets categories for ixplorer repo_pruebas",
+      layout(title = "Cummulative flow chart for tickets status",
              xaxis = list(title = "", showgrid = FALSE),
              yaxis = list(title = "tickets total",
                           showgrid = FALSE)) %>%
@@ -291,62 +285,62 @@ repository <- function(input, output, session,
 
   })
 
-  output$plot_commits_repos <- renderPlotly({
-
-    # Commits por repositorios de un proyecto
-    commits_repo <- readxl::read_xlsx("data/commits_repos.xlsx")
-
-    # Ahora toca darle vuelta:
-    commits <- tidyr::spread(data = commits_repo,
-                             key = repository, value = commits)
-
-    # replace_na
-    commits[is.na(commits)] <- 0
-
-    commits_repo <- commits %>%
-      ungroup() %>%
-      mutate(asignaciones = cumsum(asignaciones)) %>%
-      mutate(sitio_pruebas = cumsum(sitio_pruebas))
-
-    p1 <- plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
-                    name = "asignaciones", type = 'scatter', mode = 'none',
-                    # fillcolor = '#2BAD7E') %>%
-                    stackgroup  = 'one', fillcolor = '#2BAD7E') %>%
-      add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
-                fillcolor = '#3C558B') %>%
-      layout(title = 'commits total on ixplorer',
-             xaxis = list(title = "", showgrid = FALSE),
-             yaxis = list(title = "commits total",
-                          showgrid = FALSE)) %>%
-      plotly::config(displayModeBar = FALSE)
-
-    return(p1)
-
-  })
-
-  output$plot_commits_person <- renderPlotly({
-    # commits por persona por repositorio barras
-    commits_person <- readxl::read_xlsx("data/commits_person.xlsx")
-
-    # Crear los intervalos de semana y mes
-    int_week <- interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
-    int_month <- interval(today() - 37, today() - 7) #Esto porque no agarra el ultimo
-
-    # Clasificacion de commmits en mes semana o mas antiguo
-    commits_person <- commits_person %>%
-      mutate(state = ifelse(date %within% int_month, "month",
-                            ifelse(date %within% int_week, "week", "older")))
-
-    p1 <- plot_ly(commits_person, y = ~ person, color = ~ state,
-                  colors = c("#2A2A2A", "#BC7D22")) %>%
-      add_histogram() %>%
-      layout(title = 'commits ixplorer per person',
-             barmode = "stack") %>%
-      plotly::config(displayModeBar = FALSE)
-
-    return(p1)
-
-  })
+  # output$plot_commits_repos <- renderPlotly({
+  #
+  #   # Commits por repositorios de un proyecto
+  #   commits_repo <- readxl::read_xlsx("data/commits_repos.xlsx")
+  #
+  #   # Ahora toca darle vuelta:
+  #   commits <- tidyr::spread(data = commits_repo,
+  #                            key = repository, value = commits)
+  #
+  #   # replace_na
+  #   commits[is.na(commits)] <- 0
+  #
+  #   commits_repo <- commits %>%
+  #     ungroup() %>%
+  #     mutate(asignaciones = cumsum(asignaciones)) %>%
+  #     mutate(sitio_pruebas = cumsum(sitio_pruebas))
+  #
+  #   p1 <- plotly::plot_ly(commits_repo, x = ~date, y = ~asignaciones,
+  #                   name = "asignaciones", type = 'scatter', mode = 'none',
+  #                   # fillcolor = '#2BAD7E') %>%
+  #                   stackgroup  = 'one', fillcolor = '#2BAD7E') %>%
+  #     add_trace(y = ~sitio_pruebas, name = "sitio_pruebas",
+  #               fillcolor = '#3C558B') %>%
+  #     layout(title = 'commits total on ixplorer',
+  #            xaxis = list(title = "", showgrid = FALSE),
+  #            yaxis = list(title = "commits total",
+  #                         showgrid = FALSE)) %>%
+  #     plotly::config(displayModeBar = FALSE)
+  #
+  #   return(p1)
+  #
+  # })
+  #
+  # output$plot_commits_person <- renderPlotly({
+  #   # commits por persona por repositorio barras
+  #   commits_person <- readxl::read_xlsx("data/commits_person.xlsx")
+  #
+  #   # Crear los intervalos de semana y mes
+  #   int_week <- interval(today() - 7, today() + 1) #Esto porque no agarra el ultimo
+  #   int_month <- interval(today() - 37, today() - 7) #Esto porque no agarra el ultimo
+  #
+  #   # Clasificacion de commmits en mes semana o mas antiguo
+  #   commits_person <- commits_person %>%
+  #     mutate(state = ifelse(date %within% int_month, "month",
+  #                           ifelse(date %within% int_week, "week", "older")))
+  #
+  #   p1 <- plot_ly(commits_person, y = ~ person, color = ~ state,
+  #                 colors = c("#2A2A2A", "#BC7D22")) %>%
+  #     add_histogram() %>%
+  #     layout(title = 'commits ixplorer per person',
+  #            barmode = "stack") %>%
+  #     plotly::config(displayModeBar = FALSE)
+  #
+  #   return(p1)
+  #
+  # })
 
 }
 
