@@ -60,7 +60,7 @@ create_tickets <- function() {
     })
 
     observeEvent(input$create, {
-      out <- tryCatch(
+      tryCatch(
         {
           gitear::create_issue(base_url = Sys.getenv("IXURL"),
                                api_key = Sys.getenv("IXTOKEN"),
