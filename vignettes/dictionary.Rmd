@@ -53,3 +53,36 @@ sources of data
 
 ## What is upstream?
 
+Upstream is the standar name that we use to refer to the "central" repository
+which is the one that have the functional code and everyone make a fork from.
+
+## Fork
+
+This is a "copy" of the central repository. It's going to be under your user 
+name. You have to be aware that all the changes made in the upstream repository
+are not going to appear automatically in your fork.
+
+## Ticket
+
+Tickets are made for document things that need to be donde inside a repository.
+Tickets can have differente categories:
+
+ - Question: a question related to the topics of the repository.
+ - New: a new feature that can be achieve in the code.
+ - Improve: an idea or remark of an improvement that can be done.
+ - Error: when something in the code it's not working and needs to be resolve.
+ - Wish: a feature that can be done but it have no priority.
+ 
+## Milestone
+
+A way to organize your project priorities, assigning tikects to each of the 
+milestone that you define. An example of a milestone can be a release of a package.
+
+## Wiki
+
+The place of your repository where you can document, define and keep information
+needed to communicate to your team to solve doubts, to get informed about the
+project.
+
+## 
+
