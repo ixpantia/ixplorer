@@ -53,7 +53,7 @@ server <- function(input, output, session) {
         appendTab(
           inputId = proyecto,
           tabPanel(repo,
-            h2(paste("Resumen de actividad del repositorio: ", repo)),
+            # h2(paste("Resumen de actividad del repositorio: ", repo)),
             repository_UI(repo)))
       })
     }
@@ -61,7 +61,7 @@ server <- function(input, output, session) {
         prependTab(
           inputId = proyecto,
           tabPanel("Overview",
-            h2(paste("Resumen general del proyecto:", proyecto)),
+            # h2(paste("Resumen general del proyecto:", proyecto)),
             project_UI(proyecto)))
     }
   })
