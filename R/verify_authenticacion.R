@@ -7,15 +7,32 @@ NULL
 #' the variables.
 #'
 #'
-verify_ixplorer_file <- function(){
+verify_ixplorer_file <- function() {
   api_creds <- list()
   working_directory <- rstudioapi::getActiveProject()
   ixplorer_file <- paste0(working_directory, "/.ixplorer")
   # Leer ixplorer y poner condicionales -------------------------
-  if (file.exists(ixplorer_file)) {
-    readRenviron(ixplorer_file)
-    #gitear_access <- readr::read_csv(ixplorer_file) %>%
+  if (Sys.getenv("IXTOKEN") != "" &
+      Sys.getenv("IXURL") != "" &
+      Sys.getenv("IXPROJECT") != "" &
+      Sys.getenv("IXREPO")  != "" &
+      Sys.getenv("IXUSER")  != "") {
 
+    token   <- paste0("IXTOKEN=", Sys.getenv("IXTOKEN"))
+    url     <- paste0("IXURL=", Sys.getenv("IXURL"))
+    project <- paste0("IXPROJECT=", Sys.getenv("IXPROJECT"))
+    repo    <- paste0("IXREPO=", Sys.getenv("IXREPO"))
+    user    <- paste0("IXUSER=", Sys.getenv("IXUSER"))
+
+    lines <- c(token, url, project, repo, user)
+    lines <- as.data.frame(lines)
+    api_creds$empty <- FALSE
+    api_creds$gitear_access <- tidyr::separate(lines, lines,
+                                               into = c("variable", "value"),
+                                               sep = "=")
+
+  } else if (file.exists(ixplorer_file)) {
+    readRenviron(ixplorer_file)
     conn <- file(ixplorer_file, open = "r")
     lines <- readLines(conn)
     close(conn)
