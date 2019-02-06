@@ -1,34 +1,58 @@
-# ixplorer
+# ixplorer (Español)
 
 El paquete ixplorer para llevar funcionalidad de ixplorer cerca al cliente. 
 
+## Instalación
+
+Gracias por hacer uso de ixplorer. Para hacer uso del paquete ixplorer es 
+necesario contar el paquete *gitear*. Si no lo hemos instalado, con la siguiente
+instrucción podremos lograrlo:
+
+```
+devtools::install_github("ixpantia/gitear")
+```
+
+En caso de no contar con el paquete devtools instalado, lo podemos realizar con:
+
+```
+install.packages("devtools")
+```
+
+Para instalar el paquete *ixplorer* existe una forma de hacerlo: 
+  1 - Instalandolo de un archivo comprimido cuyo
+  paquete es la última versión revisada y funcional.
+
+#### Instalación última versión:
+
+```
+devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.0.2.tar.gz")
+
+# ixplorer (english)
+
+The ixplorer package takes the functionality of ixplorer close to the client.
+
 ## Installation 
 
-For the installation copy and paste the following in your console and press enter
+Thanks for using ixplorer. To completely use the ixplorer package you will also
+need to install the **gitear** package. If you haven't install it yet, with this
+instruction you can do it:
 
 ```
-install_ixplorer <- function(){
-  usr <- rstudioapi::askForSecret(message = "Please enter your username")
-  pw <- rstudioapi::askForPassword("Please enter your password")
-  devtools::install_git("https://secure.ixpantia.com/ixplorer/ixplorer.git", 
-                        branch = "master", 
-                        credentials = git2r::cred_user_pass(
-                          user = usr, password = pw),
-                        build_vignettes = TRUE)
-}
+devtools::install_github("ixpantia/gitear")
+```
+In case you do not have the devtools package installed on your computer, you
+can do it with:
 
-install_ixplorer()
+```
+install.packages("devtools")
 ```
 
-After you copy and paste this on your console you will see at first a box asking
-for your username. Please complete this with your ixplorer username. 
+To install the *ixplorer* package, we have one way to do it:
+  1 - It consist in the installation of a zip file, in which the 
+  the content is the latest package version reviewed and functional.
 
-The next step is a second box asking for your password. Please fill this with
-your ixplorer password.
+#### Last version installation:
 
-## Where can I find my username and password for ixplorer?
-Your provider or data science project manager should provide you with this
-credentials. 
-
-
-This is going to install the latest version of the ixplorer package.
+```
+devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.0.2.tar.gz")
+```
