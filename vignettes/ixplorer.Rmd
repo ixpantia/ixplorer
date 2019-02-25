@@ -36,7 +36,7 @@ IXPLORER header, in the *Addins* menu:
  - Create ticket
  - Current tickets
  - ixplorer dashboard
- 
+
 ![](img/addins.png)
 
 ## Authenticate gadget
