@@ -24,11 +24,12 @@ workflow and communicate better with you Data Science team.
 
 ## What is a project?
 
-A project is.... Within a project you can have several repositories up to your 
-needs of organization. 
+A project is your work subject where you try to reach specific goals. Within a 
+project you can have several repositories up to your needs of organization. 
 
-A project can be .... and under this project you can have the exploratory_analysis
-repository,  the package repository, and so on.
+A project can be for example a credit risk modelling and under this project you
+can have the exploratory_analysis repo, the model repository and the R package
+repository to keep code separated but code that it's referred to the same topic.
 
 The page of a project would like similar to this one:
 
