@@ -95,5 +95,16 @@ project.
 
 ## Release
 
+Release is made to establish a release of your code, or what it means: that you
+have a due date where all the code it's ready so it has a review, clean and 
+functional code. 
+
+All this code that can be an R package is labeled as a release so it marks an
+specific point on your git project history.
+
 ## Configuration
+
+On this place you can configure your repository, people who have access, who
+can collaborate, write or change code. If you want to eliminate your repository,
+change the rights this is the place to go.
 
