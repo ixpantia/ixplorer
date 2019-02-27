@@ -26,7 +26,7 @@ leaving RStudio and more important: without interrupting your workflow.
 First you have to install the ixplorer package:
 
 ```{r, eval = FALSE}
-install.packages("ixplorer")
+devtools::install_github("ixpantia/gitear")
 ```
 
 When you are done with the installation, you will see three options under the
