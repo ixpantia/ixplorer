@@ -19,14 +19,14 @@ knitr::opts_chunk$set(
 # ixplorer gadgets
 
 ixplorer gadgets are a way to create and check your project tickets without 
-leaving RStudio and more important without interrupting your workflow.
+leaving RStudio and more important: without interrupting your workflow.
 
 # How to use the ixplorer gadgets
 
 First you have to install the ixplorer package:
 
 ```{r, eval = FALSE}
-install.packages("ixplorer")
+devtools::install_github("ixpantia/gitear")
 ```
 
 When you are done with the installation, you will see three options under the
@@ -36,7 +36,7 @@ IXPLORER header, in the *Addins* menu:
  - Create ticket
  - Current tickets
  - ixplorer dashboard
- 
+
 ![](img/addins.png)
 
 ## Authenticate gadget
@@ -50,7 +50,7 @@ project  manager).
 At the **ixplorer url** make sure to include the internet address of your
 ixplorer repository. It will be similar to: `https://ixplorer_name.ixpantia.com/`
 
-The next step is to fill in the name of the **upstream project**. This is the
+The next step is to fill the name of the **upstream project**. This is the
 project where the source version of the repository resides. From this source
 you, and other members of your team, will have *forked* your own clone of this
 repository to make changes and propose pull requests. In our workflow we manage
@@ -62,20 +62,19 @@ At the **ixplorer repository name** please write the name of the specific
 repository where we are going to work with in the current RStudio project that
 is active. 
 
-Finally you have to speficy your user name in the section **ixplorer user
-name**  This is the same user name that we use to access to the ixplorer
-environment.
+Finally you have to speficy your user name in the section **ixplorer user name**
+This is the same user name that we use to access to the ixplorer environment.
 
-There is an option to **persist token**. If you are working in your personal
+There is an **persist token** option. If you are working in your personal
 computer, you can select this option. It will keep a copy of all your
 authentication data in a local file to reuse it the next time you open the
 project in RStudio. Otherwise you will have to authenticate each
 time that you are going to work on the same project.
 
 Be careful because if you are working in somebody else's computer, your
-personal authentication data is going to be stored on that machine. Should you
-work on a shared or public computer, it it best to leave the **persist token**
-option without a checkmark.
+personal authentication data is going to be stored on that machine. If you
+are going to work on a shared or public computer, it it best to leave the 
+**persist token** option without a checkmark.
 
 #### How the .ixplorer looks like?
 
@@ -96,8 +95,8 @@ credentials with the IX names on it.
 
 ## Create ticket gadget
 
-At this point you should have all your authentication done. If that is correct
-you are going to be able to create an ticket without getting out of RStudio!
+At this point you should have all your authentication process done. If that is 
+correct you will to be able to create a ticket without getting out of RStudio!
 
 If everything is okay, you are just going to see the **ticket title** and
 **Description** section. If not, you are going to see a text warning you what
@@ -105,24 +104,24 @@ is missing.
 
 ![](img/create_ticket_gadget.png)
 
-In this gadget you can create an ticket without loosing your workflow and ideas.
+In this gadget you can create a ticket without loosing your workflow and ideas.
 If you came up  with a new ticket (wish/improvement/question) you can go to
 Addins > Create ticket and under the **ticket title** write the title of your
 new ticket and under the **Description** section write your idea. 
 
-This ticket is going to appear on your ixplorer repository open ticket
+This ticket is going to appear on your ixplorer repository open tickets
 
 ## Current tickets
 
 This gadget is designed to give you a quick overview of active tickets and
-their in your project and their status. Also you will find some quick links
-that will take you to the ixplorer if you want to check details such as ticket
-comments or make changes like due dates of assignments.
+their status. Also you will find some quick links that will take you to the 
+ixplorer if you want to check details such as ticket comments or make changes 
+like due dates of assignments.
 
 At the first tab **My tickets**, you are going to be able to check the tickets
 assigned to you with the number id that also is a quick link to the ticket on
-your ixplorer and also you will see a column with the number of days left (on
-green) or days passed the due date (red).
+your ixplorer environment. Also you will see a column with the number of days 
+left (on green) or days passed the due date (red).
 
 ![](img/my_tickets.png)
 
@@ -134,7 +133,7 @@ days left on green for the due date or red if the due date was missed.
 ![](img/team_tickets.png)
 
 Finally the **Quick links** you have the links to the principal components
-of your project repository so you don't have to type to much in your browser to
+of your project repository, so you don't have to type to much in your browser to
 find a specific direction.
 
 This quick links will allow you to find faster specific details of your project
