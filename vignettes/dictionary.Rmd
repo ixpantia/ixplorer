@@ -24,11 +24,12 @@ workflow and communicate better with you Data Science team.
 
 ## What is a project?
 
-A project is.... Within a project you can have several repositories up to your 
-needs of organization. 
+A project is your work subject where you try to reach specific goals. Within a 
+project you can have several repositories up to your needs of organization. 
 
-A project can be .... and under this project you can have the exploratory_analysis
-repository,  the package repository, and so on.
+A project can be for example a credit risk modelling and under this project you
+can have the exploratory_analysis repo, the model repository and the R package
+repository to keep code separated but code that it's referred to the same topic.
 
 The page of a project would like similar to this one:
 
@@ -37,7 +38,7 @@ The page of a project would like similar to this one:
 ## What is a repository?
 
 A repository can be viewed as a folder where you keep all your files. This files
-can be share with other team members and start to collaborate on differente tickets.
+can be share with other team members to start to collaborate on differente tickets.
 
 ![](img/repo.png)
 
@@ -49,18 +50,26 @@ Our recommendation is:
 - To have a data folder inside your repository where you can put all different
 sources of data
 - image folder if you need to include images or binaries files.
-- 
+- The .Rproject should be visible
+- The R scripts shouldnot be in a folder and names should be without spaces,
+points or combining lower/upper cases.
 
 ## What is upstream?
 
-Upstream is the standar name that we use to refer to the "central" repository
-which is the one that have the functional code and everyone make a fork from.
+Upstream is the standard name that we use to refer to the "central" repository
+which is the one that have the functional clean code. From this central repository
+everyone in the team have to make a fork from in order to work on their tickets.
 
 ## Fork
 
 This is a "copy" of the central repository. It's going to be under your user 
-name. You have to be aware that all the changes made in the upstream repository
-are not going to appear automatically in your fork.
+name. You fork a repository when you want to contribute with code to the
+central repository. At  the moment when you are ready to offer your improvements, 
+you do a pull request. In your fork (unless you do a pull request) only your
+work is going to affect your forked repository, not the original one.
+You have to be aware that all the changes made in the upstream repository
+are not going to appear automatically in your fork unless you follow a process
+with git to update your project.
 
 ## Ticket
 
@@ -84,5 +93,18 @@ The place of your repository where you can document, define and keep information
 needed to communicate to your team to solve doubts, to get informed about the
 project.
 
-## 
+## Release
+
+Release is made to establish a release of your code, or what it means: that you
+have a due date where all the code it's ready so it has a review, clean and 
+functional code. 
+
+All this code that can be an R package is labeled as a release so it marks an
+specific point on your git project history.
+
+## Configuration
+
+On this place you can configure your repository, people who have access, who
+can collaborate, write or change code. If you want to eliminate your repository,
+change the rights this is the place to go.
 
