@@ -145,8 +145,8 @@ current_tickets <- function() {
         tickets <- rename(tickets, Due = due_date)
         tickets <- rename(tickets,  User = assignee.login)
 
-        verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens")
-        rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds")
+        suppressWarnings(verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens"))
+        suppressWarnings(rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds"))
 
         tickets_kable <- tickets %>%
           mutate(

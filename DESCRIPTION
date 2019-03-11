@@ -2,9 +2,9 @@ Package: ixplorer
 Title: Easy DataOps for R users
 Version: 0.1.0
 Authors@R: c(
-  person(family="ixpantia, SRL", role = "aut", email = "hola@ixpantia.com"),
-  person("Frans", "van Dunné", role="cre", email="frans@ixpantia.com"),
-  person("Ronny", "Hernández Mora", role="ctb", email="ronny@ixpantia.com")
+  person(family="ixpantia, SRL", role = "cph", email = "hola@ixpantia.com"),
+  person("Frans", "van Dunné", role=c("cre", "aut"), email="frans@ixpantia.com"),
+  person("Ronny", "Hernández Mora", role="aut", email="ronny@ixpantia.com")
   )
 Description: This is the local component of the ixplorer platform from ixpantia.
 Depends: R (>= 3.4),
