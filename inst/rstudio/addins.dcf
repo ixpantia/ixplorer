@@ -12,8 +12,3 @@ Name: Current tickets
 Description: Get overview of current tickets in this repository
 Binding: current_tickets
 Interactive: true
-
-Name: Dashboard ixplorer 
-Description: Display the dashboard to check proyect metrics
-Binding: dashboard
-Interactive: true
