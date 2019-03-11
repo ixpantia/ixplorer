@@ -7,6 +7,6 @@
 current_tickets()
 }
 \description{
-Visualize the tickets of an specific user, a team and get the quick links to
+Visualize the tickets of a specific user, a team and get the quick links to
 your ixplorer based on the credentials used in gadget authenticate.
 }
