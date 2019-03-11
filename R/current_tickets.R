@@ -1,12 +1,11 @@
 #' @import shiny
 #' @import miniUI
 #' @import dplyr
-#' @import kableExtra
 NULL
 
 #' Current tickets
 #'
-#' Visualize the tickets of an specific user, a team and get the quick links to
+#' Visualize the tickets of a specific user, a team and get the quick links to
 #' your ixplorer based on the credentials used in gadget authenticate.
 #'
 #' @export
@@ -105,15 +104,15 @@ current_tickets <- function() {
         suppressWarnings(rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds"))
 
         tickets_kable <- tickets %>%
-          mutate(Due = ifelse(Due < 0, cell_spec(Due, color = "white",
+          mutate(Due = ifelse(Due < 0, kableExtra::cell_spec(Due, color = "white",
                                                  bold = TRUE, background = rojos),
-                              cell_spec(Due, color = "white",
+                              kableExtra::cell_spec(Due, color = "white",
                                         bold = TRUE, background = verdes)),
-                 Nr = text_spec(Nr, link = issue_url),
+                 Nr = kableExtra::text_spec(Nr, link = issue_url),
                  Due = ifelse(is.na(Due), "-", Due)) %>%
           select(-issue_url) %>%
-          kable(escape = FALSE) %>%
-          kable_styling("striped", "condensed")
+          kableExtra::kable(escape = FALSE) %>%
+          kableExtra::kable_styling("striped", "condensed")
       }
       return(tickets_kable)
     }
@@ -151,15 +150,15 @@ current_tickets <- function() {
         tickets_kable <- tickets %>%
           mutate(
             Due = ifelse(Due < 0,
-                         cell_spec(Due, color = "white",
+                         kableExtra::cell_spec(Due, color = "white",
                                    bold = TRUE, background = rojos),
-                         cell_spec(Due, color = "white",
+                         kableExtra::cell_spec(Due, color = "white",
                                    bold = TRUE, background = verdes)),
-            Nr = text_spec(Nr, link = issue_url),
+            Nr = kableExtra::text_spec(Nr, link = issue_url),
             Due = ifelse(is.na(Due), "-", Due)) %>%
           select(-issue_url) %>%
-          kable(escape = FALSE) %>%
-          kable_styling("striped", "condensed")
+          kableExtra::kable(escape = FALSE) %>%
+          kableExtra::kable_styling("striped", "condensed")
       }
       return(tickets_kable)
 
@@ -188,23 +187,21 @@ current_tickets <- function() {
 
       # Final table
       links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
-      URL <- c("Clossed tickets", "Milestones", "Wiki", "Project")
+      URL <- c("Closed tickets", "Milestones", "Wiki", "Project")
       quick_links <- data_frame(links, URL)
 
       # Table with kableExtra
       quick_links <- quick_links %>%
         mutate(
-          URL = text_spec(URL, link = links)) %>%
+          URL = kableExtra::text_spec(URL, link = links)) %>%
         select(-links) %>%
-        kable(escape = FALSE, align = "c") %>%
-        kable_styling("striped", "condensed", position = "center",
+        kableExtra::kable(escape = FALSE, align = "c") %>%
+        kableExtra::kable_styling("striped", "condensed", position = "center",
                       font_size = 20)
       quick_links <- gsub("<thead>.*</thead>", "", quick_links)
       }
       return(quick_links)
     }
-
-
 
     observeEvent(input$done, {
       stopApp(TRUE)
@@ -213,7 +210,6 @@ current_tickets <- function() {
     }
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
-
 }
 
 
