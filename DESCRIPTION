@@ -1,6 +1,6 @@
 Package: ixplorer
 Title: Easy DataOps for R users
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: c(
   person(family="ixpantia, SRL", role = "cph", email = "hola@ixpantia.com"),
   person("Frans", "van Dunné", role=c("cre", "aut"), email="frans@ixpantia.com"),
@@ -10,14 +10,13 @@ Description: This is the local component of the ixplorer platform from ixpantia.
 Depends: R (>= 3.4),
     miniUI,
     httr,
-    gitear
+    gitear,
+    dplyr,
+    shiny
 License: file LICENCE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    miniUI,
-    httr,
-    gitear
 Suggests: testthat,
     knitr,
     rmarkdown
