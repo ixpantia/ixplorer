@@ -17,9 +17,6 @@ License: file LICENCE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    miniUI,
-    httr,
-    gitear
 Suggests: testthat,
     knitr,
     rmarkdown
