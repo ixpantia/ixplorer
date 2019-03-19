@@ -8,7 +8,7 @@ NULL
 #' RStudio project.
 #'
 #' @export
-list_open_tickets <- function(lag = 7, repository = "current") {
+list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
   access_file <- ixplorer:::verify_ixplorer_file()
 
   if (access_file$empty == TRUE) {
@@ -29,6 +29,10 @@ list_open_tickets <- function(lag = 7, repository = "current") {
       rename(nr = number,
         Titulo = title,
         Hito = milestone.title)
+    
+    if(clip) {
+      clipr::write_clip(list, breaks = "\n")
+    }
 
     return(list)
 }
@@ -39,7 +43,7 @@ list_open_tickets <- function(lag = 7, repository = "current") {
 #' RStudio project.
 #'
 #' @export
-list_closed_tickets <- function(lag = 7, repository = "current") {
+list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
 
   access_file <- ixplorer:::verify_ixplorer_file()
 
@@ -61,6 +65,10 @@ list_closed_tickets <- function(lag = 7, repository = "current") {
       rename(nr = number,
         Titulo = title,
         Hito = milestone.title)
+
+    if(clip) {
+      clipr::write_clip(list, breaks = "\n")
+    }
 
     return(list)
 }
