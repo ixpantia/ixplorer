@@ -25,7 +25,7 @@ Para instalar el paquete *ixplorer* existe una forma de hacerlo:
 #### Instalación última versión:
 
 ```
-devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.0.2.tar.gz")
+devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.2.0.tar.gz")
 
 # ixplorer (english)
 
@@ -51,8 +51,10 @@ To install the *ixplorer* package, we have one way to do it:
   1 - It consist in the installation of a zip file, in which the 
   the content is the latest package version reviewed and functional.
 
+
 #### Last version installation:
 
+
 ```
-devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.0.2.tar.gz")
+devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.2.0.tar.gz")
 ```
