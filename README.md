@@ -10,6 +10,7 @@ instrucción podremos lograrlo:
 
 ```
 devtools::install_github("ixpantia/gitear")
+devtools::install_github("ixpantia/ixplorer")
 ```
 
 En caso de no contar con el paquete devtools instalado, lo podemos realizar con:
@@ -17,15 +18,6 @@ En caso de no contar con el paquete devtools instalado, lo podemos realizar con:
 ```
 install.packages("devtools")
 ```
-
-Para instalar el paquete *ixplorer* existe una forma de hacerlo: 
-  1 - Instalandolo de un archivo comprimido cuyo
-  paquete es la última versión revisada y funcional.
-
-#### Instalación última versión:
-
-```
-devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.2.0.tar.gz")
 
 # ixplorer (english)
 
@@ -39,6 +31,7 @@ instruction you can do it:
 
 ```
 devtools::install_github("ixpantia/gitear")
+devtools::install_github("ixpantia/ixplorer")
 ```
 In case you do not have the devtools package installed on your computer, you
 can do it with:
@@ -47,14 +40,4 @@ can do it with:
 install.packages("devtools")
 ```
 
-To install the *ixplorer* package, we have one way to do it:
-  1 - It consist in the installation of a zip file, in which the 
-  the content is the latest package version reviewed and functional.
 
-
-#### Last version installation:
-
-
-```
-devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.2.0.tar.gz")
-```
