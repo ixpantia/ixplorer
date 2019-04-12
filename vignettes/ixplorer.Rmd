@@ -16,40 +16,47 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ixplorer gadgets
+# Gadgets de ixplorer 
 
-ixplorer gadgets are a way to create and check your project tickets without 
-leaving RStudio and more important: without interrupting your workflow.
+Los gadgets de ixplorer son una forma de crear y revisar los tiquetes de su 
+proyecto sin tener de salir de RStudio y más importante aún: sin tener que 
+interrumpir su flujo de trabajo.
 
-# How to use the ixplorer gadgets
+# ¿Cómo usar los gadgets de ixplorer?
 
-First you have to install the ixplorer package:
+Primero tenemos que instalar el paquete ixplorer:
 
 ```{r, eval = FALSE}
 devtools::install_github("ixpantia/gitear")
 ```
 
-When you are done with the installation, you will see three options under the
-IXPLORER header, in the *Addins* menu:
+Cuando estamos listos con la instalación podremos ver tres opciones en el 
+menú de *Addins* bajo el encabezado IXPLORER
 
- - Authenticate
- - Create ticket
- - Current tickets
- - ixplorer dashboard
+ - Autentificación
+ - Crear tiquete
+ - Tiquetes actuales
+ - Dashboard de ixplorer  
 
 ![](img/addins.png)
 
-## Authenticate gadget
+## Gadget de Autentificación 
 
-This is the first step in order to be able to create tickets or check you project
-tickets with the ixplorer gadgets. You will need an API key (provided by your
-project  manager).
+Este es el primer paso para poder generar tiquetes o revisarlos dentro de su
+repositorio de determinado proyecto. Necesitará  un token API. (Que será 
+proveído por su administración del proyecto.)
 
 ![](img/authentication_gadget.png)
 
-At the **ixplorer url** make sure to include the internet address of your
-ixplorer repository. It will be similar to: `https://ixplorer_name.ixpantia.com/`
+En el segmento del **URL ixplorer** es necesario asegurarse de incluir la 
+dirección de internet de su repositorio ixplorer. Deberá de ser similar 
+a `https://ixplorer_name.ixpantia.com/`
 
+El siguiente paso es llenar el nombre del **proyecto upstream**. Este es el 
+proyecto donde la versión fuente de su repositorio reside. Desde ésta fuente,
+usted y otros miembros del equipo habrán bifurcado y clonado el repositorio
+para generar cambios y proponerlos como solicitudes de fusión. En el flujo de 
+trabajo 
 The next step is to fill the name of the **upstream project**. This is the
 project where the source version of the repository resides. From this source
 you, and other members of your team, will have *forked* your own clone of this
