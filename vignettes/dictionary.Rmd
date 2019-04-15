@@ -61,56 +61,55 @@ espacios, puntos o combinando mayúsculas/minúsculas.
 ## ¿Qué es upstream?
 
 Upstream es el nomhbre estandar que usamos para referirnos al repositorio
-"central".
-Upstream is the standard name that we use to refer to the "central" repository
-which is the one that have the functional clean code. From this central repository
-everyone in the team have to make a fork from in order to work on their tickets.
+"central" el cual corresponde al repositorio que contiene código limpio y 
+funcional. Desde este repositorio central, los miembros en el equipo deberán
+de realizar su bifurcación para poder trabajar en sus tiquetes.
 
-## Fork
+## Bifurcación
 
-This is a "copy" of the central repository. It's going to be under your user 
-name. You fork a repository when you want to contribute with code to the
-central repository. At  the moment when you are ready to offer your improvements, 
-you do a pull request. In your fork (unless you do a pull request) only your
-work is going to affect your forked repository, not the original one.
-You have to be aware that all the changes made in the upstream repository
-are not going to appear automatically in your fork unless you follow a process
-with git to update your project.
+Esta es una "copia" del repositorio central. Estará bajo su nombre de usuario.
+Usted bifurca un repositorio cuando quiere contribuir con código al repositorio
+central. Al momento en que usted está listo para ofrecer sus mejoras, usted hace
+una solicitud de fusión. En su bifurcación (a menos de que realice una solicitud
+de fusión) únicamente su trabajo afectará su repositorio bifurcado, no el
+repositorio central. Se debe de estar atento a que todos los cambios en el 
+repositorio central no aparecerán de manera automática en su bifircación a menos
+de que siga el debido proceso con git para actualizar su repositorio.
 
-## Ticket
+## Tiquetes 
 
-Tickets are made for document things that need to be donde inside a repository.
-Tickets can have differente categories:
+Los tiquetes se crean para documentar acciones que necesitan ser realizadas
+en un repositorio. Los tiquetes pueden tener diferentes categorías:
 
- - Question: a question related to the topics of the repository.
- - New: a new feature that can be achieve in the code.
- - Improve: an idea or remark of an improvement that can be done.
- - Error: when something in the code it's not working and needs to be resolve.
- - Wish: a feature that can be done but it have no priority.
+ - Pregunta: una pregunta relacionada a los temas del repositorio.
+ - Nuevo: una nueva característica que puede ser lograda en el código.
+ - Mejora: una idea u observación que puede ser realizada.
+ - Error: cuando algo en el código no funciona y necesita ser resuelto. 
+ - Deseo: una característica que puede ser realizada pero no tiene prioridad.
  
-## Milestone
+## Hito
 
-A way to organize your project priorities, assigning tikects to each of the 
-milestone that you define. An example of a milestone can be a release of a package.
+Una manera de organizar las prioridades de su proyecto es asignando tiquetes
+a cada uno de los hitos que usted define. Un ejemplo de un hito puede ser el
+lanzamiento de un paquete.
 
 ## Wiki
 
-The place of your repository where you can document, define and keep information
-needed to communicate to your team to solve doubts, to get informed about the
-project.
+El lugar del repositorio donde se puede documentar, definir y mantener información
+necesaria para comunicar a su equipo para resolver dudas y mantenerse informado
+sobre el proyecto.
 
-## Release
+## Lanzamiento
 
-Release is made to establish a release of your code, or what it means: that you
-have a due date where all the code it's ready so it has a review, clean and 
-functional code. 
+Un lanzamientos está creado para establecer el lanzamiento de su código, lo que
+significa: que usted tiene una fecha límite donde el código estará listo, por lo
+que estará revisado, limpio y funcional.
 
-All this code that can be an R package is labeled as a release so it marks an
-specific point on your git project history.
+Todo este código puede ser un paquete de R, estará etiquetado como un lanzamiento,
+lo que marca un punto específico en la historia del proyecto.
 
-## Configuration
+## COnfiguración
 
-On this place you can configure your repository, people who have access, who
-can collaborate, write or change code. If you want to eliminate your repository,
-change the rights this is the place to go.
-
+En este lugar se puede configurar el repositorio, las personas que tienen acceso,
+quiénes pueden colaborar, escribir o cambiar código. Si se desea eliminar el
+repositorio, cambiar derechos, este es el lugar para hacerlo.
