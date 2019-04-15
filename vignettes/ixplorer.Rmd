@@ -56,52 +56,53 @@ El siguiente paso es llenar el nombre del **proyecto upstream**. Este es el
 proyecto donde la versión fuente de su repositorio reside. Desde ésta fuente,
 usted y otros miembros del equipo habrán bifurcado y clonado el repositorio
 para generar cambios y proponerlos como solicitudes de fusión. En el flujo de 
-trabajo 
-The next step is to fill the name of the **upstream project**. This is the
-project where the source version of the repository resides. From this source
-you, and other members of your team, will have *forked* your own clone of this
-repository to make changes and propose pull requests. In our workflow we manage
-all the tickets centrally in the **upstream project**. Any tickets that you
-create in your personal fork will not be visible through the ixplorer gadget
-(and in general we recommend not to work with personal tickets).
+trabajo, todos los tiquetes se manejan  de manera centralizada en el proyecto
+**upstream**. Cualquier tiquete que sea generado un su bifurcación personal, no 
+será visualizado a través del ixplorer gadget (y en general no recomendamos
+trabajar con tiquetes personales)
 
-At the **ixplorer repository name** please write the name of the specific
-repository where we are going to work with in the current RStudio project that
-is active. 
+En el segmento de **nombre del repositorio ixplorer** por favor escriba el 
+nombre del repositorio en específico sobre el cual desea trabajar en la
+sesión activa del proyeto de RStudio.
 
-Finally you have to speficy your user name in the section **ixplorer user name**
-This is the same user name that we use to access to the ixplorer environment.
+Finalmente usted tiene que especificar su nombre de usuario en la sección
+**nombre de usuario de ixplorer**. Es el mismo nombre de usuario que se utiliza
+para acceder a su entorno ixplorer.
 
-There is an **persist token** option. If you are working in your personal
-computer, you can select this option. It will keep a copy of all your
-authentication data in a local file to reuse it the next time you open the
-project in RStudio. Otherwise you will have to authenticate each
-time that you are going to work on the same project.
+Existe una opción de **persistencia del token**. Si se encuentra trabajando en 
+su computadora personal puede elegir esta opción. Esto ayudará a mantener una
+copia de sus datos de autentificación en un archivo local que se reutilizará
+la siguiente ocasión que abra su proyecto en RStudio. Caso contrario deberá de 
+repetir el proceso de autentificación cada ocasión que vaya a trabajar en el 
+mismo proyecto.
 
-Be careful because if you are working in somebody else's computer, your
-personal authentication data is going to be stored on that machine. If you
-are going to work on a shared or public computer, it it best to leave the 
-**persist token** option without a checkmark.
+Tener precaución en este paso si se encuentra trabajando sobre la computadora
+de alguien más, ya que sus datos de autentificación serán guardado en esa 
+computadora. Por ende si va a trabajar en la computadora de alguien más o en 
+una computadora compartida, lo mejor es dejar la opción de 
+**persistencia del token** sin marcar.
 
-#### How the .ixplorer looks like?
+#### ¿Cómo es el archivo .ixplorer?
 
-At the end of your authentication through yout authentication gadget, a 
-resulting ixplorer file with your credentials will look like this:
+Al final del proceso de autentificación a través del gadget de autentificación,
+un archivo .ixplorer quedará como resultado y contendrá las credenciales que se
+verán similar a:
 
 IXTOKEN= 08864824783ec0b589101191f65e643e54c8ad76c
-IXURL= https://ixplorer_name.ixpantia.com/
-IXPROJECT= your_project_name
-IXREPO= your_repo_name
-IXUSER= your_user_name
+IXURL= https://ixplorer_nombre.ixpantia.com/
+IXPROJECT= su_nombre_de_proyecto  
+IXREPO= su_nombre_de_repositorio
+IXUSER= su_nombre_de_usuario
 
-Every time you use the other gadgets, they are going to check this .ixplorer
-file and make this credentials part of your session environment variables.
+Cada vez que use otros gadgets, se estará revisando este archivo .ixplorer
+que hará las credenciales parte de sus variables de ambiente de la sesión.
 
-If you use the function `Sys.getenv()` you are going to be able to see this
-credentials with the IX names on it.
+Si usted hace uso de la función `Sys.getenv()` será capaz de revisar las
+credenciales con los nombres IX identificádolos.
 
-## Create ticket gadget
+## Gadget crear un tiquete
 
+A este punto
 At this point you should have all your authentication process done. If that is 
 correct you will to be able to create a ticket without getting out of RStudio!
 
