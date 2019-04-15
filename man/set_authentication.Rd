@@ -2,10 +2,11 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{set_authentication}
 \alias{set_authentication}
-\title{Verify each of the steps}
+\title{Verifique cada uno de los pasos}
 \usage{
 set_authentication(access_data)
 }
 \description{
-Verify  each of the elements needed to access your repository from a gadget
+Verifique cada uno de los elementos necesarios para acceder a su repositorio
+desde el gadget.
 }

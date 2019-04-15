@@ -2,10 +2,10 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixproject}
 \alias{verify_ixproject}
-\title{Verify  ixproject}
+\title{Verifique  ixproject}
 \usage{
 verify_ixproject(gitear_access)
 }
 \description{
-Verify if there is a project name where your ixplorer repository belongs.
+Verifique si existe el nombre del proyecto donde pertenece el repositorio.
 }

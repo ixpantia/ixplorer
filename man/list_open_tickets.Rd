@@ -2,11 +2,11 @@
 % Please edit documentation in R/cli.R
 \name{list_open_tickets}
 \alias{list_open_tickets}
-\title{list open tickets}
+\title{Enlistar tiquetes abiertos}
 \usage{
-list_open_tickets(lag = 7, repository = "current")
+list_open_tickets(lag = 7, repository = "current", clip = TRUE)
 }
 \description{
-list tickets. the "current" respository is the one linked to the active
-RStudio project.
+Listado de los tiquetes. El repositorio actual es el que se encuentra
+ligado al proyect activo de RStudio.
 }

@@ -2,10 +2,10 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixrepo}
 \alias{verify_ixrepo}
-\title{Verify  ixrepo}
+\title{Verifique ixrepo}
 \usage{
 verify_ixrepo(gitear_access)
 }
 \description{
-Verify if there is the name of your ixplorer repository
+Verifique si existe el nombre del repositorio de ixplorer.
 }

@@ -2,10 +2,10 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixurl}
 \alias{verify_ixurl}
-\title{Verify  ixurl}
+\title{Verifique  ixurl}
 \usage{
 verify_ixurl(gitear_access)
 }
 \description{
-Verify if there is an URL to your ixplorer repository
+Verifique si existe el URL para su repositorio de ixplorer.
 }

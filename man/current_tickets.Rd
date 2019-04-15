@@ -2,11 +2,12 @@
 % Please edit documentation in R/current_tickets.R
 \name{current_tickets}
 \alias{current_tickets}
-\title{Current tickets}
+\title{Tiquetes actuales}
 \usage{
 current_tickets()
 }
 \description{
-Visualize the tickets of a specific user, a team and get the quick links to
-your ixplorer based on the credentials used in gadget authenticate.
+Visualice los tiquetes de un usuario en específico, de un equipo y obtenga
+los enlaces a su ixplorer basado en las credenciales utilizadas en el
+gadget de autentificación.
 }

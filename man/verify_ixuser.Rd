@@ -2,10 +2,10 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixuser}
 \alias{verify_ixuser}
-\title{Verify  ixuser}
+\title{Verifique  ixuser}
 \usage{
 verify_ixuser(gitear_access)
 }
 \description{
-Verify if there is an user name.
+Verifique si hay nombre de usuario.
 }
