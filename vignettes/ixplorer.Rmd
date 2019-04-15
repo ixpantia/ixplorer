@@ -102,44 +102,48 @@ credenciales con los nombres IX identificádolos.
 
 ## Gadget crear un tiquete
 
-A este punto
-At this point you should have all your authentication process done. If that is 
-correct you will to be able to create a ticket without getting out of RStudio!
+A este punto deberá de haber concluido el proceso de autentificación. Si esto
+es correcto usted será capaz de crear un tiquete ¡sin tener que salir de RStudio!
 
-If everything is okay, you are just going to see the **ticket title** and
-**Description** section. If not, you are going to see a text warning you what
-is missing. 
+Si todo está correcto, usted verá la sección de **título del tiquete** y 
+**Descripcción**. Sino es así, verá un texto de advertencia mencionando lo que 
+está faltando.
 
 ![](img/create_ticket_gadget.png)
 
-In this gadget you can create a ticket without loosing your workflow and ideas.
-If you came up  with a new ticket (wish/improvement/question) you can go to
-Addins > Create ticket and under the **ticket title** write the title of your
-new ticket and under the **Description** section write your idea. 
+En este gadget usted puede crear un tiquete sin perder su flujo de trabajo o ideas.
+Si necesita crear un nuevo tiquete (deseo/mejora/pregunta/error) usted puede ir
+a Addins > Crear tiquete y bajo la sección **Titulo del tiquete** puede escribir
+el título que identifica el nuevo tiquete y bajo la sección **Descripción** 
+ingrese la idea del tiquete.
 
-This ticket is going to appear on your ixplorer repository open tickets
+Este tiquete aparecerá en su repositorio de ixplorer bajo los tiquetes abiertos.
 
-## Current tickets
+## Tiquete actuales
 
-This gadget is designed to give you a quick overview of active tickets and
-their status. Also you will find some quick links that will take you to the 
-ixplorer if you want to check details such as ticket comments or make changes 
-like due dates of assignments.
+Este gadget está diseñado para darle un vistazo rápido de los tiquetes activos
+y su estado. Además encontrará los enlaces que lo llevarán al ixplorer si desea
+revisar detalles tales como comentarios o hacer cambios a los tiquetes tales 
+como fechas límites de asignaciones.
 
-At the first tab **My tickets**, you are going to be able to check the tickets
-assigned to you with the number id that also is a quick link to the ticket on
-your ixplorer environment. Also you will see a column with the number of days 
-left (on green) or days passed the due date (red).
+En la primera pestaña **Mis tiquetes** podrá encontrar los tiquetes asignados a
+usted con el número de identificación que también es un enlace al tiquete
+en el entorno ixplorer. Así mismo verá la columna con el número de días
+que restan (en color verde) o días pasados la fecha límite (en color rojo).
 
 ![](img/my_tickets.png)
 
-On the second tab **Team tickets** you will see all open tickets related to the
-current (active) project, not just the ones assigned to you. The ID number is a
-quick link to the complete ticket on your ixplorer and the Due column is the
-days left on green for the due date or red if the due date was missed.
+En la segunda pestaña **Tiquete del equipo** podrá revisar todos los tiquetes
+abiertos relacionados al proyecto actual y asignados a todos los miembros del 
+equipo menos a usted. El número de identificación es un enlace a la información
+completa del tiquete en el entorno ixplorer y la columna "fecha límite" es
+cuántos días restan (en verde) o cuántos días han sido sobrepasados (en rojo) con
+respecto a la fecha límite.
 
 ![](img/team_tickets.png)
 
+Finalmente la pestaña de **Enlaces rápidos** tiene los enlaces a los componentes
+principales 
 Finally the **Quick links** you have the links to the principal components
 of your project repository, so you don't have to type to much in your browser to
 find a specific direction.
