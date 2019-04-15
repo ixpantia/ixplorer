@@ -2,53 +2,53 @@
 #' @import miniUI
 NULL
 
-#' Authenticate to ixplorer
+#' Autentificación en ixplorer
 #'
-#' Make the connection to your repository through the ixplorer gadget and be
-#' able to create tickets, review tickets without re-writing your credentials
+#' Hace la conexión a su repositorio a través del gadget de ixplorer y
+#' permite crear y revisar tiquetes sin tener que re-ingresar sus credenciales
 #'
 #' @export
 add_token <- function() {
 
   ui <- miniPage(
-    gadgetTitleBar("ixplorer authentication",
+    gadgetTitleBar("Autentificación en ixplorer",
                    left = miniTitleBarCancelButton(inputId = "cancel",
-                                                   label = "Cancel",
+                                                   label = "Cancelar",
                                                    primary = FALSE),
                    right = miniTitleBarButton(inputId = "done",
-                                              label = "Done",
+                                              label = "Listo",
                                               primary = TRUE)),
 
     miniContentPanel(
 
       textInput(inputId = "ixplorer_token",
-                label = "API token",
+                label = "Token API",
                 width = "100%",
-                placeholder = "Paste your ixplorer token here"),
+                placeholder = "Ingrese su token API aquí"),
 
       textInput(inputId = "ixplorer_url",
-                label = "ixplorer url",
+                label = "URL de ixplorer",
                 width = "100%",
-                placeholder = "Paste your ixplorer url here"),
+                placeholder = "Copie su ixplorer URl aquí."),
 
       textInput(inputId = "ixplorer_project_name",
-                label = "Name of the upstream project",
+                label = "Nombre del repositorio upstream",
                 width = "100%",
-                placeholder = "Paste your ixplorer upstream project name here"),
+                placeholder = "Ingrese el nombre del proyecto aquí"),
 
       textInput(inputId = "ixplorer_repo_name",
-                label = "ixplorer repository name",
+                label = "Nombre del repositorio ixplorer.",
                 width = "100%",
-                placeholder = "Paste your ixplorer repository name here"),
+                placeholder = "Copie el nombre del repositorio ixplorer aquí."),
 
       textInput(inputId = "ixplorer_user_name",
-                label = "Your ixplorer user name",
+                label = "Su nombre de usuario.",
                 width = "100%",
-                placeholder = "Paste your ixplorer user name here"),
+                placeholder = "Ingrese su nombre de usuario aquí."),
 
       checkboxInput(inputId = "token_persist",
                     value = 0,
-                    label = "Persist token? (do no use on shared computer)",
+                    label = "Persistencia de las credenciales. (No usar en computadoras compartidas)",
                     width = "100%"
       )
 
