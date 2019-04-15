@@ -29,36 +29,39 @@ Un proyecto es el lugar de trabajo donde se persiguen metas específicas. Dentro
 de un proyecto se pueden tener varios repositorios hasta la cantidad necesaria
 para satisfacer a la organización.
 
-Un propyecto puede ser por ejemplo 
-A project can be for example a credit risk modelling and under this project you
-can have the exploratory_analysis repo, the model repository and the R package
-repository to keep code separated but code that it's referred to the same topic.
+Un proyecto puede ser por ejemplo un modelo de riesgo crediticio y bajo este
+proyecto se puede encontrar el repositorio "analisis_exploratorio", el repositorio
+"modelo" y el repositorio "paquete_r", con lo que se mantiene el código separado
+de acuerdo a distintas finalidades pero todo referido a un mismo tema de proyecto.
 
-The page of a project would like similar to this one:
+La página del proyecto será similar a esta:
 
 ![](img/project.png)
 
-## What is a repository?
+## ¿Qué es un repositorio? 
 
-A repository can be viewed as a folder where you keep all your files. This files
-can be share with other team members to start to collaborate on differente tickets.
+Un repositorio puede ser visto como un folder donde se mantienen todos los archivos.
+Estos archivos pueden ser compartidos con otros miembros del equipo para empezar
+a colaborar en diferentes tiquetes que implican acciones.
 
 ![](img/repo.png)
 
-There are ways to keep an organized repository either if you are working in a
-R package or in a single RStudio project with  R files or others.
+Hay maneras de mantener un repositorio organizado sea que se está trabajando en
+un paquete o en un proyecto de RStudio con archivos R u otros.
 
-Our recommendation is:
+Nuestra recomendación es:
 
-- To have a data folder inside your repository where you can put all different
-sources of data
-- image folder if you need to include images or binaries files.
-- The .Rproject should be visible
-- The R scripts shouldnot be in a folder and names should be without spaces,
-points or combining lower/upper cases.
+- Tener una carpeta de datos dentro del repositorio donde se coloquen todas las
+fuentes de datos.
+- Una carpeta de imágenes donde se incluyan las imágenes o archivos binarios.
+- El .Rproject debe de ser visible
+- Los scripts de R deben de estar en una carpeta y los nombres deben de ser sin
+espacios, puntos o combinando mayúsculas/minúsculas.
 
-## What is upstream?
+## ¿Qué es upstream?
 
+Upstream es el nomhbre estandar que usamos para referirnos al repositorio
+"central".
 Upstream is the standard name that we use to refer to the "central" repository
 which is the one that have the functional clean code. From this central repository
 everyone in the team have to make a fork from in order to work on their tickets.
