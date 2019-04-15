@@ -16,17 +16,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Dictionary purpose
+## Propósito del diccionario. 
 
-The aim of this dictionary is to provide you with short explanations about the
-main components of the ixplorer. This will help you with your everyday project
-workflow and communicate better with you Data Science team.
+El propósito de este diccionario es proveerlo con explicaciones cortas sobre
+los principales componentes del ixplorer. Esto le ayudará con  el flujo de
+trabajo diario de su proyecto y a comunicar mejor con su equipo de ciencia de
+datos.
 
-## What is a project?
+## ¿Qué es un proyecto?
 
-A project is your work subject where you try to reach specific goals. Within a 
-project you can have several repositories up to your needs of organization. 
+Un proyecto es el lugar de trabajo donde se persiguen metas específicas. Dentro
+de un proyecto se pueden tener varios repositorios hasta la cantidad necesaria
+para satisfacer a la organización.
 
+Un propyecto puede ser por ejemplo 
 A project can be for example a credit risk modelling and under this project you
 can have the exploratory_analysis repo, the model repository and the R package
 repository to keep code separated but code that it's referred to the same topic.
