@@ -143,14 +143,12 @@ respecto a la fecha límite.
 ![](img/team_tickets.png)
 
 Finalmente la pestaña de **Enlaces rápidos** tiene los enlaces a los componentes
-principales 
-Finally the **Quick links** you have the links to the principal components
-of your project repository, so you don't have to type to much in your browser to
-find a specific direction.
+principales del repositorio del proyecto, así no tendrá que escribir mucho en
+su navegdor web para encontrar una dirección en específico.
 
-This quick links will allow you to find faster specific details of your project
-repository as closed tickets, milestones, the wiki, or the project place where
-all the repositories concerning to the project are.
+Estos enlaces le permitirán encontrar de una manera más rápida detalles
+específicos del repositorio de su proyecto como tiquetes cerrados, hitos, el
+wiki o el sitio del proyecto donde se encuentran otros repositorios concernientes.
 
 ![](img/quick_links.png)
 
