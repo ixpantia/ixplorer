@@ -16,129 +16,139 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ixplorer gadgets
+# Gadgets de ixplorer 
 
-ixplorer gadgets are a way to create and check your project tickets without 
-leaving RStudio and more important: without interrupting your workflow.
+Los gadgets de ixplorer son una forma de crear y revisar los tiquetes de su 
+proyecto sin tener de salir de RStudio y más importante aún: sin tener que 
+interrumpir su flujo de trabajo.
 
-# How to use the ixplorer gadgets
+# ¿Cómo usar los gadgets de ixplorer?
 
-First you have to install the ixplorer package:
+Primero tenemos que instalar el paquete ixplorer:
 
 ```{r, eval = FALSE}
 devtools::install_github("ixpantia/gitear")
 ```
 
-When you are done with the installation, you will see three options under the
-IXPLORER header, in the *Addins* menu:
+Cuando estamos listos con la instalación podremos ver tres opciones en el 
+menú de *Addins* bajo el encabezado IXPLORER
 
- - Authenticate
- - Create ticket
- - Current tickets
- - ixplorer dashboard
+ - Autentificación
+ - Crear tiquete
+ - Tiquetes actuales
+ - Dashboard de ixplorer  
 
 ![](img/addins.png)
 
-## Authenticate gadget
+## Gadget de Autentificación 
 
-This is the first step in order to be able to create tickets or check you project
-tickets with the ixplorer gadgets. You will need an API key (provided by your
-project  manager).
+Este es el primer paso para poder generar tiquetes o revisarlos dentro de su
+repositorio de determinado proyecto. Necesitará  un token API. (Que será 
+proveído por su administración del proyecto.)
 
 ![](img/authentication_gadget.png)
 
-At the **ixplorer url** make sure to include the internet address of your
-ixplorer repository. It will be similar to: `https://ixplorer_name.ixpantia.com/`
+En el segmento del **URL ixplorer** es necesario asegurarse de incluir la 
+dirección de internet de su repositorio ixplorer. Deberá de ser similar 
+a `https://ixplorer_name.ixpantia.com/`
 
-The next step is to fill the name of the **upstream project**. This is the
-project where the source version of the repository resides. From this source
-you, and other members of your team, will have *forked* your own clone of this
-repository to make changes and propose pull requests. In our workflow we manage
-all the tickets centrally in the **upstream project**. Any tickets that you
-create in your personal fork will not be visible through the ixplorer gadget
-(and in general we recommend not to work with personal tickets).
+El siguiente paso es llenar el nombre del **proyecto upstream**. Este es el 
+proyecto donde la versión fuente de su repositorio reside. Desde ésta fuente,
+usted y otros miembros del equipo habrán bifurcado y clonado el repositorio
+para generar cambios y proponerlos como solicitudes de fusión. En el flujo de 
+trabajo, todos los tiquetes se manejan  de manera centralizada en el proyecto
+**upstream**. Cualquier tiquete que sea generado un su bifurcación personal, no 
+será visualizado a través del ixplorer gadget (y en general no recomendamos
+trabajar con tiquetes personales)
 
-At the **ixplorer repository name** please write the name of the specific
-repository where we are going to work with in the current RStudio project that
-is active. 
+En el segmento de **nombre del repositorio ixplorer** por favor escriba el 
+nombre del repositorio en específico sobre el cual desea trabajar en la
+sesión activa del proyeto de RStudio.
 
-Finally you have to speficy your user name in the section **ixplorer user name**
-This is the same user name that we use to access to the ixplorer environment.
+Finalmente usted tiene que especificar su nombre de usuario en la sección
+**nombre de usuario de ixplorer**. Es el mismo nombre de usuario que se utiliza
+para acceder a su entorno ixplorer.
 
-There is an **persist token** option. If you are working in your personal
-computer, you can select this option. It will keep a copy of all your
-authentication data in a local file to reuse it the next time you open the
-project in RStudio. Otherwise you will have to authenticate each
-time that you are going to work on the same project.
+Existe una opción de **persistencia del token**. Si se encuentra trabajando en 
+su computadora personal puede elegir esta opción. Esto ayudará a mantener una
+copia de sus datos de autentificación en un archivo local que se reutilizará
+la siguiente ocasión que abra su proyecto en RStudio. Caso contrario deberá de 
+repetir el proceso de autentificación cada ocasión que vaya a trabajar en el 
+mismo proyecto.
 
-Be careful because if you are working in somebody else's computer, your
-personal authentication data is going to be stored on that machine. If you
-are going to work on a shared or public computer, it it best to leave the 
-**persist token** option without a checkmark.
+Tener precaución en este paso si se encuentra trabajando sobre la computadora
+de alguien más, ya que sus datos de autentificación serán guardado en esa 
+computadora. Por ende si va a trabajar en la computadora de alguien más o en 
+una computadora compartida, lo mejor es dejar la opción de 
+**persistencia del token** sin marcar.
 
-#### How the .ixplorer looks like?
+#### ¿Cómo es el archivo .ixplorer?
 
-At the end of your authentication through yout authentication gadget, a 
-resulting ixplorer file with your credentials will look like this:
+Al final del proceso de autentificación a través del gadget de autentificación,
+un archivo .ixplorer quedará como resultado y contendrá las credenciales que se
+verán similar a:
 
 IXTOKEN= 08864824783ec0b589101191f65e643e54c8ad76c
-IXURL= https://ixplorer_name.ixpantia.com/
-IXPROJECT= your_project_name
-IXREPO= your_repo_name
-IXUSER= your_user_name
+IXURL= https://ixplorer_nombre.ixpantia.com/
+IXPROJECT= su_nombre_de_proyecto  
+IXREPO= su_nombre_de_repositorio
+IXUSER= su_nombre_de_usuario
 
-Every time you use the other gadgets, they are going to check this .ixplorer
-file and make this credentials part of your session environment variables.
+Cada vez que use otros gadgets, se estará revisando este archivo .ixplorer
+que hará las credenciales parte de sus variables de ambiente de la sesión.
 
-If you use the function `Sys.getenv()` you are going to be able to see this
-credentials with the IX names on it.
+Si usted hace uso de la función `Sys.getenv()` será capaz de revisar las
+credenciales con los nombres IX identificádolos.
 
-## Create ticket gadget
+## Gadget crear un tiquete
 
-At this point you should have all your authentication process done. If that is 
-correct you will to be able to create a ticket without getting out of RStudio!
+A este punto deberá de haber concluido el proceso de autentificación. Si esto
+es correcto usted será capaz de crear un tiquete ¡sin tener que salir de RStudio!
 
-If everything is okay, you are just going to see the **ticket title** and
-**Description** section. If not, you are going to see a text warning you what
-is missing. 
+Si todo está correcto, usted verá la sección de **título del tiquete** y 
+**Descripcción**. Sino es así, verá un texto de advertencia mencionando lo que 
+está faltando.
 
 ![](img/create_ticket_gadget.png)
 
-In this gadget you can create a ticket without loosing your workflow and ideas.
-If you came up  with a new ticket (wish/improvement/question) you can go to
-Addins > Create ticket and under the **ticket title** write the title of your
-new ticket and under the **Description** section write your idea. 
+En este gadget usted puede crear un tiquete sin perder su flujo de trabajo o ideas.
+Si necesita crear un nuevo tiquete (deseo/mejora/pregunta/error) usted puede ir
+a Addins > Crear tiquete y bajo la sección **Titulo del tiquete** puede escribir
+el título que identifica el nuevo tiquete y bajo la sección **Descripción** 
+ingrese la idea del tiquete.
 
-This ticket is going to appear on your ixplorer repository open tickets
+Este tiquete aparecerá en su repositorio de ixplorer bajo los tiquetes abiertos.
 
-## Current tickets
+## Tiquete actuales
 
-This gadget is designed to give you a quick overview of active tickets and
-their status. Also you will find some quick links that will take you to the 
-ixplorer if you want to check details such as ticket comments or make changes 
-like due dates of assignments.
+Este gadget está diseñado para darle un vistazo rápido de los tiquetes activos
+y su estado. Además encontrará los enlaces que lo llevarán al ixplorer si desea
+revisar detalles tales como comentarios o hacer cambios a los tiquetes tales 
+como fechas límites de asignaciones.
 
-At the first tab **My tickets**, you are going to be able to check the tickets
-assigned to you with the number id that also is a quick link to the ticket on
-your ixplorer environment. Also you will see a column with the number of days 
-left (on green) or days passed the due date (red).
+En la primera pestaña **Mis tiquetes** podrá encontrar los tiquetes asignados a
+usted con el número de identificación que también es un enlace al tiquete
+en el entorno ixplorer. Así mismo verá la columna con el número de días
+que restan (en color verde) o días pasados la fecha límite (en color rojo).
 
 ![](img/my_tickets.png)
 
-On the second tab **Team tickets** you will see all open tickets related to the
-current (active) project, not just the ones assigned to you. The ID number is a
-quick link to the complete ticket on your ixplorer and the Due column is the
-days left on green for the due date or red if the due date was missed.
+En la segunda pestaña **Tiquete del equipo** podrá revisar todos los tiquetes
+abiertos relacionados al proyecto actual y asignados a todos los miembros del 
+equipo menos a usted. El número de identificación es un enlace a la información
+completa del tiquete en el entorno ixplorer y la columna "fecha límite" es
+cuántos días restan (en verde) o cuántos días han sido sobrepasados (en rojo) con
+respecto a la fecha límite.
 
 ![](img/team_tickets.png)
 
-Finally the **Quick links** you have the links to the principal components
-of your project repository, so you don't have to type to much in your browser to
-find a specific direction.
+Finalmente la pestaña de **Enlaces rápidos** tiene los enlaces a los componentes
+principales del repositorio del proyecto, así no tendrá que escribir mucho en
+su navegdor web para encontrar una dirección en específico.
 
-This quick links will allow you to find faster specific details of your project
-repository as closed tickets, milestones, the wiki, or the project place where
-all the repositories concerning to the project are.
+Estos enlaces le permitirán encontrar de una manera más rápida detalles
+específicos del repositorio de su proyecto como tiquetes cerrados, hitos, el
+wiki o el sitio del proyecto donde se encuentran otros repositorios concernientes.
 
 ![](img/quick_links.png)
 
