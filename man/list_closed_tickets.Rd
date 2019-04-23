@@ -8,5 +8,5 @@ list_closed_tickets(lag = 7, repository = "current", clip = TRUE)
 }
 \description{
 Listado de los tiquetes. El repositorio actual es el que se encuentra
-ligado al proyect activo de RStudio.
+ligado al proyecto activo en RStudio.
 }

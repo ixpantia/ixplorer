@@ -5,7 +5,7 @@ NULL
 #' Enlistar tiquetes abiertos
 #'
 #' Listado de los tiquetes. El repositorio actual es el que se encuentra
-#' ligado al proyect activo de RStudio.
+#' ligado al proyecto activo en RStudio.
 #'
 #' @export
 list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
@@ -40,7 +40,7 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
 #' Enlistar tiquetes cerrados
 #'
 #' Listado de los tiquetes. El repositorio actual es el que se encuentra
-#' ligado al proyect activo de RStudio.
+#' ligado al proyecto activo en RStudio.
 #'
 #' @export
 list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {

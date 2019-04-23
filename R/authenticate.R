@@ -22,9 +22,9 @@ add_token <- function() {
     miniContentPanel(
 
       textInput(inputId = "ixplorer_token",
-                label = "Token API",
+                label = "Token de acceso",
                 width = "100%",
-                placeholder = "Ingrese su token API aquí"),
+                placeholder = "Ingrese su Token de acceso aquí"),
 
       textInput(inputId = "ixplorer_url",
                 label = "URL de ixplorer",
@@ -32,7 +32,7 @@ add_token <- function() {
                 placeholder = "Copie su ixplorer URl aquí."),
 
       textInput(inputId = "ixplorer_project_name",
-                label = "Nombre del repositorio upstream",
+                label = "repositorio madre (upstream)",
                 width = "100%",
                 placeholder = "Ingrese el nombre del proyecto aquí"),
 
