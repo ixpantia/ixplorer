@@ -2,11 +2,11 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixplorer_file}
 \alias{verify_ixplorer_file}
-\title{Verify authentication to ixplorer}
+\title{Verificar autentificación del ixplorer.}
 \usage{
 verify_ixplorer_file()
 }
 \description{
-Verify if there is  a .ixplorer file in your working directory and set
-the variables.
+Verifique si hay un archivo .ixplorer en el directorio de trabajo y
+configure las variables.
 }

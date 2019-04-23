@@ -2,11 +2,11 @@
 % Please edit documentation in R/cli.R
 \name{list_closed_tickets}
 \alias{list_closed_tickets}
-\title{list closed tickets}
+\title{Enlistar tiquetes cerrados}
 \usage{
-list_closed_tickets(lag = 7, repository = "current")
+list_closed_tickets(lag = 7, repository = "current", clip = TRUE)
 }
 \description{
-list tickets. the "current" respository is the one linked to the active
-RStudio project.
+Listado de los tiquetes. El repositorio actual es el que se encuentra
+ligado al proyecto activo en RStudio.
 }

@@ -1,11 +1,10 @@
 #' @import dplyr
 NULL
 
-#' Verify authentication to ixplorer
+#' Verificar autentificación del ixplorer.
 #'
-#' Verify if there is  a .ixplorer file in your working directory and set
-#' the variables.
-#'
+#' Verifique si hay un archivo .ixplorer en el directorio de trabajo y
+#' configure las variables.
 #'
 verify_ixplorer_file <- function() {
   api_creds <- list()
@@ -48,68 +47,68 @@ verify_ixplorer_file <- function() {
   return(api_creds)
 }
 
-#' Verify  ixtoken
+#' Verifique el ixtoken
 #'
-#' Verify if there is a token to your ixplorer repository
+#' Verifique si existe el token para su repositorio de ixplorer.
 #'
 verify_ixtoken <- function(gitear_access){
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXTOKEN") &&
         FALSE %in% any(is.na(gitear_access[1,2])))) {
-    print("There is no ixplorer TOKEN, please use the Authentication gadget")
+    print("No hay TOKEN de ixplorer, por favor use el gadget de autentificación")
   }
 }
 
-#' Verify  ixurl
+#' Verifique  ixurl
 #'
-#' Verify if there is an URL to your ixplorer repository
+#' Verifique si existe el URL para su repositorio de ixplorer.
 #'
 verify_ixurl <- function(gitear_access){
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXURL") &&
         FALSE %in% any(is.na(gitear_access[2,2])))) {
-        print("There is no ixplorer URL, please use the Authentication gadget")
+        print("No hay URL de ixplorer, por favor use el gadget de autentificación")
   }
 }
 
   ## IXPROJECT ----
-#' Verify  ixproject
+#' Verifique  ixproject
 #'
-#' Verify if there is a project name where your ixplorer repository belongs.
+#' Verifique si existe el nombre del proyecto donde pertenece el repositorio.
 #'
 verify_ixproject <- function(gitear_access){
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXPROJECT") &&
      FALSE %in% any(is.na(gitear_access[3,2])))) {
-        print("There is no ixplorer PROJECT name, please use the Authentication gadget")
+        print("No hay NOMBRE del proyecto, por favor use el gadget de autentificación")
   }
 }
 
     ## IXREPO ----
-#' Verify  ixrepo
+#' Verifique ixrepo
 #'
-#' Verify if there is the name of your ixplorer repository
+#' Verifique si existe el nombre del repositorio de ixplorer.
 #'
 verify_ixrepo <- function(gitear_access){
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXREPO") &&
       FALSE %in% any(is.na(gitear_access[4,2])))) {
-    print("There is no ixplorer REPOSITORY, please use the Authentication gadget")
+    print("No hay repositorio ixplorer, por favor use el gadget de autentificación")
   }
 }
 
     ## IXUSER ----
-#' Verify  ixuser
+#' Verifique  ixuser
 #'
-#' Verify if there is an user name.
+#' Verifique si hay nombre de usuario.
 #'
 verify_ixuser <- function(gitear_access) {
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXUSER") &&
      FALSE %in% any(is.na(gitear_access[5,2])))) {
-       print("There is no ixplorer USER, please use the Authentication gadget")
+       print("No hay usuario ixplorer, por favor use el gadget de autentificación")
   }
 }
 
-#' Verify each of the steps
+#' Verifique cada uno de los pasos
 #'
-#' Verify  each of the elements needed to access your repository from a gadget
-#'
+#' Verifique cada uno de los elementos necesarios para acceder a su repositorio
+#' desde el gadget.
 #'
 set_authentication <- function(access_data) {
   ixurl <- verify_ixurl(access_data)

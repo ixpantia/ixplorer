@@ -3,33 +3,34 @@
 #' @import dplyr
 NULL
 
-#' Current tickets
+#' Tiquetes actuales
 #'
-#' Visualize the tickets of a specific user, a team and get the quick links to
-#' your ixplorer based on the credentials used in gadget authenticate.
+#' Visualice los tiquetes de un usuario en específico, de un equipo y obtenga
+#' los enlaces a su ixplorer basado en las credenciales utilizadas en el
+#' gadget de autentificación.
 #'
 #' @export
 current_tickets <- function() {
 
   ui <- miniPage(
-    miniTitleBar("Current tickets",
+    miniTitleBar("Tiquetes actuales",
                  right = miniTitleBarCancelButton(inputId = "done",
-                                                 label = "Done",
+                                                 label = "Realizado",
                                                  primary = TRUE)
                  ),
     verbatimTextOutput("warning", placeholder = FALSE),
     miniTabstripPanel(
-      miniTabPanel("My tickets", icon = icon("user"),
+      miniTabPanel("Mis tiquetes", icon = icon("user"),
                    miniContentPanel(
                      tableOutput("my_tickets")
                    )
       ),
-      miniTabPanel("Team tickets", icon = icon("users"),
+      miniTabPanel("Tiquetes del equipo", icon = icon("users"),
                    miniContentPanel(
                      tableOutput("team_tickets")
                    )
       ),
-      miniTabPanel("Quick links", icon = icon("link"),
+      miniTabPanel("Enlaces", icon = icon("link"),
                    miniContentPanel(
                      tableOutput("quick_links")
                    )
@@ -41,14 +42,14 @@ current_tickets <- function() {
 
     access_file <- verify_ixplorer_file()
     msg <- if (access_file$empty == TRUE) {
-      "no credential file available"
+      "No hay archivo de credenciales disponible"
     } else {
       ixplorer:::set_authentication(access_data = access_file$gitear_access)
     }
 
     output$warning <- renderText({
       msg <- if (access_file$empty == TRUE) {
-        "no credential file available"
+        "No hay archivo de credenciales disponible"
       } else {
         set_authentication(access_data = access_file$gitear_access)
       }
@@ -60,7 +61,7 @@ current_tickets <- function() {
       {
          if (access_file$empty == TRUE) {
           data.frame(character(0))
-          warning("no access data")
+          warning("No hay datos de acceso")
         } else {
           ixplorer_user = Sys.getenv("IXUSER")
 
@@ -79,9 +80,9 @@ current_tickets <- function() {
 
     output$my_tickets <- function() {
       if (class(tickets) != "data.frame") {
-        tickets_kable <- "Invalid credentials. Please use authentication gadget."
+        tickets_kable <- "Credenciales inválidas. Por favor use el gadget de autentificación."
       } else if (nrow(tickets) == 0) {
-        tickets_kable <- "No tickets found in repository"
+        tickets_kable <- "No se encontraron tiquetes en el repositorio."
       } else {
         # Select tickets by user and tickets link creation
         tickets <- tickets %>%
@@ -119,9 +120,9 @@ current_tickets <- function() {
 
     output$team_tickets <- function(){
       if (class(tickets) != "data.frame") {
-        tickets_kable <- "Invalid credentials. Please use authentication gadget."
+        tickets_kable <- "Credenciales inválidas. Por favor use el gadget de autentificación."
       } else if (nrow(tickets) == 0) {
-        tickets_kable <- "No tickets found in repository"
+        tickets_kable <- "No se encontraron tiquetes en el repositorio."
       }  else {
         # Select tickets by open status
         tickets <- tickets %>%
@@ -166,7 +167,7 @@ current_tickets <- function() {
 
     output$quick_links <- function()  {
       if (class(tickets) != "data.frame") {
-        quick_links <- "Invalid credentials. Please use authentication gadget."
+        quick_links <- "Credenciales inválidas. Por favor use el gadget de autentificación."
       } else {
       # Get closed tickets link
       close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"

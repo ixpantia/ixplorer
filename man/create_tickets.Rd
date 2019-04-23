@@ -2,12 +2,13 @@
 % Please edit documentation in R/create_ticket.R
 \name{create_tickets}
 \alias{create_tickets}
-\title{Create ticket}
+\title{Crear tiquete}
 \usage{
 create_tickets()
 }
 \description{
-Create tickets (Title and body) from the ixplorer addin without loosing the
-ideas during your workflow. tickets will be in the repository that corresponds
-to the information youo give in the authenticate gadget.
+Crear tiquetes (Título y cuerpo) desde el addin de ixplorer sin perder las
+ideas durante su flujo de trabajo. Los tiquetes serán creados en el
+repositorio que corresponde a la información dada en el gadget de
+autentificación.
 }

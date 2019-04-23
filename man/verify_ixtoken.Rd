@@ -2,10 +2,10 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixtoken}
 \alias{verify_ixtoken}
-\title{Verify  ixtoken}
+\title{Verifique el ixtoken}
 \usage{
 verify_ixtoken(gitear_access)
 }
 \description{
-Verify if there is a token to your ixplorer repository
+Verifique si existe el token para su repositorio de ixplorer.
 }

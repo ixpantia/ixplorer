@@ -2,17 +2,17 @@
 NULL
 
 
-#' list open tickets
+#' Enlistar tiquetes abiertos
 #'
-#' list tickets. the "current" respository is the one linked to the active
-#' RStudio project.
+#' Listado de los tiquetes. El repositorio actual es el que se encuentra
+#' ligado al proyecto activo en RStudio.
 #'
 #' @export
 list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
   access_file <- ixplorer:::verify_ixplorer_file()
 
   if (access_file$empty == TRUE) {
-      warning("no credential file available")
+      warning("No hay archivo de credenciales disponible")
     } else {
       ixplorer:::set_authentication(access_data = access_file$gitear_access)
     }
@@ -29,7 +29,7 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
       rename(nr = number,
         Titulo = title,
         Hito = milestone.title)
-    
+
     if(clip) {
       clipr::write_clip(list, breaks = "\n")
     }
@@ -37,10 +37,10 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
     return(list)
 }
 
-#' list closed tickets
+#' Enlistar tiquetes cerrados
 #'
-#' list tickets. the "current" respository is the one linked to the active
-#' RStudio project.
+#' Listado de los tiquetes. El repositorio actual es el que se encuentra
+#' ligado al proyecto activo en RStudio.
 #'
 #' @export
 list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
@@ -48,7 +48,7 @@ list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
   access_file <- ixplorer:::verify_ixplorer_file()
 
   if (access_file$empty == TRUE) {
-      warning("no credential file available")
+      warning("No hay archivo de credenciales disponible")
     } else {
       ixplorer:::set_authentication(access_data = access_file$gitear_access)
     }
