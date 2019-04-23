@@ -1,60 +1,44 @@
-# ixplorer (Español)
+# ixplorer Pro ES
 
-El paquete ixplorer para llevar funcionalidad de ixplorer cerca al cliente. 
+Esta es la versión español de ixplorer PRO. Es la base para cambios que despues llevamos a 
+ixplorer Pro EN. Esta es la **base par todo desarrollo en ixplorer**. 
 
-## Instalación
-
-Gracias por hacer uso de ixplorer. Para hacer uso del paquete ixplorer es 
-necesario contar el paquete *gitear*. Si no lo hemos instalado, con la siguiente
-instrucción podremos lograrlo:
-
-```
-devtools::install_github("ixpantia/gitear")
-```
-
-En caso de no contar con el paquete devtools instalado, lo podemos realizar con:
-
-```
-install.packages("devtools")
-```
-
-Para instalar el paquete *ixplorer* existe una forma de hacerlo: 
-  1 - Instalandolo de un archivo comprimido cuyo
-  paquete es la última versión revisada y funcional.
-
-#### Instalación última versión:
-
-```
-devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.2.0.tar.gz")
-
-# ixplorer (english)
-
-The ixplorer package takes the functionality of ixplorer close to the client.
-
-## Installation 
-
-Thanks for using ixplorer. To completely use the ixplorer package you will also
-need to install the **gitear** package. If you haven't install it yet, with this
-instruction you can do it:
-
-```
-devtools::install_github("ixpantia/gitear")
-```
-In case you do not have the devtools package installed on your computer, you
-can do it with:
-
-```
-install.packages("devtools")
-```
-
-To install the *ixplorer* package, we have one way to do it:
-  1 - It consist in the installation of a zip file, in which the 
-  the content is the latest package version reviewed and functional.
+        --------------
+       |  ixplorer.en  |   se mantiene en sintonia con ES
+        --------------
+             ^   |
+             |   v
+        --------------
+       |  ixplorer.es |   version central para desarollo
+        --------------
 
 
-#### Last version installation:
+## Proceso desarrollo
+ - **Desarrollamos principalmente en ixplorer.es** (es lo que mas usuarios
+   tiene).
+ - mantenemos ixplorer.en en sintonia con ixplorer.es a travez de diffs 
+   (todo requiere inspeccion visual para ver si esta bien).
+ - El estilo de código va ser muy estricto para poder hacer los diffs con 
+   facilidad. 
+ - Toda funcionalidad PRO se marca con la palabra "overlay". Puede ser en
+   funciones lista_abiertos_overlay() o en archivos conexion_overlay.R. Al ver
+   overlay sabemos que **NO PUEDE ENTRAR EN IXPLORER (publico)**.
+ - Escribimos todo codigo en ingles (y su documentacion roxygen.
+ - La version es contiene wrappers a las funciones en ingles, donde solamente
+   exportamos las funciones en espanol (los que tienen el formato:
+
+          lista_tiquetes_cerrados <- function() {list_closed_tickets()}
 
 
-```
-devtools::install_url("https://storage.googleapis.com/ixplorer/ixplorer_0.2.0.tar.gz")
-```
+## Proceso actualizaciones
+ - Cambios en github/ixplorer: Se jalan al repositorio (bifurcacion) personal.
+   Se revisan y se someten con un pull request a ixplorer/ixplorer.
+ - Cambios en ixplorer/ixplorer: Se jalan al master de un repositorio
+   (bifurcacion) personal y se envían (git fetch github) a la rama master de
+   github.
+ - Cambios en ixplorer.es: se incluyen en ixplorer.en con un diff (manual / visual)
+ - Cambios en ixplorer.en que han de ser públicos (tras validación en equipo se
+   incluyen con un diff (manual visual) a un repositorio (bifurcación)
+   personal, de allí van a ixplorer/ixplorer tras una solicitud de fusión, y
+   después se integran en el master del repositorio personal (bifurcación) de
+   la persona que lo va a enviar a github (git push github)
