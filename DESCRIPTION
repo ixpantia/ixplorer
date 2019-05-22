@@ -7,16 +7,17 @@ Authors@R: c(
   person("Ronny", "Hernández Mora", role="aut", email="ronny@ixpantia.com")
   )
 Description: This is the local component of the ixplorer platform from ixpantia.
-Depends: R (>= 3.4),
+Depends: 
+    R (>= 3.4)
+License: file LICENCE
+Encoding: UTF-8
+LazyData: true
+Imports:
     miniUI,
     httr,
     gitear,
     dplyr,
     shiny
-License: file LICENCE
-Encoding: UTF-8
-LazyData: true
-Imports:
 Suggests: testthat,
     knitr,
     rmarkdown
