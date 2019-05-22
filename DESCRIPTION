@@ -26,8 +26,11 @@ Imports:
     shiny (>= 1.3.2)
 Suggests: 
     knitr (>= 1.23),
+    readr,
     rmarkdown (>= 1.12),
-    testthat (>= 2.1.1)
+    rstudioapi,
+    testthat (>= 2.1.1),
+    tidyr
 VignetteBuilder: 
     knitr
 Remotes: 
