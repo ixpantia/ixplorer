@@ -1,26 +1,24 @@
 Package: ixplorer
 Title: Easy DataOps For R Users
 Version: 0.2.1
-Authors@R: c(
-  person(family="ixpantia, SRL", role = "cph", email = "hola@ixpantia.com"),
-  person("Frans", "van Dunné", role=c("cre", "aut"), email="frans@ixpantia.com"),
-  person("Ronny", "Hernández Mora", role="aut", email="ronny@ixpantia.com")
-  )
-Description: This is the local component of the ixplorer platform from ixpantia.
+Description: This is the local component of the ixplorer
+    platform from ixpantia.
+License: file LICENCE
 Depends: 
     R (>= 3.4)
-License: file LICENCE
+Imports:
+    dplyr,
+    gitear,
+    httr,
+    miniUI,
+    shiny
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: true
-Imports:
-    miniUI,
-    httr,
-    gitear,
-    dplyr,
-    shiny
-Suggests: testthat,
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
-RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
