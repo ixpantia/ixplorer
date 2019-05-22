@@ -1,5 +1,5 @@
 Package: ixplorer
-Title: Easy DataOps for R users
+Title: Easy DataOps For R Users
 Version: 0.2.1
 Authors@R: c(
   person(family="ixpantia, SRL", role = "cph", email = "hola@ixpantia.com"),
