@@ -7,15 +7,15 @@ License: file LICENCE
 Depends: 
     R (>= 3.4)
 Imports:
-    dplyr,
-    gitear,
-    httr,
-    miniUI,
-    shiny
+    dplyr (>= 0.8.1),
+    gitear (>= 0.0.2),
+    httr (>= 1.4.0),
+    miniUI (>= 0.1.1.1),
+    shiny (>= 1.3.2)
 Suggests: 
-    knitr,
-    rmarkdown,
-    testthat
+    knitr (>= 1.23),
+    rmarkdown (>= 1.12),
+    testthat (>= 2.1.1)
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
