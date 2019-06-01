@@ -1,43 +1,48 @@
-# ixplorer (Español)
 
-El paquete ixplorer para llevar funcionalidad de ixplorer cerca al cliente. 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## Instalación
+# <img src="https://i.imgur.com/KM5X4cu.png" align="right" height=50 /> ixplorer
 
-Gracias por hacer uso de ixplorer. Para hacer uso del paquete ixplorer es 
-necesario contar el paquete *gitear*. Si no lo hemos instalado, con la siguiente
-instrucción podremos lograrlo:
+<!-- badges: start -->
 
-```
-devtools::install_github("ixpantia/gitear")
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ixplorer)](https://cran.r-project.org/package=ixplorer)
+<!-- badges: end -->
+
+## Español
+
+El paquete ixplorer trae la funcionalidad de ixplorer mas cerca tuyo.
+
+### Instalación
+
+Gracias por usar ixplorer.
+
+Para installar ixplorer, primero necesitas installar el paquete devtools
+(o remotes). Si no lo has hecho aún, puedes instalarlo con:
+
+    install.packages("devtools")
+
+Ahora puedes instalar ixplorer de GitHub con:
+
+``` r
 devtools::install_github("ixpantia/ixplorer")
 ```
 
-En caso de no contar con el paquete devtools instalado, lo podemos realizar con:
+## English
 
-```
+The ixplorer package brings the functionality of ixplorer closer to you.
+
+### Installation
+
+In case you do not have the devtools package installed on your computer,
+you can do it with:
+
+``` r
 install.packages("devtools")
 ```
 
-# ixplorer (english)
+You can now install ixplorer from GitHub with:
 
-The ixplorer package takes the functionality of ixplorer close to the client.
-
-## Installation 
-
-Thanks for using ixplorer. To completely use the ixplorer package you will also
-need to install the **gitear** package. If you haven't install it yet, with this
-instruction you can do it:
-
-```
-devtools::install_github("ixpantia/gitear")
+``` r
 devtools::install_github("ixpantia/ixplorer")
 ```
-In case you do not have the devtools package installed on your computer, you
-can do it with:
-
-```
-install.packages("devtools")
-```
-
-
