@@ -1,12 +1,12 @@
-Package: ixplorer
-Title: Easy DataOps for R users
+Package: ixplorer.es
+Title: DataOps accesible para us organización
 Version: 0.2.2
 Authors@R: c(
   person(family="ixpantia, SRL", role = "cph", email = "hola@ixpantia.com"),
   person("Frans", "van Dunné", role=c("cre", "aut"), email="frans@ixpantia.com"),
   person("Ronny", "Hernández Mora", role="aut", email="ronny@ixpantia.com")
   )
-Description: This is the local component of the ixplorer platform from ixpantia.
+Description: Este es el componente local para integrar la plataforma ixplorer de ixpantia a RStudio IDE
 Depends: R (>= 3.4),
     miniUI,
     httr,
