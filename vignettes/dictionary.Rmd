@@ -1,10 +1,10 @@
 ---
-title: "Dictionary to the ixplorer"
+title: "ixplorer diccionario de términos"
 author: "ixpantia"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Diccionario de términos}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
