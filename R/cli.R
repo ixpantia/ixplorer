@@ -1,12 +1,22 @@
 #' @import dplyr
 NULL
 
+#' List open and closed tickets.
+#'
+#' `list_open_tickets()` and `list_closed_tickets` list open and closed
+#' tickets. The "current" respository is the one linked to the active RStudio
+#' project.
+#'
+#' @param lag FIXME
+#' @param repository FIXME
+#' @param clip FIXME
+#'
+#' @return FIXME
+#'
+#' @name list_tickets
+NULL
 
-#' list open tickets
-#'
-#' list tickets. the "current" respository is the one linked to the active
-#' RStudio project.
-#'
+#' @rdname list_tickets
 #' @export
 list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
   access_file <- ixplorer:::verify_ixplorer_file()
@@ -29,7 +39,7 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
       rename(nr = number,
         Titulo = title,
         Hito = milestone.title)
-    
+
     if(clip) {
       clipr::write_clip(list, breaks = "\n")
     }
@@ -37,11 +47,7 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
     return(list)
 }
 
-#' list closed tickets
-#'
-#' list tickets. the "current" respository is the one linked to the active
-#' RStudio project.
-#'
+#' @rdname list_tickets
 #' @export
 list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
 
