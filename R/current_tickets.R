@@ -44,7 +44,7 @@ current_tickets <- function() {
     msg <- if (access_file$empty == TRUE) {
       "No hay archivo de credenciales disponible"
     } else {
-      ixplorer:::set_authentication(access_data = access_file$gitear_access)
+      ixplorer.es:::set_authentication(access_data = access_file$gitear_access)
     }
 
     output$warning <- renderText({

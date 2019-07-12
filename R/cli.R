@@ -9,12 +9,12 @@ NULL
 #'
 #' @export
 list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
-  access_file <- ixplorer:::verify_ixplorer_file()
+  access_file <- ixplorer.es:::verify_ixplorer_file()
 
   if (access_file$empty == TRUE) {
       warning("No hay archivo de credenciales disponible")
     } else {
-      ixplorer:::set_authentication(access_data = access_file$gitear_access)
+      ixplorer.es:::set_authentication(access_data = access_file$gitear_access)
     }
 
     list <-  gitear::get_issues_open_state(
@@ -45,12 +45,12 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
 #' @export
 list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
 
-  access_file <- ixplorer:::verify_ixplorer_file()
+  access_file <- ixplorer.es:::verify_ixplorer_file()
 
   if (access_file$empty == TRUE) {
       warning("No hay archivo de credenciales disponible")
     } else {
-      ixplorer:::set_authentication(access_data = access_file$gitear_access)
+      ixplorer.es:::set_authentication(access_data = access_file$gitear_access)
     }
 
     list <-  gitear::get_issues_closed_state(
