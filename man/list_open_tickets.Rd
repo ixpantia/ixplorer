@@ -4,7 +4,7 @@
 \alias{list_open_tickets}
 \title{list open tickets}
 \usage{
-list_open_tickets(lag = 7, repository = "current")
+list_open_tickets(lag = 7, repository = "current", clip = TRUE)
 }
 \description{
 list tickets. the "current" respository is the one linked to the active
