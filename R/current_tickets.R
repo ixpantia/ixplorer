@@ -15,7 +15,7 @@ current_tickets <- function() {
   ui <- miniPage(
     miniTitleBar("Tiquetes actuales",
                  right = miniTitleBarCancelButton(inputId = "done",
-                                                 label = "Realizado",
+                                                 label = "Cierra",
                                                  primary = TRUE)
                  ),
     verbatimTextOutput("warning", placeholder = FALSE),
