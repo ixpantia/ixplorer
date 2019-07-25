@@ -1,6 +1,6 @@
 Package: ixplorer.es
 Title: DataOps accesible para us organización
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: c(
   person(family="ixpantia, SRL", role = "cph", email = "hola@ixpantia.com"),
   person("Frans", "van Dunné", role=c("cre", "aut"), email="frans@ixpantia.com"),
