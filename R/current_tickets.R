@@ -15,7 +15,7 @@ current_tickets <- function() {
   ui <- miniPage(
     miniTitleBar("Tiquetes actuales",
                  right = miniTitleBarCancelButton(inputId = "done",
-                                                 label = "Cierra",
+                                                 label = "Listo",
                                                  primary = TRUE)
                  ),
     verbatimTextOutput("warning", placeholder = FALSE),
@@ -94,7 +94,7 @@ current_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
+          mutate(issue_url = paste("https:/", Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
           arrange(desc(due_date))
 
         tickets <- rename(tickets, Title = title)
