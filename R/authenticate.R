@@ -32,7 +32,7 @@ add_token <- function() {
                 placeholder = "Copie su ixplorer URl aquí."),
 
       textInput(inputId = "ixplorer_project_name",
-                label = "repositorio madre (upstream)",
+                label = "Nombre proyecto",
                 width = "100%",
                 placeholder = "Ingrese el nombre del proyecto aquí"),
 
