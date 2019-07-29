@@ -43,7 +43,7 @@ create_tickets <- function() {
 
   server <- function(input, output, session) {
 
-    access_file <- verify_ixplorer_file()
+    access_file <- ixplorer.es:::verify_ixplorer_file()
 
     output$warning <- renderText({
       msg <- if (access_file$empty == TRUE) {
