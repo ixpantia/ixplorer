@@ -77,9 +77,11 @@ create_tickets <- function() {
       } else {
         autentificacion
       }
-    })
 
       stopApp(NULL)
+    })
+
+
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
 
