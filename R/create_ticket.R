@@ -61,36 +61,28 @@ create_tickets <- function() {
     })
 
     observeEvent(input$create, {
-      autentificacion <- tryCatch(
-        {
-          gitear::create_issue(
-            base_url = Sys.getenv("IXURL"),
-            api_key = Sys.getenv("IXTOKEN"),
-            owner = Sys.getenv("IXPROJECT"),
-            repo = "prueba",
-            # repo = Sys.getenv("IXREPO"),
-            title = "prueba 2",
-            body = "prueba")
-        },
-        error = function(cond) {
-          autentificacion <- "error ronny"
-        }
-      )
-      tryCatch(1, finally = print("Hello"))
+      autentificacion <- gitear::create_issue(
+        base_url = Sys.getenv("IXURL"),
+        api_key = Sys.getenv("IXTOKEN"),
+        owner = Sys.getenv("IXPROJECT"),
+        # repo = "prueba",
+        repo = Sys.getenv("IXREPO"),
+        # title = "prueba 2",
+        # body = "prueba")
+      title = input$ticket_title,
+      body =  input$ticket_description)
 
-
-
-          # title = input$ticket_title,
-          # body =  input$ticket_description)
-        },
-
-        }
-        # "No se ha creado ningún tiquete debido a credenciales inválidas. Porfavor use el gadget de autentificación."
-        )
-      stopApp(NULL)
+      if (autentificacion$status_code == 404) {
+        print("No se ha creado ningún tiquete debido a credenciales inválidas. Porfavor use el gadget de autentificación.")
+      } else {
+        autentificacion
+      }
     })
-  }
+
+      stopApp(NULL)
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
-}
 
+  }
+
+}
