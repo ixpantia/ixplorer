@@ -31,13 +31,14 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
       arrange(milestone.title, number) %>%
       rename(nr = number,
         Titulo = title,
-        Hito = milestone.title)
+        Hito = milestone.title) %>%
+      tibble::as_tibble()
 
     if(clip) {
       clipr::write_clip(list, breaks = "\n")
     }
 
-    return(tibble::as_tibble(list))
+    return(list)
 }
 
 #' Enlistar tiquetes cerrados
@@ -70,11 +71,12 @@ list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
       arrange(milestone.title, number) %>%
       rename(nr = number,
         Titulo = title,
-        Hito = milestone.title)
+        Hito = milestone.title) %>%
+      tibble::as_tibble()
 
     if(clip) {
       clipr::write_clip(list, breaks = "\n")
     }
 
-    return(tibble::as_tibble(list))
+    return(list)
 }
