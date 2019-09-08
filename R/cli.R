@@ -37,7 +37,7 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
       clipr::write_clip(list, breaks = "\n")
     }
 
-    return(list)
+    return(tibble::as_tibble(list))
 }
 
 #' Enlistar tiquetes cerrados
@@ -76,5 +76,5 @@ list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
       clipr::write_clip(list, breaks = "\n")
     }
 
-    return(list)
+    return(tibble::as_tibble(list))
 }
