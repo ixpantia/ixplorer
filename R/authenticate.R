@@ -47,8 +47,8 @@ add_token <- function() {
                 placeholder = "Ingrese su nombre de usuario aquí."),
 
       checkboxInput(inputId = "token_persist",
-                    value = 0,
-                    label = "Persistencia de las credenciales. (No usar en computadoras compartidas)",
+                    value = 1,
+                    label = "Persistencia de las credenciales para este repositorio. (No usar en computadoras compartidas)",
                     width = "100%"
       )
 
