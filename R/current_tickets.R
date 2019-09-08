@@ -66,7 +66,10 @@ current_tickets <- function() {
           ixplorer_user = Sys.getenv("IXUSER")
 
           gitear::get_issues_open_state(
-           base_url = paste("https://", strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+           base_url = paste0("https://",
+             ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+             Sys.getenv("IXURL"),
+             strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
            api_key = Sys.getenv("IXTOKEN"),
            owner = Sys.getenv("IXPROJECT"),
            repo = Sys.getenv("IXREPO"))
@@ -94,7 +97,11 @@ current_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste("https:/", Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
+          mutate(issue_url = paste(base_url = paste0("https://",
+                 ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+                 Sys.getenv("IXURL"),
+                 strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
+               issue_url, sep = "/")) %>%
           arrange(desc(due_date))
 
         tickets <- rename(tickets, Title = title)
@@ -137,7 +144,11 @@ current_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(base_url = paste("https://", strsplit(Sys.getenv("IXURL"), "//")[[1]][2]), issue_url, sep = "/")) %>%
+          mutate(issue_url = paste(base_url = paste0("https://",
+                 ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+                 Sys.getenv("IXURL"),
+                 strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
+               issue_url, sep = "/")) %>%
           arrange(desc(due_date))
 
         tickets <- rename(tickets, Title = title)

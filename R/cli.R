@@ -18,7 +18,10 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
     }
 
     list <-  gitear::get_issues_open_state(
-             base_url = paste("https://", strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+             base_url = paste0("https://",
+               ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+               Sys.getenv("IXURL"),
+               strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
              api_key = Sys.getenv("IXTOKEN"),
              owner = Sys.getenv("IXPROJECT"),
              repo = Sys.getenv("IXREPO"))
@@ -54,7 +57,10 @@ list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
     }
 
     list <-  gitear::get_issues_closed_state(
-             base_url = paste("https://", strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+             base_url = paste0("https://",
+               ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+               Sys.getenv("IXURL"),
+               strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
              api_key = Sys.getenv("IXTOKEN"),
              owner = Sys.getenv("IXPROJECT"),
              repo = Sys.getenv("IXREPO"))

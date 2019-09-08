@@ -62,7 +62,10 @@ create_tickets <- function() {
 
     observeEvent(input$create, {
          check <-  gitear::create_issue(
-           base_url = paste("https://", strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+           base_url = paste0("https://",
+             ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+             Sys.getenv("IXURL"),
+             strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
            api_key = Sys.getenv("IXTOKEN"),
            owner = Sys.getenv("IXPROJECT"),
            repo = Sys.getenv("IXREPO"),
