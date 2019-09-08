@@ -67,8 +67,9 @@ list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
              repo = Sys.getenv("IXREPO"))
 
     list <- list %>%
-      select(number, title, milestone.title) %>%
-      arrange(milestone.title, number) %>%
+      select(number, title, milestone.title, closed_at) %>%
+      mutate(closed_at = as.Date(closed_at)) %>%
+      arrange(desc(closed_at), number) %>%
       rename(nr = number,
         Titulo = title,
         Hito = milestone.title) %>%
