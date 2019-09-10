@@ -18,7 +18,10 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
     }
 
     list <-  gitear::get_issues_open_state(
-             base_url = Sys.getenv("IXURL"),
+             base_url = paste0("https://",
+               ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+               Sys.getenv("IXURL"),
+               strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
              api_key = Sys.getenv("IXTOKEN"),
              owner = Sys.getenv("IXPROJECT"),
              repo = Sys.getenv("IXREPO"))
@@ -28,7 +31,8 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
       arrange(milestone.title, number) %>%
       rename(nr = number,
         Titulo = title,
-        Hito = milestone.title)
+        Hito = milestone.title) %>%
+      tibble::as_tibble()
 
     if(clip) {
       clipr::write_clip(list, breaks = "\n")
@@ -54,17 +58,22 @@ list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
     }
 
     list <-  gitear::get_issues_closed_state(
-             base_url = Sys.getenv("IXURL"),
+             base_url = paste0("https://",
+               ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+               Sys.getenv("IXURL"),
+               strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
              api_key = Sys.getenv("IXTOKEN"),
              owner = Sys.getenv("IXPROJECT"),
              repo = Sys.getenv("IXREPO"))
 
     list <- list %>%
-      select(number, title, milestone.title) %>%
-      arrange(milestone.title, number) %>%
+      select(number, title, milestone.title, closed_at) %>%
+      mutate(closed_at = as.Date(closed_at)) %>%
+      arrange(desc(closed_at), number) %>%
       rename(nr = number,
         Titulo = title,
-        Hito = milestone.title)
+        Hito = milestone.title) %>%
+      tibble::as_tibble()
 
     if(clip) {
       clipr::write_clip(list, breaks = "\n")

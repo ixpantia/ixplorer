@@ -66,7 +66,10 @@ current_tickets <- function() {
           ixplorer_user = Sys.getenv("IXUSER")
 
           gitear::get_issues_open_state(
-            base_url = Sys.getenv("IXURL"),
+           base_url = paste0("https://",
+             ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+             Sys.getenv("IXURL"),
+             strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
            api_key = Sys.getenv("IXTOKEN"),
            owner = Sys.getenv("IXPROJECT"),
            repo = Sys.getenv("IXREPO"))
@@ -94,7 +97,11 @@ current_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste("https:/", Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
+          mutate(issue_url = paste(base_url = paste0("https://",
+                 ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+                 Sys.getenv("IXURL"),
+                 strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
+               issue_url, sep = "/")) %>%
           arrange(desc(due_date))
 
         tickets <- rename(tickets, Title = title)
@@ -137,7 +144,11 @@ current_tickets <- function() {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           select(-borrar) %>%
-          mutate(issue_url = paste(Sys.getenv("IXURL"), issue_url, sep = "/")) %>%
+          mutate(issue_url = paste(base_url = paste0("https://",
+                 ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
+                 Sys.getenv("IXURL"),
+                 strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
+               issue_url, sep = "/")) %>%
           arrange(desc(due_date))
 
         tickets <- rename(tickets, Title = title)
@@ -171,7 +182,7 @@ current_tickets <- function() {
       } else {
       # Get closed tickets link
       close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
-      ixurl <- sub("/$", "", Sys.getenv("IXURL"))
+      ixurl <- sub("/$", "", base_url = paste("https://", strsplit(Sys.getenv("IXURL"), "//")[[1]][2]))
       close_tickets_url <- paste(ixurl, Sys.getenv("IXPROJECT"), Sys.getenv("IXREPO"),
             close_tickets_url, sep = "/")
 
