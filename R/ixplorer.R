@@ -1,4 +1,4 @@
-#' \code{ixplorer} package
+#' `ixplorer` package
 #'
 #' ixplorer for dataops
 #'
