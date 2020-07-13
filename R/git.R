@@ -30,6 +30,10 @@ incluye_upstream <- function(instance, owner) {
     stop(paste("Aún no existen credenciales para", instance))
   }
 
+  if(credenciales$persistencia == FALSE) {
+    keyring::key_delete(paste0("token_", instance))
+  }
+
   proyecto_madre = paste0(
     "https://",
     credenciales$url, "/",

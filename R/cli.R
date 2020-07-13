@@ -19,10 +19,6 @@ list_open_tickets <- function(instance, owner, repository = "current",
     }
 
 
-  if(repository == "current") {
-    repository <- basename(rstudioapi::getActiveProject())
-  }
-
   credenciales <- credenciales %>%
     stringr::str_split("/", simplify = TRUE) %>%
     tibble::as_tibble() %>%
@@ -32,6 +28,10 @@ list_open_tickets <- function(instance, owner, repository = "current",
 
   if(credenciales$persistencia == FALSE) {
     keyring::key_delete(paste0("token_", instance))
+  }
+
+  if(repository == "current") {
+    repository <- basename(rstudioapi::getActiveProject())
   }
 
     list <-  gitear::get_issues_open_state(
@@ -71,11 +71,6 @@ list_closed_tickets <- function(instance, owner, repository = "current",
     stop(paste("Aún no existen credenciales para", instance))
   }
 
-
-  if(repository == "current") {
-    repository <- basename(rstudioapi::getActiveProject())
-  }
-
   credenciales <- credenciales %>%
     stringr::str_split("/", simplify = TRUE) %>%
     tibble::as_tibble() %>%
@@ -85,6 +80,10 @@ list_closed_tickets <- function(instance, owner, repository = "current",
 
   if(credenciales$persistencia == FALSE) {
     keyring::key_delete(paste0("token_", instance))
+  }
+
+  if(repository == "current") {
+    repository <- basename(rstudioapi::getActiveProject())
   }
 
   list <-  gitear::get_issues_closed_state(
