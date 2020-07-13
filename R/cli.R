@@ -1,6 +1,3 @@
-#' @import dplyr
-NULL
-
 
 #' Enlistar tiquetes abiertos
 #'
@@ -8,35 +5,46 @@ NULL
 #' ligado al proyecto activo en RStudio.
 #'
 #' @export
-list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
-  access_file <- ixplorer.es:::verify_ixplorer_file()
+list_open_tickets <- function(instance, owner, repository = "current",
+                              lag = 7) {
 
-  if (access_file$empty == TRUE) {
-      warning("No hay archivo de credenciales disponible")
-    } else {
-      ixplorer.es:::set_authentication(access_data = access_file$gitear_access)
+  credenciales <- tryCatch(
+    keyring::key_get(paste0("token_", instance)),
+    error = function(cond) "no_credenciales")
+
+  if(credenciales == "no_credenciales") {
+    stop(paste("Aún no existen credenciales para", instance))
     }
 
+
+  if(repository == "current") {
+    repository <- basename(rstudioapi::getActiveProject())
+  }
+
+  credenciales <- credenciales %>%
+    stringr::str_split("/", simplify = TRUE) %>%
+    tibble::as_tibble() %>%
+    magrittr::set_names(c("url", "token",
+                          "usuario", "persistencia")) %>%
+    dplyr::mutate(persistencia = as.logical(persistencia))
+
+  if(credenciales$persistencia == FALSE) {
+    keyring::key_delete(paste0("token_", instance))
+  }
+
     list <-  gitear::get_issues_open_state(
-             base_url = paste0("https://",
-               ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
-               Sys.getenv("IXURL"),
-               strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
-             api_key = Sys.getenv("IXTOKEN"),
-             owner = Sys.getenv("IXPROJECT"),
-             repo = Sys.getenv("IXREPO"))
+      base_url = paste0("https://", credenciales$url),
+      api_key = credenciales$token,
+      owner = owner,
+      repo = repository)
 
     list <- list %>%
-      select(number, title, milestone.title) %>%
-      arrange(milestone.title, number) %>%
-      rename(nr = number,
+      dplyr::select(number, title, milestone.title) %>%
+      dplyr::arrange(milestone.title, number) %>%
+      dplyr::rename(nr = number,
         Titulo = title,
         Hito = milestone.title) %>%
       tibble::as_tibble()
-
-    if(clip) {
-      clipr::write_clip(list, breaks = "\n")
-    }
 
     return(list)
 }
@@ -47,37 +55,46 @@ list_open_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
 #' ligado al proyecto activo en RStudio.
 #'
 #' @export
-list_closed_tickets <- function(lag = 7, repository = "current", clip = TRUE) {
+list_closed_tickets <- function(instance, owner, repository = "current",
+                                lag = 7) {
 
-  access_file <- ixplorer.es:::verify_ixplorer_file()
+  credenciales <- tryCatch(
+    keyring::key_get(paste0("token_", instance)),
+    error = function(cond) "no_credenciales")
 
-  if (access_file$empty == TRUE) {
-      warning("No hay archivo de credenciales disponible")
-    } else {
-      ixplorer.es:::set_authentication(access_data = access_file$gitear_access)
-    }
+  if(credenciales == "no_credenciales") {
+    stop(paste("Aún no existen credenciales para", instance))
+  }
 
-    list <-  gitear::get_issues_closed_state(
-             base_url = paste0("https://",
-               ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
-               Sys.getenv("IXURL"),
-               strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
-             api_key = Sys.getenv("IXTOKEN"),
-             owner = Sys.getenv("IXPROJECT"),
-             repo = Sys.getenv("IXREPO"))
 
-    list <- list %>%
-      select(number, title, milestone.title, closed_at) %>%
-      mutate(closed_at = as.Date(closed_at)) %>%
-      arrange(desc(closed_at), number) %>%
-      rename(nr = number,
-        Titulo = title,
-        Hito = milestone.title) %>%
-      tibble::as_tibble()
+  if(repository == "current") {
+    repository <- basename(rstudioapi::getActiveProject())
+  }
 
-    if(clip) {
-      clipr::write_clip(list, breaks = "\n")
-    }
+  credenciales <- credenciales %>%
+    stringr::str_split("/", simplify = TRUE) %>%
+    tibble::as_tibble() %>%
+    magrittr::set_names(c("url", "token",
+                          "usuario", "persistencia")) %>%
+    dplyr::mutate(persistencia = as.logical(persistencia))
 
-    return(list)
+  if(credenciales$persistencia == FALSE) {
+    keyring::key_delete(paste0("token_", instance))
+  }
+
+  list <-  gitear::get_issues_closed_state(
+    base_url = paste0("https://", credenciales$instancia),
+    api_key = credenciales$token,
+    owner = owner_repository,
+    repo = repository)
+
+  list <- list %>%
+    dplyr::select(number, title, milestone.title) %>%
+    dplyr::arrange(milestone.title, number) %>%
+    dplyr::rename(nr = number,
+           Titulo = title,
+           Hito = milestone.title) %>%
+    tibble::as_tibble()
+
+  return(list)
 }

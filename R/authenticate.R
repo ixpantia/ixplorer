@@ -1,5 +1,7 @@
 #' @import shiny
 #' @import miniUI
+#' @import dplyr
+#' @import SOAR
 NULL
 
 #' Autentificación en ixplorer
@@ -18,87 +20,78 @@ add_token <- function() {
                    right = miniTitleBarButton(inputId = "done",
                                               label = "Listo",
                                               primary = TRUE)),
-
     miniContentPanel(
-
-      textInput(inputId = "ixplorer_token",
-                label = "Token de acceso",
-                width = "100%",
-                placeholder = "Ingrese su Token de acceso aquí"),
-
       textInput(inputId = "ixplorer_url",
                 label = "URL de ixplorer",
                 width = "100%",
                 placeholder = "Copie su ixplorer URl aquí."),
-
-      textInput(inputId = "ixplorer_project_name",
-                label = "Nombre proyecto",
-                width = "100%",
-                placeholder = "Ingrese el nombre del proyecto aquí"),
-
-      textInput(inputId = "ixplorer_repo_name",
-                label = "Nombre del repositorio ixplorer.",
-                width = "100%",
-                placeholder = "Copie el nombre del repositorio ixplorer aquí."),
-
-      textInput(inputId = "ixplorer_user_name",
-                label = "Su nombre de usuario.",
-                width = "100%",
-                placeholder = "Ingrese su nombre de usuario aquí."),
-
+      uiOutput("token_user"),
       checkboxInput(inputId = "token_persist",
                     value = 1,
                     label = "Persistencia de las credenciales para este repositorio. (No usar en computadoras compartidas)",
                     width = "100%"
       )
-
     )
   )
 
   server <- function(input, output, session) {
 
+    output$token_user <- renderUI({
+      req(input$ixplorer_url)
+
+      instancia <- sub("\\..*", "", input$ixplorer_url)
+
+      verifica_cred <- tryCatch(
+        keyring::key_get(paste0("token_", instancia)),
+        error = function(cond) "no_credenciales")
+
+      if(verifica_cred == "no_credenciales") {
+          div(textInput(inputId = "ixplorer_token",
+                    label = "Token de acceso",
+                    width = "100%",
+                    placeholder = "Ingrese su Token de acceso aquí"),
+              textInput(inputId = "ixplorer_user_name",
+                        label = "Su nombre de usuario.",
+                        width = "100%",
+                        placeholder = "Ingrese su nombre de usuario aquí."))
+      }
+
+    })
+
     observeEvent(input$done, {
 
-      Sys.setenv("IXTOKEN" = input$ixplorer_token)
-      Sys.setenv("IXURL"   = input$ixplorer_url)
-      Sys.setenv("IXPROJECT" = input$ixplorer_project_name)
-      Sys.setenv("IXREPO"  = input$ixplorer_repo_name)
-      Sys.setenv("IXUSER"  = input$ixplorer_user_name)
+      instancia <- sub("\\..*", "", input$ixplorer_url)
 
-      token   <- paste0("IXTOKEN=", input$ixplorer_token)
-      url     <- paste0("IXURL=", input$ixplorer_url)
-      project <- paste0("IXPROJECT=", input$ixplorer_project_name)
-      repo    <- paste0("IXREPO=", input$ixplorer_repo_name)
-      user    <- paste0("IXUSER=", input$ixplorer_user_name)
+      verifica_cred <- tryCatch(
+        keyring::key_get(paste0("token_", instancia)),
+        error = function(cond) "no_credenciales")
 
-      access_data <- c(token, url, project, repo, user)
 
-      if (input$token_persist == 1) {
-        working_directory <- rstudioapi::getActiveProject()
-        ixplorer_file <- paste0(working_directory, "/.ixplorer")
-        conn <- file(ixplorer_file, open = "w")
-        writeLines(access_data, con = conn, sep = "\n", useBytes = FALSE)
-        close(conn)
+      if(verifica_cred == "no_credenciales") {
 
-        gitignore <- paste0(working_directory, "/.gitignore")
-        if (file.exists(gitignore)) {
-          conn <- file(gitignore)
-          archivos_ignorados <- readLines(conn)
-          writeLines(c(archivos_ignorados,".ixplorer"), conn) #lo sobre escribe
-          close(conn)
-        } else {
-          conn <- file(gitignore, open = "w")
-          writeLines(".ixplorer", con = conn, sep = "\n", useBytes = FALSE)
-          close(conn)
+        if(is.null(input$ixplorer_url) == FALSE |
+           is.null(input$ixplorer_token) == FALSE |
+           is.null(input$ixplorer_user_name) == FALSE) {
+
+          keyring::key_set_with_value(
+            service = paste0("token_", instancia),
+            password = paste(input$ixplorer_url,
+                             input$ixplorer_token,
+                             input$ixplorer_user_name,
+                             input$token_persist,
+                             sep = "/"))
         }
 
-      }
-      stopApp(NULL)
-    })
+      } else {
+
+        }
+
+        stopApp(TRUE)
+      })
 
     observeEvent(input$cancel, {
       # do nothing
-      stopApp(NULL)
+      stopApp(TRUE)
     })
   }
 
