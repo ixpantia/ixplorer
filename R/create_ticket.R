@@ -14,6 +14,25 @@ NULL
 #' @export
 create_tickets <- function(instance, owner, repository = "current") {
 
+  credenciales <- tryCatch(
+    keyring::key_get(paste0("token_", instance)),
+    error = function(cond) "no_credenciales")
+
+
+  if(credenciales != "no_credenciales") {
+    credenciales <- credenciales %>%
+      stringr::str_split("/", simplify = TRUE) %>%
+      tibble::as_tibble() %>%
+      magrittr::set_names(c("url", "token",
+                            "usuario", "persistencia")) %>%
+      dplyr::mutate(persistencia = as.logical(persistencia))
+
+  }
+
+  if(credenciales$persistencia == FALSE) {
+    keyring::key_delete(paste0("token_", instance))
+  }
+
   ui <- miniPage(
     miniTitleBar("Crear un nuevo tiquete",
                    left = miniTitleBarCancelButton(inputId = "cancel",
@@ -45,20 +64,6 @@ create_tickets <- function(instance, owner, repository = "current") {
 
   server <- function(input, output, session) {
 
-    credenciales <- tryCatch(
-      keyring::key_get(paste0("token_", instance)),
-      error = function(cond) "no_credenciales")
-
-
-    if(credenciales != "no_credenciales") {
-      credenciales <- credenciales %>%
-        stringr::str_split("/", simplify = TRUE) %>%
-        tibble::as_tibble() %>%
-        magrittr::set_names(c("url", "token",
-                              "usuario", "persistencia")) %>%
-        dplyr::mutate(persistencia = as.logical(persistencia))
-
-    }
 
     output$warning <- renderText({
       msg <- ifelse (credenciales == "no_credenciales",

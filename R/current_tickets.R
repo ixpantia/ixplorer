@@ -33,6 +33,10 @@ current_tickets <- function(instance, owner, repository = "current") {
 
   }
 
+  if(credenciales$persistencia == FALSE) {
+    keyring::key_delete(paste0("token_", instance))
+  }
+
   ui <- miniPage(
     miniTitleBar("Tiquetes actuales",
                  right = miniTitleBarCancelButton(inputId = "done",
@@ -216,9 +220,6 @@ current_tickets <- function(instance, owner, repository = "current") {
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
 
-  if(credenciales$persistencia == FALSE) {
-    keyring::key_delete(paste0("token_", instance))
-  }
 
 }
 
