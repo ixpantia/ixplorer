@@ -19,6 +19,20 @@ current_tickets <- function(instance, owner, repository = "current") {
     repository <- basename(rstudioapi::getActiveProject())
   }
 
+  credenciales <- tryCatch(
+    keyring::key_get(paste0("token_", instance)),
+    error = function(cond) "no_credenciales")
+
+  if(credenciales != "no_credenciales") {
+    credenciales <- credenciales %>%
+      stringr::str_split("/", simplify = TRUE) %>%
+      tibble::as_tibble() %>%
+      magrittr::set_names(c("url", "token",
+                            "usuario", "persistencia")) %>%
+      dplyr::mutate(persistencia = as.logical(persistencia))
+
+  }
+
   ui <- miniPage(
     miniTitleBar("Tiquetes actuales",
                  right = miniTitleBarCancelButton(inputId = "done",
@@ -46,21 +60,6 @@ current_tickets <- function(instance, owner, repository = "current") {
   )
 
   server <- function(input, output, session){
-
-    credenciales <- tryCatch(
-      keyring::key_get(paste0("token_", instance)),
-      error = function(cond) "no_credenciales")
-
-
-    if(credenciales != "no_credenciales") {
-      credenciales <- credenciales %>%
-        stringr::str_split("/", simplify = TRUE) %>%
-        tibble::as_tibble() %>%
-        magrittr::set_names(c("url", "token",
-                              "usuario", "persistencia")) %>%
-        dplyr::mutate(persistencia = as.logical(persistencia))
-
-    }
 
     output$warning <- renderText({
       msg <- ifelse (credenciales == "no_credenciales",
@@ -149,7 +148,7 @@ current_tickets <- function(instance, owner, repository = "current") {
           dplyr::mutate(issue_url = paste(base_url = paste0("https://", credenciales$url),
                issue_url, sep = "/")) %>%
           dplyr::arrange(desc(due_date)) %>%
-          dplyr::rename(tickets, Title = title, Nr = numbe, Due = due_date,
+          dplyr::rename(Title = title, Nr = number, Due = due_date,
                  User = assignee.login)
 
         suppressWarnings(verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens"))
@@ -216,6 +215,11 @@ current_tickets <- function(instance, owner, repository = "current") {
     }
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
+
+  if(credenciales$persistencia == FALSE) {
+    keyring::key_delete(paste0("token_", instance))
+  }
+
 }
 
 
