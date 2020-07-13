@@ -4,10 +4,18 @@
 \alias{current_tickets}
 \title{Tiquetes actuales}
 \usage{
-current_tickets()
+current_tickets(instance, owner, repository = "current")
+}
+\arguments{
+\item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+
+\item{owner}{el nombre del proyecto donde se encuentra el repositorio en
+ixplorer}
+
+\item{repository}{el nombre del repositorio donde están los tiquetes}
 }
 \description{
-Visualice los tiquetes de un usuario en específico, de un equipo y obtenga
-los enlaces a su ixplorer basado en las credenciales utilizadas en el
+Visualice los tiquetes de un usuario en específico, de un equipo
+ y obtenga los enlaces a su ixplorer basado en las credenciales utilizadas en el
 gadget de autentificación.
 }

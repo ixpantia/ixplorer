@@ -2,7 +2,7 @@
 
 ## Instalación 
 
-ixpantia habilitó un entorn para facilitar la instalación del paquete. 
+ixpantia habilitó un entorno para facilitar la instalación del paquete. 
 
 Primer instalamos `gitear` para acceder al API de ixplorer.
 

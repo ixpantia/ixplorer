@@ -2,11 +2,18 @@
 % Please edit documentation in R/cli.R
 \name{list_open_tickets}
 \alias{list_open_tickets}
-\title{Enlistar tiquetes abiertos}
+\title{Lista de tiquetes abiertos}
 \usage{
-list_open_tickets(lag = 7, repository = "current", clip = TRUE)
+list_open_tickets(instance, owner, repository = "current", lag = 7)
+}
+\arguments{
+\item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+
+\item{owner}{el nombre del proyecto donde se encuentra el repositorio en
+ixplorer}
+
+\item{repository}{el nombre del repositorio donde están los tiquetes}
 }
 \description{
-Listado de los tiquetes. El repositorio actual es el que se encuentra
-ligado al proyecto activo en RStudio.
+Listado de tiquetes abiertos del repositorio indicado.
 }

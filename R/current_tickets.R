@@ -2,11 +2,15 @@
 #' @import miniUI
 NULL
 
-#' Tiquetes actuales
-#'
-#' Visualice los tiquetes de un usuario en específico, de un equipo y obtenga
-#' los enlaces a su ixplorer basado en las credenciales utilizadas en el
+#' @title Tiquetes actuales
+#' @description Visualice los tiquetes de un usuario en específico, de un equipo
+#'  y obtenga los enlaces a su ixplorer basado en las credenciales utilizadas en el
 #' gadget de autentificación.
+#'
+#' @param instance instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
+#' @param owner el nombre del proyecto donde se encuentra el repositorio en
+#' ixplorer
+#' @param repository el nombre del repositorio donde están los tiquetes
 #'
 #' @export
 current_tickets <- function(instance, owner, repository = "current") {

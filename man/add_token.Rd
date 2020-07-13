@@ -7,6 +7,11 @@
 add_token()
 }
 \description{
-Hace la conexión a su repositorio a través del gadget de ixplorer y
-permite crear y revisar tiquetes sin tener que re-ingresar sus credenciales
+Guarda en su computadora por medio del sistema de
+ autentificación del OS de su computadora.
+}
+\details{
+En caso de que los credenciales ya existan solo se ingresa el url
+y se confirma si quiere conservar los credenciales en su computador o quiere
+borrarlos luego de la siguiente consulta.
 }

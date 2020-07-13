@@ -1,8 +1,10 @@
-
-#' Enlistar tiquetes abiertos
+#' @title Lista de tiquetes abiertos
+#' @description Listado de tiquetes abiertos del repositorio indicado.
 #'
-#' Listado de los tiquetes. El repositorio actual es el que se encuentra
-#' ligado al proyecto activo en RStudio.
+#' @param instance instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
+#' @param owner el nombre del proyecto donde se encuentra el repositorio en
+#' ixplorer
+#' @param repository el nombre del repositorio donde están los tiquetes
 #'
 #' @export
 list_open_tickets <- function(instance, owner, repository = "current",
@@ -49,10 +51,13 @@ list_open_tickets <- function(instance, owner, repository = "current",
     return(list)
 }
 
-#' Enlistar tiquetes cerrados
+#' @title Lista de tiquetes cerrados
+#' @description Listado de tiquetes cerrados del repositorio indicado.
 #'
-#' Listado de los tiquetes. El repositorio actual es el que se encuentra
-#' ligado al proyecto activo en RStudio.
+#' @param instance instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
+#' @param owner el nombre del proyecto donde se encuentra el repositorio en
+#' ixplorer
+#' @param repository el nombre del repositorio donde están los tiquetes
 #'
 #' @export
 list_closed_tickets <- function(instance, owner, repository = "current",

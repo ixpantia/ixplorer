@@ -2,12 +2,14 @@
 #' @import miniUI
 NULL
 
-#' Crear tiquete
+#' @title Crear tiquete
+#' @description Crear tiquetes (título y cuerpo) desde el addin de ixplorer sin
+#' perder las ideas durante su flujo de trabajo.
 #'
-#' Crear tiquetes (Título y cuerpo) desde el addin de ixplorer sin perder las
-#' ideas durante su flujo de trabajo. Los tiquetes serán creados en el
-#' repositorio que corresponde a la información dada en el gadget de
-#' autentificación.
+#' @param instance instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
+#' @param owner el nombre del proyecto donde se encuentra el repositorio en
+#' ixplorer
+#' @param repository el nombre del repositorio donde están los tiquetes
 #'
 #' @export
 create_tickets <- function(instance, owner, repository = "current") {
