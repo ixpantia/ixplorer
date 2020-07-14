@@ -4,7 +4,7 @@
 \alias{list_closed_tickets}
 \title{Lista de tiquetes cerrados}
 \usage{
-list_closed_tickets(instance, owner, repository = "current", lag = 7)
+list_closed_tickets(instance, owner, repository = "current", lag = NULL)
 }
 \arguments{
 \item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
@@ -13,6 +13,10 @@ list_closed_tickets(instance, owner, repository = "current", lag = 7)
 ixplorer}
 
 \item{repository}{el nombre del repositorio donde están los tiquetes}
+
+\item{lag}{es el tiempo en días que se quiere ver hacia atrás. Por ejemplo si
+se quiere ver los tiquetes cerrados en los últimos 7 días, lag = 7. Por
+defecto muestra todos los tiquetes sin ningún lag.}
 }
 \description{
 Listado de tiquetes cerrados del repositorio indicado.
