@@ -2,15 +2,36 @@
 #' @import miniUI
 NULL
 
-#' Crear tiquete
+#' @title Crear tiquete
+#' @description Crear tiquetes (título y cuerpo) desde el addin de ixplorer sin
+#' perder las ideas durante su flujo de trabajo.
 #'
-#' Crear tiquetes (Título y cuerpo) desde el addin de ixplorer sin perder las
-#' ideas durante su flujo de trabajo. Los tiquetes serán creados en el
-#' repositorio que corresponde a la información dada en el gadget de
-#' autentificación.
+#' @param instance instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
+#' @param owner el nombre del proyecto donde se encuentra el repositorio en
+#' ixplorer
+#' @param repository el nombre del repositorio donde están los tiquetes
 #'
 #' @export
-create_tickets <- function() {
+create_tickets <- function(instance, owner, repository = "current") {
+
+  credenciales <- tryCatch(
+    keyring::key_get(paste0("token_", instance)),
+    error = function(cond) "no_credenciales")
+
+
+  if(credenciales != "no_credenciales") {
+    credenciales <- credenciales %>%
+      stringr::str_split("/", simplify = TRUE) %>%
+      tibble::as_tibble() %>%
+      magrittr::set_names(c("url", "token",
+                            "usuario", "persistencia")) %>%
+      dplyr::mutate(persistencia = as.logical(persistencia))
+
+  }
+
+  if(credenciales$persistencia == FALSE) {
+    keyring::key_delete(paste0("token_", instance))
+  }
 
   ui <- miniPage(
     miniTitleBar("Crear un nuevo tiquete",
@@ -43,41 +64,40 @@ create_tickets <- function() {
 
   server <- function(input, output, session) {
 
-    access_file <- ixplorer.es:::verify_ixplorer_file()
 
     output$warning <- renderText({
-      msg <- if (access_file$empty == TRUE) {
-        "No hay archivo de credenciales disponible"
-      } else {
-        set_authentication(access_data = access_file$gitear_access)
-      }
+      msg <- ifelse (credenciales == "no_credenciales",
+        "No hay archivo de credenciales disponible", "")
       return(msg)
     })
 
     # Botones ----------------------------------------------------------------
     observeEvent(input$cancel, {
       # do nothing
-      stopApp(NULL)
+      stopApp()
     })
 
     observeEvent(input$create, {
-         check <-  gitear::create_issue(
-           base_url = paste0("https://",
-             ifelse(is.na(strsplit(Sys.getenv("IXURL"), "//")[[1]][2]),
-             Sys.getenv("IXURL"),
-             strsplit(Sys.getenv("IXURL"), "//")[[1]][2])),
-           api_key = Sys.getenv("IXTOKEN"),
-           owner = Sys.getenv("IXPROJECT"),
-           repo = Sys.getenv("IXREPO"),
+         check <-  tryCatch(gitear::create_issue(
+           base_url = credenciales$url,
+           api_key = credenciales$token,
+           owner = owner,
+           repo = repository,
            title = input$ticket_title,
-           body =  input$ticket_description)
+           body =  input$ticket_description),
+           error = function(cond)
+             "Invalido")
 
-         if (check$status_code == 404) {
-           print("No se ha creado ningún tiquete debido a credenciales inválidas. Porfavor use el gadget de autentificación.")
+         if (is.list(check)){
+           print(check)
+           message("Su tiquete se ha generado con éxito")
          } else {
-           check
+           if(check != "Invalido") {
+             print("No se ha creado ningún tiquete debido a credenciales inválidas. Porfavor use el gadget de autentificación.")
+           }
          }
-      stopApp(NULL)
+
+      stopApp()
     })
   }
 

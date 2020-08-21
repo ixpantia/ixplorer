@@ -8,11 +8,22 @@ Authors@R: c(
   )
 Description: Este es el componente local para integrar la plataforma ixplorer de ixpantia a RStudio IDE
 Depends: R (>= 3.4),
+    shiny,
     miniUI,
     httr,
     gitear,
     dplyr,
-    shiny
+    tidyr,
+    tibble,
+    stringr,
+    lubridate,
+    kableExtra,
+    magrittr,
+    keyring,
+    rstudioapi,
+    git2r,
+    here,
+    utils
 License: file LICENCE
 Encoding: UTF-8
 LazyData: true
@@ -21,4 +32,4 @@ Suggests: testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1

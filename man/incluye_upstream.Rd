@@ -2,10 +2,17 @@
 % Please edit documentation in R/git.R
 \name{incluye_upstream}
 \alias{incluye_upstream}
-\title{Añade el upstream del proyecto}
+\title{Añade el upstream al repositorio que está activo en RStudio}
 \usage{
-incluye_upstream()
+incluye_upstream(instance, owner)
+}
+\arguments{
+\item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+
+\item{owner}{el nombre del proyecto donde se encuentra el repositorio en
+ixplorer}
 }
 \description{
-Valida cual es el repositorio madres del proyecto e incluyelo
+Añade el upstream al repositorio que está activo en RStudio en
+este momento
 }

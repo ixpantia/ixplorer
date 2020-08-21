@@ -2,11 +2,22 @@
 % Please edit documentation in R/cli.R
 \name{list_closed_tickets}
 \alias{list_closed_tickets}
-\title{Enlistar tiquetes cerrados}
+\title{Lista de tiquetes cerrados}
 \usage{
-list_closed_tickets(lag = 7, repository = "current", clip = TRUE)
+list_closed_tickets(instance, owner, repository = "current", lag = NULL)
+}
+\arguments{
+\item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+
+\item{owner}{el nombre del proyecto donde se encuentra el repositorio en
+ixplorer}
+
+\item{repository}{el nombre del repositorio donde están los tiquetes}
+
+\item{lag}{es el tiempo en días que se quiere ver hacia atrás. Por ejemplo si
+se quiere ver los tiquetes cerrados en los últimos 7 días, lag = 7. Por
+defecto muestra todos los tiquetes sin ningún lag.}
 }
 \description{
-Listado de los tiquetes. El repositorio actual es el que se encuentra
-ligado al proyecto activo en RStudio.
+Listado de tiquetes cerrados del repositorio indicado.
 }

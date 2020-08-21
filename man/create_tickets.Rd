@@ -4,11 +4,17 @@
 \alias{create_tickets}
 \title{Crear tiquete}
 \usage{
-create_tickets()
+create_tickets(instance, owner, repository = "current")
+}
+\arguments{
+\item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+
+\item{owner}{el nombre del proyecto donde se encuentra el repositorio en
+ixplorer}
+
+\item{repository}{el nombre del repositorio donde están los tiquetes}
 }
 \description{
-Crear tiquetes (Título y cuerpo) desde el addin de ixplorer sin perder las
-ideas durante su flujo de trabajo. Los tiquetes serán creados en el
-repositorio que corresponde a la información dada en el gadget de
-autentificación.
+Crear tiquetes (título y cuerpo) desde el addin de ixplorer sin
+perder las ideas durante su flujo de trabajo.
 }
