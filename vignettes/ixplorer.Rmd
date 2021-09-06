@@ -4,7 +4,8 @@ author: "ixpantia"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{La interfaz con gadgets}
+
+  %\VignetteIndexEntry{ixplorer gadgets}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

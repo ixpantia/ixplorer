@@ -4,7 +4,8 @@ author: "ixpantia"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Diccionario de términos}
+
+  %\VignetteIndexEntry{Dictionary to the ixplorer}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
