@@ -10,7 +10,7 @@ Authors@R:
              role = c("cre", "aut"),
              email = "frans@ixpantia.com"),
       person(given = "Ronny",
-             family = "Hernandez Mora",
+             family = "Hernández Mora",
              role = "aut",
              email = "ronny@ixpantia.com"))
 Description: This is the local component of the ixplorer
