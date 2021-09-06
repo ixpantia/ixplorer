@@ -2,11 +2,16 @@
 % Please edit documentation in R/authenticate.R
 \name{add_token}
 \alias{add_token}
-\title{Authenticate to ixplorer}
+\title{Autentificación en ixplorer}
 \usage{
 add_token()
 }
 \description{
-Make the connection to your repository through the ixplorer gadget and be
-able to create tickets, review tickets without re-writing your credentials
+Guarda en su computadora por medio del sistema de
+ autentificación del OS de su computadora.
+}
+\details{
+En caso de que los credenciales ya existan solo se ingresa el url
+y se confirma si quiere conservar los credenciales en su computador o quiere
+borrarlos luego de la siguiente consulta.
 }

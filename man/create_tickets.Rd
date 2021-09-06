@@ -2,12 +2,19 @@
 % Please edit documentation in R/create_ticket.R
 \name{create_tickets}
 \alias{create_tickets}
-\title{Create ticket}
+\title{Crear tiquete}
 \usage{
-create_tickets()
+create_tickets(instance, owner, repository = "current")
+}
+\arguments{
+\item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+
+\item{owner}{el nombre del proyecto donde se encuentra el repositorio en
+ixplorer}
+
+\item{repository}{el nombre del repositorio donde están los tiquetes}
 }
 \description{
-Create tickets (Title and body) from the ixplorer addin without loosing the
-ideas during your workflow. tickets will be in the repository that corresponds
-to the information youo give in the authenticate gadget.
+Crear tiquetes (título y cuerpo) desde el addin de ixplorer sin
+perder las ideas durante su flujo de trabajo.
 }

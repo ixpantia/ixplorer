@@ -1,14 +1,14 @@
-Name: Authenticate
-Description: Add credentials to authenticate to your ixplorer
+Name: Autentificación
+Description: Agregue credenciales para su autentificación a ixplorer
 Binding: add_token
 Interactive: true
 
-Name: Create ticket
-Description: Create a ticket on ixplorer
+Name: Crear tiquete
+Description: Crear tiquete en ixplorer
 Binding: create_tickets
 Interactive: true
 
-Name: Current tickets
-Description: Get overview of current tickets in this repository
+Name: Tiquetes actuales
+Description: Obtenga un vistazo de los tiquetes actuales en el repositorio
 Binding: current_tickets
 Interactive: true

@@ -9,12 +9,12 @@ library(gitear)
 # Set global options ----------------------------------------------------------
 ## Si pongo estas funciones no sirve el dashboard. da un error
 
-access_file <- ixplorer:::verify_ixplorer_file()
+access_file <- ixplorer.es:::verify_ixplorer_file()
 
 msg <- if (access_file$empty == TRUE) {
   "no credential file available"
 } else {
-  ixplorer:::set_authentication(access_data = access_file$gitear_access)
+  ixplorer.es:::set_authentication(access_data = access_file$gitear_access)
 }
 warning(msg)
 

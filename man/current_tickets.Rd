@@ -2,11 +2,20 @@
 % Please edit documentation in R/current_tickets.R
 \name{current_tickets}
 \alias{current_tickets}
-\title{Current tickets}
+\title{Tiquetes actuales}
 \usage{
-current_tickets()
+current_tickets(instance, owner, repository = "current")
+}
+\arguments{
+\item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+
+\item{owner}{el nombre del proyecto donde se encuentra el repositorio en
+ixplorer}
+
+\item{repository}{el nombre del repositorio donde están los tiquetes}
 }
 \description{
-Visualize the tickets of a specific user, a team and get the quick links to
-your ixplorer based on the credentials used in gadget authenticate.
+Visualice los tiquetes de un usuario en específico, de un equipo
+ y obtenga los enlaces a su ixplorer basado en las credenciales utilizadas en el
+gadget de autentificación.
 }
