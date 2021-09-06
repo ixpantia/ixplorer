@@ -35,8 +35,11 @@ Encoding: UTF-8
 LazyData: true
 Imports:
 Suggests: knitr (>= 1.23),
+    readr,
     rmarkdown (>= 1.12),
-    testthat (>= 2.1.1)
+    rstudioapi,
+    testthat (>= 2.1.1),
+    tidyr
 VignetteBuilder: knitr
 Remotes: 
     ixpantia/gitear
