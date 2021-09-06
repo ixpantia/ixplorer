@@ -29,5 +29,9 @@ vignettes/*.pdf
 inst/doc
 .Renviron
 .gitignore
-.gitignore
+
 .ixplorer*
+.ixplorer
+
+
+temp.R

@@ -3,8 +3,7 @@
 \docType{package}
 \name{ixplorer}
 \alias{ixplorer}
-\alias{ixplorer-package}
-\title{\code{ixplorer} package}
+\title{\code{ixplorer.es} package}
 \description{
 ixplorer for dataops
 }

@@ -1,4 +1,7 @@
 #' `ixplorer` package
+
+#' \code{ixplorer.es} package
+#' `ixplorer` package
 #'
 #' ixplorer for dataops
 #'

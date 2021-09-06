@@ -46,3 +46,4 @@ You can now install ixplorer from GitHub with:
 ``` r
 devtools::install_github("ixpantia/ixplorer")
 ```
+
