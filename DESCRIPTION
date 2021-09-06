@@ -8,11 +8,11 @@ Authors@R: c(
   )
 Description: This is the local component of the ixplorer platform from ixpantia.
 Depends: R (>= 3.4),
-    shiny,
-    miniUI,
-    httr,
-    gitear,
-    dplyr,
+    shiny (>= 1.3.2),
+    miniUI (>= 0.1.1.1),
+    httr (>= 1.4.0),
+    gitear (>= 0.0.2),
+    dplyr (>= 0.8.1),
     tidyr,
     tibble,
     stringr,
@@ -28,9 +28,11 @@ License: file LICENCE
 Encoding: UTF-8
 LazyData: true
 Imports:
-Suggests: testthat,
-    knitr,
-    rmarkdown
+Suggests: knitr (>= 1.23),
+    rmarkdown (>= 1.12),
+    testthat (>= 2.1.1)
 VignetteBuilder: knitr
+Remotes: 
+    ixpantia/gitear
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
