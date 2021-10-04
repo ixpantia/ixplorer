@@ -16,6 +16,6 @@ ixplorer}
 }
 \description{
 Visualice los tiquetes de un usuario en específico, de un equipo
- y obtenga los enlaces a su ixplorer basado en las credenciales utilizadas en el
+y obtenga los enlaces a su ixplorer basado en las credenciales utilizadas en el
 gadget de autentificación.
 }
