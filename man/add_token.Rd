@@ -8,7 +8,7 @@ add_token()
 }
 \description{
 Guarda en su computadora por medio del sistema de
- autentificación del OS de su computadora.
+autentificación del OS de su computadora.
 }
 \details{
 En caso de que los credenciales ya existan solo se ingresa el url
