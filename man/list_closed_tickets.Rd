@@ -7,17 +7,17 @@
 list_closed_tickets(instance, owner, repository = "current", lag = NULL)
 }
 \arguments{
-\item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+\item{instance}{instance from ixplorer (Ejm: "secure", "masterclass", "prueba")}
 
-\item{owner}{el nombre del proyecto donde se encuentra el repositorio en
+\item{owner}{the name of the project where the repository is located in
 ixplorer}
 
-\item{repository}{el nombre del repositorio donde están los tiquetes}
+\item{repository}{the name of the repository where the issues are.}
 
-\item{lag}{es el tiempo en días que se quiere ver hacia atrás. Por ejemplo si
-se quiere ver los tiquetes cerrados en los últimos 7 días, lag = 7. Por
-defecto muestra todos los tiquetes sin ningún lag.}
+\item{lag}{is the time in days that you want to look back. For example if
+you want to see the issues closed in the last 7 days, lag = 7.
+By default it shows all the issues without any lag..}
 }
 \description{
-Listado de tiquetes cerrados del repositorio indicado.
+List of closed tickets from the indicated repository.
 }
