@@ -41,13 +41,13 @@ add_token <- function() {
     output$token_user <- renderUI({
       req(input$ixplorer_url)
 
-      instancia <- sub("\\..*", "", input$ixplorer_url)
+      instance <- sub("\\..*", "", input$ixplorer_url)
 
-      verifica_cred <- tryCatch(
-        keyring::key_get(paste0("token_", instancia)),
-        error = function(cond) "no_credenciales")
+      verify_cred <- tryCatch(
+        keyring::key_get(paste0("token_", instance)),
+        error = function(cond) "no_credentials")
 
-      if(verifica_cred == "no_credenciales") {
+      if(verify_cred == "no_credentials") {
           div(textInput(inputId = "ixplorer_token",
                     label = "Access Token",
                     width = "100%",
@@ -62,21 +62,21 @@ add_token <- function() {
 
     observeEvent(input$done, {
 
-      instancia <- sub("\\..*", "", input$ixplorer_url)
+      instance <- sub("\\..*", "", input$ixplorer_url)
 
-      verifica_cred <- tryCatch(
-        keyring::key_get(paste0("token_", instancia)),
-        error = function(cond) "no_credenciales")
+      verify_cred <- tryCatch(
+        keyring::key_get(paste0("token_", instance)),
+        error = function(cond) "no_credentials")
 
 
-      if(verifica_cred == "no_credenciales") {
+      if(verify_cred == "no_credentials") {
 
         if(is.null(input$ixplorer_url) == FALSE |
            is.null(input$ixplorer_token) == FALSE |
            is.null(input$ixplorer_user_name) == FALSE) {
 
           keyring::key_set_with_value(
-            service = paste0("token_", instancia),
+            service = paste0("token_", instance),
             password = paste(input$ixplorer_url,
                              input$ixplorer_token,
                              input$ixplorer_user_name,
