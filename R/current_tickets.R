@@ -2,15 +2,13 @@
 #' @import miniUI
 NULL
 
-#' @title Tiquetes actuales
-#' @description Visualice los tiquetes de un usuario en específico, de un equipo
-#'  y obtenga los enlaces a su ixplorer basado en las credenciales utilizadas en el
-#' gadget de autentificación.
+#' @title Current tickets
+#' @description View tickets for a specific user on a computer and get links to
+#'  your ixplorer based on the credentials used in the authentication gadget.
 #'
-#' @param instance instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
-#' @param owner el nombre del proyecto donde se encuentra el repositorio en
-#' ixplorer
-#' @param repository el nombre del repositorio donde están los tiquetes
+#' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
+#' @param owner the name of the project where the repository is located in ixplorer
+#' @param repository the name of the repository where the tickets are
 #'
 #' @export
 current_tickets <- function(instance, owner, repository = "current") {
@@ -19,43 +17,43 @@ current_tickets <- function(instance, owner, repository = "current") {
     repository <- basename(rstudioapi::getActiveProject())
   }
 
-  credenciales <- tryCatch(
+  credentials <- tryCatch(
     keyring::key_get(paste0("token_", instance)),
-    error = function(cond) "no_credenciales")
+    error = function(cond) "no_credentials")
 
-  if(credenciales != "no_credenciales") {
-    credenciales <- credenciales %>%
+  if(credentials != "no_credentials") {
+    credentials <- credentials %>%
       stringr::str_split("/", simplify = TRUE) %>%
       tibble::as_tibble() %>%
       magrittr::set_names(c("url", "token",
-                            "usuario", "persistencia")) %>%
-      dplyr::mutate(persistencia = as.logical(persistencia))
+                            "user", "persistence")) %>%
+      dplyr::mutate(persistence = as.logical(persistence))
 
   }
 
-  if(credenciales$persistencia == FALSE) {
+  if(credentials$persistence == FALSE) {
     keyring::key_delete(paste0("token_", instance))
   }
 
   ui <- miniPage(
-    miniTitleBar("Tiquetes actuales",
+    miniTitleBar("Current tickets",
                  right = miniTitleBarCancelButton(inputId = "done",
-                                                 label = "Listo",
+                                                 label = "Done.",
                                                  primary = TRUE)
                  ),
     verbatimTextOutput("warning", placeholder = FALSE),
     miniTabstripPanel(
-      miniTabPanel("Mis tiquetes", icon = icon("user"),
+      miniTabPanel("My tickets", icon = icon("user"),
                    miniContentPanel(
                      tableOutput("my_tickets")
                    )
       ),
-      miniTabPanel("Tiquetes del equipo", icon = icon("users"),
+      miniTabPanel("Team tickets", icon = icon("users"),
                    miniContentPanel(
                      tableOutput("team_tickets")
                    )
       ),
-      miniTabPanel("Enlaces", icon = icon("link"),
+      miniTabPanel("Links", icon = icon("link"),
                    miniContentPanel(
                      tableOutput("quick_links")
                    )
@@ -66,8 +64,8 @@ current_tickets <- function(instance, owner, repository = "current") {
   server <- function(input, output, session){
 
     output$warning <- renderText({
-      msg <- ifelse (credenciales == "no_credenciales",
-                     "No hay archivo de credenciales disponible", "")
+      msg <- ifelse (credentials == "no_credentials",
+                     "No credential file available", "")
       return(msg)
     })
 
@@ -75,8 +73,8 @@ current_tickets <- function(instance, owner, repository = "current") {
     tickets <- tryCatch({
 
       gitear::get_issues_open_state(
-           base_url = paste0("https://", credenciales$url),
-           api_key = credenciales$token,
+           base_url = paste0("https://", credentials$url),
+           api_key = credentials$token,
            owner = owner,
            repo = repository)
 
@@ -89,13 +87,13 @@ current_tickets <- function(instance, owner, repository = "current") {
 
     output$my_tickets <- function() {
       if (class(tickets) != "data.frame") {
-        tickets_kable <- "Credenciales inválidas. Por favor use el gadget de autentificación."
+        tickets_kable <- "Invalid credentials. Please use the authentication gadget."
       } else if (nrow(tickets) == 0) {
-        tickets_kable <- "No se encontraron tiquetes en el repositorio."
+        tickets_kable <- "No tickets were found in the repository."
       } else {
         # Select tickets by user and tickets link creation
         tickets <- tickets %>%
-          dplyr::filter(assignee.login == credenciales$usuario) %>%
+          dplyr::filter(assignee.login == credentials$user) %>%
           dplyr:: select(number, title, due_date, url) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"),
                           sep = "T") %>%
@@ -106,7 +104,7 @@ current_tickets <- function(instance, owner, repository = "current") {
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           dplyr::select(-borrar) %>%
           dplyr::mutate(
-            issue_url = paste(base_url = paste0("https://", credenciales$url),
+            issue_url = paste(base_url = paste0("https://", credentials$url),
                               issue_url, sep = "/")) %>%
           dplyr::arrange(desc(due_date)) %>%
           dplyr::rename(Title = title,  Nr = number, Due = due_date)
@@ -130,16 +128,16 @@ current_tickets <- function(instance, owner, repository = "current") {
 
     output$team_tickets <- function() {
       if (class(tickets) != "data.frame") {
-        tickets_kable <- "Credenciales inválidas. Por favor use el gadget de autentificación."
+        tickets_kable <- "Invalid credentials. Please use the authentication gadget."
       } else if (nrow(tickets) == 0) {
-        tickets_kable <- "No se encontraron tiquetes en el repositorio."
+        tickets_kable <- "No tickets were found in the repository."
       }  else {
         # Select tickets by open status
         tickets <- tickets %>%
           dplyr::select(assignee.login, number, title, due_date, url) %>%
           dplyr::mutate(assignee.login = ifelse(is.na(assignee.login), "-",
                                          assignee.login)) %>%
-          dplyr::filter(assignee.login != credenciales$usuario) %>%
+          dplyr::filter(assignee.login != credentials$user) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"),
                           sep = "T") %>%
           dplyr::select(-hour) %>%
@@ -149,7 +147,7 @@ current_tickets <- function(instance, owner, repository = "current") {
           tidyr::separate(col = url,
                    into = c("borrar", "issue_url"), sep = "repos/") %>%
           dplyr::select(-borrar) %>%
-          dplyr::mutate(issue_url = paste(base_url = paste0("https://", credenciales$url),
+          dplyr::mutate(issue_url = paste(base_url = paste0("https://", credentials$url),
                issue_url, sep = "/")) %>%
           dplyr::arrange(desc(due_date)) %>%
           dplyr::rename(Title = title, Nr = number, Due = due_date,
@@ -177,11 +175,11 @@ current_tickets <- function(instance, owner, repository = "current") {
 
     output$quick_links <- function()  {
       if (class(tickets) != "data.frame") {
-        quick_links <- "Credenciales inválidas. Por favor use el gadget de autentificación."
+        quick_links <- "Invalid credentials. Please use the authentication gadget."
       } else {
       # Get closed tickets link
       close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
-      ixurl <- paste0("https://", credenciales$url)
+      ixurl <- paste0("https://", credentials$url)
       close_tickets_url <- paste(ixurl, owner, repository,
             close_tickets_url, sep = "/")
 
