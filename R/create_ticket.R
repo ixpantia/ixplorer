@@ -2,41 +2,40 @@
 #' @import miniUI
 NULL
 
-#' @title Crear tiquete
-#' @description Crear tiquetes (título y cuerpo) desde el addin de ixplorer sin
-#' perder las ideas durante su flujo de trabajo.
+#' @title Create ticket
+#' @description Create tickets (title and body) from the ixplorer addin without
+#'  losing ideas during your workflow.
 #'
-#' @param instance instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
-#' @param owner el nombre del proyecto donde se encuentra el repositorio en
-#' ixplorer
-#' @param repository el nombre del repositorio donde están los tiquetes
+#' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
+#' @param owner the name of the project where the repository is located in ixplorer
+#' @param repository the name of the repository where the tickets are
 #'
 #' @export
 create_tickets <- function(instance, owner, repository = "current") {
 
-  credenciales <- tryCatch(
+  credentials <- tryCatch(
     keyring::key_get(paste0("token_", instance)),
-    error = function(cond) "no_credenciales")
+    error = function(cond) "no_credentials")
 
 
-  if(credenciales != "no_credenciales") {
-    credenciales <- credenciales %>%
+  if(credentials != "no_credentials") {
+    credentials <- credentials %>%
       stringr::str_split("/", simplify = TRUE) %>%
       tibble::as_tibble() %>%
       magrittr::set_names(c("url", "token",
-                            "usuario", "persistencia")) %>%
-      dplyr::mutate(persistencia = as.logical(persistencia))
+                            "user", "persistence")) %>%
+      dplyr::mutate(persistence = as.logical(persistence))
 
   }
 
-  if(credenciales$persistencia == FALSE) {
+  if(credentials$persistence == FALSE) {
     keyring::key_delete(paste0("token_", instance))
   }
 
   ui <- miniPage(
-    miniTitleBar("Crear un nuevo tiquete",
+    miniTitleBar("Create new ticket",
                    left = miniTitleBarCancelButton(inputId = "cancel",
-                                                   label = "Cancelar",
+                                                   label = "Cancel",
                                                    primary = TRUE)
                    ),
 
@@ -44,20 +43,20 @@ create_tickets <- function(instance, owner, repository = "current") {
       verbatimTextOutput("warning", placeholder = FALSE),
 
       textInput(inputId = "ticket_title",
-                label = "Título del tiquete",
+                label = "Ticket title",
                 width = "150%",
-                placeholder = "Breve descripción de su tiquete"),
+                placeholder = "Brief description of your ticket"),
 
       textAreaInput(inputId = "ticket_description",
-                    label = "Descripción",
+                    label = "Description",
                     width = "190%",
                     height = "100%",
                     resize = "vertical",
                     rows = 13,
-                    placeholder = "Describa el tiquete que ha encontrado")
+                    placeholder = "Describe the ticket you have found")
     ),
     miniButtonBlock(
-      actionButton(inputId = "create", label = "Crear tiquete",
+      actionButton(inputId = "create", label = "Create ticket",
                    style = "color: #fff; background-color: #73CF56")
     )
   )
@@ -66,8 +65,8 @@ create_tickets <- function(instance, owner, repository = "current") {
 
 
     output$warning <- renderText({
-      msg <- ifelse (credenciales == "no_credenciales",
-        "No hay archivo de credenciales disponible", "")
+      msg <- ifelse (credentials == "no_credentials",
+        "No credential file available", "")
       return(msg)
     })
 
@@ -79,8 +78,8 @@ create_tickets <- function(instance, owner, repository = "current") {
 
     observeEvent(input$create, {
          check <-  tryCatch(gitear::create_issue(
-           base_url = credenciales$url,
-           api_key = credenciales$token,
+           base_url = credentials$url,
+           api_key = credentials$token,
            owner = owner,
            repo = repository,
            title = input$ticket_title,
@@ -90,10 +89,10 @@ create_tickets <- function(instance, owner, repository = "current") {
 
          if (is.list(check)){
            print(check)
-           message("Su tiquete se ha generado con éxito")
+           message("Your ticket has been generated successfully")
          } else {
            if(check != "Invalido") {
-             print("No se ha creado ningún tiquete debido a credenciales inválidas. Porfavor use el gadget de autentificación.")
+             print("No ticket created due to invalid credentials. Please use the authentication gadget")
            }
          }
 
