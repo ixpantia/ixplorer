@@ -2,34 +2,35 @@
 #' @import miniUI
 NULL
 
-#' @title Autentificación en ixplorer
-#' @description Guarda en su computadora por medio del sistema de
-#'  autentificación del OS de su computadora.
+#' @title Authentication in ixplorer
+#' @description Saves to your computer
+#' through the authentication system of your computer's OS.
 #'
-#' @details En caso de que los credenciales ya existan solo se ingresa el url
-#' y se confirma si quiere conservar los credenciales en su computador o quiere
-#' borrarlos luego de la siguiente consulta.
+#' @details In case the credentials already exist,
+#' just enter the url and confirm if you want to keep the credentials
+#' on your computer or want to delete them after the next query.
 #'
 #' @export
 add_token <- function() {
 
   ui <- miniPage(
-    gadgetTitleBar("Autentificación en ixplorer",
+    gadgetTitleBar("Ixplorer authentication",
                    left = miniTitleBarCancelButton(inputId = "cancel",
-                                                   label = "Cancelar",
+                                                   label = "Cancel",
                                                    primary = FALSE),
                    right = miniTitleBarButton(inputId = "done",
-                                              label = "Listo",
+                                              label = "Done",
                                               primary = TRUE)),
     miniContentPanel(
       textInput(inputId = "ixplorer_url",
-                label = "URL de ixplorer",
+                label = "ixplorer URL",
                 width = "100%",
-                placeholder = "Copie su ixplorer URl aquí."),
+                placeholder = "Copy your ixplorer URL here."),
       uiOutput("token_user"),
       checkboxInput(inputId = "token_persist",
                     value = 1,
-                    label = "Persistencia de las credenciales en este computador. (No usar en computadoras compartidas)",
+                    label = "Persistence of credentials on this computer.
+                    (Do not use on shared computers)",
                     width = "100%"
       )
     )
@@ -40,42 +41,42 @@ add_token <- function() {
     output$token_user <- renderUI({
       req(input$ixplorer_url)
 
-      instancia <- sub("\\..*", "", input$ixplorer_url)
+      instance <- sub("\\..*", "", input$ixplorer_url)
 
-      verifica_cred <- tryCatch(
-        keyring::key_get(paste0("token_", instancia)),
-        error = function(cond) "no_credenciales")
+      verify_cred <- tryCatch(
+        keyring::key_get(paste0("token_", instance)),
+        error = function(cond) "no_credentials")
 
-      if(verifica_cred == "no_credenciales") {
+      if(verify_cred == "no_credentials") {
           div(textInput(inputId = "ixplorer_token",
-                    label = "Token de acceso",
+                    label = "Access Token",
                     width = "100%",
-                    placeholder = "Ingrese su Token de acceso aquí"),
+                    placeholder = "Enter your Access Token here"),
               textInput(inputId = "ixplorer_user_name",
-                        label = "Su nombre de usuario.",
+                        label = "Your username.",
                         width = "100%",
-                        placeholder = "Ingrese su nombre de usuario aquí."))
+                        placeholder = "Enter your username here."))
       }
 
     })
 
     observeEvent(input$done, {
 
-      instancia <- sub("\\..*", "", input$ixplorer_url)
+      instance <- sub("\\..*", "", input$ixplorer_url)
 
-      verifica_cred <- tryCatch(
-        keyring::key_get(paste0("token_", instancia)),
-        error = function(cond) "no_credenciales")
+      verify_cred <- tryCatch(
+        keyring::key_get(paste0("token_", instance)),
+        error = function(cond) "no_credentials")
 
 
-      if(verifica_cred == "no_credenciales") {
+      if(verify_cred == "no_credentials") {
 
         if(is.null(input$ixplorer_url) == FALSE |
            is.null(input$ixplorer_token) == FALSE |
            is.null(input$ixplorer_user_name) == FALSE) {
 
           keyring::key_set_with_value(
-            service = paste0("token_", instancia),
+            service = paste0("token_", instance),
             password = paste(input$ixplorer_url,
                              input$ixplorer_token,
                              input$ixplorer_user_name,

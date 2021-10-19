@@ -2,16 +2,16 @@
 % Please edit documentation in R/authenticate.R
 \name{add_token}
 \alias{add_token}
-\title{Autentificación en ixplorer}
+\title{Authentication in ixplorer}
 \usage{
 add_token()
 }
 \description{
-Guarda en su computadora por medio del sistema de
-autentificación del OS de su computadora.
+Saves to your computer
+through the authentication system of your computer's OS.
 }
 \details{
-En caso de que los credenciales ya existan solo se ingresa el url
-y se confirma si quiere conservar los credenciales en su computador o quiere
-borrarlos luego de la siguiente consulta.
+In case the credentials already exist,
+just enter the url and confirm if you want to keep the credentials
+on your computer or want to delete them after the next query.
 }

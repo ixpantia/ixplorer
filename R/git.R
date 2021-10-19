@@ -1,42 +1,42 @@
-#' @title Añade el upstream al repositorio que está activo en RStudio
-#' @description Añade el upstream al repositorio que está activo en RStudio en
-#' este momento
+#' @title Add the upstream to the repository that is active in RStudio.
+#' @description Add the upstream to the repository that is active in RStudio
+#' at the moment
 #'
-#' @param instance instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
-#' @param owner el nombre del proyecto donde se encuentra el repositorio en
+#' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
+#' @param owner the name of the project where the repository is located in
 #' ixplorer
 #'
 #' @export
-incluye_upstream <- function(instance, owner) {
+add_upstream <- function(instance, owner) {
 
   camino <- here::here()
 
   repository <- basename(rstudioapi::getActiveProject())
 
-  credenciales <- tryCatch(
+  credentials <- tryCatch(
     keyring::key_get(paste0("token_", instance)),
-    error = function(cond) "no_credenciales")
+    error = function(cond) "no_credentials")
 
 
-  if(credenciales != "no_credenciales") {
-    credenciales <- credenciales %>%
+  if(credentials != "no_credentials") {
+    credentials <- credentials %>%
       stringr::str_split("/", simplify = TRUE) %>%
       tibble::as_tibble() %>%
       magrittr::set_names(c("url", "token",
-                            "usuario", "persistencia")) %>%
-      dplyr::mutate(persistencia = as.logical(persistencia))
+                            "user", "persistence")) %>%
+      dplyr::mutate(persistence = as.logical(persistence))
 
   } else {
-    stop(paste("Aún no existen credenciales para", instance))
+    stop(paste("No credentials yet for", instance))
   }
 
-  if(credenciales$persistencia == FALSE) {
+  if(credentials$persistence == FALSE) {
     keyring::key_delete(paste0("token_", instance))
   }
 
   proyecto_madre = paste0(
     "https://",
-    credenciales$url, "/",
+    credentials$url, "/",
     owner, "/",
     repository,
     ".git")
