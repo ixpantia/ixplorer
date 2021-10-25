@@ -13,24 +13,52 @@ NULL
 #' @export
 create_tickets <- function(instance, owner, repository = "current") {
 
-  credentials <- tryCatch(
-    keyring::key_get(paste0("token_", instance)),
-    error = function(cond) "no_credentials")
+  # Code for using keyring (To be implemented later)
+  # credentials <- tryCatch(
+  #   keyring::key_get(paste0("token_", instance)),
+  #   error = function(cond) "no_credentials")
 
 
-  if(credentials != "no_credentials") {
-    credentials <- credentials %>%
-      stringr::str_split("/", simplify = TRUE) %>%
-      tibble::as_tibble() %>%
-      magrittr::set_names(c("url", "token",
-                            "user", "persistence")) %>%
-      dplyr::mutate(persistence = as.logical(persistence))
+  # if (credentials != "no_credentials") {
+  #   credentials <- credentials %>%
+  #     stringr::str_split("/", simplify = TRUE) %>%
+  #     tibble::as_tibble() %>%
+  #     magrittr::set_names(c("url", "token",
+  #                           "user", "persistence")) %>%
+  #     dplyr::mutate(persistence = as.logical(persistence))
+  #
+  # }
 
+  if (repository == "current") {
+    repository <- basename(rstudioapi::getActiveProject())
   }
 
-  if(credentials$persistence == FALSE) {
-    keyring::key_delete(paste0("token_", instance))
-  }
+
+  access_file <- ixplorer:::verify_ixplorer_file()
+
+  output$warning <- renderText({
+    msg <- if (access_file$empty == TRUE) {
+      "No hay archivo de credenciales disponible"
+    } else {
+      set_authentication(access_data = access_file$gitear_access)
+    }
+    return(msg)
+  })
+
+  # Read credentials from .ixplorer TEMPORAL
+  ixplorer_url <- Sys.getenv("IXURL")
+
+  credentials <- tibble::tribble(
+    ~url, ~token, ~user, ~owner,
+    Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
+  )
+
+  instance <- sub("\\..*", "", ixplorer_url)
+
+  # Code for using keyring (To be implemented later)
+  # if(credentials$persistence == FALSE) {
+  #   keyring::key_delete(paste0("token_", instance))
+  # }
 
   ui <- miniPage(
     miniTitleBar("Create new ticket",
@@ -64,11 +92,11 @@ create_tickets <- function(instance, owner, repository = "current") {
   server <- function(input, output, session) {
 
 
-    output$warning <- renderText({
-      msg <- ifelse (credentials == "no_credentials",
-        "No credential file available", "")
-      return(msg)
-    })
+    # output$warning <- renderText({
+    #   msg <- ifelse (credentials == "no_credentials",
+    #     "No credential file available", "")
+    #   return(msg)
+    # })
 
     # Botones ----------------------------------------------------------------
     observeEvent(input$cancel, {
@@ -80,18 +108,18 @@ create_tickets <- function(instance, owner, repository = "current") {
          check <-  tryCatch(gitear::create_issue(
            base_url = credentials$url,
            api_key = credentials$token,
-           owner = owner,
+           owner = credentials$owner,
            repo = repository,
            title = input$ticket_title,
            body =  input$ticket_description),
            error = function(cond)
              "Invalido")
 
-         if (is.list(check)){
+         if (is.list(check)) {
            print(check)
            message("Your ticket has been generated successfully")
          } else {
-           if(check != "Invalido") {
+           if (check != "Invalido") {
              print("No ticket created due to invalid credentials. Please use the authentication gadget")
            }
          }
