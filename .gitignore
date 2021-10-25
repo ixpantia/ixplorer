@@ -30,8 +30,11 @@ inst/doc
 .Renviron
 .gitignore
 
+
+
 .ixplorer*
 .ixplorer
 
 
 temp.R
+.ixplorer

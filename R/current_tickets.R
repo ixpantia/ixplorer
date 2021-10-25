@@ -11,29 +11,44 @@ NULL
 #' @param repository the name of the repository where the tickets are
 #'
 #' @export
-current_tickets <- function(instance, owner, repository = "current") {
+current_tickets <- function(repository = "current") {
 
-  if(repository == "current") {
+  if (repository == "current") {
     repository <- basename(rstudioapi::getActiveProject())
   }
 
-  credentials <- tryCatch(
-    keyring::key_get(paste0("token_", instance)),
-    error = function(cond) "no_credentials")
+  # Read credentials from .ixplorer TEMPORAL
+  ixplorer_url <- Sys.getenv("IXURL")
 
-  if(credentials != "no_credentials") {
-    credentials <- credentials %>%
-      stringr::str_split("/", simplify = TRUE) %>%
-      tibble::as_tibble() %>%
-      magrittr::set_names(c("url", "token",
-                            "user", "persistence")) %>%
-      dplyr::mutate(persistence = as.logical(persistence))
+  credentials <- tibble::tribble(
+    ~url, ~token, ~user, ~owner,
+    Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
+  )
 
-  }
+  instance <- sub("\\..*", "", ixplorer_url)
 
-  if(credentials$persistence == FALSE) {
-    keyring::key_delete(paste0("token_", instance))
-  }
+  # Code for using keyring (To be implemented later)
+  # credentials <- tryCatch(
+  #   keyring::key_get(paste0("token_", instance)),
+  #   error = function(cond) "no_credentials")
+
+
+  # if (credentials != "no_credentials") {
+  #   credentials <- credentials %>%
+  #     stringr::str_split("/", simplify = TRUE) %>%
+  #     tibble::as_tibble() %>%
+  #     dplyr::select(-V1, -V2, -V4) %>%
+  #     magrittr::set_names(c("url", "token",
+  #                           "user", "owner",
+  #                           "persistence")) %>%
+  #     # dplyr::mutate(persistence = as.numeric(persistence)) %>%
+  #     dplyr::mutate(persistence = as.logical(persistence))
+  #
+  # }
+
+  # if (credentials$persistence == FALSE) {
+  #   keyring::key_delete(paste0("token_", instance))
+  # }
 
   ui <- miniPage(
     miniTitleBar("Current tickets",
@@ -64,7 +79,7 @@ current_tickets <- function(instance, owner, repository = "current") {
   server <- function(input, output, session){
 
     output$warning <- renderText({
-      msg <- ifelse (credentials == "no_credentials",
+      msg <- ifelse(credentials == "no_credentials",
                      "No credential file available", "")
       return(msg)
     })
@@ -73,10 +88,15 @@ current_tickets <- function(instance, owner, repository = "current") {
     tickets <- tryCatch({
 
       gitear::get_issues_open_state(
-           base_url = paste0("https://", credentials$url),
+           base_url = credentials$url,
            api_key = credentials$token,
-           owner = owner,
+           owner = credentials$owner,
            repo = repository)
+      # Eliminate this check code
+      # check <- gitear::get_issues_open_state (base_url = "https://secure.ixpantia.com",
+      #                                         api_key = ixplorer_token,
+      #                                         owner = "ixplorer",
+      #                                         repo = "ixplorer.es")
 
       },
       error = function(cond) {
@@ -94,7 +114,7 @@ current_tickets <- function(instance, owner, repository = "current") {
         # Select tickets by user and tickets link creation
         tickets <- tickets %>%
           dplyr::filter(assignee.login == credentials$user) %>%
-          dplyr:: select(number, title, due_date, url) %>%
+          dplyr::select(number, title, due_date, url) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"),
                           sep = "T") %>%
           dplyr::select(-hour) %>%
