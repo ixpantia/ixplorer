@@ -17,6 +17,18 @@ current_tickets <- function(repository = "current") {
     repository <- basename(rstudioapi::getActiveProject())
   }
 
+
+  access_file <- ixplorer:::verify_ixplorer_file()
+
+  output$warning <- renderText({
+    msg <- if (access_file$empty == TRUE) {
+      "No hay archivo de credenciales disponible"
+    } else {
+      set_authentication(access_data = access_file$gitear_access)
+    }
+    return(msg)
+  })
+
   # Read credentials from .ixplorer TEMPORAL
   ixplorer_url <- Sys.getenv("IXURL")
 
