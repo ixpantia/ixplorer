@@ -17,33 +17,38 @@ current_tickets <- function(repository = "current") {
     repository <- basename(rstudioapi::getActiveProject())
   }
 
-  # Prueba para tener instance sin que sea argumento de la funcion:
-  ixplorer_url <- readr::read_csv(here::here("archivo_temp.csv")) %>%
-    dplyr::select(ixplorer_url) %>%
-    dplyr::pull()
+  # Read credentials from .ixplorer TEMPORAL
+  ixplorer_url <- Sys.getenv("IXURL")
+
+  credentials <- tibble::tribble(
+    ~url, ~token, ~user, ~owner,
+    Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
+  )
 
   instance <- sub("\\..*", "", ixplorer_url)
 
-  credentials <- tryCatch(
-    keyring::key_get(paste0("token_", instance)),
-    error = function(cond) "no_credentials")
+  # Code for using keyring (To be implemented later)
+  # credentials <- tryCatch(
+  #   keyring::key_get(paste0("token_", instance)),
+  #   error = function(cond) "no_credentials")
 
-  if (credentials != "no_credentials") {
-    credentials <- credentials %>%
-      stringr::str_split("/", simplify = TRUE) %>%
-      tibble::as_tibble() %>%
-      dplyr::select(-V1, -V2, -V4) %>%
-      magrittr::set_names(c("url", "token",
-                            "user", "owner",
-                            "persistence")) %>%
-      # dplyr::mutate(persistence = as.numeric(persistence)) %>%
-      dplyr::mutate(persistence = as.logical(persistence))
 
-  }
+  # if (credentials != "no_credentials") {
+  #   credentials <- credentials %>%
+  #     stringr::str_split("/", simplify = TRUE) %>%
+  #     tibble::as_tibble() %>%
+  #     dplyr::select(-V1, -V2, -V4) %>%
+  #     magrittr::set_names(c("url", "token",
+  #                           "user", "owner",
+  #                           "persistence")) %>%
+  #     # dplyr::mutate(persistence = as.numeric(persistence)) %>%
+  #     dplyr::mutate(persistence = as.logical(persistence))
+  #
+  # }
 
-  if (credentials$persistence == FALSE) {
-    keyring::key_delete(paste0("token_", instance))
-  }
+  # if (credentials$persistence == FALSE) {
+  #   keyring::key_delete(paste0("token_", instance))
+  # }
 
   ui <- miniPage(
     miniTitleBar("Current tickets",
@@ -83,7 +88,7 @@ current_tickets <- function(repository = "current") {
     tickets <- tryCatch({
 
       gitear::get_issues_open_state(
-           base_url = paste0("https://", credentials$url),
+           base_url = credentials$url,
            api_key = credentials$token,
            owner = credentials$owner,
            repo = repository)
