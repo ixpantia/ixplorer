@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# <img src="https://i.imgur.com/KM5X4cu.png" align="right" height=50 /> ixplorer
+# ixplorer <a href="url"><img src="https://storage.googleapis.com/ixplorer/ixplorer_logo.png" align="right" width="30%"></a>
 
 <!-- badges: start -->
 
@@ -46,4 +46,3 @@ You can now install ixplorer from GitHub with:
 ``` r
 devtools::install_github("ixpantia/ixplorer")
 ```
-
