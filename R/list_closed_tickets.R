@@ -9,36 +9,56 @@
 #'you want to see the issues closed in the last 7 days, lag = 7.
 #'By default it shows all the issues without any lag..
 #' @export
-list_closed_tickets <- function(instance, owner, repository = "current",
+list_closed_tickets <- function(#instance, owner, unused due to credential hadling
+                                repository = "current",
                                 lag = NULL) {
 
-  credenciales <- tryCatch(
-    keyring::key_get(paste0("token_", instance)),
-    error = function(cond) "no_credenciales")
-
-  if(credenciales == "no_credenciales") {
-    stop(paste("Aún no existen credenciales para", instance))
-  }
-
-  credenciales <- credenciales %>%
-    stringr::str_split("/", simplify = TRUE) %>%
-    tibble::as_tibble() %>%
-    magrittr::set_names(c("url", "token",
-                          "usuario", "persistencia")) %>%
-    dplyr::mutate(persistencia = as.logical(persistencia))
-
-  if(credenciales$persistencia == FALSE) {
-    keyring::key_delete(paste0("token_", instance))
-  }
+  # Keyring code to be implemented late ---------------------------------------
+  # credenciales <- tryCatch(
+  #   keyring::key_get(paste0("token_", instance)),
+  #   error = function(cond) "no_credenciales")
+  #
+  # if(credenciales == "no_credenciales") {
+  #   stop(paste("Aún no existen credenciales para", instance))
+  # }
+  #
+  # credenciales <- credenciales %>%
+  #   stringr::str_split("/", simplify = TRUE) %>%
+  #   tibble::as_tibble() %>%
+  #   magrittr::set_names(c("url", "token",
+  #                         "usuario", "persistencia")) %>%
+  #   dplyr::mutate(persistencia = as.logical(persistencia))
+  #
+  # if(credenciales$persistencia == FALSE) {
+  #   keyring::key_delete(paste0("token_", instance))
+  # }
 
   if(repository == "current") {
     repository <- basename(rstudioapi::getActiveProject())
   }
+  # Read credentials from .ixplorer TEMPORAL-----------------------------------
+  access_file <- ixplorer:::verify_ixplorer_file()
+  ixplorer_url <- Sys.getenv("IXURL")
 
+  credentials <- tibble::tribble(
+    ~url, ~token, ~user, ~owner,
+    Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
+  )
+
+  instance <- sub("\\..*", "", ixplorer_url)
+
+  # Creates list with keyring code---------------------------------------------
+  # list <-  gitear::get_issues_closed_state(
+  #   base_url = paste0("https://", credenciales$url),
+  #   api_key = credenciales$token,
+  #   owner = owner,
+  #   repo = repository)
+
+  #Temporal list---------------------------------------------------------------
   list <-  gitear::get_issues_closed_state(
-    base_url = paste0("https://", credenciales$url),
-    api_key = credenciales$token,
-    owner = owner,
+    base_url = credentials$url,
+    api_key = credentials$token,
+    owner = credentials$owner,
     repo = repository)
 
   list <- list %>%
@@ -58,12 +78,12 @@ list_closed_tickets <- function(instance, owner, repository = "current",
              lubridate::hours(6),
            assignee.created = lubridate::ymd_hms(assignee.created) -
              lubridate::hours(6)) %>% #Deja hora Costa Rica
-    {if (!is.null(lag)) {
+    {if (!is.null(lag)== TRUE) {
       dplyr::filter(., closed_at >= Sys.Date() - lubridate::days(lag))
     } else {.}} %>%
     dplyr::select(number, title, milestone.title) %>%
     dplyr::arrange(milestone.title, number) %>%
-    dplyr::rename(nr = number,
+    dplyr::rename(nr = number, #traducciones
                   Titulo = title,
                   Hito = milestone.title) %>%
     tibble::as_tibble()
@@ -82,18 +102,18 @@ list_closed_tickets <- function(instance, owner, repository = "current",
 #' defecto muestra todos los tiquetes sin ningún lag.
 #'
 #' @export
-listar_tiquetes_cerrados <- function(instancia, propietario,
+listar_tiquetes_cerrados <- function(#instancia, propietario,
                                      repositorio = "actual", dias = NULL) {
   if (repositorio == "actual"){
 
-    lista <- list_closed_tickets(instance = instancia, owner = propietario,
+    lista <- list_closed_tickets(#instance = instancia, owner = propietario,
                                  repository = "current", lag = dias)
     return(lista)
 
   } else {
 
-    lista <- list_closed_tickets( instance = instancia, owner = propietario,
-                                  repository = repository, lag = dias)
+    lista <- list_closed_tickets( #instance = instancia, owner = propietario,
+                                  repository = repositorio, lag = dias)
 
     return(lista)
   }

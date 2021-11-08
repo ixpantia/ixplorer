@@ -13,7 +13,7 @@ NULL
 #' @export
 create_tickets <- function(instance, owner, repository = "current") {
 
-  # Code for using keyring (To be implemented later)
+  # Code for using keyring (To be implemented later)---------------------------
   # credentials <- tryCatch(
   #   keyring::key_get(paste0("token_", instance)),
   #   error = function(cond) "no_credentials")
@@ -34,18 +34,20 @@ create_tickets <- function(instance, owner, repository = "current") {
   }
 
 
+
+
+  # Warning to be checked in ref42 --------------------------------------------
+  # output$warning <- renderText({
+  #   msg <- if (access_file$empty == TRUE) {
+  #     "No hay archivo de credenciales disponible"
+  #   } else {
+  #     set_authentication(access_data = access_file$gitear_access)
+  #   }
+  #   return(msg)
+  # })
+
+  # Read credentials from .ixplorer TEMPORAL-----------------------------------
   access_file <- ixplorer:::verify_ixplorer_file()
-
-  output$warning <- renderText({
-    msg <- if (access_file$empty == TRUE) {
-      "No hay archivo de credenciales disponible"
-    } else {
-      set_authentication(access_data = access_file$gitear_access)
-    }
-    return(msg)
-  })
-
-  # Read credentials from .ixplorer TEMPORAL
   ixplorer_url <- Sys.getenv("IXURL")
 
   credentials <- tibble::tribble(
@@ -55,7 +57,7 @@ create_tickets <- function(instance, owner, repository = "current") {
 
   instance <- sub("\\..*", "", ixplorer_url)
 
-  # Code for using keyring (To be implemented later)
+  # Code for using keyring (To be implemented later)---------------------------
   # if(credentials$persistence == FALSE) {
   #   keyring::key_delete(paste0("token_", instance))
   # }
@@ -129,4 +131,27 @@ create_tickets <- function(instance, owner, repository = "current") {
   }
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
+}
+#' @title Crear tiquete
+#' @description Cree tiquetes (título y cuerpo) desde el add-in de ixplorer sin
+#' perder las ideas durante su flujo de trabajo
+#'
+#' @param instancia instancia de ixplorer (Ejemplo: "secure", "masterclass", "prueba")
+#' @param propietario el nombre del proyecto donde el repositorio está ubicado en ixplorer
+#' @param repositorio nombre del repositorio donde están los tiquetes
+#'
+#' @export
+crear_tiquetes<- function(#instancia = instance, owner = propietario, unused due to credential handling
+                          repositorio = "actual"){
+  if (repositorio == "actual"){
+
+    create_tickets(#instance = instancia, owner = propietario,
+                   repository = "current")
+
+  } else {
+
+    create_tickets(#instance = instacia, owner = propietario,
+                   repository = repositorio)
+
+  }
 }
