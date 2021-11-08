@@ -18,18 +18,20 @@ current_tickets <- function(repository = "current") {
   }
 
 
+
+
+  # Warning to be checked in ref42 --------------------------------------------
+  # output$warning <- renderText({
+  #   msg <- if (access_file$empty == TRUE) {
+  #     "No hay archivo de credenciales disponible"
+  #   } else {
+  #     set_authentication(access_data = access_file$gitear_access)
+  #   }
+  #   return(msg)
+  # })
+
+  # Read credentials from .ixplorer TEMPORAL-----------------------------------
   access_file <- ixplorer:::verify_ixplorer_file()
-
-  output$warning <- renderText({
-    msg <- if (access_file$empty == TRUE) {
-      "No hay archivo de credenciales disponible"
-    } else {
-      set_authentication(access_data = access_file$gitear_access)
-    }
-    return(msg)
-  })
-
-  # Read credentials from .ixplorer TEMPORAL
   ixplorer_url <- Sys.getenv("IXURL")
 
   credentials <- tibble::tribble(
@@ -39,7 +41,7 @@ current_tickets <- function(repository = "current") {
 
   instance <- sub("\\..*", "", ixplorer_url)
 
-  # Code for using keyring (To be implemented later)
+  # Code for using keyring (To be implemented later)---------------------------
   # credentials <- tryCatch(
   #   keyring::key_get(paste0("token_", instance)),
   #   error = function(cond) "no_credentials")
@@ -253,5 +255,29 @@ current_tickets <- function(repository = "current") {
 
 }
 
+#' @title Tiquetes actuales
+#' @description Vea tiquetes para un usuario específico en una computadora y
+#' obtenga enlaces a su ixplorer según las credenciales utilizadas en el gadget
+#' de autenticación.
+#'
+#' @param instancia instancia de ixplorer (Ej: "secure", "masterclass", "prueba")
+#' @param propietario el nombre del proyecto donde el repositorio está ubicado en ixplorer
+#' @param repositorio nombre del repositorio donde están los tiquetes
+#'
+#' @export
 
+tiquetes_actuales<- function(# instancia = instance, propietario = owner,
+                             repositorio = "actual"){
+  if (repositorio == "actual"){
+
+    current_tickets(#instance= instancia, owner = propietario
+                    repository = "current")
+
+  } else {
+
+    current_tickets(#instance = instancia, owner = propietario,
+                    repository = repositorio)
+
+  }
+}
 
