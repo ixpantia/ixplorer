@@ -26,13 +26,13 @@ add_token <- function() {
                 label = "ixplorer URL",
                 width = "100%",
                 placeholder = "Copy your ixplorer URL here."),
-      uiOutput("token_user"),
-      checkboxInput(inputId = "token_persist",
-                    value = 1,
-                    label = "Persistence of credentials on this computer.
-                    (Do not use on shared computers)",
-                    width = "100%"
-      )
+      uiOutput("token_user")
+      # checkboxInput(inputId = "token_persist",
+      #               value = 1,
+      #               label = "Persistence of credentials on this computer.
+      #               (Do not use on shared computers)",
+      #               width = "100%"
+      # )
     )
   )
 
@@ -54,10 +54,9 @@ add_token <- function() {
       verify_cred <- tryCatch({
         keyrings <- keyring::keyring_list()
         instance %in% keyrings$keyring
-        error = function(cond) "no_credentials"      })
+        error = function(cond) "no_credentials"})
 
-
-      if (verify_cred == "no_credentials") {
+      if (verify_cred() == "no_credentials") {
           div(textInput(inputId = "ixplorer_token",
                     label = "Access Token",
                     width = "100%",
@@ -69,14 +68,18 @@ add_token <- function() {
               textInput(inputId = "ixplorer_project",
                         label = "Your project.",
                         width = "100%",
-                        placeholder = "Enter your project here.")
+                        placeholder = "Enter your project here."),
+              textInput(inputId = "ixplorer_repo",
+                        label = "Your repository.",
+                        width = "100%",
+                        placeholder = "Enter your repository name here.")
               )
       }
     })
 
     observeEvent(input$done, {
 
-      keyring_create(instance)
+      keyring::keyring_create(instance)
 
       key_set_with_value(
         "ixplorer_url", password = input$ixplorer_url,
@@ -99,32 +102,33 @@ add_token <- function() {
       )
 
       key_set_with_value(
-        "ixplorer_repo", password = input$ixplorer_repo_name,
+        "ixplorer_repo", password = input$ixplorer_repo,
         keyring = instance
       )
 
-      access_data <- c(url, token, user, project)
-
-      if (input$token_persist == 1) {
-        # working_directory <- rstudioapi::getActiveProject()
-        ixplorer_file <- paste0(working_directory, "/.ixplorer")
-        conn <- file(ixplorer_file, open = "w")
-        writeLines(access_data, con = conn, sep = "\n", useBytes = FALSE)
-        close(conn)
-
-        gitignore <- paste0(working_directory, "/.gitignore")
-        if (file.exists(gitignore)) {
-          conn <- file(gitignore)
-          archivos_ignorados <- readLines(conn)
-          writeLines(c(archivos_ignorados,".ixplorer"), conn) #lo sobre escribe
-          close(conn)
-        } else {
-          conn <- file(gitignore, open = "w")
-          writeLines(".ixplorer", con = conn, sep = "\n", useBytes = FALSE)
-          close(conn)
-        }
-
-      }
+      ## Parte del ixplorer file
+      # access_data <- c(url, token, user, project)
+      #
+      # if (input$token_persist == 1) {
+      #   # working_directory <- rstudioapi::getActiveProject()
+      #   ixplorer_file <- paste0(working_directory, "/.ixplorer")
+      #   conn <- file(ixplorer_file, open = "w")
+      #   writeLines(access_data, con = conn, sep = "\n", useBytes = FALSE)
+      #   close(conn)
+      #
+      #   gitignore <- paste0(working_directory, "/.gitignore")
+      #   if (file.exists(gitignore)) {
+      #     conn <- file(gitignore)
+      #     archivos_ignorados <- readLines(conn)
+      #     writeLines(c(archivos_ignorados,".ixplorer"), conn) #lo sobre escribe
+      #     close(conn)
+      #   } else {
+      #     conn <- file(gitignore, open = "w")
+      #     writeLines(".ixplorer", con = conn, sep = "\n", useBytes = FALSE)
+      #     close(conn)
+      #   }
+      #
+      # }
       stopApp(NULL)
     })
 

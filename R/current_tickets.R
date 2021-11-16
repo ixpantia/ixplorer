@@ -17,48 +17,15 @@ current_tickets <- function(repository = "current") {
     repository <- basename(rstudioapi::getActiveProject())
   }
 
-
-
-
-  # Warning to be checked in ref42 --------------------------------------------
-  # output$warning <- renderText({
-  #   msg <- if (access_file$empty == TRUE) {
-  #     "No hay archivo de credenciales disponible"
-  #   } else {
-  #     set_authentication(access_data = access_file$gitear_access)
-  #   }
-  #   return(msg)
-  # })
-
-  # Read credentials from .ixplorer TEMPORAL-----------------------------------
-  access_file <- ixplorer:::verify_ixplorer_file()
-  ixplorer_url <- Sys.getenv("IXURL")
-
-  credentials <- tibble::tribble(
-    ~url, ~token, ~user, ~owner,
-    Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
-  )
-
-  instance <- sub("\\..*", "", ixplorer_url)
-
   # Code for using keyring (To be implemented later)---------------------------
   # credentials <- tryCatch(
   #   keyring::key_get(paste0("token_", instance)),
   #   error = function(cond) "no_credentials")
 
+  credentials <- tryCatch({
+    keyrings <- keyring::keyring_list()
+    error = function(cond) "no_credentials"})
 
-  # if (credentials != "no_credentials") {
-  #   credentials <- credentials %>%
-  #     stringr::str_split("/", simplify = TRUE) %>%
-  #     tibble::as_tibble() %>%
-  #     dplyr::select(-V1, -V2, -V4) %>%
-  #     magrittr::set_names(c("url", "token",
-  #                           "user", "owner",
-  #                           "persistence")) %>%
-  #     # dplyr::mutate(persistence = as.numeric(persistence)) %>%
-  #     dplyr::mutate(persistence = as.logical(persistence))
-  #
-  # }
 
   # if (credentials$persistence == FALSE) {
   #   keyring::key_delete(paste0("token_", instance))
@@ -67,9 +34,9 @@ current_tickets <- function(repository = "current") {
   ui <- miniPage(
     miniTitleBar("Current tickets",
                  right = miniTitleBarCancelButton(inputId = "done",
-                                                 label = "Done.",
-                                                 primary = TRUE)
-                 ),
+                                                  label = "Done.",
+                                                  primary = TRUE)
+    ),
     verbatimTextOutput("warning", placeholder = FALSE),
     miniTabstripPanel(
       miniTabPanel("My tickets", icon = icon("user"),
@@ -90,11 +57,11 @@ current_tickets <- function(repository = "current") {
     )
   )
 
-  server <- function(input, output, session){
+  server <- function(input, output, session) {
 
     output$warning <- renderText({
-      msg <- ifelse(credentials == "no_credentials",
-                     "No credential file available", "")
+      msg <- ifelse(credentials() == "no_credentials",
+                    "No credential file available", "")
       return(msg)
     })
 
@@ -102,20 +69,14 @@ current_tickets <- function(repository = "current") {
     tickets <- tryCatch({
 
       gitear::get_issues_open_state(
-           base_url = credentials$url,
-           api_key = credentials$token,
-           owner = credentials$owner,
-           repo = repository)
-      # Eliminate this check code
-      # check <- gitear::get_issues_open_state (base_url = "https://secure.ixpantia.com",
-      #                                         api_key = ixplorer_token,
-      #                                         owner = "ixplorer",
-      #                                         repo = "ixplorer.es")
-
-      },
-      error = function(cond) {
-        tickets <- "Invalid"
-      })
+        base_url = credentials$url,
+        api_key = credentials$token,
+        owner = credentials$owner,
+        repo = repository)
+    },
+    error = function(cond) {
+      tickets <- "Invalid"
+    })
 
 
 
@@ -135,7 +96,7 @@ current_tickets <- function(repository = "current") {
           dplyr::mutate(due_date = lubridate::ymd(due_date) -
                           lubridate::today()) %>%
           tidyr::separate(col = url,
-                   into = c("borrar", "issue_url"), sep = "repos/") %>%
+                          into = c("borrar", "issue_url"), sep = "repos/") %>%
           dplyr::select(-borrar) %>%
           dplyr::mutate(
             issue_url = paste(base_url = paste0("https://", credentials$url),
@@ -148,11 +109,11 @@ current_tickets <- function(repository = "current") {
 
         tickets_kable <- tickets %>%
           dplyr::mutate(Due = ifelse(Due < 0, kableExtra::cell_spec(Due, color = "white",
-                                                 bold = TRUE, background = rojos),
-                              kableExtra::cell_spec(Due, color = "white",
-                                        bold = TRUE, background = verdes)),
-                 Nr = kableExtra::text_spec(Nr, link = issue_url),
-                 Due = ifelse(is.na(Due), "-", Due)) %>%
+                                                                    bold = TRUE, background = rojos),
+                                     kableExtra::cell_spec(Due, color = "white",
+                                                           bold = TRUE, background = verdes)),
+                        Nr = kableExtra::text_spec(Nr, link = issue_url),
+                        Due = ifelse(is.na(Due), "-", Due)) %>%
           dplyr::select(-issue_url) %>%
           kableExtra::kable(escape = FALSE) %>%
           kableExtra::kable_styling("striped", "condensed")
@@ -170,7 +131,7 @@ current_tickets <- function(repository = "current") {
         tickets <- tickets %>%
           dplyr::select(assignee.login, number, title, due_date, url) %>%
           dplyr::mutate(assignee.login = ifelse(is.na(assignee.login), "-",
-                                         assignee.login)) %>%
+                                                assignee.login)) %>%
           dplyr::filter(assignee.login != credentials$user) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"),
                           sep = "T") %>%
@@ -179,13 +140,13 @@ current_tickets <- function(repository = "current") {
                           lubridate::today()) %>%
           dplyr::mutate(due_date = as.numeric(due_date)) %>%
           tidyr::separate(col = url,
-                   into = c("borrar", "issue_url"), sep = "repos/") %>%
+                          into = c("borrar", "issue_url"), sep = "repos/") %>%
           dplyr::select(-borrar) %>%
           dplyr::mutate(issue_url = paste(base_url = paste0("https://", credentials$url),
-               issue_url, sep = "/")) %>%
+                                          issue_url, sep = "/")) %>%
           dplyr::arrange(desc(due_date)) %>%
           dplyr::rename(Title = title, Nr = number, Due = due_date,
-                 User = assignee.login)
+                        User = assignee.login)
 
         suppressWarnings(verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens"))
         suppressWarnings(rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds"))
@@ -194,9 +155,9 @@ current_tickets <- function(repository = "current") {
           dplyr::mutate(
             Due = ifelse(Due < 0,
                          kableExtra::cell_spec(Due, color = "white",
-                                   bold = TRUE, background = rojos),
+                                               bold = TRUE, background = rojos),
                          kableExtra::cell_spec(Due, color = "white",
-                                   bold = TRUE, background = verdes)),
+                                               bold = TRUE, background = verdes)),
             Nr = kableExtra::text_spec(Nr, link = issue_url),
             Due = ifelse(is.na(Due), "-", Due)) %>%
           dplyr::select(-issue_url) %>%
@@ -211,35 +172,35 @@ current_tickets <- function(repository = "current") {
       if (class(tickets) != "data.frame") {
         quick_links <- "Invalid credentials. Please use the authentication gadget."
       } else {
-      # Get closed tickets link
-      close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
-      ixurl <- paste0("https://", credentials$url)
-      close_tickets_url <- paste(ixurl, owner, repository,
-            close_tickets_url, sep = "/")
+        # Get closed tickets link
+        close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
+        ixurl <- paste0("https://", credentials$url)
+        close_tickets_url <- paste(ixurl, owner, repository,
+                                   close_tickets_url, sep = "/")
 
-      # Get milestones link
-      milestones_url <- paste(ixurl, owner, repository, "milestones", sep = "/")
+        # Get milestones link
+        milestones_url <- paste(ixurl, owner, repository, "milestones", sep = "/")
 
-      # Get Wiki link
-      wiki_url <- paste(ixurl, owner, repository, "wiki", sep = "/")
+        # Get Wiki link
+        wiki_url <- paste(ixurl, owner, repository, "wiki", sep = "/")
 
-      # Get project link
-      project_url <- paste(ixurl, owner, sep = "/")
+        # Get project link
+        project_url <- paste(ixurl, owner, sep = "/")
 
-      # Final table
-      links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
-      URL <- c("Closed tickets", "Milestones", "Wiki", "Project")
-      quick_links <- data.frame(links, URL)
+        # Final table
+        links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
+        URL <- c("Closed tickets", "Milestones", "Wiki", "Project")
+        quick_links <- data.frame(links, URL)
 
-      # Table with kableExtra
-      quick_links <- quick_links %>%
-        dplyr::mutate(
-          URL = kableExtra::text_spec(URL, link = links)) %>%
-        dplyr::select(-links) %>%
-        kableExtra::kable(escape = FALSE, align = "c") %>%
-        kableExtra::kable_styling("striped", "condensed", position = "center",
-                      font_size = 20)
-      quick_links <- gsub("<thead>.*</thead>", "", quick_links)
+        # Table with kableExtra
+        quick_links <- quick_links %>%
+          dplyr::mutate(
+            URL = kableExtra::text_spec(URL, link = links)) %>%
+          dplyr::select(-links) %>%
+          kableExtra::kable(escape = FALSE, align = "c") %>%
+          kableExtra::kable_styling("striped", "condensed", position = "center",
+                                    font_size = 20)
+        quick_links <- gsub("<thead>.*</thead>", "", quick_links)
       }
       return(quick_links)
     }
@@ -248,7 +209,7 @@ current_tickets <- function(repository = "current") {
       stopApp(TRUE)
     })
 
-    }
+  }
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
 
@@ -266,17 +227,17 @@ current_tickets <- function(repository = "current") {
 #'
 #' @export
 
-tiquetes_actuales<- function(# instancia = instance, propietario = owner,
-                             repositorio = "actual"){
-  if (repositorio == "actual"){
+tiquetes_actuales <- function(# instancia = instance, propietario = owner,
+  repositorio = "actual"){
+  if (repositorio == "actual") {
 
     current_tickets(#instance= instancia, owner = propietario
-                    repository = "current")
+      repository = "current")
 
   } else {
 
     current_tickets(#instance = instancia, owner = propietario,
-                    repository = repositorio)
+      repository = repositorio)
 
   }
 }
