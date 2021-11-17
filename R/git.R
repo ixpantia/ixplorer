@@ -18,7 +18,7 @@ add_upstream <- function(instance, owner) {
     error = function(cond) "no_credentials")
 
 
-  if(credentials != "no_credentials") {
+  if (credentials != "no_credentials") {
     credentials <- credentials %>%
       stringr::str_split("/", simplify = TRUE) %>%
       tibble::as_tibble() %>%
@@ -30,7 +30,7 @@ add_upstream <- function(instance, owner) {
     stop(paste("No credentials yet for", instance))
   }
 
-  if(credentials$persistence == FALSE) {
+  if (credentials$persistence == FALSE) {
     keyring::key_delete(paste0("token_", instance))
   }
 

@@ -26,35 +26,37 @@ add_token <- function() {
                 label = "ixplorer URL",
                 width = "100%",
                 placeholder = "Copy your ixplorer URL here."),
-      uiOutput("token_user"),
-      checkboxInput(inputId = "token_persist",
-                    value = 1,
-                    label = "Persistence of credentials on this computer.
-                    (Do not use on shared computers)",
-                    width = "100%"
-      )
+      uiOutput("token_user")
+      # checkboxInput(inputId = "token_persist",
+      #               value = 1,
+      #               label = "Persistence of credentials on this computer.
+      #               (Do not use on shared computers)",
+      #               width = "100%"
+      # )
     )
   )
 
   server <- function(input, output, session) {
 
     output$token_user <- renderUI({
+
+      # We review first the URL to know which instance is the user working on
+      # If this instance is already in the keyring, we do not ask for credentials
+
       req(input$ixplorer_url)
+
       # CHANGE!!! input$ixplorer_url
-      instance <- sub("\\..*", "", input$ixplorer_url)
+     instance <- sub("\\..*", "", ixplorer_url) %>%
+        stringr::str_split("//")
 
-      # Code for using keyring (To be implemented later)
-      # verify_cred <- tryCatch(
-      #   keyring::key_get(paste0("token_", instance)),
-      #   error = function(cond) "no_credentials")
+     instance <- paste0("ixplorer_",instance[[1]][2])
 
-      if (Sys.getenv("IXURL") == "") {
-        verify_cred <- "no_credentials"
-      } else {
-        verify_cred <- Sys.getenv("IXURL")
-      }
+      verify_cred <- tryCatch({
+        keyrings <- keyring::keyring_list()
+        instance %in% keyrings$keyring
+        error = function(cond) "no_credentials"})
 
-      if (verify_cred == "no_credentials") {
+      if (verify_cred() == "no_credentials") {
           div(textInput(inputId = "ixplorer_token",
                     label = "Access Token",
                     width = "100%",
@@ -66,50 +68,67 @@ add_token <- function() {
               textInput(inputId = "ixplorer_project",
                         label = "Your project.",
                         width = "100%",
-                        placeholder = "Enter your project here.")
+                        placeholder = "Enter your project here."),
+              textInput(inputId = "ixplorer_repo",
+                        label = "Your repository.",
+                        width = "100%",
+                        placeholder = "Enter your repository name here.")
               )
       }
-
     })
 
     observeEvent(input$done, {
 
-      Sys.setenv("IXURL"   = input$ixplorer_url)
-      Sys.setenv("IXTOKEN" = input$ixplorer_token)
-      Sys.setenv("IXUSER"  = input$ixplorer_user_name)
-      Sys.setenv("IXPROJECT" = input$ixplorer_project)
-      # Sys.setenv("IXREPO"  = input$ixplorer_repo_name)
+      keyring::keyring_create(instance)
 
+      key_set_with_value(
+        "ixplorer_url", password = input$ixplorer_url,
+        keyring = instance
+      )
 
-      url     <- paste0("IXURL=", input$ixplorer_url)
-      token   <- paste0("IXTOKEN=", input$ixplorer_token)
-      user    <- paste0("IXUSER=", input$ixplorer_user_name)
-      project <- paste0("IXPROJECT=", input$ixplorer_project)
-      # repo    <- paste0("IXREPO=", input$ixplorer_repo_name)
+      key_set_with_value(
+        "ixplorer_token", password = input$ixplorer_token,
+        keyring = instance
+      )
 
+      key_set_with_value(
+        "ixplorer_user_name", password = input$ixplorer_user_name,
+        keyring = instance
+      )
 
-      access_data <- c(url, token, user, project)
+      key_set_with_value(
+        "ixplorer_project", password = input$ixplorer_project,
+        keyring = instance
+      )
 
-      if (input$token_persist == 1) {
-        working_directory <- rstudioapi::getActiveProject()
-        ixplorer_file <- paste0(working_directory, "/.ixplorer")
-        conn <- file(ixplorer_file, open = "w")
-        writeLines(access_data, con = conn, sep = "\n", useBytes = FALSE)
-        close(conn)
+      key_set_with_value(
+        "ixplorer_repo", password = input$ixplorer_repo,
+        keyring = instance
+      )
 
-        gitignore <- paste0(working_directory, "/.gitignore")
-        if (file.exists(gitignore)) {
-          conn <- file(gitignore)
-          archivos_ignorados <- readLines(conn)
-          writeLines(c(archivos_ignorados,".ixplorer"), conn) #lo sobre escribe
-          close(conn)
-        } else {
-          conn <- file(gitignore, open = "w")
-          writeLines(".ixplorer", con = conn, sep = "\n", useBytes = FALSE)
-          close(conn)
-        }
-
-      }
+      ## Parte del ixplorer file
+      # access_data <- c(url, token, user, project)
+      #
+      # if (input$token_persist == 1) {
+      #   # working_directory <- rstudioapi::getActiveProject()
+      #   ixplorer_file <- paste0(working_directory, "/.ixplorer")
+      #   conn <- file(ixplorer_file, open = "w")
+      #   writeLines(access_data, con = conn, sep = "\n", useBytes = FALSE)
+      #   close(conn)
+      #
+      #   gitignore <- paste0(working_directory, "/.gitignore")
+      #   if (file.exists(gitignore)) {
+      #     conn <- file(gitignore)
+      #     archivos_ignorados <- readLines(conn)
+      #     writeLines(c(archivos_ignorados,".ixplorer"), conn) #lo sobre escribe
+      #     close(conn)
+      #   } else {
+      #     conn <- file(gitignore, open = "w")
+      #     writeLines(".ixplorer", con = conn, sep = "\n", useBytes = FALSE)
+      #     close(conn)
+      #   }
+      #
+      # }
       stopApp(NULL)
     })
 
