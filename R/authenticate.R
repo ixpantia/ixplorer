@@ -46,7 +46,7 @@ add_token <- function() {
       req(input$ixplorer_url)
 
       # CHANGE!!! input$ixplorer_url
-     instance <- sub("\\..*", "", ixplorer_url) %>%
+     instance <- sub("\\..*", "", input$ixplorer_url) %>%
         stringr::str_split("//")
 
      instance <- paste0("ixplorer_",instance[[1]][2])
@@ -79,6 +79,12 @@ add_token <- function() {
 
     observeEvent(input$done, {
 
+      # Creates the instance inside observeEvent() as well
+      instance <- sub("\\..*", "", input$ixplorer_url) %>%
+        stringr::str_split("//")
+
+      instance <- paste0("ixplorer_",instance[[1]][2])
+
       keyring::keyring_create(instance)
 
       key_set_with_value(
@@ -105,6 +111,14 @@ add_token <- function() {
         "ixplorer_repo", password = input$ixplorer_repo,
         keyring = instance
       )
+
+      key_set_with_value(
+        "ixplorer_instance", password = instance,  #key to check miniUI workflow
+        keyring = instance)
+
+
+
+      Sys.setenv(ixplorer_instance=instance) # variable to check miniUI workflow
 
       ## Parte del ixplorer file
       # access_data <- c(url, token, user, project)
