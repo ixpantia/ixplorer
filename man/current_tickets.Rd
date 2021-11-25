@@ -4,14 +4,14 @@
 \alias{current_tickets}
 \title{Current tickets}
 \usage{
-current_tickets(repository = "current")
+current_tickets()
 }
 \arguments{
-\item{repository}{the name of the repository where the tickets are}
-
 \item{instance}{ixplorer instance (Eg: "secure", "masterclass", "prueba")}
 
 \item{owner}{the name of the project where the repository is located in ixplorer}
+
+\item{repository}{the name of the repository where the tickets are}
 }
 \description{
 View tickets for a specific user on a computer and get links to
