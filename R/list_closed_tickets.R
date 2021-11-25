@@ -10,7 +10,7 @@
 #'By default it shows all the issues without any lag..
 #' @export
 list_closed_tickets <- function(#instance, owner, unused due to credential hadling
-                                repository = "current",
+                                # repository = "current",
                                 lag = NULL) {
 
   # Keyring code to be implemented late ---------------------------------------
@@ -33,21 +33,22 @@ list_closed_tickets <- function(#instance, owner, unused due to credential hadli
   #   keyring::key_delete(paste0("token_", instance))
   # }
 
-  if(repository == "current") {
-    repository <- basename(rstudioapi::getActiveProject())
-  }
+  # Repo from Rstudio API------------------------------------------------------
+  # if(repository == "current") {
+  #   repository <- basename(rstudioapi::getActiveProject())
+  # }
   # Read credentials from .ixplorer TEMPORAL-----------------------------------
-  access_file <- ixplorer:::verify_ixplorer_file()
-  ixplorer_url <- Sys.getenv("IXURL")
+  # access_file <- ixplorer:::verify_ixplorer_file()
+  # ixplorer_url <- Sys.getenv("IXURL")
+  #
+  # credentials <- tibble::tribble(
+  #   ~url, ~token, ~user, ~owner,
+  #   Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
+  # )
+  #
+  # instance <- sub("\\..*", "", ixplorer_url)
 
-  credentials <- tibble::tribble(
-    ~url, ~token, ~user, ~owner,
-    Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
-  )
-
-  instance <- sub("\\..*", "", ixplorer_url)
-
-  # Creates list with keyring code---------------------------------------------
+  # Creates list with OLD keyring code---------------------------------------------
   # list <-  gitear::get_issues_closed_state(
   #   base_url = paste0("https://", credenciales$url),
   #   api_key = credenciales$token,
@@ -55,13 +56,22 @@ list_closed_tickets <- function(#instance, owner, unused due to credential hadli
   #   repo = repository)
 
   #Temporal list---------------------------------------------------------------
-  list <-  gitear::get_issues_closed_state(
-    base_url = credentials$url,
-    api_key = credentials$token,
-    owner = credentials$owner,
-    repo = repository)
+  # list <-  gitear::get_issues_closed_state(
+  #   base_url = credentials$url,
+  #   api_key = credentials$token,
+  #   owner = credentials$owner,
+  #   repo = repository)
 
-  list <- list %>%
+  instance = Sys.getenv("ixplorer_instance") # variable to check workflow
+
+  # Keyring llavero ------------------------------------------------------------
+  raw_tickets_data <- gitear::get_issues_open_state(
+    base_url = key_get("ixplorer_url", keyring = instance), ## Needs instance
+    api_key = key_get("ixplorer_token", keyring = instance),
+    owner = key_get("ixplorer_project", keyring = instance),
+    repo = key_get("ixplorer_repo", keyring = instance))
+
+  list <- raw_tickets_data %>%
     mutate(created_at = lubridate::ymd_hms(created_at) -
              lubridate::hours(6),
            updated_at = lubridate::ymd_hms(updated_at) -
@@ -102,19 +112,6 @@ list_closed_tickets <- function(#instance, owner, unused due to credential hadli
 #' defecto muestra todos los tiquetes sin ningún lag.
 #'
 #' @export
-listar_tiquetes_cerrados <- function(#instancia, propietario,
-                                     repositorio = "actual", dias = NULL) {
-  if (repositorio == "actual"){
-
-    lista <- list_closed_tickets(#instance = instancia, owner = propietario,
-                                 repository = "current", lag = dias)
-    return(lista)
-
-  } else {
-
-    lista <- list_closed_tickets( #instance = instancia, owner = propietario,
-                                  repository = repositorio, lag = dias)
-
-    return(lista)
-  }
+listar_tiquetes_cerrados <- function(...){
+  list_closed_tickets()
 }
