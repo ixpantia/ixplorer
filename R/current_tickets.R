@@ -11,26 +11,37 @@ NULL
 #' @param repository the name of the repository where the tickets are
 #'
 #' @export
-current_tickets <- function(repository = "current") {
+current_tickets <- function() {
 
-  if (repository == "current") {
-    repository <- basename(rstudioapi::getActiveProject())
-  }
+  # if (repository == "current") { ##NOTAR
+  #   repository <- basename(rstudioapi::getActiveProject())
+  # }
 
   # Code for using keyring (To be implemented later)---------------------------
   # credentials <- tryCatch(
   #   keyring::key_get(paste0("token_", instance)),
   #   error = function(cond) "no_credentials")
 
-  credentials <- tryCatch({
-    keyrings <- keyring::keyring_list()
-    error = function(cond) "no_credentials"})
-
-
+  # credentials <- tryCatch({
+  #   keyrings <- keyring::keyring_list()
+  #   error = function(cond) "no_credentials"})) #Needs checking
+  #
   # if (credentials$persistence == FALSE) {
   #   keyring::key_delete(paste0("token_", instance))
   # }
 
+  instance = Sys.getenv("ixplorer_instance") # variable to check gadget workflow
+
+  credentials <- keyring::keyring_list() # while tryCatch() is checked
+
+  # Get keys -------------------------------------------------------------------
+  authentication_user_name <- key_get("ixplorer_user_name", keyring = instance)
+  authentication_owner <- key_get("ixplorer_project", keyring = instance)
+  authentication_repo <- key_get("ixplorer_repo", keyring = instance)
+  authentication_repository <- key_get("ixplorer_repo", keyring = instance)
+  authentication_base_url <- key_get("ixplorer_url", keyring = instance)
+
+  # UI -------------------------------------------------------------------------
   ui <- miniPage(
     miniTitleBar("Current tickets",
                  right = miniTitleBarCancelButton(inputId = "done",
@@ -56,23 +67,37 @@ current_tickets <- function(repository = "current") {
       )
     )
   )
-
+  # sever ---------------------------------------------------------------------
   server <- function(input, output, session) {
 
-    output$warning <- renderText({
-      msg <- ifelse(credentials() == "no_credentials",
+    output$warning <- renderText({   ##NO NEED
+      msg <- ifelse(credentials == "no_credentials",
                     "No credential file available", "")
       return(msg)
     })
 
+    # output$warning <- renderText({
+    #   msg <- if (credentials == "no credentials"){
+    #     "No credential file available"
+    #   }
+    #   return(msg)
+    # })
+
     # Get tickets and configurate credentials
     tickets <- tryCatch({
 
+      # gitear::get_issues_open_state(  old credential handling
+      #   base_url = credentials$url,
+      #   api_key = credentials$token,
+      #   owner = credentials$owner,
+      #   repo = repository)
+
       gitear::get_issues_open_state(
-        base_url = credentials$url,
-        api_key = credentials$token,
-        owner = credentials$owner,
-        repo = repository)
+        base_url = key_get("ixplorer_url", keyring = instance),
+        api_key = key_get("ixplorer_token", keyring = instance),
+        owner = key_get("ixplorer_project", keyring = instance),
+        repo = key_get("ixplorer_repo", keyring = instance))
+
     },
     error = function(cond) {
       tickets <- "Invalid"
@@ -88,7 +113,7 @@ current_tickets <- function(repository = "current") {
       } else {
         # Select tickets by user and tickets link creation
         tickets <- tickets %>%
-          dplyr::filter(assignee.login == credentials$user) %>%
+          dplyr::filter(assignee.login == authentication_user_name) %>%
           dplyr::select(number, title, due_date, url) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"),
                           sep = "T") %>%
@@ -99,7 +124,7 @@ current_tickets <- function(repository = "current") {
                           into = c("borrar", "issue_url"), sep = "repos/") %>%
           dplyr::select(-borrar) %>%
           dplyr::mutate(
-            issue_url = paste(base_url = paste0("https://", credentials$url),
+            issue_url = paste(base_url = paste0("https://", authentication_base_url),
                               issue_url, sep = "/")) %>%
           dplyr::arrange(desc(due_date)) %>%
           dplyr::rename(Title = title,  Nr = number, Due = due_date)
@@ -132,7 +157,7 @@ current_tickets <- function(repository = "current") {
           dplyr::select(assignee.login, number, title, due_date, url) %>%
           dplyr::mutate(assignee.login = ifelse(is.na(assignee.login), "-",
                                                 assignee.login)) %>%
-          dplyr::filter(assignee.login != credentials$user) %>%
+          dplyr::filter(assignee.login != authentication_user_name) %>% ##CHANGED TO KEY_GET
           tidyr::separate(col = due_date, into = c("due_date", "hour"),
                           sep = "T") %>%
           dplyr::select(-hour) %>%
@@ -142,7 +167,7 @@ current_tickets <- function(repository = "current") {
           tidyr::separate(col = url,
                           into = c("borrar", "issue_url"), sep = "repos/") %>%
           dplyr::select(-borrar) %>%
-          dplyr::mutate(issue_url = paste(base_url = paste0("https://", credentials$url),
+          dplyr::mutate(issue_url = paste(base_url = paste0("https://", authentication_base_url),
                                           issue_url, sep = "/")) %>%
           dplyr::arrange(desc(due_date)) %>%
           dplyr::rename(Title = title, Nr = number, Due = due_date,
@@ -174,18 +199,18 @@ current_tickets <- function(repository = "current") {
       } else {
         # Get closed tickets link
         close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
-        ixurl <- paste0("https://", credentials$url)
-        close_tickets_url <- paste(ixurl, owner, repository,
+        ixurl <- paste0("https://", authentication_base_url)
+        close_tickets_url <- paste(ixurl, authentication_owner, authentication_repository,
                                    close_tickets_url, sep = "/")
 
         # Get milestones link
-        milestones_url <- paste(ixurl, owner, repository, "milestones", sep = "/")
+        milestones_url <- paste(ixurl, authentication_owner, authentication_repository, "milestones", sep = "/")
 
         # Get Wiki link
-        wiki_url <- paste(ixurl, owner, repository, "wiki", sep = "/")
+        wiki_url <- paste(ixurl, authentication_owner, authentication_repository, "wiki", sep = "/")
 
         # Get project link
-        project_url <- paste(ixurl, owner, sep = "/")
+        project_url <- paste(ixurl, authentication_owner, sep = "/")
 
         # Final table
         links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
@@ -227,18 +252,7 @@ current_tickets <- function(repository = "current") {
 #'
 #' @export
 
-tiquetes_actuales <- function(# instancia = instance, propietario = owner,
-  repositorio = "actual"){
-  if (repositorio == "actual") {
-
-    current_tickets(#instance= instancia, owner = propietario
-      repository = "current")
-
-  } else {
-
-    current_tickets(#instance = instancia, owner = propietario,
-      repository = repositorio)
-
-  }
+tiquetes_actuales <- function(...) {
+  current_tickets()
 }
 

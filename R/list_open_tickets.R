@@ -10,25 +10,24 @@
 #'By default it shows all the tickets without any lag..
 #'
 #' @export
-list_open_tickets <- function(#instance, owner, unused due to temporal credential handling
-                              repository = "current",
-                              lag = NULL) {
+list_open_tickets <- function(lag = NULL) { #no need for other especifications
 
   # Keyring code to be implemented later --------------------------------------
-  credenciales <- tryCatch({
-    keyrings <- keyring::keyring_list()
-    error = function(cond) "no_credentials"})
+  # credentials <- tryCatch({
+  #   keyrings <- keyring::keyring_list()
+  #   error = function(cond) "no_credentials"})
+  # if (credenciales() == "no_credentials") {
+  #   stop(paste("Aún no existen credenciales para", instance)) # Needs instance
+  # }
 
-  if (credenciales() == "no_credentials") {
-    stop(paste("Aún no existen credenciales para", instance))
-  }
+  instance = Sys.getenv("ixplorer_instance") # variable to check workflow
 
   # Keyring llavero ------------------------------------------------------------
   raw_tickets_data <- gitear::get_issues_open_state(
-    base_url = key_get("ixplorer_url", keyring = "ixplorer_secure"),
-    api_key = key_get("ixplorer_token", keyring = "ixplorer_secure"),
-    owner = key_get("ixplorer_project", keyring = "ixplorer_secure"),
-    repo = key_get("ixplorer_repo", keyring = "ixplorer_secure"))
+    base_url = key_get("ixplorer_url", keyring = instance), ## Needs instance
+    api_key = key_get("ixplorer_token", keyring = instance),
+    owner = key_get("ixplorer_project", keyring = instance),
+    repo = key_get("ixplorer_repo", keyring = instance))
 
   list <- raw_tickets_data %>%
     mutate(created_at = lubridate::ymd_hms(created_at) -
@@ -47,9 +46,9 @@ list_open_tickets <- function(#instance, owner, unused due to temporal credentia
              lubridate::hours(6),
            assignee.created = lubridate::ymd_hms(assignee.created) -
              lubridate::hours(6)) %>% #Deja hora Costa Rica
-    {if (!is.null(lag) == TRUE) {
-      dplyr::filter(., created_at >= Sys.Date() - lubridate::days(lag))
-    } else {.}} %>%
+    # {if (!is.null(lag) == TRUE) {
+    #   dplyr::filter(., created_at >= Sys.Date() - lubridate::days(lag)) What
+    # } else {.}} %>%
     dplyr::select(number, title, milestone.title) %>%
     dplyr::arrange(milestone.title, number) %>%
     dplyr::rename(nr = number,
@@ -72,17 +71,6 @@ list_open_tickets <- function(#instance, owner, unused due to temporal credentia
 #' defecto muestra todos los tiquetes sin ningún lag.
 #'
 #' @export
-listar_tiquetes_abiertos <- function(#instancia, propietario,
-                                     repositorio = "actual",
-                                     dias = NULL) {
-  if (repositorio == "actual") {
-    lista <- list_open_tickets(#instance = instancia, owner = propietario,
-                               repository = "current", lag = dias)
-    return(lista)
-  } else {
-    lista <- list_open_tickets( #instance = instancia, owner = propietario,
-                                repository = repositorio, lag = dias)
-    return(lista)
-  }
-
+listar_tiquetes_abiertos <- function(...){
+  list_open_tickets()
 }

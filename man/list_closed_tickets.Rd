@@ -4,11 +4,9 @@
 \alias{list_closed_tickets}
 \title{List closed tickets}
 \usage{
-list_closed_tickets(repository = "current", lag = NULL)
+list_closed_tickets(lag = NULL)
 }
 \arguments{
-\item{repository}{the name of the repository where the issues are.}
-
 \item{lag}{is the time in days that you want to look back. For example if
 you want to see the issues closed in the last 7 days, lag = 7.
 By default it shows all the issues without any lag..}
@@ -17,6 +15,8 @@ By default it shows all the issues without any lag..}
 
 \item{owner}{the name of the project where the repository is located in
 ixplorer}
+
+\item{repository}{the name of the repository where the issues are.}
 }
 \description{
 List of closed tickets from the indicated repository.

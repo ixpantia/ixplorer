@@ -4,7 +4,7 @@
 \alias{listar_tiquetes_abiertos}
 \title{Lista de tiquetes abiertos}
 \usage{
-listar_tiquetes_abiertos(repositorio = "actual", dias = NULL)
+listar_tiquetes_abiertos(...)
 }
 \arguments{
 \item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
