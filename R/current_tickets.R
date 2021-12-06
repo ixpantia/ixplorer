@@ -30,6 +30,8 @@ current_tickets <- function() {
   #   keyring::key_delete(paste0("token_", instance))
   # }
 
+  # Get instance --------------------------------------------------------------
+
   instance = Sys.getenv("ixplorer_instance") # variable to check gadget workflow
 
   credentials <- keyring::keyring_list() # while tryCatch() is checked
@@ -199,7 +201,8 @@ current_tickets <- function() {
       } else {
         # Get closed tickets link
         close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
-        ixurl <- paste0("https://", authentication_base_url)
+        #ixurl <- paste0("https://", authentication_base_url)
+        ixurl <- authentication_base_url
         close_tickets_url <- paste(ixurl, authentication_owner, authentication_repository,
                                    close_tickets_url, sep = "/")
 

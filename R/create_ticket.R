@@ -11,7 +11,7 @@ NULL
 #' @param repository the name of the repository where the tickets are
 #'
 #' @export
-create_tickets <- function(instance, owner, repository = "current") {
+create_tickets <- function() {
 
   # Code for using keyring (To be implemented later)---------------------------
   # credentials <- tryCatch(
@@ -29,9 +29,11 @@ create_tickets <- function(instance, owner, repository = "current") {
   #
   # }
 
-  if (repository == "current") {
-    repository <- basename(rstudioapi::getActiveProject())
-  }
+  # Get repository from Rstudio Api -------------------------------------------
+
+  # if (repository == "current") {
+  #   repository <- basename(rstudioapi::getActiveProject())
+  # }
 
 
 
@@ -47,20 +49,26 @@ create_tickets <- function(instance, owner, repository = "current") {
   # })
 
   # Read credentials from .ixplorer TEMPORAL-----------------------------------
-  access_file <- ixplorer:::verify_ixplorer_file()
-  ixplorer_url <- Sys.getenv("IXURL")
-
-  credentials <- tibble::tribble(
-    ~url, ~token, ~user, ~owner,
-    Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
-  )
-
-  instance <- sub("\\..*", "", ixplorer_url)
+  # access_file <- ixplorer:::verify_ixplorer_file()
+  # ixplorer_url <- Sys.getenv("IXURL")
+  #
+  # credentials <- tibble::tribble(
+  #   ~url, ~token, ~user, ~owner,
+  #   Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
+  # )
+  #
+  # instance <- sub("\\..*", "", ixplorer_url)
 
   # Code for using keyring (To be implemented later)---------------------------
   # if(credentials$persistence == FALSE) {
   #   keyring::key_delete(paste0("token_", instance))
   # }
+
+  # Get instance --------------------------------------------------------------
+
+  instance = Sys.getenv("ixplorer_instance")
+
+  # UI ------------------------------------------------------------------------
 
   ui <- miniPage(
     miniTitleBar("Create new ticket",
@@ -91,6 +99,8 @@ create_tickets <- function(instance, owner, repository = "current") {
     )
   )
 
+  # Server --------------------------------------------------------------------
+
   server <- function(input, output, session) {
 
 
@@ -106,18 +116,28 @@ create_tickets <- function(instance, owner, repository = "current") {
       stopApp()
     })
 
+    # observeEvent(input$create, {
+    #      check <-  tryCatch(gitear::create_issue(
+    #        base_url = credentials$url,
+    #        api_key = credentials$token,
+    #        owner = credentials$owner,
+    #        repo = repository,
+    #        title = input$ticket_title,
+    #        body =  input$ticket_description),
+    #        error = function(cond)
+    #          "Invalido")
     observeEvent(input$create, {
-         check <-  tryCatch(gitear::create_issue(
-           base_url = credentials$url,
-           api_key = credentials$token,
-           owner = credentials$owner,
-           repo = repository,
-           title = input$ticket_title,
-           body =  input$ticket_description),
-           error = function(cond)
-             "Invalido")
+      check <-  tryCatch(gitear::create_issue(
+        base_url = keyring::key_get("ixplorer_url", keyring = instance),
+        api_key = keyring::key_get("ixplorer_token", keyring = instance),
+        owner = keyring::key_get("ixplorer_project", keyring = instance),
+        repo = keyring::key_get("ixplorer_repo", keyring = instance),
+        title = input$ticket_title,
+        body =  input$ticket_description),
+        error = function(cond)
+          "Invalido")
 
-         if (is.list(check)) {
+      if (is.list(check)) {
            print(check)
            message("Your ticket has been generated successfully")
          } else {
@@ -141,17 +161,6 @@ create_tickets <- function(instance, owner, repository = "current") {
 #' @param repositorio nombre del repositorio donde están los tiquetes
 #'
 #' @export
-crear_tiquetes<- function(#instancia = instance, owner = propietario, unused due to credential handling
-                          repositorio = "actual"){
-  if (repositorio == "actual"){
-
-    create_tickets(#instance = instancia, owner = propietario,
-                   repository = "current")
-
-  } else {
-
-    create_tickets(#instance = instacia, owner = propietario,
-                   repository = repositorio)
-
-  }
+crear_tiquetes<- function(){
+  create_tickets()
 }

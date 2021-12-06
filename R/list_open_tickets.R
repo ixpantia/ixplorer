@@ -46,9 +46,9 @@ list_open_tickets <- function(lag = NULL) { #no need for other especifications
              lubridate::hours(6),
            assignee.created = lubridate::ymd_hms(assignee.created) -
              lubridate::hours(6)) %>% #Deja hora Costa Rica
-    # {if (!is.null(lag) == TRUE) {
-    #   dplyr::filter(., created_at >= Sys.Date() - lubridate::days(lag)) What
-    # } else {.}} %>%
+    {if (!is.null(lag) == TRUE) {
+      dplyr::filter(., created_at >= Sys.Date() - lubridate::days(lag))
+    } else {.}} %>%
     dplyr::select(number, title, milestone.title) %>%
     dplyr::arrange(milestone.title, number) %>%
     dplyr::rename(nr = number,

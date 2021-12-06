@@ -4,7 +4,7 @@
 \alias{create_tickets}
 \title{Create ticket}
 \usage{
-create_tickets(instance, owner, repository = "current")
+create_tickets()
 }
 \arguments{
 \item{instance}{ixplorer instance (Eg: "secure", "masterclass", "prueba")}
