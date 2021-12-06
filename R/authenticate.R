@@ -6,7 +6,8 @@ NULL
 #' @description Saves to your computer
 #' through the authentication system of your computer's OS.
 #'
-#' @details In case the credentials already exist,
+#' @details Currently needs to be done everytime a new session is started.
+#' In case the credentials already exist,
 #' just enter the url and confirm if you want to keep the credentials
 #' on your computer or want to delete them after the next query.
 #'
@@ -25,7 +26,8 @@ add_token <- function() {
       textInput(inputId = "ixplorer_url",
                 label = "ixplorer URL",
                 width = "100%",
-                placeholder = "Copy your ixplorer URL here."),
+                placeholder = "Copy your ixplorer URL here.
+                E.g. https://prueba.ixpantia.com"),
       uiOutput("token_user")
       # checkboxInput(inputId = "token_persist",
       #               value = 1,
