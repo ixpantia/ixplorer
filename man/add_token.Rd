@@ -11,6 +11,7 @@ Saves to your computer
 through the authentication system of your computer's OS.
 }
 \details{
+Currently needs to be done everytime a new session is started.
 In case the credentials already exist,
 just enter the url and confirm if you want to keep the credentials
 on your computer or want to delete them after the next query.
