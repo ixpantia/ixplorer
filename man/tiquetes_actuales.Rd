@@ -4,7 +4,7 @@
 \alias{tiquetes_actuales}
 \title{Tiquetes actuales}
 \usage{
-tiquetes_actuales(...)
+tiquetes_actuales(instancia = "guardada")
 }
 \arguments{
 \item{instancia}{instancia de ixplorer (Ej: "secure", "masterclass", "prueba")}
