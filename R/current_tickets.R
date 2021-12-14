@@ -11,7 +11,7 @@ NULL
 #' @param repository the name of the repository where the tickets are
 #'
 #' @export
-current_tickets <- function() {
+current_tickets <- function(instance = "saved") {
 
   # if (repository == "current") { ##NOTAR
   #   repository <- basename(rstudioapi::getActiveProject())
@@ -30,18 +30,71 @@ current_tickets <- function() {
   #   keyring::key_delete(paste0("token_", instance))
   # }
 
-  # Get instance --------------------------------------------------------------
+  # Look for instance ---------------------------------------------------------
 
-  instance = Sys.getenv("ixplorer_instance") # variable to check gadget workflow
+  # The default instance value is "saved", so it first looks for a saved
+  # keyring in case user forgets to authenticate. It then chooses the last saved
+  # keyring.
+  # If the user chooses a specific instance other than "saved" ,
+  # such as "secure" or "prueba" then that instance is used
+
+  if (instance == "saved"){
+
+    # It looks in session
+    if (Sys.getenv("ixplorer_instance") != "") {
+
+      instance <- Sys.getenv("ixplorer_instance")
+
+
+      # If there is no enviroment variable it means user is looking for
+      # a previously saved instance
+    } else if (Sys.getenv("ixplorer_instance") == ""){
+
+      saved_instances <- keyring::keyring_list() %>%
+        filter(stringr::str_detect(keyring, "ixplorer_"))
+
+      # if there are saved instances, then it chooses the instance that was last saved
+      if (nrow(saved_instances) > 0) {
+
+        last_saved <- saved_instances[1,1]
+        instance <- last_saved
+
+
+        # When there are no saved instances, then a message is printed
+      } else {
+        message("There are no saved instances")
+      }
+
+    }
+
+    # If the user chooses an instance other than "saved" then it looks for
+    # the specified instance in previously saved keyrings
+
+  } else {
+
+    saved_instances <- keyring::keyring_list() %>%
+      select(keyring) %>%
+      filter(keyring == paste0("ixplorer_",instance))
+
+    if (nrow(saved_instances) > 0){
+      instance <- toString(saved_instances[1])
+
+    } else {
+      message("No credentials for ", instance)
+    }
+
+
+
+  }
 
   credentials <- keyring::keyring_list() # while tryCatch() is checked
 
   # Get keys -------------------------------------------------------------------
-  authentication_user_name <- key_get("ixplorer_user_name", keyring = instance)
-  authentication_owner <- key_get("ixplorer_project", keyring = instance)
-  authentication_repo <- key_get("ixplorer_repo", keyring = instance)
-  authentication_repository <- key_get("ixplorer_repo", keyring = instance)
-  authentication_base_url <- key_get("ixplorer_url", keyring = instance)
+  authentication_user_name <- keyring::key_get("ixplorer_user_name", keyring = instance)
+  authentication_owner <- keyring::key_get("ixplorer_project", keyring = instance)
+  authentication_repo <- keyring::key_get("ixplorer_repo", keyring = instance)
+  authentication_repository <- keyring::key_get("ixplorer_repo", keyring = instance)
+  authentication_base_url <- keyring::key_get("ixplorer_url", keyring = instance)
 
   # UI -------------------------------------------------------------------------
   ui <- miniPage(
@@ -95,10 +148,10 @@ current_tickets <- function() {
       #   repo = repository)
 
       gitear::get_issues_open_state(
-        base_url = key_get("ixplorer_url", keyring = instance),
-        api_key = key_get("ixplorer_token", keyring = instance),
-        owner = key_get("ixplorer_project", keyring = instance),
-        repo = key_get("ixplorer_repo", keyring = instance))
+        base_url = keyring::key_get("ixplorer_url", keyring = instance),
+        api_key = keyring::key_get("ixplorer_token", keyring = instance),
+        owner = keyring::key_get("ixplorer_project", keyring = instance),
+        repo = keyring::key_get("ixplorer_repo", keyring = instance))
 
     },
     error = function(cond) {
@@ -255,7 +308,16 @@ current_tickets <- function() {
 #'
 #' @export
 
-tiquetes_actuales <- function(...) {
-  current_tickets()
+tiquetes_actuales <- function(instancia = "guardada") {
+
+  if(instancia == "guardada"){
+
+    current_tickets(instance = "saved")
+
+  } else {
+
+    current_tickets(instance = instancia)
+
+  }
 }
 

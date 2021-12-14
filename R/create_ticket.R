@@ -11,7 +11,7 @@ NULL
 #' @param repository the name of the repository where the tickets are
 #'
 #' @export
-create_tickets <- function() {
+create_tickets <- function(instance = "saved") {
 
   # Code for using keyring (To be implemented later)---------------------------
   # credentials <- tryCatch(
@@ -64,9 +64,62 @@ create_tickets <- function() {
   #   keyring::key_delete(paste0("token_", instance))
   # }
 
-  # Get instance --------------------------------------------------------------
+  # Look for instance ---------------------------------------------------------
 
-  instance = Sys.getenv("ixplorer_instance")
+  # The default instance value is "saved", so it first looks for a saved
+  # keyring in case user forgets to authenticate. It then chooses the last saved
+  # keyring.
+  # If the user chooses a specific instance other than "saved" ,
+  # such as "secure" or "prueba" then that instance is used
+
+  if (instance == "saved"){
+
+    # It looks in session
+    if (Sys.getenv("ixplorer_instance") != "") {
+
+      instance <- Sys.getenv("ixplorer_instance")
+
+
+      # If there is no enviroment variable it means user is looking for
+      # a previously saved instance
+    } else if (Sys.getenv("ixplorer_instance") == ""){
+
+      saved_instances <- keyring::keyring_list() %>%
+        filter(stringr::str_detect(keyring, "ixplorer_"))
+
+      # if there are saved instances, then it chooses the instance that was last saved
+      if (nrow(saved_instances) > 0) {
+
+        last_saved <- saved_instances[1,1]
+        instance <- last_saved
+
+
+        # When there are no saved instances, then a message is printed
+      } else {
+        message("There are no saved instances")
+      }
+
+    }
+
+    # If the user chooses an instance other than "saved" then it looks for
+    # the specified instance in previously saved keyrings
+
+  } else {
+
+    saved_instances <- keyring::keyring_list() %>%
+      select(keyring) %>%
+      filter(keyring == paste0("ixplorer_",instance))
+
+    if (nrow(saved_instances) > 0){
+      instance <- toString(saved_instances[1])
+
+    } else {
+      message("No credentials for ", instance)
+    }
+
+
+
+  }
 
   # UI ------------------------------------------------------------------------
 
@@ -161,6 +214,15 @@ create_tickets <- function() {
 #' @param repositorio nombre del repositorio donde están los tiquetes
 #'
 #' @export
-crear_tiquetes<- function(){
-  create_tickets()
+crear_tiquetes<- function(instancia = "guardada") {
+
+  if(instancia == "guardada"){
+
+    create_tickets(instance = "saved")
+
+  } else {
+
+    create_tickets(instance = instancia)
+
+  }
 }
