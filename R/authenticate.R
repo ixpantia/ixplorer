@@ -89,32 +89,32 @@ add_token <- function() {
 
       keyring::keyring_create(instance)
 
-      key_set_with_value(
+      keyring::key_set_with_value(
         "ixplorer_url", password = input$ixplorer_url,
         keyring = instance
       )
 
-      key_set_with_value(
+      keyring::key_set_with_value(
         "ixplorer_token", password = input$ixplorer_token,
         keyring = instance
       )
 
-      key_set_with_value(
+      keyring::key_set_with_value(
         "ixplorer_user_name", password = input$ixplorer_user_name,
         keyring = instance
       )
 
-      key_set_with_value(
+      keyring::key_set_with_value(
         "ixplorer_project", password = input$ixplorer_project,
         keyring = instance
       )
 
-      key_set_with_value(
+      keyring::key_set_with_value(
         "ixplorer_repo", password = input$ixplorer_repo,
         keyring = instance
       )
 
-      key_set_with_value(
+      keyring::key_set_with_value(
         "ixplorer_instance", password = instance,  #key to check miniUI workflow
         keyring = instance)
 

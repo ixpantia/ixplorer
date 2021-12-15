@@ -4,7 +4,7 @@
 \alias{current_tickets}
 \title{Current tickets}
 \usage{
-current_tickets()
+current_tickets(instance = "saved")
 }
 \arguments{
 \item{instance}{ixplorer instance (Eg: "secure", "masterclass", "prueba")}

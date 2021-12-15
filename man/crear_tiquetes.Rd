@@ -4,7 +4,7 @@
 \alias{crear_tiquetes}
 \title{Crear tiquete}
 \usage{
-crear_tiquetes()
+crear_tiquetes(instancia = "guardada")
 }
 \arguments{
 \item{instancia}{instancia de ixplorer (Ejemplo: "secure", "masterclass", "prueba")}

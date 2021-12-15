@@ -4,7 +4,7 @@
 \alias{listar_tiquetes_cerrados}
 \title{Lista de tiquetes cerrados}
 \usage{
-listar_tiquetes_cerrados(...)
+listar_tiquetes_cerrados(instancia = "guardada", dias = NULL)
 }
 \arguments{
 \item{instance}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}

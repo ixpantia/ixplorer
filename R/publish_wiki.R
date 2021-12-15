@@ -156,3 +156,81 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = TRUE,
 
 }
 
+#' Publica un rmarkdown en un wiki repo
+#'
+#' @title Publica en el wiki repo
+#' @description Publique un rmarkdown específico en el repositorio wiki,
+#' especificando la ruta del repositorio wiki una vez que ya haya clonado este repositorio
+#' en su máquina.
+#' Consulte Detalles si es la primera vez que publica en un repositorio wiki.
+#'
+#' @details Si es la primera vez que va a publicar en una wiki,  se deben
+#' seguir estos pasos:
+#'
+#' 1.El repositorio wiki debe clonarse en una carpeta de trabajo local.
+#' Para hacer esto, primero vaya a la pestaña wiki de su repositorio
+#' y deberá crear manualmente la primera página wiki. Si no lo hace,
+#' le dirá que el repositorio no existe.
+#'
+#' 2. Una vez que haya creado la página de inicio de la wiki,
+#' deberá clonar el repositorio de la wiki
+#' como lo haría con cualquier otro repositorio en su computadora
+#' (usando el enlace que está disponible para usted una vez que haya creado la
+#' página de inicio de la wiki).
+#'
+#' 3. Una vez que haya clonado la wiki en su computadora,
+#' lo que debe indicar en la función `publica_wiki` es la` path_wiki_repo`.
+#' Esta es la dirección completa en su computadora donde se encuentra este repositorio
+#' que clonó.
+#' Por ejemplo:  `/home/client/project/wiki_repo`
+#'
+#' @param rmarkdown la ruta al archivo rmarkdown
+#' @param ruta_repo_wiki la ruta completa al repositorio wiki.
+#' @param automatic_update Si desea hacer automáticamente el pull, commit y
+#' push establecido en TRUE,
+#' si desea hacerlo manualmente, establezca FALSE. El valor predeterminado es TRUE.
+#' @param silenciar_bitacora  Si desea ver la bitacora de renderización establezca TRUE,
+#' de lo contrario establezca FALSE. El valor default es TRUE
+#' @return Publica un md en un repositorio wiki.
+#'
+#' @examples
+#'
+#' \dontrun{
+#' publish_wiki(rmarkdown = "eda.Rmd",
+#'              path_wiki_repo = "/home/cliente/proyecto/wiki_repo")
+#' }
+#'
+#' @export
+
+publica_wiki <- function(rmarkdown = rmarkdown, ruta_repo_wiki = path_wiki_repo,
+                         auto_actualizar = TRUE, silenciar_bitacora= FALSE){
+
+  ## True and False
+  if (auto_actualizar == TRUE && silenciar_bitacora == FALSE){
+
+    publish_wiki(rmarkdown, ruta_repo_wiki,
+                 automatic_update = TRUE, quiet_render_logs = FALSE)
+
+
+    ## False and True
+  } else if (auto_actualizar == FALSE && silenciar_bitacora == TRUE) {
+
+    publish_wiki(rmarkdown, ruta_repo_wiki,
+                 automatic_update = FALSE, quite_render_logs= TRUE)
+
+
+    ## True and True
+  } else if (auto_actualizar == TRUE && silenciar_bitacora == TRUE){
+
+    publish_wiki(rmarkdown, ruta_repo_wiki,
+                 automatic_update = TRUE, quiet_render_logs = TRUE)
+
+
+    ## False and False
+  } else if (auto_actualizar == FALSE && silenciar_bitacora == FALSE) {
+
+    publish_wiki(rmarkdown, ruta_repo_wiki,
+                 automatic_update = FALSE, quiet_render_logs = FALSE)
+  }
+}
+
