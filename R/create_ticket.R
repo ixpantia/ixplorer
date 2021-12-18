@@ -72,7 +72,7 @@ create_tickets <- function(instance = "saved") {
   # If the user chooses a specific instance other than "saved" ,
   # such as "secure" or "prueba" then that instance is used
 
-  if (instance == "saved"){
+  if (instance == "saved") {
 
     # It looks in session
     if (Sys.getenv("ixplorer_instance") != "") {
@@ -82,7 +82,7 @@ create_tickets <- function(instance = "saved") {
 
       # If there is no enviroment variable it means user is looking for
       # a previously saved instance
-    } else if (Sys.getenv("ixplorer_instance") == ""){
+    } else if (Sys.getenv("ixplorer_instance") == "") {
 
       saved_instances <- keyring::keyring_list() %>%
         filter(stringr::str_detect(keyring, "ixplorer_"))
@@ -110,7 +110,7 @@ create_tickets <- function(instance = "saved") {
       select(keyring) %>%
       filter(keyring == paste0("ixplorer_",instance))
 
-    if (nrow(saved_instances) > 0){
+    if (nrow(saved_instances) > 0) {
       instance <- toString(saved_instances[1])
 
     } else {
@@ -214,9 +214,9 @@ create_tickets <- function(instance = "saved") {
 #' @param repositorio nombre del repositorio donde están los tiquetes
 #'
 #' @export
-crear_tiquetes<- function(instancia = "guardada") {
+crear_tiquetes <- function(instancia = "guardada") {
 
-  if(instancia == "guardada"){
+  if(instancia == "guardada") {
 
     create_tickets(instance = "saved")
 

@@ -206,7 +206,7 @@ publica_wiki <- function(rmarkdown = rmarkdown, ruta_repo_wiki = path_wiki_repo,
                          auto_actualizar = TRUE, silenciar_bitacora= FALSE){
 
   ## True and False
-  if (auto_actualizar == TRUE && silenciar_bitacora == FALSE){
+  if (auto_actualizar == TRUE && silenciar_bitacora == FALSE) {
 
     publish_wiki(rmarkdown, ruta_repo_wiki,
                  automatic_update = TRUE, quiet_render_logs = FALSE)
@@ -216,11 +216,11 @@ publica_wiki <- function(rmarkdown = rmarkdown, ruta_repo_wiki = path_wiki_repo,
   } else if (auto_actualizar == FALSE && silenciar_bitacora == TRUE) {
 
     publish_wiki(rmarkdown, ruta_repo_wiki,
-                 automatic_update = FALSE, quite_render_logs= TRUE)
+                 automatic_update = FALSE, quite_render_logs = TRUE)
 
 
     ## True and True
-  } else if (auto_actualizar == TRUE && silenciar_bitacora == TRUE){
+  } else if (auto_actualizar == TRUE && silenciar_bitacora == TRUE) {
 
     publish_wiki(rmarkdown, ruta_repo_wiki,
                  automatic_update = TRUE, quiet_render_logs = TRUE)
