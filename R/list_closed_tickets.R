@@ -71,7 +71,7 @@ list_closed_tickets <- function(instance = "saved",
   # If the user chooses a specific instance other than "saved" ,
   # such as "secure" or "prueba" then that instance is used
 
-  if (instance == "saved"){
+  if (instance == "saved") {
 
     # It looks in session
     if (Sys.getenv("ixplorer_instance") != "") {
@@ -81,7 +81,7 @@ list_closed_tickets <- function(instance = "saved",
 
       # If there is no enviroment variable it means user is looking for
       # a previously saved instance
-    } else if (Sys.getenv("ixplorer_instance") == ""){
+    } else if (Sys.getenv("ixplorer_instance") == "") {
 
       saved_instances <- keyring::keyring_list() %>%
         filter(stringr::str_detect(keyring, "ixplorer_"))
@@ -109,7 +109,7 @@ list_closed_tickets <- function(instance = "saved",
       select(keyring) %>%
       filter(keyring == paste0("ixplorer_",instance))
 
-    if (nrow(saved_instances) > 0){
+    if (nrow(saved_instances) > 0) {
       instance <- toString(saved_instances[1])
 
     } else {
@@ -147,7 +147,7 @@ list_closed_tickets <- function(instance = "saved",
              lubridate::hours(6),
            assignee.created = lubridate::ymd_hms(assignee.created) -
              lubridate::hours(6)) %>% #Deja hora Costa Rica
-    {if (!is.null(lag)== TRUE) {
+    {if (!is.null(lag) == TRUE) {
       dplyr::filter(., closed_at >= Sys.Date() - lubridate::days(lag))
     } else {.}} %>%
     dplyr::select(number, title, milestone.title) %>%
@@ -159,6 +159,7 @@ list_closed_tickets <- function(instance = "saved",
 
   return(list)
 }
+
 #' @title Lista de tiquetes cerrados
 #' @description Listado de tiquetes cerrados del repositorio indicado.
 #'
@@ -173,7 +174,7 @@ list_closed_tickets <- function(instance = "saved",
 #' @export
 listar_tiquetes_cerrados <- function(instancia = "guardada", dias = NULL){
 
-  if(instancia == "guardada"){
+  if (instancia == "guardada") {
 
     list_closed_tickets(instance = "saved", lag = dias)
 
