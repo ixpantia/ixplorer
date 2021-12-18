@@ -16,27 +16,27 @@ publica_wiki(
 
 \item{ruta_repo_wiki}{la ruta completa al repositorio wiki.}
 
-\item{silenciar_bitacora}{Si desea ver la bitacora de renderización establezca TRUE,
-de lo contrario establezca FALSE. El valor default es TRUE}
+\item{silenciar_bitacora}{Si desea ver la bitacora de renderización
+establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE}
 
-\item{automatic_update}{Si desea hacer automáticamente el pull, commit y
-push establecido en TRUE,
-si desea hacerlo manualmente, establezca FALSE. El valor predeterminado es TRUE.}
+\item{automatic_update}{Si desea hacer automáticamente el pull, commit y push
+establecido en TRUE, si desea hacerlo manualmente, establezca FALSE. El
+valor predeterminado es TRUE.}
 }
 \value{
 Publica un md en un repositorio wiki.
 }
 \description{
 Publique un rmarkdown específico en el repositorio wiki,
-especificando la ruta del repositorio wiki una vez que ya haya clonado este repositorio
-en su máquina.
-Consulte Detalles si es la primera vez que publica en un repositorio wiki.
+especificando la ruta del repositorio wiki una vez que ya haya clonado este
+repositorio en su máquina. Consulte Detalles si es la primera vez que
+publica en un repositorio wiki.
 }
 \details{
 Publica un rmarkdown en un wiki repo
 
-Si es la primera vez que va a publicar en una wiki,  se deben
-seguir estos pasos:
+Si es la primera vez que va a publicar en una wiki,  se deben seguir
+estos pasos:
 
 1.El repositorio wiki debe clonarse en una carpeta de trabajo local.
 Para hacer esto, primero vaya a la pestaña wiki de su repositorio
