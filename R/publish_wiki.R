@@ -2,12 +2,12 @@
 #'
 #' @title Publish into wiki repo
 #' @description Publish an specific rmarkdown into wiki repository, specifying
-#' the path of the wiki repository once that you already clone this repository
-#' into your machine. See Details if is your first time publishing in a wiki
-#' repository.
+#'   the path of the wiki repository once that you already clone this repository
+#'   into your machine. See Details if is your first time publishing in a wiki
+#'   repository.
 #'
-#' @details If this is the first time you are going to publish in a wiki, you must
-#' follow these steps:
+#' @details If this is the first time you are going to publish in a wiki, you
+#'   must follow these steps:
 #'
 #' 1. The wiki repository must be cloned to a local working folder. To do this
 #' first go to the wiki tab of your repository and you will need to manually
@@ -160,12 +160,12 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = TRUE,
 #'
 #' @title Publica en el wiki repo
 #' @description Publique un rmarkdown específico en el repositorio wiki,
-#' especificando la ruta del repositorio wiki una vez que ya haya clonado este repositorio
-#' en su máquina.
-#' Consulte Detalles si es la primera vez que publica en un repositorio wiki.
+#'   especificando la ruta del repositorio wiki una vez que ya haya clonado este
+#'   repositorio en su máquina. Consulte Detalles si es la primera vez que
+#'   publica en un repositorio wiki.
 #'
-#' @details Si es la primera vez que va a publicar en una wiki,  se deben
-#' seguir estos pasos:
+#' @details Si es la primera vez que va a publicar en una wiki,  se deben seguir
+#'   estos pasos:
 #'
 #' 1.El repositorio wiki debe clonarse en una carpeta de trabajo local.
 #' Para hacer esto, primero vaya a la pestaña wiki de su repositorio
@@ -186,11 +186,11 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = TRUE,
 #'
 #' @param rmarkdown la ruta al archivo rmarkdown
 #' @param ruta_repo_wiki la ruta completa al repositorio wiki.
-#' @param automatic_update Si desea hacer automáticamente el pull, commit y
-#' push establecido en TRUE,
-#' si desea hacerlo manualmente, establezca FALSE. El valor predeterminado es TRUE.
-#' @param silenciar_bitacora  Si desea ver la bitacora de renderización establezca TRUE,
-#' de lo contrario establezca FALSE. El valor default es TRUE
+#' @param automatic_update Si desea hacer automáticamente el pull, commit y push
+#'   establecido en TRUE, si desea hacerlo manualmente, establezca FALSE. El
+#'   valor predeterminado es TRUE.
+#' @param silenciar_bitacora  Si desea ver la bitacora de renderización
+#'   establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE
 #' @return Publica un md en un repositorio wiki.
 #'
 #' @examples
@@ -206,7 +206,7 @@ publica_wiki <- function(rmarkdown = rmarkdown, ruta_repo_wiki = path_wiki_repo,
                          auto_actualizar = TRUE, silenciar_bitacora= FALSE){
 
   ## True and False
-  if (auto_actualizar == TRUE && silenciar_bitacora == FALSE){
+  if (auto_actualizar == TRUE && silenciar_bitacora == FALSE) {
 
     publish_wiki(rmarkdown, ruta_repo_wiki,
                  automatic_update = TRUE, quiet_render_logs = FALSE)
@@ -216,11 +216,11 @@ publica_wiki <- function(rmarkdown = rmarkdown, ruta_repo_wiki = path_wiki_repo,
   } else if (auto_actualizar == FALSE && silenciar_bitacora == TRUE) {
 
     publish_wiki(rmarkdown, ruta_repo_wiki,
-                 automatic_update = FALSE, quite_render_logs= TRUE)
+                 automatic_update = FALSE, quite_render_logs = TRUE)
 
 
     ## True and True
-  } else if (auto_actualizar == TRUE && silenciar_bitacora == TRUE){
+  } else if (auto_actualizar == TRUE && silenciar_bitacora == TRUE) {
 
     publish_wiki(rmarkdown, ruta_repo_wiki,
                  automatic_update = TRUE, quiet_render_logs = TRUE)

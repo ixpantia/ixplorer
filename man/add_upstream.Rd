@@ -13,6 +13,6 @@ add_upstream(instance, owner)
 ixplorer}
 }
 \description{
-Add the upstream to the repository that is active in RStudio
-at the moment
+Add the upstream to the repository that is active in RStudio at
+the moment
 }

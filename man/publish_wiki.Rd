@@ -34,8 +34,8 @@ repository.
 \details{
 Publish an rmarkdown into wiki repo
 
-If this is the first time you are going to publish in a wiki, you must
-follow these steps:
+If this is the first time you are going to publish in a wiki, you
+must follow these steps:
 \enumerate{
 \item The wiki repository must be cloned to a local working folder. To do this
 first go to the wiki tab of your repository and you will need to manually
