@@ -61,8 +61,37 @@ delete_credentials <- function(instance = "current"){
 
     } else {
 
-      message("There is no saved instance with the name: ", specify_instance)
+      message("There is no saved instance with the name: ", specific_instance)
 
     }
   }
+}
+
+
+#' Elimina tus credenciales de ixplorer
+#' @details Borre las credenciales guardadas por add_token() en su computadora.
+#' Esto puede ser útil cuando está usando el paquete ixplorer en una
+#' computadora compartida o en cualquier otro caso en el que no desee mantener
+#' las credenciales almacenadas.
+#'
+#' @param instance una instancia de ixplorer como "masterclass" o "prueba"
+#'
+#' @return Elimina las credenciales guardadas por add_token()
+#'
+#'
+#' @examples
+#' \dontrun{
+#' delete_credentials("masterclass")
+#' }
+#' @export
+eliminar_credenciales <- function(instancia = "actual"){
+
+  if (instancia == "actual"){
+
+    delete_credentials(instance = "current")
+  } else {
+
+    delete_credentials(instance = instancia)
+  }
+
 }
