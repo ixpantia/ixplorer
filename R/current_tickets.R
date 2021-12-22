@@ -1,5 +1,7 @@
 #' @import shiny
 #' @import miniUI
+#' @import shiny.i18n
+#' @import shinyWidgets
 NULL
 
 #' @title Current tickets
@@ -44,6 +46,7 @@ current_tickets <- function(instance = "saved") {
     if (Sys.getenv("ixplorer_instance") != "") {
 
       instance <- Sys.getenv("ixplorer_instance")
+      no_instance = FALSE
 
 
       # If there is no enviroment variable it means user is looking for
@@ -58,6 +61,7 @@ current_tickets <- function(instance = "saved") {
 
         last_saved <- saved_instances[1,1]
         instance <- last_saved
+        no_instance = FALSE
 
 
         # When there are no saved instances, then a message is printed
@@ -78,12 +82,29 @@ current_tickets <- function(instance = "saved") {
 
     if (nrow(saved_instances) > 0) {
       instance <- toString(saved_instances[1])
+      no_instance = FALSE
 
     } else {
       message("No credentials for ", instance)
+      no_instance = TRUE
     }
 
 
+
+  }
+
+  # Define translator ---------------------------------------------------------
+
+  i18n <- shiny.i18n::Translator$new(translation_csvs_path = "C:/Users/HP/Documents/translate_pruebas/my_translations/")
+
+  # Set translation language --------------------------------------------------
+
+  if (no_instance == TRUE) {
+    i18n$set_translation_language("en")
+  } else {
+
+    language <- key_get("ixplorer_language", keyring = instance)
+    i18n$set_translation_language(language)
 
   }
 
@@ -98,24 +119,24 @@ current_tickets <- function(instance = "saved") {
 
   # UI -------------------------------------------------------------------------
   ui <- miniPage(
-    miniTitleBar("Current tickets",
+    miniTitleBar(i18n$t("Current tickets"),
                  right = miniTitleBarCancelButton(inputId = "done",
-                                                  label = "Done.",
+                                                  label = i18n$t("Done."),
                                                   primary = TRUE)
     ),
-    verbatimTextOutput("warning", placeholder = FALSE),
+    verbatimTextOutput(i18n$t("warning"), placeholder = FALSE),
     miniTabstripPanel(
-      miniTabPanel("My tickets", icon = icon("user"),
+      miniTabPanel(i18n$t("My tickets"), icon = icon("user"),
                    miniContentPanel(
                      tableOutput("my_tickets")
                    )
       ),
-      miniTabPanel("Team tickets", icon = icon("users"),
+      miniTabPanel(i18n$t("Team tickets"), icon = icon("users"),
                    miniContentPanel(
                      tableOutput("team_tickets")
                    )
       ),
-      miniTabPanel("Links", icon = icon("link"),
+      miniTabPanel(i18n$t("Links"), icon = icon("link"),
                    miniContentPanel(
                      tableOutput("quick_links")
                    )
