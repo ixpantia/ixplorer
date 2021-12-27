@@ -80,6 +80,7 @@ create_tickets <- function(instance = "saved") {
     if (Sys.getenv("ixplorer_instance") != "") {
 
       instance <- Sys.getenv("ixplorer_instance")
+      message("Current instance is ", instance)
       no_instance = FALSE
 
 
@@ -95,6 +96,7 @@ create_tickets <- function(instance = "saved") {
 
         last_saved <- saved_instances[1,1]
         instance <- last_saved
+        message("Current instance is ", instance)
         no_instance = FALSE
 
 
@@ -117,6 +119,7 @@ create_tickets <- function(instance = "saved") {
 
     if (nrow(saved_instances) > 0) {
       instance <- toString(saved_instances[1])
+      message("Current instance is ", instance)
       no_instance = FALSE
 
     } else {
@@ -130,7 +133,9 @@ create_tickets <- function(instance = "saved") {
 
   # Define translator ---------------------------------------------------------
 
-  i18n <- shiny.i18n::Translator$new(translation_csvs_path = "C:/Users/HP/Documents/translate_pruebas/my_translations/")
+  i18n <- shiny.i18n::Translator$new(
+    translation_json_path = "https://storage.googleapis.com/ixplorer/translation.json"
+    )
 
   # Set translation language --------------------------------------------------
 
@@ -138,7 +143,7 @@ create_tickets <- function(instance = "saved") {
     i18n$set_translation_language("en")
   } else {
 
-    language <- key_get("ixplorer_language", keyring = instance)
+    language <- keyring::key_get("ixplorer_language", keyring = instance)
     i18n$set_translation_language(language)
 
   }

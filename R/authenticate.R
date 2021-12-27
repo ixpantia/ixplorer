@@ -50,7 +50,9 @@ add_token <- function() {
 
   # Define translator ---------------------------------------------------------
 
-  i18n <- shiny.i18n::Translator$new(translation_csvs_path = "C:/Users/HP/Documents/translate_pruebas/my_translations/")
+  i18n <- shiny.i18n::Translator$new(
+    translation_json_path = "https://storage.googleapis.com/ixplorer/translation.json"
+    )
 
   # Set translation language --------------------------------------------------
 
@@ -58,7 +60,7 @@ add_token <- function() {
     i18n$set_translation_language("en")
   } else {
 
-    language <- key_get("ixplorer_language", keyring = instance)
+    language <- keyring::key_get("ixplorer_language", keyring = instance)
     i18n$set_translation_language(language)
 
     }
@@ -405,3 +407,4 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
 }
+
