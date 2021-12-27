@@ -123,10 +123,10 @@ list_closed_tickets <- function(instance = "saved",
   # Keyring llavero ------------------------------------------------------------
 
   raw_tickets_data <- gitear::get_issues_open_state(
-    base_url = key_get("ixplorer_url", keyring = instance), ## Needs instance
-    api_key = key_get("ixplorer_token", keyring = instance),
-    owner = key_get("ixplorer_project", keyring = instance),
-    repo = key_get("ixplorer_repo", keyring = instance))
+    base_url = keyring::key_get("ixplorer_url", keyring = instance), ## Needs instance
+    api_key = keyring::key_get("ixplorer_token", keyring = instance),
+    owner = keyring::key_get("ixplorer_project", keyring = instance),
+    repo = keyring::key_get("ixplorer_repo", keyring = instance))
 
 
   # Ticket list ---------------------------------------------------------------
