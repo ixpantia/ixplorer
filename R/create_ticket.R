@@ -1,5 +1,7 @@
 #' @import shiny
 #' @import miniUI
+#' @import shiny.i18n
+#' @import shinyWidgets
 NULL
 
 #' @title Create ticket
@@ -78,6 +80,8 @@ create_tickets <- function(instance = "saved") {
     if (Sys.getenv("ixplorer_instance") != "") {
 
       instance <- Sys.getenv("ixplorer_instance")
+      message("Current instance is ", instance)
+      no_instance = FALSE
 
 
       # If there is no enviroment variable it means user is looking for
@@ -92,11 +96,14 @@ create_tickets <- function(instance = "saved") {
 
         last_saved <- saved_instances[1,1]
         instance <- last_saved
+        message("Current instance is ", instance)
+        no_instance = FALSE
 
 
         # When there are no saved instances, then a message is printed
       } else {
         message("There are no saved instances")
+        no_instance = TRUE
       }
 
     }
@@ -112,42 +119,62 @@ create_tickets <- function(instance = "saved") {
 
     if (nrow(saved_instances) > 0) {
       instance <- toString(saved_instances[1])
+      message("Current instance is ", instance)
+      no_instance = FALSE
 
     } else {
       message("No credentials for ", instance)
+      no_instance = FALSE
     }
 
 
 
   }
 
+  # Define translator ---------------------------------------------------------
+
+  i18n <- shiny.i18n::Translator$new(
+    translation_json_path = "https://storage.googleapis.com/ixplorer/translation.json"
+    )
+
+  # Set translation language --------------------------------------------------
+
+  if (no_instance == TRUE) {
+    i18n$set_translation_language("en")
+  } else {
+
+    language <- keyring::key_get("ixplorer_language", keyring = instance)
+    i18n$set_translation_language(language)
+
+  }
+
   # UI ------------------------------------------------------------------------
 
   ui <- miniPage(
-    miniTitleBar("Create new ticket",
+    miniTitleBar(i18n$t("Create new ticket"),
                    left = miniTitleBarCancelButton(inputId = "cancel",
-                                                   label = "Cancel",
+                                                   label = i18n$t("Cancel"),
                                                    primary = TRUE)
                    ),
 
     miniContentPanel(
-      verbatimTextOutput("warning", placeholder = FALSE),
+      verbatimTextOutput(i18n$t("warning"), placeholder = FALSE),
 
       textInput(inputId = "ticket_title",
-                label = "Ticket title",
+                label = i18n$t("Ticket title"),
                 width = "150%",
-                placeholder = "Brief description of your ticket"),
+                placeholder = i18n$t("Brief description of your ticket")),
 
       textAreaInput(inputId = "ticket_description",
-                    label = "Description",
+                    label = i18n$t("Description"),
                     width = "190%",
                     height = "100%",
                     resize = "vertical",
                     rows = 13,
-                    placeholder = "Describe the ticket you have found")
+                    placeholder = i18n$t("Describe the ticket you have found"))
     ),
     miniButtonBlock(
-      actionButton(inputId = "create", label = "Create ticket",
+      actionButton(inputId = "create", label = i18n$t("Create ticket"),
                    style = "color: #fff; background-color: #73CF56")
     )
   )
