@@ -7,7 +7,7 @@
 publish_wiki(
   rmarkdown,
   path_wiki_repo,
-  automatic_update = TRUE,
+  automatic_update = FALSE,
   quiet_render_logs = FALSE
 )
 }
