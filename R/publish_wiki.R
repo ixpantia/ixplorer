@@ -39,7 +39,7 @@
 #' }
 #'
 #' @export
-publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = TRUE,
+publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
                          quiet_render_logs = FALSE) {
 
   # Repare path_wiki_repo
@@ -216,7 +216,7 @@ publica_wiki <- function(rmarkdown = rmarkdown, ruta_repo_wiki = path_wiki_repo,
   } else if (auto_actualizar == FALSE && silenciar_bitacora == TRUE) {
 
     publish_wiki(rmarkdown, ruta_repo_wiki,
-                 automatic_update = FALSE, quite_render_logs = TRUE)
+                 automatic_update = FALSE, quiet_render_logs = TRUE)
 
 
     ## True and True
