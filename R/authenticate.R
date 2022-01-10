@@ -282,7 +282,7 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
         )
 
         keyring::key_set_with_value(
-          "ixplorer_instance", password = instance(),  #key to check miniUI workflow
+          "ixplorer_link", password = input$ixplorer_url,  #save the url as well
           keyring = instance()
         )
 
