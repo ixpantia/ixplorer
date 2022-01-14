@@ -20,3 +20,32 @@ synch_branch <- function(){
     message("No upstream in remote list, try add_upstream()")
   }
 }
+
+
+
+#' Actualice la rama master desde el upstream
+#'
+#' @description actualiza su rama master con su upstream
+#' por medio de git rebase
+#'
+#' @export
+actualizar_rama <- function(){
+
+  synch_branch()
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
