@@ -20,13 +20,17 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/ixplorer)](https://cran.r-project.org/package=ixplorer)
 <!-- badges: end -->
 
-## Español
+### Español
 
-El paquete ixplorer trae la funcionalidad de ixplorer mas cerca tuyo. 
+# Descripción
+
+El paquete ixplorer trae la funcionalidad de ixplorer mas cerca tuyo. Tiene el propósito de permitir trabajar más agilmente con su equipo de datos desde Rstudio
+y más importante aún, hacer sin tener que deterner su flujo de trabajo.
+Esto se logra con ventanas interactivas de dentro de Rstudio, funciones para extraer
+información útil de día a día en ixplorer y funciones para 
+facilitar también el trabajo con control de versiones de git.
 
 ### Instalación
-
-Gracias por usar ixplorer. 
 
 Para installar ixplorer, primero necesitas installar el paquete devtools (o remotes). Si no lo has hecho aún, puedes instalarlo con:
 
@@ -40,9 +44,14 @@ Ahora puedes instalar ixplorer de GitHub con:
 devtools::install_github("ixpantia/ixplorer")
 ```
 
-## English
+### English
 
-The ixplorer package brings the functionality of ixplorer closer to you.
+## Overview
+
+The ixplorer package brings the functionality of ixplorer closer to you. It is 
+intended to allow you to work quicker with your data team from within Rstudio
+and more importantly, to do it without having to stop your workflow.
+This is achieved with interactive windows from within Rstudio, functions to extract useful day-to-day information from ixplorer, and functions to make it easier to work with git version control as well.
 
 ### Installation 
 
