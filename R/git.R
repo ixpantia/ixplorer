@@ -174,7 +174,7 @@ set_git_timeout <- function(timeout = 14400, global = FALSE) {
 #' @param global
 #'
 #' @export
-fijar_pausa_git <- function(pausa =  14000, global = FALSE) {
+fijar_tiempo_credenciales <- function(pausa =  14000, global = FALSE) {
 
   if (global == FALSE) {
     set_git_timeout(tiempo = detencion, global = FALSE)

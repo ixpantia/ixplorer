@@ -189,7 +189,7 @@ fetch upstream, checkout master, rebase upstream/master, y push.
 repositorio activo en Rstudio. Por default toma la información de la ultima
 instancia guardada en 
 
-* **set_git_timeout()**: Permite espeficiar el tiempo que desea guardar sus
+* **fijar_tiempo_credenciales()**: Permite espeficiar el tiempo que desea guardar sus
 credenciales de git en su servior remoto. El default es de 4 horas. La 
 función toma su tiempo en segundos.
 
