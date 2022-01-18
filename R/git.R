@@ -110,9 +110,9 @@ add_upstream <- function(instance = "saved") {
 #' este momento
 #' @return
 #' @export
-incluye_upstream <- function(instancia = "guardada"){
+incluye_upstream <- function(instancia = "guardada") {
 
-  if(instancia == "guardada"){
+  if(instancia == "guardada") {
     add_upstream(instance =  "saved")
   } else {
     add_upstream(instance = instancia)
@@ -153,7 +153,7 @@ set_git_timeout <- function(timeout = 14400, global = FALSE) {
 
 
 #' @title Extienda el tiempo de sus credenciales de git
-#' @description Esta es una traducida que llama a set_git_timeout().
+#' @description Esta es una función traducida que llama a set_git_timeout().
 #' Establezca la cantidad de segundos para que se agote el
 #' tiempo de espera del caché de credenciales de git. Tenga en cuenta que
 #' esto está escrito para trabajar en servidores remotos donde no queremos
