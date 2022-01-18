@@ -4,7 +4,7 @@
 \alias{add_upstream}
 \title{Add the upstream to the repository that is active in RStudio.}
 \usage{
-add_upstream(instance, owner)
+add_upstream(instance = "saved")
 }
 \arguments{
 \item{instance}{ixplorer instance (Eg: "secure", "masterclass", "prueba")}

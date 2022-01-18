@@ -36,7 +36,6 @@ menú de *Addins* bajo el encabezado IXPLORER
  - Autentificación
  - Crear tiquete
  - Tiquetes actuales
- - Dashboard de ixplorer  
 
 ![](img/addins.png)
 
@@ -46,11 +45,11 @@ Este es el primer paso para poder generar tiquetes o revisarlos dentro de su
 repositorio de determinado proyecto. Necesitará  un token API. (Que será 
 proveído por su administración del proyecto.)
 
-![](img/authentication_gadget.png)
+![](img/credential_5.png)
 
 En el segmento del **URL ixplorer** es necesario asegurarse de incluir la 
 dirección de internet de su repositorio ixplorer. Deberá de ser similar 
-a `https://ixplorer_name.ixpantia.com/`
+a `https://ixplorer_name.ixpantia.com`
 
 El siguiente paso es llenar el nombre del **proyecto upstream**. Este es el 
 proyecto donde la versión fuente de su repositorio reside. Desde ésta fuente,
@@ -69,36 +68,31 @@ Finalmente usted tiene que especificar su nombre de usuario en la sección
 **nombre de usuario de ixplorer**. Es el mismo nombre de usuario que se utiliza
 para acceder a su entorno ixplorer.
 
-Existe una opción de **persistencia del token**. Si se encuentra trabajando en 
-su computadora personal puede elegir esta opción. Esto ayudará a mantener una
-copia de sus datos de autentificación en un archivo local que se reutilizará
-la siguiente ocasión que abra su proyecto en RStudio. Caso contrario deberá de 
-repetir el proceso de autentificación cada ocasión que vaya a trabajar en el 
-mismo proyecto.
+Adicionalmente, el gadget de auntetificación cuenta con un espacio opcional para
+para elegir su idioma preferido. Los gadgets posteriores serán desplegados
+siempre en el idioma que usted elija.
+
+Una vez que se presione el botón "listo" o "done" es posible que se le pida 
+establecer una contraseña. Esta contraseña puede ser requerida la próxima ve que 
+usted inicie una nueva sesión y quiera obtener información de esta instancia, por
+ejemplo sus tiquetes abiertos. Por lo tanto es importante almacenar esta contraseña
+en un lugar seguro, preferiblemente un gestor de contraseñas apropiado.
+
+Si usted ya ha guardado previamente sus credenciales para alguna instancia
+se puede dirigir directamente a la pestaña de "ixploring" o "ixplorando"en 
+el gadget. Aquí se le mostrará la opción para elegir la instancia en la que 
+quiere trabajar, luego la opción para elegir entre los proyectos de esa instancia
+y finalmente los repositorios.
+
+![](img/credential_6.png)
 
 Tener precaución en este paso si se encuentra trabajando sobre la computadora
 de alguien más, ya que sus datos de autentificación serán guardado en esa 
 computadora. Por ende si va a trabajar en la computadora de alguien más o en 
-una computadora compartida, lo mejor es dejar la opción de 
-**persistencia del token** sin marcar.
+una computadora compartida, lo mejor será usar la funcion eliminar_credenciales()
+o bien delete_credentials() al final de su sesión de trabajo para eliminar 
+completamente las credenciales de su computador.
 
-#### ¿Cómo es el archivo .ixplorer?
-
-Al final del proceso de autentificación a través del gadget de autentificación,
-un archivo .ixplorer quedará como resultado y contendrá las credenciales que se
-verán similar a:
-
-IXTOKEN= 08864824783ec0b589101191f65e643e54c8ad76c
-IXURL= https://ixplorer_nombre.ixpantia.com/
-IXPROJECT= su_nombre_de_proyecto  
-IXREPO= su_nombre_de_repositorio
-IXUSER= su_nombre_de_usuario
-
-Cada vez que use otros gadgets, se estará revisando este archivo .ixplorer
-que hará las credenciales parte de sus variables de ambiente de la sesión.
-
-Si usted hace uso de la función `Sys.getenv()` será capaz de revisar las
-credenciales con los nombres IX identificádolos.
 
 ## Gadget crear un tiquete
 
@@ -107,7 +101,11 @@ es correcto usted será capaz de crear un tiquete ¡sin tener que salir de RStud
 
 Si todo está correcto, usted verá la sección de **título del tiquete** y 
 **Descripcción**. Sino es así, verá un texto de advertencia mencionando lo que 
-está faltando.
+está faltando. Este gadget funciona sobre la ultima instancia que usted haya 
+guardado en el gadget de autentifiación. Un mensaje del tipo "usted está 
+actualmente en la instancia de prueba" aparece en su consola para que se pueda
+cerciorar de que está creando el tiquete en el repositorio apropiado. Esta ventana 
+aparecerá en el idioma que haya guardado en el gadget de autentificación
 
 ![](img/create_ticket_gadget.png)
 
@@ -131,6 +129,14 @@ usted con el número de identificación que también es un enlace al tiquete
 en el entorno ixplorer. Así mismo verá la columna con el número de días
 que restan (en color verde) o días pasados la fecha límite (en color rojo).
 
+Esta ventana funciona sobre la ultima instancia que usted haya guardado en el
+gadget de autentificación. Un mensaje del tipo "usted está actualmente en la
+instancia de prueba" se imprimirá en su consola para ayudar a cerciorarse de que
+esta viendo los tiquetes de la instancia correcta. Para cambiar la instancia 
+puede usar la pestaña "ixploring" del gadget de autentifiación.
+Esta ventana aparecerá en el idioma que usted haya previamente seleccionado.
+
+
 ![](img/my_tickets.png)
 
 En la segunda pestaña **Tiquete del equipo** podrá revisar todos los tiquetes
@@ -151,6 +157,43 @@ específicos del repositorio de su proyecto como tiquetes cerrados, hitos, el
 wiki o el sitio del proyecto donde se encuentran otros repositorios concernientes.
 
 ![](img/quick_links.png)
+
+
+# Funciones adicionales
+
+A parte de los gadgets, ixplorer ofrece las siguientes funciones para obtener
+informacion desde la consola.
+
+* **listar_tiquetes_abiertos()**: Devuelve un tibble con sus tiquetes abiertos. 
+Utiliza, por default, la ultima instancia que guardó en el gadget de autentificación.
+Sin embargo, se puede espeficiar la instancia deseada utilizando la variable "instancia" dentro de la función. También se puede especificar el número de días 
+hacia atrás de donde quiera obtener los tiquetes.
+
+* **listar_tiquetes_cerrados()**: Devuelve un tibble con sus tiquetes cerrados. 
+Utiliza, por default, la ultima instancia que guardó en el gadget de autentificación.
+Sin embargo, se puede espeficiar la instancia deseada utilizando la variable "instancia" dentro de la función. También se puede especificar el número de días 
+hacia atrás de donde quiera obtener los tiquetes.
+
+* **list_open_pr()**: Devuelve un tibble con sus solicitudes de fusión abiertas.
+Está función busca las solicitudes de fusión asignadas a usted en todas sus instancias de ixplorer guardadas por defecto. Sin embargo, tanto la instancia 
+como la persona asignada pueden espeficicarse.
+
+
+# Funciones para facilitar el control de versiones
+
+* **actualizar_rama()**: Permite actualizar su rama master desde su upstream
+autmaticamente mediante un rebase. Hace los pasos que usualmente usamos,
+fetch upstream, checkout master, rebase upstream/master, y push.
+
+* **incluye_upstream()**: Permite incluir su upstream directamente de su
+repositorio activo en Rstudio. Por default toma la información de la ultima
+instancia guardada en 
+
+* **fijar_tiempo_credenciales()**: Permite espeficiar el tiempo que desea guardar sus
+credenciales de git en su servior remoto. El default es de 4 horas. La 
+función toma su tiempo en segundos.
+
+
 
 
 
