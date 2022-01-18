@@ -5,7 +5,7 @@
 #'
 #' @return
 #' @export
-synch_branch <- function(){
+synch_branch <- function() {
 
   remotes <- gert::git_remote_list(repo = ".")
 
@@ -29,7 +29,7 @@ synch_branch <- function(){
 #' por medio de git rebase
 #'
 #' @export
-actualizar_rama <- function(){
+actualizar_rama <- function() {
 
   synch_branch()
 
