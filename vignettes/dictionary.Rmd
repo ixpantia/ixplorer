@@ -1,10 +1,11 @@
 ---
-title: "ixplorer diccionario de términos"
-author: "ixpantia"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+title: "ixplorer terms dictionary"
+output:
+  rmarkdown::html_vignette:
+    toc: TRUE
+    toc_depth: 6
 vignette: >
-  %\VignetteIndexEntry{Dictionary to the ixplorer}
+  %\VignetteIndexEntry{dictionary_es}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,100 +17,104 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Propósito del diccionario. 
+## Purpuose
 
-El propósito de este diccionario es proveerlo con explicaciones cortas sobre
-los principales componentes del ixplorer. Esto le ayudará con  el flujo de
-trabajo diario de su proyecto y a comunicar mejor con su equipo de ciencia de
-datos.
+The purpose of this dictionary is to provide you with short explanations about
+the main components of ixplorer. This will help you with the flow of
+daily work of your project and to communicate better with your science team of
+data.
 
-## ¿Qué es un proyecto?
+## What's a project?
 
-Un proyecto es el lugar de trabajo donde se persiguen metas específicas. Dentro
-de un proyecto se pueden tener varios repositorios hasta la cantidad necesaria
-para satisfacer a la organización.
+A project is the workplace where specific goals are pursued. Within
+of a project you can have several repositories up to the necessary amount
+to satisfy the organization.
 
-Un proyecto puede ser por ejemplo un modelo de riesgo crediticio y bajo este
-proyecto se puede encontrar el repositorio "analisis_exploratorio", el repositorio
-"modelo" y el repositorio "paquete_r", con lo que se mantiene el código separado
-de acuerdo a distintas finalidades pero todo referido a un mismo tema de proyecto.
+A project can be, for example, a credit risk model and under this
+project you can find the repository "analisis_exploratorio", the repository
+"model" and the repository "package_r", thus keeping the code separate
+according to different purposes but all referred to the same project theme.
 
-La página del proyecto será similar a esta:
+The project page will look similar to this:
 
 ![](img/project.png)
 
-## ¿Qué es un repositorio? 
+## What's a repository?
 
-Un repositorio puede ser visto como un folder donde se mantienen todos los archivos.
-Estos archivos pueden ser compartidos con otros miembros del equipo para empezar
-a colaborar en diferentes tiquetes que implican acciones.
+A repository can be seen as a folder where all the files are kept.
+These files can be shared with other team members to get started
+to collaborate on different tickets that involve tasks.
 
 ![](img/repo.png)
 
-Hay maneras de mantener un repositorio organizado sea que se está trabajando en
-un paquete o en un proyecto de RStudio con archivos R u otros.
+There are ways to keep a repository organized whatever you're working on.
+a package or in an RStudio project with R or other files.
 
-Nuestra recomendación es:
+Our recommendation is:
 
-- Tener una carpeta de datos dentro del repositorio donde se coloquen todas las
-fuentes de datos.
-- Una carpeta de imágenes donde se incluyan las imágenes o archivos binarios.
-- El .Rproject debe de ser visible
-- Los scripts de R deben de estar en una carpeta y los nombres deben de ser sin
-espacios, puntos o combinando mayúsculas/minúsculas.
+- Have a data folder within the repository where all the
+data sources.
+- An images folder where the images or binary files are included.
+- The .Rproject must be visible
+- The R scripts must be in a folder and the names must be without
+spaces, periods or a combination of upper/lower case.
 
-## ¿Qué es upstream?
+## What is an upstream?
 
-Upstream es el nomhbre estandar que usamos para referirnos al repositorio
-"central" el cual corresponde al repositorio que contiene código limpio y 
-funcional. Desde este repositorio central, los miembros en el equipo deberán
-de realizar su bifurcación para poder trabajar en sus tiquetes.
+Upstream is the standard name we use to refer to the "central" repository which
+contains clean code and functional code. 
+From this central repository, team members should
+to make your fork to be able to work on your tickets.
 
-## Bifurcación
+## What's a fork?
 
-Esta es una "copia" del repositorio central. Estará bajo su nombre de usuario.
-Usted bifurca un repositorio cuando quiere contribuir con código al repositorio
-central. Al momento en que usted está listo para ofrecer sus mejoras, usted hace
-una solicitud de fusión. En su bifurcación (a menos de que realice una solicitud
-de fusión) únicamente su trabajo afectará su repositorio bifurcado, no el
-repositorio central. Se debe de estar atento a que todos los cambios en el 
-repositorio central no aparecerán de manera automática en su bifircación a menos
-de que siga el debido proceso con git para actualizar su repositorio.
+This is a "copy" of the central repository. It will be under your username.
+You fork a repository when you want to contribute code to the repository
+central. By the time you are ready to offer your improvements, you make
+a pull request. In your fork (unless you make a request
+merge) only your work will affect your repository, not the
+core repository. You must be aware that all changes in the
+central repository will not automatically appear in your fork unless
+that you follow due process with git to update your repository.
 
-## Tiquetes 
+## Tickets
 
-Los tiquetes se crean para documentar acciones que necesitan ser realizadas
-en un repositorio. Los tiquetes pueden tener diferentes categorías:
+Tickets are created to document actions that need to be performed
+in a repository. Tickets can have different categories:
 
- - Pregunta: una pregunta relacionada a los temas del repositorio.
- - Nuevo: una nueva característica que puede ser lograda en el código.
- - Mejora: una idea u observación que puede ser realizada.
- - Error: cuando algo en el código no funciona y necesita ser resuelto. 
- - Deseo: una característica que puede ser realizada pero no tiene prioridad.
+  - Question: a question related to the topics of the repository.
+  - New: a new feature that can be achieved in code.
+  - Improvement: an idea or observation that can be realized.
+  - Error: when something in the code does not work and needs to be resolved.
+  - Wish: a characteristic that can be realized but does not have priority.
  
-## Hito
+## Milestones
 
-Una manera de organizar las prioridades de su proyecto es asignando tiquetes
-a cada uno de los hitos que usted define. Un ejemplo de un hito puede ser el
-lanzamiento de un paquete.
+One way to organize your project priorities is by assigning tickets
+to each of the milestones you define. An example of a milestone might be the
+release of a package.
 
-## Wiki
+## wiki
 
-El lugar del repositorio donde se puede documentar, definir y mantener información
-necesaria para comunicar a su equipo para resolver dudas y mantenerse informado
-sobre el proyecto.
+The repository place where information can be documented, defined and maintained
+This info may be necessary to communicate to your team to answer questions
+and stay informed about the project.
 
-## Lanzamiento
+## Release
 
-Un lanzamientos está creado para establecer el lanzamiento de su código, lo que
-significa: que usted tiene una fecha límite donde el código estará listo, por lo
-que estará revisado, limpio y funcional.
+A release is created to set the release of your code, which
+means: that you have a deadline where the code will be ready, so
+that will be reviewed, clean and functional.
 
-Todo este código puede ser un paquete de R, estará etiquetado como un lanzamiento,
-lo que marca un punto específico en la historia del proyecto.
+All this code can be an R package, it will be labeled as a release,
+which marks a specific point in the history of the project.
 
-## COnfiguración
+## Settings
 
-En este lugar se puede configurar el repositorio, las personas que tienen acceso,
-quiénes pueden colaborar, escribir o cambiar código. Si se desea eliminar el
-repositorio, cambiar derechos, este es el lugar para hacerlo.
+In this place you can configure the repository, the people who have access,
+who can collaborate, write or change code. If you want to remove the
+repository, change rights, this is the place to do it.
+
+
+
+
