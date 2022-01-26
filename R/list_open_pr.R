@@ -175,7 +175,7 @@ if(instance != "all") {
   # Check instances in saved_repos
 
   if( instance != "all"){
-    if(!(instace %in% saved_repos$instance)){
+    if(!(instance %in% saved_repos$instance)){
       stop("No pull requests from ", instance )
     }
   }
