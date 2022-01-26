@@ -1,0 +1,117 @@
+---
+title: "ixplorer gestión credenciales"
+author: "ixpantia"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Gestión de credenciales}
+  %\VignetteIndexEntry{ixplorer credentials}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# **¿Dónde puedo obtener mis credenciales**
+
+Si se ha preguntado dónde puede obtener su token API o no está seguro de la 
+dirección url, el nombre del proyecto 'upstream', el nombre del repositorio
+ixplorer o el nombre del usuario, este vignette le ayudará a obtenerlos.
+
+## Obteniendo el token API
+Lo primero que tiene que hacer es ir a la sección de **configuración** que está
+debajo  del avatar de su cuenta.
+
+![](img/api_token.png)
+
+Una vez allí se encuentra una pestaña con el nombre de **aplicaciones**. Se debe
+de hacer click en esta opción y así la opción de generar un token API estará
+disponible. Para obtenerlo hay que colocarle un nombre al API y luego crearlo.
+
+![](img/api_token_2.png)
+
+Después de hacer click en **Generar token** usted verá un número compuesto de
+varios dígitos. Este es el token API. Asegúrese de anotarlo y guardarlo en algún
+sitio ya que es la credencial que usted necesitará colocar en el 
+**gadget de autentificación** para lograr acceder a los datos de su repositorio 
+desde RStudio.
+
+![](img/api_token_3.png)
+
+## Obteniendo el url del ixplorer
+
+Este segmento es simple ya que sólamente es necesario buscar su entorno ixplorer
+en internet y copiar el url. 
+
+Como ejemplo, la credencial url del ixplorer de la imagen abajo mostrada sería:
+
+ - https:://prueba.ixpantia.com
+ 
+![](img/credential_url.png)
+
+## Nombre del proyecto upstream
+
+Este es el nombre del proyecto donde sus repositorios de interés están albergados.
+Hay que tener precaución de escribir el nombre del proyecto upstream tal cual
+como aparece en el url. Por ejemplo, en la imagen abajo podemos ver que el nombre
+del proyecto es **Credit risk model and API** y contiene dos repositorios.
+
+![](img/credential_1.png)
+
+## Repositorio
+Cuando se inicia la sesión, basicamente  estará enfocado en un sólo repositorio.
+Si continuamos con el ejemplo, tenemos dos repositorios bajo 
+_Credit risk model and API_: **mod_credit_risk** y **api_credit_risk**.
+
+Si queremos trabajar en el repositorio **mod_credit_risk** tenemos que escribir
+este nombre en el gadget de autentificación.
+
+![](img/credential_2.png)
+
+## Nombre de usuario
+En este punto corresponde solamente el nombre del usuario que se utiliza para
+ingresar a la cuenta de su entorno ixplorer. En este ejemplo tendríamos por
+nombre a la usuaria **sasha**
+
+![](img/credential_3.png)
+
+## ¿Cómo  luciría el gadget de autentificación?
+El gadget actualmente cuenta con 6 espacios totales para llenar. La primera vez 
+que usted accesa el gadget mediante el addin en Addins o la función add_token(),
+este se despliega unicamente preguntando por el url de su entorno ixplorer. En
+caso de que se detecte que no hay credenciales previamente ingresadas para su entorno,
+se desplegaran los siguientes espacios preguntado por su token, nombre de usuario, nombre y repositorio. Además existe la opción adicional para elegir su idioma de
+preferencia. Posteriormente los gadgets que se llamen van a ser desplegados en este 
+idioma. El gadget entonces se vería como la imagen de abajo 
+
+![](img/credential_5.png)
+
+Cuando ya existen credenciales previamente guardadas para el entorno de su url se le
+dirigirá a la segunda pestaña del gadget, "ixploring" donde podrá seleccionar uno
+de sus entornos previamente seleccionados, cambiar su proyecto y posteriormente su 
+repositorio. Esta pestaña luciría como la imagen de abajo.
+
+![](img/credential_6.png)
+
+Una vez que el gadget de autentificación se cierre es probable que se le pida
+ingresar una contraseña. Este contraseña puede ser requerida para su instancia la
+proxima vez que usted utilice alguna función de ixplorer, por lo que se recomienda
+almacenarla debidamente en un gestor de contraseñas de su computadora. Este paso es
+especialmente importante para quienes utilizan un computador compartido.
+
+Si su intención no es guardar las credenciales permanentemente en la computadora 
+siempre puede eliminarlas una vez que su sesión de trabajo haya terminado. Para esto
+se utiliza la funcion elminar_credenciales o bien delete_credentials()
+
+
+
+
+
+
