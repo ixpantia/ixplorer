@@ -1,0 +1,73 @@
+---
+title: "ixplorer basics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ixplorer_basics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette has the purpose of showing you a quick overview of the workflow with 
+the ixplorer package. 
+
+### Overview
+
+The goal of this package is to allow you to access information 
+from the ixplorer git self hosted service quickly and easily from within RStudio.
+This means you can view the tickets assigned to you or to your team while you code, 
+as well as all the tickets in your repository. You also gain access to your open 
+pull requests.
+Additionally, it allows you to quickly perform some day-to-day git version 
+control-related functions, such as updating the master branch of your fork, setting 
+a time period to keep your credentials on a remote server, and publishing a wiki
+more easily.
+
+Below we show a general guide of how ixplorer works the first time you
+use it.
+
+### How to use ixplorer?
+
+![](img/ixplorer_steps.png){width=90%}
+
+The fist step is to get credentials from ixplorer, then you use the 
+authentication function to identify yourself, with this step you are
+giving the necessary information so that the ixplorer package can
+get you your tickets.
+
+If this is not your first time using ixplorer, use the ixploring tab
+in the authentication gadget to move between your saved instances and 
+repos.
+
+Once you are finished you can delete your credentials if necessary
+using delete_credentials().
+This is particularly recommended when you are using a shared computer.
+
+### Functions of ixplorer
+
+Overall you will be able to:
+
+* create a ticket with create_tickets()
+* look at the tickets assigned to you with current_tickets()
+* get a tibble with the open and closed tickets of a repo with
+list_open_tickets() and list_closed_tickets().
+* get a tibble with your open pull requests with list_open_pr().
+* automatically sync your master branch from your upstream with synch_branch().
+* set a timeout for your git credentials when you are working in a remote server 
+with set_git_timeout().
+* easily publish the wiki of your repo with publish_wiki().
+
+### More information
+
+Visit the additional vignettes to get more information about how to use this package.
+
+* **ixplorer** vignette gives further information on the purpose and 
+functions of this package.
+* **credentials** vignette goes through the step by step process of getting your credentials from ixplorer.
+* **dictionary** introduces common terms used when talking about git version control, such as repo, project, ticket and pull request.

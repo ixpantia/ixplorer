@@ -10,7 +10,7 @@ fijar_tiempo_credenciales(pausa = 14000, global = FALSE)
 \item{global}{}
 }
 \description{
-Esta es una traducida que llama a set_git_timeout().
+Esta es una función traducida que llama a set_git_timeout().
 Establezca la cantidad de segundos para que se agote el
 tiempo de espera del caché de credenciales de git. Tenga en cuenta que
 esto está escrito para trabajar en servidores remotos donde no queremos

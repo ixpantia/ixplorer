@@ -1,0 +1,118 @@
+---
+title: "ixplorer: diccionario de términos"
+author: "ixpantia"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: TRUE
+    toc_depth: 6
+vignette: >
+  %\VignetteIndexEntry{Dictionary to the ixplorer}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Propósito del diccionario. 
+
+El propósito de este diccionario es proveerlo con explicaciones cortas sobre
+los principales componentes del ixplorer. Esto le ayudará con  el flujo de
+trabajo diario de su proyecto y a comunicar mejor con su equipo de ciencia de
+datos.
+
+## ¿Qué es un proyecto?
+
+Un proyecto es el lugar de trabajo donde se persiguen metas específicas. Dentro
+de un proyecto se pueden tener varios repositorios hasta la cantidad necesaria
+para satisfacer a la organización.
+
+Un proyecto puede ser por ejemplo un modelo de riesgo crediticio y bajo este
+proyecto se puede encontrar el repositorio "analisis_exploratorio", el repositorio
+"modelo" y el repositorio "paquete_r", con lo que se mantiene el código separado
+de acuerdo a distintas finalidades pero todo referido a un mismo tema de proyecto.
+
+La página del proyecto será similar a esta:
+
+![](img/project.png)
+
+## ¿Qué es un repositorio? 
+
+Un repositorio puede ser visto como un folder donde se mantienen todos los archivos.
+Estos archivos pueden ser compartidos con otros miembros del equipo para empezar
+a colaborar en diferentes tiquetes que implican acciones.
+
+![](img/repo.png)
+
+Hay maneras de mantener un repositorio organizado sea que se está trabajando en
+un paquete o en un proyecto de RStudio con archivos R u otros.
+
+Nuestra recomendación es:
+
+- Tener una carpeta de datos dentro del repositorio donde se coloquen todas las
+fuentes de datos.
+- Una carpeta de imágenes donde se incluyan las imágenes o archivos binarios.
+- El .Rproject debe de ser visible
+- Los scripts de R deben de estar en una carpeta y los nombres deben de ser sin
+espacios, puntos o combinando mayúsculas/minúsculas.
+
+## ¿Qué es upstream?
+
+Upstream es el nomhbre estandar que usamos para referirnos al repositorio
+"central" el cual corresponde al repositorio que contiene código limpio y 
+funcional. Desde este repositorio central, los miembros en el equipo deberán
+de realizar su bifurcación para poder trabajar en sus tiquetes.
+
+## Bifurcación
+
+Esta es una "copia" del repositorio central. Estará bajo su nombre de usuario.
+Usted bifurca un repositorio cuando quiere contribuir con código al repositorio
+central. Al momento en que usted está listo para ofrecer sus mejoras, usted hace
+una solicitud de fusión. En su bifurcación (a menos de que realice una solicitud
+de fusión) únicamente su trabajo afectará su repositorio bifurcado, no el
+repositorio central. Se debe de estar atento a que todos los cambios en el 
+repositorio central no aparecerán de manera automática en su bifircación a menos
+de que siga el debido proceso con git para actualizar su repositorio.
+
+## Tiquetes 
+
+Los tiquetes se crean para documentar acciones que necesitan ser realizadas
+en un repositorio. Los tiquetes pueden tener diferentes categorías:
+
+ - Pregunta: una pregunta relacionada a los temas del repositorio.
+ - Nuevo: una nueva característica que puede ser lograda en el código.
+ - Mejora: una idea u observación que puede ser realizada.
+ - Error: cuando algo en el código no funciona y necesita ser resuelto. 
+ - Deseo: una característica que puede ser realizada pero no tiene prioridad.
+ 
+## Hito
+
+Una manera de organizar las prioridades de su proyecto es asignando tiquetes
+a cada uno de los hitos que usted define. Un ejemplo de un hito puede ser el
+lanzamiento de un paquete.
+
+## Wiki
+
+El lugar del repositorio donde se puede documentar, definir y mantener información
+necesaria para comunicar a su equipo para resolver dudas y mantenerse informado
+sobre el proyecto.
+
+## Lanzamiento
+
+Un lanzamientos está creado para establecer el lanzamiento de su código, lo que
+significa: que usted tiene una fecha límite donde el código estará listo, por lo
+que estará revisado, limpio y funcional.
+
+Todo este código puede ser un paquete de R, estará etiquetado como un lanzamiento,
+lo que marca un punto específico en la historia del proyecto.
+
+## COnfiguración
+
+En este lugar se puede configurar el repositorio, las personas que tienen acceso,
+quiénes pueden colaborar, escribir o cambiar código. Si se desea eliminar el
+repositorio, cambiar derechos, este es el lugar para hacerlo.
