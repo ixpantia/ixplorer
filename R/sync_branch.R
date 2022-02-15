@@ -5,7 +5,7 @@
 #'
 #' @return
 #' @export
-synch_branch <- function() {
+synch_branch <- function(default_branch_name = "master") {
 
   remotes <- gert::git_remote_list(repo = ".")
 
@@ -13,7 +13,7 @@ synch_branch <- function() {
 
     gert::git_fetch(remote = "upstream")
     gert::git_branch_checkout(branch = "master")
-    gert::git_rebase_commit("upstream/master")
+    gert::git_rebase_commit(paste0("upstream/", default_branch_name))
     gert::git_push()
 
   } else {
