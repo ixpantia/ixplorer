@@ -148,7 +148,7 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
         paste("git pull"), "\n",
         paste("git add", md), "\n",
         paste0("git commit -m 'Update ", base_name, "'"), "\n",
-        "git push")
+        "git push \n")
 
     }
 
