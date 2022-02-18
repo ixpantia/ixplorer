@@ -4,15 +4,17 @@
 \alias{list_open_pr}
 \title{List open pull requests}
 \usage{
-list_open_pr(instance = "all", assignee = "me")
+list_open_pr(instance = "all", assignee = "team")
 }
 \arguments{
 \item{instance}{an instance from ixplorer such as "masterclass" or "prueba".
 Default value "all" lists the pull requests of all  your saved instances.
 Value "saved" lists pull requests from your current instance}
 
-\item{assignee}{name of a person from your team. Default "me" lists the
-pull requests assign to you}
+\item{assignee}{name of a person from your team. Default "team" lists all
+the pull requests in the instance with all assignees. When the value is "me"
+it filters the pull requests list for assigned to you according to your username
+provided in add_token()}
 }
 \value{
 tibble of list instances
