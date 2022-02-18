@@ -14,111 +14,38 @@ list_closed_tickets <- function(instance = "saved",
                                 # repository = "current",
                                 lag = NULL) {
 
-  # Keyring code to be implemented late ---------------------------------------
-  # credenciales <- tryCatch(
-  #   keyring::key_get(paste0("token_", instance)),
-  #   error = function(cond) "no_credenciales")
-  #
-  # if(credenciales == "no_credenciales") {
-  #   stop(paste("Aún no existen credenciales para", instance))
-  # }
-  #
-  # credenciales <- credenciales %>%
-  #   stringr::str_split("/", simplify = TRUE) %>%
-  #   tibble::as_tibble() %>%
-  #   magrittr::set_names(c("url", "token",
-  #                         "usuario", "persistencia")) %>%
-  #   dplyr::mutate(persistencia = as.logical(persistencia))
-  #
-  # if(credenciales$persistencia == FALSE) {
-  #   keyring::key_delete(paste0("token_", instance))
-  # }
-
   # Repo from Rstudio API------------------------------------------------------
   # if(repository == "current") {
   #   repository <- basename(rstudioapi::getActiveProject())
   # }
-  # Read credentials from .ixplorer TEMPORAL-----------------------------------
-  # access_file <- ixplorer:::verify_ixplorer_file()
-  # ixplorer_url <- Sys.getenv("IXURL")
-  #
-  # credentials <- tibble::tribble(
-  #   ~url, ~token, ~user, ~owner,
-  #   Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
-  # )
-  #
-  # instance <- sub("\\..*", "", ixplorer_url)
-
-  # Creates list with OLD keyring code---------------------------------------------
-  # list <-  gitear::get_issues_closed_state(
-  #   base_url = paste0("https://", credenciales$url),
-  #   api_key = credenciales$token,
-  #   owner = owner,
-  #   repo = repository)
-
-  #Temporal list---------------------------------------------------------------
-  # list <-  gitear::get_issues_closed_state(
-  #   base_url = credentials$url,
-  #   api_key = credentials$token,
-  #   owner = credentials$owner,
-  #   repo = repository)
 
   # Look for instance ---------------------------------------------------------
 
-  # The default instance value is "saved", so it first looks for a saved
-  # keyring in case user forgets to authenticate. It then chooses the last saved
-  # keyring.
-  # If the user chooses a specific instance other than "saved" ,
-  # such as "secure" or "prueba" then that instance is used
+if (instance == "saved") {
 
-  if (instance == "saved") {
+  instance <- get_instance()
 
-    # It looks in session
-    if (Sys.getenv("ixplorer_instance") != "") {
+  if (instance == "none") {
+    stop("There are no saved instances")
+  }
 
-      instance <- Sys.getenv("ixplorer_instance")
+} else {
 
+  saved_instances <- keyring::keyring_list() %>%
+    select(keyring) %>%
+    filter(keyring == paste0("ixplorer_",instance))
 
-      # If there is no enviroment variable it means user is looking for
-      # a previously saved instance
-    } else if (Sys.getenv("ixplorer_instance") == "") {
+  if (nrow(saved_instances) > 0) {
 
-      saved_instances <- keyring::keyring_list() %>%
-        filter(stringr::str_detect(keyring, "ixplorer_"))
-
-      # if there are saved instances, then it chooses the instance that was last saved
-      if (nrow(saved_instances) > 0) {
-
-        last_saved <- saved_instances[1,1]
-        instance <- last_saved
-
-
-        # When there are no saved instances, then a message is printed
-      } else {
-        message("There are no saved instances")
-      }
-
-      }
-
-    # If the user chooses an instance other than "saved" then it looks for
-    # the specified instance in previously saved keyrings
+    instance <- toString(saved_instances[1])
 
   } else {
 
-    saved_instances <- keyring::keyring_list() %>%
-      select(keyring) %>%
-      filter(keyring == paste0("ixplorer_",instance))
-
-    if (nrow(saved_instances) > 0) {
-      instance <- toString(saved_instances[1])
-
-    } else {
-        message("No credentials for ", instance)
-      }
-
-
-
+    stop("No credentials for ", instance)
   }
+
+}
+
 
   # Keyring llavero ------------------------------------------------------------
 
@@ -127,6 +54,13 @@ list_closed_tickets <- function(instance = "saved",
     api_key = keyring::key_get("ixplorer_token", keyring = instance),
     owner = keyring::key_get("ixplorer_project", keyring = instance),
     repo = keyring::key_get("ixplorer_repo", keyring = instance))
+
+  if(nrow(raw_tickets_data) == 0){
+
+    repo <- keyring::key_get("ixplorer_repo", keyring = instance)
+
+    stop("No ticket data found in ", repo)
+  }
 
 
   # Ticket list ---------------------------------------------------------------
