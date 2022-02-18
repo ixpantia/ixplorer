@@ -15,56 +15,7 @@ NULL
 #' @export
 create_tickets <- function(instance = "saved") {
 
-  # Code for using keyring (To be implemented later)---------------------------
-  # credentials <- tryCatch(
-  #   keyring::key_get(paste0("token_", instance)),
-  #   error = function(cond) "no_credentials")
 
-
-  # if (credentials != "no_credentials") {
-  #   credentials <- credentials %>%
-  #     stringr::str_split("/", simplify = TRUE) %>%
-  #     tibble::as_tibble() %>%
-  #     magrittr::set_names(c("url", "token",
-  #                           "user", "persistence")) %>%
-  #     dplyr::mutate(persistence = as.logical(persistence))
-  #
-  # }
-
-  # Get repository from Rstudio Api -------------------------------------------
-
-  # if (repository == "current") {
-  #   repository <- basename(rstudioapi::getActiveProject())
-  # }
-
-
-
-
-  # Warning to be checked in ref42 --------------------------------------------
-  # output$warning <- renderText({
-  #   msg <- if (access_file$empty == TRUE) {
-  #     "No hay archivo de credenciales disponible"
-  #   } else {
-  #     set_authentication(access_data = access_file$gitear_access)
-  #   }
-  #   return(msg)
-  # })
-
-  # Read credentials from .ixplorer TEMPORAL-----------------------------------
-  # access_file <- ixplorer:::verify_ixplorer_file()
-  # ixplorer_url <- Sys.getenv("IXURL")
-  #
-  # credentials <- tibble::tribble(
-  #   ~url, ~token, ~user, ~owner,
-  #   Sys.getenv("IXURL"), Sys.getenv("IXTOKEN"), Sys.getenv("IXUSER"), Sys.getenv("IXPROJECT")
-  # )
-  #
-  # instance <- sub("\\..*", "", ixplorer_url)
-
-  # Code for using keyring (To be implemented later)---------------------------
-  # if(credentials$persistence == FALSE) {
-  #   keyring::key_delete(paste0("token_", instance))
-  # }
 
   # Look for instance ---------------------------------------------------------
 
