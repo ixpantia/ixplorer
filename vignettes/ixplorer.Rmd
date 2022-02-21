@@ -36,7 +36,7 @@ detenernos mientras escribimos código.
 [Gitea](https://gitea.io/en-us/) es una herramienta de software de código abierto qe
 permite alojar el control de versiones de desarrollo de software mediante Git. 
 Ixplorer usa gadgets de Shiny y el paquete [gitear](https://github.com/ixpantia/gitear).
-Juntos, estos permiten echar un vistazo rápido a sus boletos en su instancia de
+Juntos, estos permiten echar un vistazo rápido a sus tiquetes en su instancia de
 gitea e incluso crear uno fácilmente mientras codifica.
 
 ## Gadgets de ixplorer 

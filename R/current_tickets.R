@@ -19,78 +19,39 @@ current_tickets <- function(instance = "saved") {
   #   repository <- basename(rstudioapi::getActiveProject())
   # }
 
-  # Code for using keyring (To be implemented later)---------------------------
-  # credentials <- tryCatch(
-  #   keyring::key_get(paste0("token_", instance)),
-  #   error = function(cond) "no_credentials")
-
-  # credentials <- tryCatch({
-  #   keyrings <- keyring::keyring_list()
-  #   error = function(cond) "no_credentials"})) #Needs checking
-  #
-  # if (credentials$persistence == FALSE) {
-  #   keyring::key_delete(paste0("token_", instance))
-  # }
 
   # Look for instance ---------------------------------------------------------
 
-  # The default instance value is "saved", so it first looks for a saved
-  # keyring in case user forgets to authenticate. It then chooses the last saved
-  # keyring.
-  # If the user chooses a specific instance other than "saved" ,
-  # such as "secure" or "prueba" then that instance is used
+if (instance == "saved") {
 
-  if (instance == "saved") {
+    current_instance <- get_instance()
 
-    # It looks in session
-    if (Sys.getenv("ixplorer_instance") != "") {
-
-      instance <- Sys.getenv("ixplorer_instance")
-      no_instance = FALSE
-
-
-      # If there is no enviroment variable it means user is looking for
-      # a previously saved instance
-    } else if (Sys.getenv("ixplorer_instance") == "") {
+    if (current_instance != "none") {
 
       saved_instances <- keyring::keyring_list() %>%
-        filter(stringr::str_detect(keyring, "ixplorer_"))
-
-      # if there are saved instances, then it chooses the instance that was last saved
-      if (nrow(saved_instances) > 0) {
-
-        last_saved <- saved_instances[1,1]
-        instance <- last_saved
-        no_instance = FALSE
+        filter(keyring == current_instance) %>%
+        rename(instance = keyring)
+      instance <- toString(saved_instances[1])
 
 
-        # When there are no saved instances, then a message is printed
-      } else {
-        message("There are no saved instances")
-      }
+    } else {
+
+      stop("There are no saved instances")
 
     }
-
-    # If the user chooses an instance other than "saved" then it looks for
-    # the specified instance in previously saved keyrings
 
   } else {
 
+    ix_instance <- paste0("ixplorer_", instance)
+
     saved_instances <- keyring::keyring_list() %>%
-      select(keyring) %>%
-      filter(keyring == paste0("ixplorer_",instance))
+      filter(keyring == ix_instance) %>%
+      rename(instance = keyring)
 
-    if (nrow(saved_instances) > 0) {
-      instance <- toString(saved_instances[1])
-      no_instance = FALSE
+    if(nrow(saved_instances) == 0) {
 
-    } else {
-      message("No credentials for ", instance)
-      no_instance = TRUE
+      stop("There is no instance named ", instance)
     }
-
-
-
   }
 
   # Define translator ---------------------------------------------------------
@@ -101,14 +62,9 @@ current_tickets <- function(instance = "saved") {
 
   # Set translation language --------------------------------------------------
 
-  if (no_instance == TRUE) {
-    i18n$set_translation_language("en")
-  } else {
+  language <- keyring::key_get("ixplorer_language", keyring = instance)
+  i18n$set_translation_language(language)
 
-    language <- keyring::key_get("ixplorer_language", keyring = instance)
-    i18n$set_translation_language(language)
-
-  }
 
   credentials <- keyring::keyring_list() # while tryCatch() is checked
 

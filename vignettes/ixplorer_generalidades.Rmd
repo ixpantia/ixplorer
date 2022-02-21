@@ -21,9 +21,9 @@ de trabajo con el paquete ixplorer.
 ### Descripción general
 
 El objetivo de este paquete es permitirle acceder
-a la información desde el servicio  ixplorer de forma rápida ysencilla desde RStudio.
+a la información desde el servicio  ixplorer de forma rápida y sencilla desde RStudio.
 Esto significa que puede ver los tiquetes asignados a usted o 
-a su equipo mientras escribe código, así como todos los tiquetes de tu repositorio
+a su equipo mientras escribe código, así como todos los tiquetes de su repositorio
 y sus solicitudes de fusión abiertas.
 
 Además, le permite realizar rápidamente algunas funciones diarias relacionadas con el
@@ -53,7 +53,7 @@ En general, podrás:
 
 * crear un ticket con crear_tiquete()
 * mirar los tiquetes que te han asignado con tiquetes_actuales()
-* obtener un tibble con los boletos abiertos y cerrados de un repo con
+* obtener un tibble con los tiquetes abiertos y cerrados de un repo con
 listar_tiquetes_abiertos() y listar_tiquetes_cerrados().
 * obtener un tibble con sus solicitudes de fusión abiertas con list_open_pr().
 * actualizar automáticamente tu rama maestra desde tu upstream con actualizar_rama().

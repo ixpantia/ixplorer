@@ -10,55 +10,18 @@
 #'By default it shows all the tickets without any lag..
 #'
 #' @export
-list_open_tickets <- function(instance = "saved", lag = NULL) { #no need for other especifications
+list_open_tickets <- function(instance = "saved", lag = NULL) {
 
-  # Keyring code to be implemented later --------------------------------------
-  # credentials <- tryCatch({
-  #   keyrings <- keyring::keyring_list()
-  #   error = function(cond) "no_credentials"})
-  # if (credenciales() == "no_credentials") {
-  #   stop(paste("Aún no existen credenciales para", instance)) # Needs instance
-  # }
 
   # Look for instance ---------------------------------------------------------
 
-  # The default instance value is "saved", so it first looks for a saved
-  # keyring in case user forgets to authenticate. It then chooses the last saved
-  # keyring.
-  # If the user chooses a specific instance other than "saved" ,
-  # such as "secure" or "prueba" then that instance is used
-
   if (instance == "saved") {
 
-    # It looks in session
-    if (Sys.getenv("ixplorer_instance") != "") {
+    instance <- get_instance()
 
-      instance <- Sys.getenv("ixplorer_instance")
-
-
-      # If there is no enviroment variable it means user is looking for
-      # a previously saved instance
-    } else if (Sys.getenv("ixplorer_instance") == "") {
-
-      saved_instances <- keyring::keyring_list() %>%
-        filter(stringr::str_detect(keyring, "ixplorer_"))
-
-      # if there are saved instances, then it chooses the instance that was last saved
-      if (nrow(saved_instances) > 0) {
-
-        last_saved <- saved_instances[1,1]
-        instance <- last_saved
-
-
-        # When there are no saved instances, then a message is printed
-      } else {
-        message("There are no saved instances")
-      }
-
+    if (instance == "none") {
+      stop("There are no saved instances")
     }
-
-    # If the user chooses an instance other than "saved" then it looks for
-    # the specified instance in previously saved keyrings
 
   } else {
 
@@ -67,15 +30,16 @@ list_open_tickets <- function(instance = "saved", lag = NULL) { #no need for oth
       filter(keyring == paste0("ixplorer_",instance))
 
     if (nrow(saved_instances) > 0) {
+
       instance <- toString(saved_instances[1])
 
     } else {
-      message("No credentials for ", instance)
+
+      stop("No credentials for ", instance)
     }
 
-
-
   }
+
   # Keyring llavero ------------------------------------------------------------
 
   raw_tickets_data <- gitear::get_issues_open_state(
@@ -83,6 +47,13 @@ list_open_tickets <- function(instance = "saved", lag = NULL) { #no need for oth
     api_key = keyring::key_get("ixplorer_token", keyring = instance),
     owner = keyring::key_get("ixplorer_project", keyring = instance),
     repo = keyring::key_get("ixplorer_repo", keyring = instance))
+
+  if(nrow(raw_tickets_data) == 0){
+
+    repo <- keyring::key_get("ixplorer_repo", keyring = instance)
+
+    stop("No ticket data found in ", repo)
+  }
 
   # Ticket list ---------------------------------------------------------------
   list <- raw_tickets_data %>%

@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 # Descripción
 
 El paquete ixplorer trae la funcionalidad de ixplorer mas cerca tuyo. Tiene el propósito de permitir trabajar más agilmente con su equipo de datos desde RStudio
-y más importante aún, hacer sin tener que deterner su flujo de trabajo.
+y más importante aún, hacerlo sin tener que deterner su flujo de trabajo.
 Esto se logra con ventanas interactivas de dentro de RStudio, funciones para extraer
 información útil de día a día en ixplorer y funciones para 
 facilitar también el trabajo con control de versiones de git.

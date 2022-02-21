@@ -7,8 +7,10 @@
 #' @param instance an instance from ixplorer such as "masterclass" or "prueba".
 #' Default value "all" lists the pull requests of all  your saved instances.
 #' Value "saved" lists pull requests from your current instance
-#' @param assignee name of a person from your team. Default "me" lists the
-#' pull requests assign to you
+#' @param assignee name of a person from your team. Default "team" lists all
+#' the pull requests in the instance with all assignees. When the value is "me"
+#' it filters the pull requests list for assigned to you according to your username
+#' provided in add_token()
 #'
 #' @return tibble of list instances
 #' @export
@@ -18,85 +20,51 @@
 #' list_open_pr(instance = "prueba",
 #'              assignee = "daniel")
 #' }
-list_open_pr <- function(instance = "all", assignee = "me"){
+list_open_pr <- function(instance = "all", assignee = "team"){
 
-  # Saved instances -----------------------------------------------------------
+# Look for instance -------------------------------------------------------
+
+
+if (instance == "all") {
 
   saved_instances <- keyring::keyring_list() %>%
-    filter(stringr::str_detect(keyring, "ixplorer_"))
+    filter(stringr::str_detect(keyring, "ixplorer_")) %>%
+    rename(instance = keyring)
 
-  # Look for instance ---------------------------------------------------------
+} else if (instance == "saved") {
 
-  if (instance == "saved") {
+  current_instance <- get_instance()
 
-    # It looks in session
-    if (Sys.getenv("ixplorer_instance") != "") {
+  if (current_instance != "none") {
 
-      my_instance <- Sys.getenv("ixplorer_instance")
-
-
-      # If there is no enviroment variable it means user is looking for
-      # a previously saved instance
-    } else if (Sys.getenv("ixplorer_instance") == "") {
-
-      # if there are saved instances, then it chooses the instance that was last saved
-      if (nrow(saved_instances) > 0) {
-
-        last_saved <- saved_instances[1,1]
-        my_instance <- last_saved
-
-
-        # When there are no saved instances, then a message is printed
-      } else {
-        stop("There are no saved instances")
-      }
-
-    }
-
-    # If the user chooses an instance other than "saved" then it looks for
-    # the specified instance in previously saved keyrings
-
-  } else if( instance == "all" ){
-
-    my_instance = "all"
-
-    # If the user chooses an instance other than "saved" then it looks for
-    # the specified instance in previously saved keyrings
+    saved_instances <- keyring::keyring_list() %>%
+      filter(keyring == current_instance) %>%
+      rename(instance = keyring)
 
   } else {
 
-    specific_instances <- saved_instances %>%
-      filter(keyring == paste0("ixplorer_",instance))
+    message("There are no saved instances")
 
-    if (nrow(specific_instances) > 0) {
-
-      my_instance <- paste0("ixplorer_", instance)
-
-    } else {
-
-      stop("No credentials for ", instance)
-
-    }
-
-    }
-
-  # filter the saved instances according to selection--------------------------
-if(instance != "all") {
-
-  saved_instances <- saved_instances %>%
-    filter(keyring == my_instance) %>%
-    rename(instance = keyring)
-
+  }
 
 } else {
 
-  saved_instances <- saved_instances %>%
+  ix_instance <- paste0("ixplorer_", instance)
+
+  saved_instances <- keyring::keyring_list() %>%
+    filter(keyring == ix_instance) %>%
     rename(instance = keyring)
+
+  if(nrow(saved_instances) == 0) {
+
+    stop("There is no instance named ", instance)
+  }
 }
 
 
+# get urls ----------------------------------------------------------------
 
-  #get links ------------------------------------------------------------------
+
   # For every row in saved instances we get the corresponding url
   saved_links <- saved_instances %>%
     purrr::pmap_dfr(function(...) {
@@ -109,130 +77,82 @@ if(instance != "all") {
         mutate(link = ix_link)
     })
 
-  # get_projects --------------------------------------------------------------
-  # For every row in saved_links we get a the list of project names
 
-  my_projects <- saved_links %>%
+# get repos ---------------------------------------------------------------
+
+  repos <- saved_links %>%
+    purrr::pmap_dfr(function(...){
+
+      current_row <- tibble(...)
+      ix_link <- current_row$link
+      ix_token <- keyring::key_get("ixplorer_token",
+                                   keyring = current_row$instance)
+      repositories <- gitear::get_repositories(base_url = ix_link,
+                                               api_key = ix_token)
+      repo_list <- list(repositories)
+
+      current_row %>%
+        mutate(repositories = repo_list) %>%
+        tidyr::unnest(repositories) %>%
+        tidyr::unnest(data.owner) %>%
+        select(instance,username, data.name,
+               data.fork, data.open_pr_counter) %>%
+        rename(project = username) %>%
+        rename(repository = data.name) %>%
+        filter(data.fork == FALSE & data.open_pr_counter > 0)
+
+      })
+
+
+# get gitea pull requests  ------------------------------------------------
+
+
+  my_prs <- repos %>%
     purrr::pmap_dfr(function(...) {
+
 
       current <- tibble(...)
 
-      ix_instance <- current$instance
-      ix_link <- current$link
-      ix_token <- keyring::key_get("ixplorer_token",
-                                   keyring = ix_instance)
-
-
-      project_list <- gitear::get_organizations(base_url = ix_link,
-                                                api_key = ix_token)
-
-      all_projects <- list(project_list$username)
-
-      current %>%
-        mutate(projects = all_projects)
-    })
-
-  # Project data --------------------------------------------------------------
-  # get each project into a single row
-
-  saved_projects <- my_projects %>%
-    tidyr::unnest(projects)
-
-   # get repos ----------------------------------------------------------------
-   # for every row with a project we get the list of repos from each project
-
-
-  my_repos <- saved_projects %>%
-    purrr::pmap_dfr(function(...) {
-
-      current <- tibble(...)
 
       ix_instance <- current$instance
-      ix_link <- current$link
+      ix_project <- current$project
+      ix_repo <- current$repository
+
+
+      ix_link <- keyring::key_get("ixplorer_link",
+                                  keyring = ix_instance)
       ix_token <- keyring::key_get("ixplorer_token",
                                    keyring = ix_instance)
-      ix_project <- current$projects
-
-
-      repos <- gitear::get_list_repos_org(base_url = ix_link,
-                                          api_key = ix_token,
-                                          org = ix_project)
-      repos <- repos %>%
-        filter(!is.na(open_pr_counter) && open_pr_counter > 0)
-
-      all_repos <- list(repos$name)
-
-      current %>%
-        mutate(repo = all_repos)
-    })
-
-  # Repo data
-  # Ordering each project into a single row
-
-  saved_repos <- my_repos %>%
-    tidyr::unnest(repo)
-
-  # Check instances in saved_repos
-
-  if( instance != "all"){
-    if(!(instance %in% saved_repos$instance)){
-      stop("No pull requests from ", instance )
-    }
-  }
-
-  #get pull requests
-  # Loop to bind all pull request data from each repo in saved_repos
-
-  all_prs <- function(x){
-
-    all_prs <- NULL
-
-    for (i in 1:nrow(x)){
-
-      ix_link <- toString(x[i,4])
-      ix_token <- keyring::key_get("ixplorer_token",
-                                   keyring = toString(x[i,1]))
-      ix_project <- toString(x[i,5])
-      ix_repo <- toString(x[i,6])
-
 
       pr <- gitear::get_pull_requests(base_url = ix_link,
                                       api_key = ix_token,
                                       owner = ix_project,
                                       repo = ix_repo)
+      all_prs <- list(pr)
 
-      all_prs <- bind_rows(all_prs, pr)
+      current %>%
+        mutate(prs = all_prs) %>%
+        tidyr::unnest(prs) %>%
+        select( number, title, assignees,instance, project, repository) %>%
+        tidyr::unnest(assignees) %>%
+        rename(pr_assignee = username) %>%
+        rename(pr_number = number) %>%
+        rename(pr_title = title) %>%
+        rename(pr_project = project) %>%
+        rename(pr_repo = repository) %>%
+        mutate(instance = stringr::str_remove(instance, "ixplorer_")) %>%
+        select(pr_number, pr_title, pr_assignee, pr_project, pr_repo, instance)
 
-    }
-
-    return(all_prs)
-
-  }
-
-
-  # pull request data selection -----------------------------------------------
-
-  pullr_data <- all_prs(saved_repos) %>%
-    filter(state == "open") %>%
-    rename(pr_id = id) %>%
-    tidyr::unnest(assignee) %>%
-    mutate(url = stringr::str_remove(url, "https://")) %>%
-    mutate(url = stringr::str_remove(url, ".com")) %>%
-    tidyr::separate(col = url, into = c("pr_instance", "pr_project", "pr_repo",
-                                        "type", "type_number"), sep = "/") %>%
-    select(pr_instance, pr_project, pr_repo, number, title, login) %>%
-    rename(pr_assignee = login) %>%
-    rename(pr_title = title) %>%
-    mutate(pr_instance = stringr::str_replace(pr_instance,".i","_i" ))
+    })
 
 
-  # Filter data according to assignee specification
-  # When team is chosen data stay as is
+# filter for assignee -----------------------------------------------------
+
 
 
   if (assignee == "team"){
 
-    pull_request_data <- pullr_data
+    pull_request_data <- my_prs
 
     #When "me" is chosen we get the saved username and filter
   } else if (assignee == "me"){
@@ -241,24 +161,24 @@ if(instance != "all") {
     ix_username <- keyring::key_get("ixplorer_user_name",
                                     keyring = ix_instance)
 
-    pull_request_data <- pullr_data %>%
+    pull_request_data <- my_prs %>%
       filter(pr_assignee == ix_username)
     # when other assignee is chosen we filter with that name
 
   } else if (assignee != "team" && assignee != "team"){
 
-    pull_request_data <- pullr_data %>%
+    pull_request_data <- my_prs %>%
       filter(pr_assignee == assignee)
 
 
   }
 
 
+# Return pull request data ------------------------------------------------
+
+
 
 return(pull_request_data)
 
 }
-
-
-
 
