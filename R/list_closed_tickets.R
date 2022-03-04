@@ -26,7 +26,7 @@ if (instance == "saved") {
   instance <- get_instance()
 
   if (instance == "none") {
-    stop("There are no saved instances")
+    stop("There are no saved instances. Try the authentication gadget")
   }
 
 } else {
