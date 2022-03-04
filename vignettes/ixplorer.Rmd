@@ -240,7 +240,16 @@ instancia guardada en
 credenciales de git en su servior remoto. El default es de 4 horas. La 
 función toma su tiempo en segundos.
 
+#### Publicar un wiki
 
+* **publica_wiki()**. Los wikis son de especial importancia cuando se quiere
+documentar de manera sencilla lo que sucede en el repositorio. Para publicar un
+wiki con publica_wiki(), el primer paso es crear la primera página manualmente.
+Esto se logra en la pestaña de "wiki" en el repositorio.
+El siguiente paso es clonar el repositorio del wiki.
+Este url para clonar el wiki es diferente al que usamos para clonar el repositorio
+donde encontramos nuestro código. Una vez que clonamos este repositorio podemos 
+usar publica_wiki().
 
-
+![](img/clone_wiki.png)
 

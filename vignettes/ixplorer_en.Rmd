@@ -240,7 +240,17 @@ instance saved.
 git credentials on your remote server. The default is 4 hours. The
 function takes its time in seconds.
 
+#### Publishing on wiki
 * **publish_wiki()**: Allows you to publish a wiki in your repo from an Rmarkdown.
+Wikis are especially important when you want to easily document what happens in
+the repository. To publish a wiki with publish_wiki(), the first step is to create
+the first page manually. This is accomplished in the "wiki" tab in the repository.
+The next step is to clone the wiki repository.
+This url to clone the wiki is different from the one we use to clone the 
+repository where we find our code. Once we clone this repository we can use 
+publish_wiki().
+
+![](img/clone_wiki.png)
 
 
 
