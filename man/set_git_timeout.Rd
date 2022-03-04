@@ -14,9 +14,9 @@ set_git_timeout(timeout = 14400, global = FALSE)
 \description{
 Set the number of seconds before the git credential cache times
 out. Note that this is written for work on remote servers where we do not
-want to store our git credentials (other might have acces to it, or
-impersonate us). On a trusted machine the most common setting would be ( on
-a linux machine) <git credential.helper store>. However, some caching is
+want to store our git credentials because other might have access to it, or
+impersonate us. On a trusted machine the most common setting would be (on
+a linux machine) git credential.helper store. However, some caching is
 required when working on a remote server because frequent commit-push
 cycles where you have to write out your username and password every time is
 not nice.
