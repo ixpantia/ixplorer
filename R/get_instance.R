@@ -7,7 +7,6 @@
 #' @return a character of the active issue in the session
 #' @export
 #'
-#' @examples
 get_instance <- function() {
 
 
