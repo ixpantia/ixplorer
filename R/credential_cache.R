@@ -16,13 +16,11 @@
 #' @export
 set_git_credentials_cache <- function(hours = 4, global = TRUE) {
 
-if (global == TRUE) {
-  system(paste(
-      "git config --global credential.helper cache --timeout=",
-      hours * 60 * 60, "'"), show.output.on.console = FALSE)
+  if (global == TRUE) {
+    system(paste0('git config --global credential.helper "cache --timeout=',
+                  hours * 60 * 60, '"'))
   } else {
-  system(paste(
-      "git config credential.helper cache --timeout=",
-      hours * 60 * 60, "'"), show.output.on.console = FALSE)
+    system(paste0('git config credential.helper "cache --timeout=',
+                  hours * 60 * 60, '"'))
   }
 }

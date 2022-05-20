@@ -101,9 +101,11 @@ incluye_upstream <- function(instancia = "guardada") {
 set_git_timeout <- function(timeout = 14400, global = FALSE) {
 
   if (global == TRUE) {
-  instruction <- paste0("git config --global credential.helper cache --timeout=", timeout)
+    instruction <- paste0('git config --global credential.helper "cache --timeout=',
+                          timeout, '"')
   } else {
-  instruction <- paste0("git config credential.helper cache --timeout=", timeout)
+    instruction <- paste0('git config credential.helper "cache --timeout=',
+                          timeout, '"')
   }
 
   system(instruction)
@@ -133,7 +135,7 @@ set_git_timeout <- function(timeout = 14400, global = FALSE) {
 #' @param global si el cambio debe ser global o local para el repositorio
 #'
 #' @export
-fijar_tiempo_credenciales <- function(pausa =  14000, global = FALSE) {
+fijar_tiempo_credenciales <- function(pausa =  14400, global = FALSE) {
 
   if (global == FALSE) {
     set_git_timeout(timeout = pausa, global = FALSE)
