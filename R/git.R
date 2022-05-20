@@ -101,7 +101,7 @@ incluye_upstream <- function(instancia = "guardada") {
 set_git_timeout <- function(timeout = 14400, global = FALSE) {
 
   if (global == TRUE) {
-    instruction <- paste0('git config --global credential.helper "cache --timeout=',
+    instruction <- paste0('git config --global credential.helper --replace-all "cache --timeout=',
                           timeout, '"')
   } else {
     instruction <- paste0('git config credential.helper "cache --timeout=',
