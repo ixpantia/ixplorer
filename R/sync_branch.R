@@ -3,7 +3,6 @@
 #' @description Runs steps to synch your master branch to upstream
 #' automatically
 #'
-#' @return
 #' @export
 synch_branch <- function(default_branch_name = "master") {
 
@@ -22,7 +21,6 @@ synch_branch <- function(default_branch_name = "master") {
 }
 
 
-
 #' Actualice la rama master desde el upstream
 #'
 #' @description actualiza su rama master con su upstream
@@ -34,18 +32,4 @@ actualizar_rama <- function() {
   synch_branch()
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

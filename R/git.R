@@ -54,7 +54,6 @@ add_upstream <- function(instance = "saved") {
 
   git2r::remote_add(repo = camino, name = "upstream", url = proyecto_madre)
 
-
 }
 
 
@@ -65,18 +64,15 @@ add_upstream <- function(instance = "saved") {
 #' @details Esta función es la versión en español de add_upstream().
 #' Perminte agregar el upstream al repositorio que está activo en RStudio en
 #' este momento
-#' @return
 #' @export
 incluye_upstream <- function(instancia = "guardada") {
 
-  if(instancia == "guardada") {
+  if (instancia == "guardada") {
     add_upstream(instance =  "saved")
   } else {
     add_upstream(instance = instancia)
   }
-
 }
-
 
 
 #' @title Extend git credential cache time-out
@@ -142,9 +138,5 @@ fijar_tiempo_credenciales <- function(pausa =  14400, global = FALSE) {
   } else {
     set_git_timeout(timeout = pausa, global = TRUE)
   }
-
 }
-
-
-
 
