@@ -105,7 +105,7 @@ add_token <- function() {
                    miniContentPanel(
                      shinyWidgets::checkboxGroupButtons(
                        inputId = "buttons",
-                       label = i18n$t("Your saved instances"),
+                       label = i18n$t("Your saved instances:"),
                        choices = saved_instances
                      ),
                      uiOutput("projects"),
