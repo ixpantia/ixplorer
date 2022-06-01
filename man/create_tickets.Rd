@@ -8,10 +8,6 @@ create_tickets(instance = "saved")
 }
 \arguments{
 \item{instance}{ixplorer instance (Eg: "secure", "masterclass", "prueba")}
-
-\item{owner}{the name of the project where the repository is located in ixplorer}
-
-\item{repository}{the name of the repository where the tickets are}
 }
 \description{
 Create tickets (title and body) from the ixplorer addin without
