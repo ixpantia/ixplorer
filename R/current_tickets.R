@@ -249,7 +249,7 @@ if (instance == "saved") {
 
         # Final table
         links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
-        URL <- c("Closed tickets", "Milestones", "Wiki", "Project")
+        URL <- c((i18n$t("Closed tickets")), (i18n$t("Milestones")), "Wiki", (i18n$t("Project")))
         quick_links <- data.frame(links, URL)
 
         # Table with kableExtra
