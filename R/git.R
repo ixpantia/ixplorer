@@ -3,8 +3,6 @@
 #'   the moment
 #'
 #' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
-#' @param owner the name of the project where the repository is located in
-#'   ixplorer
 #'
 #' @export
 add_upstream <- function(instance = "saved") {
@@ -127,7 +125,7 @@ set_git_timeout <- function(timeout = 14400, global = FALSE) {
 #' desea. También por defecto, el tiempo de espera se establece en 4 horas
 #' (14400 segundos).
 #'
-#' @param detencion número de segundos antes del tiempo de espera
+#' @param pausa número de segundos antes del tiempo de espera
 #' @param global si el cambio debe ser global o local para el repositorio
 #'
 #' @export

@@ -55,7 +55,7 @@ if (instance == "all") {
     filter(keyring == ix_instance) %>%
     rename(instance = keyring)
 
-  if(nrow(saved_instances) == 0) {
+  if (nrow(saved_instances) == 0) {
 
     stop("There is no instance named ", instance)
   }
@@ -150,12 +150,12 @@ if (instance == "all") {
 
 
 
-  if (assignee == "team"){
+  if (assignee == "team") {
 
     pull_request_data <- my_prs
 
     #When "me" is chosen we get the saved username and filter
-  } else if (assignee == "me"){
+  } else if (assignee == "me") {
 
     ix_instance <- toString(saved_instances[1,1])
     ix_username <- keyring::key_get("ixplorer_user_name",
@@ -165,19 +165,15 @@ if (instance == "all") {
       filter(pr_assignee == ix_username)
     # when other assignee is chosen we filter with that name
 
-  } else if (assignee != "team" && assignee != "team"){
+  } else if (assignee != "team" && assignee != "team") {
 
     pull_request_data <- my_prs %>%
       filter(pr_assignee == assignee)
-
 
   }
 
 
 # Return pull request data ------------------------------------------------
-
-
-
 return(pull_request_data)
 
 }

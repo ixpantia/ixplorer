@@ -1,7 +1,7 @@
 #' @import dplyr
 NULL
 
-#' Verificar autentificación del ixplorer.
+#' Verificar autentificacion del ixplorer.
 #'
 #' Verifique si hay un archivo .ixplorer en el directorio de trabajo y
 #' configure las variables.

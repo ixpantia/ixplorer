@@ -2,9 +2,6 @@
 #' @description List of open tickets in the repository
 #'
 #' @param instance instance from ixplorer (E.g. "secure", "masterclass", "prueba")
-#' @param owner the name of the project where the repository is located in
-#'ixplorer
-#' @param repository the name of the repository where the tickets are.
 #' @param lag is the time in days that you want to look back. For example if
 #'you want to see the tickets closed in the last 7 days, lag = 7.
 #'By default it shows all the tickets without any lag..
@@ -48,7 +45,7 @@ list_open_tickets <- function(instance = "saved", lag = NULL) {
     owner = keyring::key_get("ixplorer_project", keyring = instance),
     repo = keyring::key_get("ixplorer_repo", keyring = instance))
 
-  if(nrow(raw_tickets_data) == 0){
+  if (nrow(raw_tickets_data) == 0) {
 
     repo <- keyring::key_get("ixplorer_repo", keyring = instance)
 
@@ -89,18 +86,15 @@ list_open_tickets <- function(instance = "saved", lag = NULL) {
 #' @title Lista de tiquetes abiertos
 #' @description Listado de tiquetes abiertos del repositorio indicado.
 #'
-#' @param instance instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
-#' @param owner el nombre del proyecto donde se encuentra el repositorio en
-#' ixplorer
-#' @param repository el nombre del repositorio donde están los tiquetes
-#' @param lag es el tiempo en días que se quiere ver hacia atrás. Por ejemplo si
+#' @param instancia instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
+#' @param dias es el tiempo en días que se quiere ver hacia atrás. Por ejemplo si
 #' se quiere ver los tiquetes creados en los últimos 7 días, lag = 7. Por
 #' defecto muestra todos los tiquetes sin ningún lag.
 #'
 #' @export
 listar_tiquetes_abiertos <- function(instancia = "guardada", dias = NULL){
 
-  if(instancia == "guardada") {
+  if (instancia == "guardada") {
 
     list_open_tickets(instance = "saved", lag = dias)
 
@@ -108,5 +102,4 @@ listar_tiquetes_abiertos <- function(instancia = "guardada", dias = NULL){
 
     list_open_tickets(instance = instancia, lag = dias)
     }
-
 }

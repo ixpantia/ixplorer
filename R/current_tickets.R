@@ -9,8 +9,6 @@ NULL
 #'  your ixplorer based on the credentials used in the authentication gadget.
 #'
 #' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
-#' @param owner the name of the project where the repository is located in ixplorer
-#' @param repository the name of the repository where the tickets are
 #'
 #' @export
 current_tickets <- function(instance = "saved") {
@@ -48,7 +46,7 @@ if (instance == "saved") {
       filter(keyring == ix_instance) %>%
       rename(instance = keyring)
 
-    if(nrow(saved_instances) == 0) {
+    if (nrow(saved_instances) == 0) {
 
       stop("There is no instance named ", instance)
     }
@@ -282,14 +280,12 @@ if (instance == "saved") {
 #' de autenticación.
 #'
 #' @param instancia instancia de ixplorer (Ej: "secure", "masterclass", "prueba")
-#' @param propietario el nombre del proyecto donde el repositorio está ubicado en ixplorer
-#' @param repositorio nombre del repositorio donde están los tiquetes
 #'
 #' @export
 
 tiquetes_actuales <- function(instancia = "guardada") {
 
-  if(instancia == "guardada"){
+  if (instancia == "guardada") {
 
     current_tickets(instance = "saved")
 

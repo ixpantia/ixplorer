@@ -39,7 +39,9 @@
 #' }
 #'
 #' @export
-publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
+publish_wiki <- function(rmarkdown,
+                         path_wiki_repo,
+                         automatic_update = FALSE,
                          quiet_render_logs = FALSE) {
 
   # Repare path_wiki_repo
@@ -186,7 +188,7 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
 #'
 #' @param rmarkdown la ruta al archivo rmarkdown
 #' @param ruta_repo_wiki la ruta completa al repositorio wiki.
-#' @param automatic_update Si desea hacer automáticamente el pull, commit y push
+#' @param auto_actualizar Si desea hacer automáticamente el pull, commit y push
 #'   establecido en TRUE, si desea hacerlo manualmente, establezca FALSE. El
 #'   valor predeterminado es TRUE.
 #' @param silenciar_bitacora  Si desea ver la bitacora de renderización
@@ -202,8 +204,10 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
 #'
 #' @export
 
-publica_wiki <- function(rmarkdown = rmarkdown, ruta_repo_wiki = path_wiki_repo,
-                         auto_actualizar = TRUE, silenciar_bitacora= FALSE){
+publica_wiki <- function(rmarkdown = rmarkdown,
+                         ruta_repo_wiki = path_wiki_repo,
+                         auto_actualizar = TRUE,
+                         silenciar_bitacora= FALSE){
 
   ## True and False
   if (auto_actualizar == TRUE && silenciar_bitacora == FALSE) {
