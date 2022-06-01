@@ -9,13 +9,9 @@ NULL
 #'  losing ideas during your workflow.
 #'
 #' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
-#' @param owner the name of the project where the repository is located in ixplorer
-#' @param repository the name of the repository where the tickets are
 #'
 #' @export
 create_tickets <- function(instance = "saved") {
-
-
 
   # Look for instance ---------------------------------------------------------
 
@@ -188,13 +184,11 @@ create_tickets <- function(instance = "saved") {
 #' perder las ideas durante su flujo de trabajo
 #'
 #' @param instancia instancia de ixplorer (Ejemplo: "secure", "masterclass", "prueba")
-#' @param propietario el nombre del proyecto donde el repositorio está ubicado en ixplorer
-#' @param repositorio nombre del repositorio donde están los tiquetes
 #'
 #' @export
 crear_tiquetes <- function(instancia = "guardada") {
 
-  if(instancia == "guardada") {
+  if (instancia == "guardada") {
 
     create_tickets(instance = "saved")
 

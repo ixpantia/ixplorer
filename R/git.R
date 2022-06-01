@@ -3,8 +3,6 @@
 #'   the moment
 #'
 #' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
-#' @param owner the name of the project where the repository is located in
-#'   ixplorer
 #'
 #' @export
 add_upstream <- function(instance = "saved") {
@@ -54,7 +52,6 @@ add_upstream <- function(instance = "saved") {
 
   git2r::remote_add(repo = camino, name = "upstream", url = proyecto_madre)
 
-
 }
 
 
@@ -65,18 +62,15 @@ add_upstream <- function(instance = "saved") {
 #' @details Esta función es la versión en español de add_upstream().
 #' Perminte agregar el upstream al repositorio que está activo en RStudio en
 #' este momento
-#' @return
 #' @export
 incluye_upstream <- function(instancia = "guardada") {
 
-  if(instancia == "guardada") {
+  if (instancia == "guardada") {
     add_upstream(instance =  "saved")
   } else {
     add_upstream(instance = instancia)
   }
-
 }
-
 
 
 #' @title Extend git credential cache time-out
@@ -131,7 +125,7 @@ set_git_timeout <- function(timeout = 14400, global = FALSE) {
 #' desea. También por defecto, el tiempo de espera se establece en 4 horas
 #' (14400 segundos).
 #'
-#' @param detencion número de segundos antes del tiempo de espera
+#' @param pausa número de segundos antes del tiempo de espera
 #' @param global si el cambio debe ser global o local para el repositorio
 #'
 #' @export
@@ -142,9 +136,5 @@ fijar_tiempo_credenciales <- function(pausa =  14400, global = FALSE) {
   } else {
     set_git_timeout(timeout = pausa, global = TRUE)
   }
-
 }
-
-
-
 

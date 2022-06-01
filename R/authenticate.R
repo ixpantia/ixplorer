@@ -230,7 +230,7 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
 
       button_instance <- paste0("ixplorer_", input$buttons)
 
-      list_repos<-gitear::get_list_repos_org(
+      list_repos <- gitear::get_list_repos_org(
         base_url = keyring::key_get("ixplorer_url" , keyring = button_instance),
         api_key = keyring::key_get("ixplorer_token", keyring = button_instance),
         org = input$projects)
@@ -293,7 +293,7 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
 
 
 
-        Sys.setenv(ixplorer_instance=instance()) # variable to check miniUI workflow
+        Sys.setenv(ixplorer_instance = instance()) # variable to check miniUI workflow
 
       } else {
 
@@ -311,7 +311,7 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
           keyring = button_instance
         )
 
-        Sys.setenv(ixplorer_instance=button_instance)
+        Sys.setenv(ixplorer_instance = button_instance)
 
       }
 

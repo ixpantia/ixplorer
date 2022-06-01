@@ -4,7 +4,7 @@
 \alias{fijar_tiempo_credenciales}
 \title{Extienda el tiempo de sus credenciales de git}
 \usage{
-fijar_tiempo_credenciales(pausa = 14000, global = FALSE)
+fijar_tiempo_credenciales(pausa = 14400, global = FALSE)
 }
 \arguments{
 \item{global}{si el cambio debe ser global o local para el repositorio}

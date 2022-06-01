@@ -12,7 +12,7 @@
 #' @importFrom dplyr %>%
 NULL
 
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
+## quiets concerns of R CMD check
 if (getRversion() >= "2.15.1") utils::globalVariables(
   c(".", "assignee.login",
     "number", "title",
@@ -31,5 +31,22 @@ if (getRversion() >= "2.15.1") utils::globalVariables(
     "assignee.last_login",
     "assignee.created",
     "milestone.title",
-    "path_wiki_repo"
+    "path_wiki_repo",
+    "data.owner",
+    "username",
+    "data.name",
+    "data.fork",
+    "data.open_pr_counter",
+    "prs",
+    "assignees",
+    "project",
+    "repository",
+    "pr_number",
+    "pr_title",
+    "pr_assignee",
+    "pr_project",
+    "pr_repo",
+    "owner"
     ))
+
+

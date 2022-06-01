@@ -12,11 +12,6 @@ list_open_tickets(instance = "saved", lag = NULL)
 \item{lag}{is the time in days that you want to look back. For example if
 you want to see the tickets closed in the last 7 days, lag = 7.
 By default it shows all the tickets without any lag..}
-
-\item{owner}{the name of the project where the repository is located in
-ixplorer}
-
-\item{repository}{the name of the repository where the tickets are.}
 }
 \description{
 List of open tickets in the repository

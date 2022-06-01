@@ -17,10 +17,10 @@
 delete_credentials <- function(instance = "current"){
 
  # When the default value is selected
-  if (instance == "current"){
+  if (instance == "current") {
 
     # Check for an active instance in environment
-    if (Sys.getenv("ixplorer_instance") != ""){
+    if (Sys.getenv("ixplorer_instance") != "") {
 
       # Gets the instance from the environment and deletes it
       # and unsets the enviroment variable
@@ -52,7 +52,7 @@ delete_credentials <- function(instance = "current"){
       filter(stringr::str_detect(keyring, specific_instance))
 
     # Check for the instance specified in the saved instances.
-    if (nrow(found_instances) > 0){
+    if (nrow(found_instances) > 0) {
 
       # Deletes the instance specified
       keyring::keyring_delete(found_instances[1,1])
@@ -74,7 +74,7 @@ delete_credentials <- function(instance = "current"){
 #' computadora compartida o en cualquier otro caso en el que no desee mantener
 #' las credenciales almacenadas.
 #'
-#' @param instance una instancia de ixplorer como "masterclass" o "prueba"
+#' @param instancia una instancia de ixplorer como "masterclass" o "prueba"
 #'
 #' @return Elimina las credenciales guardadas por add_token()
 #'
@@ -86,7 +86,7 @@ delete_credentials <- function(instance = "current"){
 #' @export
 eliminar_credenciales <- function(instancia = "actual"){
 
-  if (instancia == "actual"){
+  if (instancia == "actual") {
 
     delete_credentials(instance = "current")
   } else {

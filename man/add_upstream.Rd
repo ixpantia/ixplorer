@@ -8,9 +8,6 @@ add_upstream(instance = "saved")
 }
 \arguments{
 \item{instance}{ixplorer instance (Eg: "secure", "masterclass", "prueba")}
-
-\item{owner}{the name of the project where the repository is located in
-ixplorer}
 }
 \description{
 Add the upstream to the repository that is active in RStudio at

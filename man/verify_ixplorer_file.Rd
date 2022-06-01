@@ -2,7 +2,7 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixplorer_file}
 \alias{verify_ixplorer_file}
-\title{Verificar autentificación del ixplorer.}
+\title{Verificar autentificacion del ixplorer.}
 \usage{
 verify_ixplorer_file()
 }
