@@ -16,9 +16,12 @@ Authors@R:
       person(given = "Daniel",
              family = "Granados Campos",
              role = "ctb",
-             email = "daniel@ixpantia.com"))
-Description: This is the local component of the ixplorer
-    platform from ixpantia.
+             email = "daniel@ixpantia.com"),
+      person(given = "Nayib",
+             family = "Vargas Zuñiga",
+             role = "ctb",
+             email = "nayib@ixpantia.com"))
+Description: Create and view tickets in 'gitea', a self-hosted git service <https://gitea.io>, using an RStudio addin, and use helper functions to publish documentation and use git.
 License: file LICENCE
 Depends: 
     R (>= 3.4)
@@ -53,7 +56,7 @@ Remotes:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 URL: https://github.com/ixpantia/ixplorer
 BugReports: https://github.com/ixpantia/ixplorer/issues
 Config/testthat/edition: 3
