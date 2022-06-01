@@ -48,7 +48,6 @@ Suggests:
     rstudioapi (>= 0.10),
     testthat (>= 3.0.0),
     tidyr (>= 0.8.3),
-    pkgdown (>= 2.0.3)
 VignetteBuilder: 
     knitr
 Remotes: 
