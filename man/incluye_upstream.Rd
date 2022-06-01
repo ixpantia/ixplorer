@@ -9,9 +9,6 @@ incluye_upstream(instancia = "guardada")
 \arguments{
 \item{instancia}{instancia de ixplorer (Ej: "secure", "masterclass", "prueba")}
 }
-\value{
-
-}
 \description{
 Title Agregue el upstream al repositorio que está activo en RStudio.
 }
