@@ -47,69 +47,72 @@ verify_ixplorer_file <- function() {
   return(api_creds)
 }
 
-#' Verifique el ixtoken
+#' @title Verifies ixplorer user
+#' @description Verifies token exists for a repository.
 #'
-#' Verifique si existe el token para su repositorio de ixplorer.
-#'
+#' @param gitear_access parameters to access into an ixplorer instance
+
 verify_ixtoken <- function(gitear_access){
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXTOKEN") &&
         FALSE %in% any(is.na(gitear_access[1,2])))) {
-    print("No hay TOKEN de ixplorer, por favor use el gadget de autentificación")
+    print("No hay TOKEN de ixplorer, por favor use el gadget de autentificacion")
   }
 }
 
-#' Verifique  ixurl
+#' @title Verifies ixplorer url
+#' @description Verifies if the url exists in the repository
 #'
-#' Verifique si existe el URL para su repositorio de ixplorer.
-#'
+#' @param gitear_access parameters to access into an ixplorer instance
+
 verify_ixurl <- function(gitear_access){
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXURL") &&
         FALSE %in% any(is.na(gitear_access[2,2])))) {
-    print("No hay URL de ixplorer, por favor use el gadget de autentificación")
+    print("No hay URL de ixplorer, por favor use el gadget de autentificacion")
   }
 }
 
-## IXPROJECT ----
-#' Verifique  ixproject
+#' @title Verifies ixplorer project
+#' @description Verifies if the project's name exists in the repository.
 #'
-#' Verifique si existe el nombre del proyecto donde pertenece el repositorio.
-#'
+#' @param gitear_access parameters to access into an ixplorer instance
+
 verify_ixproject <- function(gitear_access){
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXPROJECT") &&
         FALSE %in% any(is.na(gitear_access[3,2])))) {
-    print("No hay NOMBRE del proyecto, por favor use el gadget de autentificación")
+    print("No hay NOMBRE del proyecto, por favor use el gadget de autentificacion")
   }
 }
 
-## IXREPO ----
-#' Verifique ixrepo
+#' @title Verifies ixplorer repo
+#' @description Verifies if ixplorer repository's name exists.
 #'
-#' Verifique si existe el nombre del repositorio de ixplorer.
-#'
+#' @param gitear_access parameters to access into an ixplorer instance
+
 verify_ixrepo <- function(gitear_access){
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXREPO") &&
         FALSE %in% any(is.na(gitear_access[4,2])))) {
-    print("No hay repositorio ixplorer, por favor use el gadget de autentificación")
+    print("No hay repositorio ixplorer, por favor use el gadget de autentificacion")
   }
 }
 
-## IXUSER ----
-#' Verifique  ixuser
+#' @title Verifies ixplorer user
+#' @description Verifies if user name exists.
 #'
-#' Verifique si hay nombre de usuario.
-#'
+#' @param gitear_access parameters to access into an ixplorer instance
+
 verify_ixuser <- function(gitear_access) {
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXUSER") &&
         FALSE %in% any(is.na(gitear_access[5,2])))) {
-    print("No hay usuario ixplorer, por favor use el gadget de autentificación")
+    print("No hay usuario ixplorer, por favor use el gadget de autentificacion")
   }
 }
 
-#' Verifique cada uno de los pasos
+#' @title Set authentication
+#' @description Set the authentification into ixplorer
 #'
-#' Verifique cada uno de los elementos necesarios para acceder a su repositorio
-#' desde el gadget.
-#'
+#' @param access_data Data needed to get into ixplorer
+#' @export
+
 set_authentication <- function(access_data) {
   ixurl <- verify_ixurl(access_data)
   ixtoken <- verify_ixtoken(access_data)
