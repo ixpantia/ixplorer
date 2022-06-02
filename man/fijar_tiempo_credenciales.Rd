@@ -7,9 +7,9 @@
 fijar_tiempo_credenciales(pausa = 14400, global = FALSE)
 }
 \arguments{
-\item{global}{si el cambio debe ser global o local para el repositorio}
+\item{pausa}{número de segundos antes del tiempo de espera}
 
-\item{detencion}{número de segundos antes del tiempo de espera}
+\item{global}{si el cambio debe ser global o local para el repositorio}
 }
 \description{
 Esta es una función traducida que llama a set_git_timeout.

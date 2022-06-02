@@ -2,11 +2,13 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{set_authentication}
 \alias{set_authentication}
-\title{Verifique cada uno de los pasos}
+\title{Set authentication}
 \usage{
 set_authentication(access_data)
 }
+\arguments{
+\item{access_data}{Data needed to get into ixplorer}
+}
 \description{
-Verifique cada uno de los elementos necesarios para acceder a su repositorio
-desde el gadget.
+Set the authentification into ixplorer
 }
