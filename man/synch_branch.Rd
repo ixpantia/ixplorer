@@ -6,6 +6,10 @@
 \usage{
 synch_branch(default_branch_name = "master")
 }
+\arguments{
+\item{default_branch_name}{defines a default branch name to be able to
+synchronize it}
+}
 \description{
 Runs steps to synch your master branch to upstream
 automatically

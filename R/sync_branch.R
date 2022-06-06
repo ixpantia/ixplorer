@@ -3,6 +3,9 @@
 #' @description Runs steps to synch your master branch to upstream
 #' automatically
 #'
+#' @param default_branch_name defines a default branch name to be able to
+#' synchronize it
+#'
 #' @export
 synch_branch <- function(default_branch_name = "master") {
 

@@ -16,12 +16,12 @@ publica_wiki(
 
 \item{ruta_repo_wiki}{la ruta completa al repositorio wiki.}
 
-\item{silenciar_bitacora}{Si desea ver la bitacora de renderización
-establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE}
-
-\item{automatic_update}{Si desea hacer automáticamente el pull, commit y push
+\item{auto_actualizar}{Si desea hacer automáticamente el pull, commit y push
 establecido en TRUE, si desea hacerlo manualmente, establezca FALSE. El
 valor predeterminado es TRUE.}
+
+\item{silenciar_bitacora}{Si desea ver la bitacora de renderización
+establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE}
 }
 \value{
 Publica un md en un repositorio wiki.

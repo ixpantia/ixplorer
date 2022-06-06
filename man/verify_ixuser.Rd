@@ -2,10 +2,13 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixuser}
 \alias{verify_ixuser}
-\title{Verifique  ixuser}
+\title{Verifies ixplorer user}
 \usage{
 verify_ixuser(gitear_access)
 }
+\arguments{
+\item{gitear_access}{parameters to access into an ixplorer instance}
+}
 \description{
-Verifique si hay nombre de usuario.
+Verifies if user name exists.
 }
