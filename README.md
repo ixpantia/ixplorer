@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ixplorer <a href="url"><img src="https://storage.googleapis.com/ixplorer/ixplorer_logo.png" align="right" width="30%"></a>
+# ixplorer <a><img src="https://storage.googleapis.com/ixplorer/ixplorer_logo.png" align="right" width="30%"></a>
 
 <!-- badges: start -->
 
@@ -15,9 +15,9 @@ status](https://www.r-pkg.org/badges/version/ixplorer)](https://cran.r-project.o
 
 El paquete ixplorer trae la funcionalidad de ixplorer mas cerca tuyo.
 Tiene el propósito de permitir trabajar más agilmente con su equipo de
-datos desde Rstudio y más importante aún, hacer sin tener que deterner
+datos desde RStudio y más importante aún, hacerlo sin tener que deterner
 su flujo de trabajo. Esto se logra con ventanas interactivas de dentro
-de Rstudio, funciones para extraer información útil de día a día en
+de RStudio, funciones para extraer información útil de día a día en
 ixplorer y funciones para facilitar también el trabajo con control de
 versiones de git.
 
@@ -40,9 +40,9 @@ devtools::install_github("ixpantia/ixplorer")
 
 The ixplorer package brings the functionality of ixplorer closer to you.
 It is intended to allow you to work quicker with your data team from
-within Rstudio and more importantly, to do it without having to stop
-your workflow. This is achieved with interactive windows from within
-Rstudio, functions to extract useful day-to-day information from
+within RStudio and more importantly, to do it without having to stop
+your workflow. This is achieved with interactive gadgets from within
+RStudio, functions to extract useful day-to-day information from
 ixplorer, and functions to make it easier to work with git version
 control as well.
 
