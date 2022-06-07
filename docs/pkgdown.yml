@@ -1,5 +1,5 @@
-pandoc: 2.11.4
-pkgdown: 2.0.1
+pandoc: '2.18'
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   credenciales: credenciales.html
@@ -10,5 +10,5 @@ articles:
   ixplorer_basics: ixplorer_basics.html
   ixplorer_en: ixplorer_en.html
   ixplorer_generalidades: ixplorer_generalidades.html
-last_built: 2022-01-28T22:08Z
+last_built: 2022-06-07T00:35Z
 

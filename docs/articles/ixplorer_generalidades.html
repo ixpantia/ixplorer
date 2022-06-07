@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ixplorer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -46,23 +46,23 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/credenciales.html">ixplorer gestión credenciales</a>
+      <a href="../articles/credenciales.html">Gestión credenciales</a>
     </li>
     <li>
-      <a href="../articles/credentials.html">credentials</a>
+      <a href="../articles/credentials.html">Credential managment</a>
     </li>
     <li>
-      <a href="../articles/diccionario.html">ixplorer: diccionario de términos</a>
+      <a href="../articles/diccionario.html">Diccionario de términos</a>
     </li>
     <li>
-      <a href="../articles/dictionary.html">ixplorer terms dictionary</a>
+      <a href="../articles/dictionary.html">Diccionary of terms</a>
     </li>
     <li>
       <a href="../articles/ixplorer_basics.html">ixplorer basics</a>
@@ -106,20 +106,37 @@
 
     
     
-<p>Esta viñeta tiene el propósito de mostrarle una descripción general rápida del flujo de trabajo con el paquete ixplorer.</p>
+<p>Esta viñeta tiene el propósito de mostrarle una descripción general
+rápida del flujo de trabajo con el paquete ixplorer.</p>
 <div class="section level3">
 <h3 id="descripción-general">Descripción general<a class="anchor" aria-label="anchor" href="#descripci%C3%B3n-general"></a>
 </h3>
-<p>El objetivo de este paquete es permitirle acceder a la información desde el servicio ixplorer de forma rápida ysencilla desde RStudio. Esto significa que puede ver los tiquetes asignados a usted o a su equipo mientras escribe código, así como todos los tiquetes de tu repositorio y sus solicitudes de fusión abiertas.</p>
-<p>Además, le permite realizar rápidamente algunas funciones diarias relacionadas con el control de versiones de git, como actualizar la rama maestra de su bifurcación, establecer un período de tiempo para mantener sus credenciales en un servidor remoto y publicar un wiki más fácilmente.</p>
+<p>El objetivo de este paquete es permitirle acceder a la información
+desde el servicio ixplorer de forma rápida y sencilla desde RStudio.
+Esto significa que puede ver los tiquetes asignados a usted o a su
+equipo mientras escribe código, así como todos los tiquetes de su
+repositorio y sus solicitudes de fusión abiertas.</p>
+<p>Además, le permite realizar rápidamente algunas funciones diarias
+relacionadas con el control de versiones de git, como actualizar la rama
+maestra de su bifurcación, establecer un período de tiempo para mantener
+sus credenciales en un servidor remoto y publicar un wiki más
+fácilmente.</p>
 </div>
 <div class="section level3">
 <h3 id="cómo-se-utiliza-ixplorer">¿Cómo se utiliza ixplorer?<a class="anchor" aria-label="anchor" href="#c%C3%B3mo-se-utiliza-ixplorer"></a>
 </h3>
 <p><img src="img/ixplorer_pasos.png" style="width:90.0%"></p>
-<p>El primer paso es obtener las credenciales de ixplorer, luego utiliza la función de autenticación para identificarse, con este paso está dando la información necesaria para que el paquete ixplorer pueda obtener sus tiquetes.</p>
-<p>Si no es la primera vez que usa ixplorer, use la pestaña ixplorando en el dispositivo de autenticación para moverse entre sus instancias guardadas y repositorios.</p>
-<p>Una vez que haya terminado, puede eliminar sus credenciales si es necesario usando <strong>delete_credentials()</strong>. Esto se recomienda especialmente cuando se utiliza una computadora compartida.</p>
+<p>El primer paso es obtener las credenciales de ixplorer, luego utiliza
+la función de autenticación para identificarse, con este paso está dando
+la información necesaria para que el paquete ixplorer pueda obtener sus
+tiquetes.</p>
+<p>Si no es la primera vez que usa ixplorer, use la pestaña ixplorando
+en el dispositivo de autenticación para moverse entre sus instancias
+guardadas y repositorios.</p>
+<p>Una vez que haya terminado, puede eliminar sus credenciales si es
+necesario usando <strong>delete_credentials()</strong>. Esto se
+recomienda especialmente cuando se utiliza una computadora
+compartida.</p>
 </div>
 <div class="section level3">
 <h3 id="funciones-de-ixplorer">Funciones de ixplorer<a class="anchor" aria-label="anchor" href="#funciones-de-ixplorer"></a>
@@ -127,23 +144,32 @@
 <p>En general, podrás:</p>
 <ul>
 <li>crear un ticket con crear_tiquete()</li>
-<li>mirar los tiquetes que te han asignado con tiquetes_actuales()</li>
-<li>obtener un tibble con los boletos abiertos y cerrados de un repo con listar_tiquetes_abiertos() y listar_tiquetes_cerrados().</li>
-<li>obtener un tibble con sus solicitudes de fusión abiertas con list_open_pr().</li>
-<li>actualizar automáticamente tu rama maestra desde tu upstream con actualizar_rama().</li>
-<li>establecer un tiempo de espera para sus credenciales de git cuando esté trabajando en un servidor remoto con fijar_tiempo_git().</li>
-<li>publicar fácilmente la wiki de su repositorio con publica_wiki().</li>
+<li>mirar los tiquetes que te han asignado con tiquetes_actuales()
+obtener un tibble con los tiquetes abiertos y cerrados de un repo con
+listar_tiquetes_abiertos() y listar_tiquetes_cerrados().</li>
+<li>obtener un tibble con sus solicitudes de fusión abiertas con
+list_open_pr(). actualizar automáticamente tu rama maestra desde tu
+upstream con actualizar_rama(). establecer un tiempo de espera para sus
+credenciales de git cuando esté trabajando en un servidor remoto con
+fijar_tiempo_git().</li>
+<li>publicar fácilmente la wiki de su repositorio con
+publica_wiki().</li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="viñetas">Viñetas<a class="anchor" aria-label="anchor" href="#vi%C3%B1etas"></a>
 </h3>
-<p>Visite las viñetas adicionales para obtener más información sobre cómo usar este paquete.</p>
+<p>Visite las viñetas adicionales para obtener más información sobre
+cómo usar este paquete.</p>
 <ul>
-<li>La viñeta <strong>ixplorer</strong> brinda más información sobre el propósito y funciones de este paquete.</li>
-<li>La viñeta de <strong>credenciales</strong> describe el proceso paso a paso para obtener sus credenciales de ixplorer.</li>
+<li>La viñeta <strong>ixplorer</strong> brinda más información sobre el
+propósito y funciones de este paquete.</li>
+<li>La viñeta de <strong>credenciales</strong> describe el proceso paso
+a paso para obtener sus credenciales de ixplorer.</li>
 <li>
-<strong>diccionario</strong> presenta términos comunes que se usan cuando se habla de control de versiones de git, como repositorio, proyecto, tiquete y solicitud de fusión.</li>
+<strong>diccionario</strong> presenta términos comunes que se usan
+cuando se habla de control de versiones de git, como repositorio,
+proyecto, tiquete y solicitud de fusión.</li>
 </ul>
 </div>
   </div>
@@ -163,7 +189,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
