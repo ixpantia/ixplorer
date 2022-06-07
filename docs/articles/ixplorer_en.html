@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ixplorer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -46,23 +46,23 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/credenciales.html">ixplorer gestión credenciales</a>
+      <a href="../articles/credenciales.html">Gestión credenciales</a>
     </li>
     <li>
-      <a href="../articles/credentials.html">credentials</a>
+      <a href="../articles/credentials.html">Credential managment</a>
     </li>
     <li>
-      <a href="../articles/diccionario.html">ixplorer: diccionario de términos</a>
+      <a href="../articles/diccionario.html">Diccionario de términos</a>
     </li>
     <li>
-      <a href="../articles/dictionary.html">ixplorer terms dictionary</a>
+      <a href="../articles/dictionary.html">Diccionary of terms</a>
     </li>
     <li>
       <a href="../articles/ixplorer_basics.html">ixplorer basics</a>
@@ -99,7 +99,7 @@
       <h1 data-toc-skip>ixplorer: Friendly DataOps with RStudio</h1>
                         <h4 data-toc-skip class="author">ixpantia</h4>
             
-            <h4 data-toc-skip class="date">2022-01-28</h4>
+            <h4 data-toc-skip class="date">2022-06-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ixpantia/ixplorer/blob/HEAD/vignettes/ixplorer_en.Rmd" class="external-link"><code>vignettes/ixplorer_en.Rmd</code></a></small>
       <div class="hidden name"><code>ixplorer_en.Rmd</code></div>
@@ -108,18 +108,32 @@
 
     
     
-<p>This vignette has the purpose of showing how to work with ixplorer in more in-depth manner.</p>
+<p>This vignette has the purpose of showing how to work with ixplorer in
+more in-depth manner.</p>
 <div class="section level2">
 <h2 id="about-this-package">About this package<a class="anchor" aria-label="anchor" href="#about-this-package"></a>
 </h2>
-<p>In a developers workflow we are often in contact with an internet git service. There we keep our code in repos but, most importantly, we communicate with our team and build collaborations in an organized and effective way. However, we also spend a lot of time in an IDE such as RStudio. This raises the need for a channel that allows us to communicate with our team without having to leave our working space.</p>
-<p>The ixplorer package aims to improve communication in this way by been a channel where we collaborate with our team in the git service but without stoping our coding.</p>
-<p><a href="https://gitea.io/en-us/" class="external-link">Gitea</a> is an open-source software package for hosting software development version control using Git. This package uses shiny gadgets and the <a href="https://github.com/ixpantia/gitear" class="external-link">gitear</a> package. Together, these allow taking a quick look at your tickets in your gitea instance and even create one easily while you are coding.</p>
+<p>In a developers workflow we are often in contact with an internet git
+service. There we keep our code in repos but, most importantly, we
+communicate with our team and build collaborations in an organized and
+effective way. However, we also spend a lot of time in an IDE such as
+RStudio. This raises the need for a channel that allows us to
+communicate with our team without having to leave our working space.</p>
+<p>The ixplorer package aims to improve communication in this way by
+been a channel where we collaborate with our team in the git service but
+without stoping our coding.</p>
+<p><a href="https://gitea.io/en-us/" class="external-link">Gitea</a> is an open-source
+software package for hosting software development version control using
+Git. This package uses shiny gadgets and the <a href="https://github.com/ixpantia/gitear" class="external-link">gitear</a> package. Together,
+these allow taking a quick look at your tickets in your gitea instance
+and even create one easily while you are coding.</p>
 </div>
 <div class="section level2">
 <h2 id="ixplorer-gadgets">ixplorer gadgets<a class="anchor" aria-label="anchor" href="#ixplorer-gadgets"></a>
 </h2>
-<p>ixplorer gadgets are a way to create and review tickets for your project without having to exit RStudio and more importantly: without having to interrupt your workflow.</p>
+<p>ixplorer gadgets are a way to create and review tickets for your
+project without having to exit RStudio and more importantly: without
+having to interrupt your workflow.</p>
 <div class="section level3">
 <h3 id="how-to-use-the-ixplorer-gadgets">How to use the ixplorer gadgets?<a class="anchor" aria-label="anchor" href="#how-to-use-the-ixplorer-gadgets"></a>
 </h3>
@@ -127,7 +141,8 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ixpantia/ixplorer"</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ixpantia/ixplorer" class="external-link">ixplorer</a></span><span class="op">)</span></code></pre></div>
-<p>When we are ready with the installation we can see three options in the <em>Addins</em> menu under the IXPLORER header</p>
+<p>When we are ready with the installation we can see three options in
+the <em>Addins</em> menu under the IXPLORER header</p>
 <ul>
 <li>Authentication</li>
 <li>Create tickets</li>
@@ -137,62 +152,137 @@
 <div class="section level4">
 <h4 id="authentication-gadget">Authentication gadget<a class="anchor" aria-label="anchor" href="#authentication-gadget"></a>
 </h4>
-<p>This is the first step to be able to generate tickets or review them within your repository for a given project. You will need an API token (which will be provided by your project management). This gadget can be also accessed by running add_token() alone.</p>
+<p>This is the first step to be able to generate tickets or review them
+within your repository for a given project. You will need an API token
+(which will be provided by your project management). This gadget can be
+also accessed by running add_token() alone.</p>
 <div class="section level5">
 <h5 id="the-sign-in-tab">The sign-in tab<a class="anchor" aria-label="anchor" href="#the-sign-in-tab"></a>
 </h5>
-<p>The authentication gadget has two tabs, the first is the sign in tab, where you will save you credentials for the first time. It looks like this:</p>
+<p>The authentication gadget has two tabs, the first is the sign in tab,
+where you will save you credentials for the first time. It looks like
+this:</p>
 <p><img src="img/credential_5.png"></p>
-<p>In the <strong>ixplorer URL</strong> segment you need to make sure to include the internet address of your ixplorer repository. should be similar to <code>https://ixplorer_name.ixpantia.com</code></p>
-<p>Next you will need to enter your <strong>access token</strong>, which you will get from you ixplorer enviroment or your git self hosted service. Similarly the <strong>username</strong> is the same you use to enter your ixplorer enviroment. If you need more information on how to get your credentials, there is a “credentials” vignettes that further addresses this question.</p>
-<p>The next step is to fill in the name of the <strong>upstream project</strong>. This is the project where the source version of your repository resides. From this source, you and other team members will have forked and cloned the repository to generate changes and propose them as merge requests. in the flow of job, all tickets are handled centrally in the project <strong>upstream</strong>. Any ticket that is generated on your personal fork, does not will be displayed through the ixplorer gadget (and in general we do not recommend work with personal tickets)</p>
-<p>In the <strong>ixplorer repository name</strong> segment please type the name of the specific repository on which you want to work in the active session of the RStudio project.</p>
-<p>Additionally, the authentication gadget has an optional space for to choose your preferred <strong>language</strong>. Later gadgets will be displayed always in the language of your choice.</p>
+<p>In the <strong>ixplorer URL</strong> segment you need to make sure to
+include the internet address of your ixplorer repository. should be
+similar to <code>https://ixplorer_name.ixpantia.com</code></p>
+<p>Next you will need to enter your <strong>access token</strong>, which
+you will get from you ixplorer enviroment or your git self hosted
+service. Similarly the <strong>username</strong> is the same you use to
+enter your ixplorer enviroment. If you need more information on how to
+get your credentials, there is a “credentials” vignettes that further
+addresses this question.</p>
+<p>The next step is to fill in the name of the <strong>upstream
+project</strong>. This is the project where the source version of your
+repository resides. From this source, you and other team members will
+have forked and cloned the repository to generate changes and propose
+them as merge requests. in the flow of job, all tickets are handled
+centrally in the project <strong>upstream</strong>. Any ticket that is
+generated on your personal fork, does not will be displayed through the
+ixplorer gadget (and in general we do not recommend work with personal
+tickets)</p>
+<p>In the <strong>ixplorer repository name</strong> segment please type
+the name of the specific repository on which you want to work in the
+active session of the RStudio project.</p>
+<p>Additionally, the authentication gadget has an optional space for to
+choose your preferred <strong>language</strong>. Later gadgets will be
+displayed always in the language of your choice.</p>
 <div class="section level6">
 <h6 id="passwords">Passwords<a class="anchor" aria-label="anchor" href="#passwords"></a>
 </h6>
-<p>Once the “done” button is pressed on the top right part of the gadget, you may be prompted to set a password. This password may be required the next time you start a new session and want to get information about this specific instance, for example your open tickets. Therefore it is important to store this password in a safe place, preferably an appropriate password manager. The password promt will look like this:</p>
+<p>Once the “done” button is pressed on the top right part of the
+gadget, you may be prompted to set a password. This password may be
+required the next time you start a new session and want to get
+information about this specific instance, for example your open tickets.
+Therefore it is important to store this password in a safe place,
+preferably an appropriate password manager. The password promt will look
+like this:</p>
 <p><img src="img/password_promt.png"></p>
-<p>Next time you start a new session and use a function the ixplorer package a similar window will be displayed. This time, however, you will need to enter the password you previously established during the authentication and not a new password. Your passwords are stored safely using the keyring package.</p>
+<p>Next time you start a new session and use a function the ixplorer
+package a similar window will be displayed. This time, however, you will
+need to enter the password you previously established during the
+authentication and not a new password. Your passwords are stored safely
+using the keyring package.</p>
 </div>
 </div>
 <div class="section level5">
 <h5 id="the-ixploring-tab">The ixploring tab<a class="anchor" aria-label="anchor" href="#the-ixploring-tab"></a>
 </h5>
-<p>If you have previously saved your credentials for any instance you can go directly to the “ixploring” tab inthe gadget. Here you will be given the option to choose the instance in which you want to work, then the option to choose between the projects of that instance and finally the repositories.</p>
+<p>If you have previously saved your credentials for any instance you
+can go directly to the “ixploring” tab inthe gadget. Here you will be
+given the option to choose the instance in which you want to work, then
+the option to choose between the projects of that instance and finally
+the repositories.</p>
 <p><img src="img/credential_6.png"></p>
-<p>Be careful in this step if you are working on the computer of someone else, since your authentication data will be stored in that computer. So if you are going to work on someone else’s computer or on a shared computer, it is best to use the function delete_credentials() at the end of your working session to delete your computer credentials completely.</p>
+<p>Be careful in this step if you are working on the computer of someone
+else, since your authentication data will be stored in that computer. So
+if you are going to work on someone else’s computer or on a shared
+computer, it is best to use the function delete_credentials() at the end
+of your working session to delete your computer credentials
+completely.</p>
 </div>
 </div>
 <div class="section level4">
 <h4 id="create-tickets-gadget">Create tickets gadget<a class="anchor" aria-label="anchor" href="#create-tickets-gadget"></a>
 </h4>
-<p>At this point you should have completed the authentication process. Yes this is correct you will be able to create a ticket without having to exit RStudio!</p>
-<p>If everything is correct, you will see the <strong>ticket title</strong> section and <strong>Description</strong>. If not, you will see a warning text mentioning what it is missing. This gadget works on the last instance that you have saved in the authentication gadget. A message such as “you are currently on test instance” appears on your console so you can make sure you are creating the ticket in the proper repository. this window will appear in the language you have saved in the authentication gadget</p>
+<p>At this point you should have completed the authentication process.
+Yes this is correct you will be able to create a ticket without having
+to exit RStudio!</p>
+<p>If everything is correct, you will see the <strong>ticket
+title</strong> section and <strong>Description</strong>. If not, you
+will see a warning text mentioning what it is missing. This gadget works
+on the last instance that you have saved in the authentication gadget. A
+message such as “you are currently on test instance” appears on your
+console so you can make sure you are creating the ticket in the proper
+repository. this window will appear in the language you have saved in
+the authentication gadget</p>
 <p><img src="img/create_ticket_gadget.png"></p>
 </div>
 <div class="section level4">
 <h4 id="current-tickets">Current tickets<a class="anchor" aria-label="anchor" href="#current-tickets"></a>
 </h4>
-<p>This gadget is designed to give you a quick glance at active tickets and their status. You will also find links that will take you to the ixplorer if you want to review details such as comments or make changes to tickets such as assignment deadlines.</p>
+<p>This gadget is designed to give you a quick glance at active tickets
+and their status. You will also find links that will take you to the
+ixplorer if you want to review details such as comments or make changes
+to tickets such as assignment deadlines.</p>
 <div class="section level6">
 <h6 id="my-tickets-tab">My tickets tab<a class="anchor" aria-label="anchor" href="#my-tickets-tab"></a>
 </h6>
-<p>In the first tab <strong>My tickets</strong> you can find the tickets assigned to you with the identification number that is also a link to the ticket in the ixplorer environment. You will also see the column with the number of days remaining (in green color) or days past the deadline (in red color).</p>
-<p>This window works on the last instance you have saved in the authentication gadget. A message such as “you are currently on the test instance” will be printed to your console to help make sure you are seeing tickets from the correct instance. To change the instance you can use the “ixploring” tab of the authentication gadget. This window will appear in the language that you have previously selected.</p>
+<p>In the first tab <strong>My tickets</strong> you can find the tickets
+assigned to you with the identification number that is also a link to
+the ticket in the ixplorer environment. You will also see the column
+with the number of days remaining (in green color) or days past the
+deadline (in red color).</p>
+<p>This window works on the last instance you have saved in the
+authentication gadget. A message such as “you are currently on the test
+instance” will be printed to your console to help make sure you are
+seeing tickets from the correct instance. To change the instance you can
+use the “ixploring” tab of the authentication gadget. This window will
+appear in the language that you have previously selected.</p>
 <p><img src="img/my_tickets.png"></p>
 </div>
 <div class="section level6">
 <h6 id="team-tickets-tab">Team tickets tab<a class="anchor" aria-label="anchor" href="#team-tickets-tab"></a>
 </h6>
-<p>In the second tab <strong>Team ticket</strong> you can review all tickets open files related to the current project and assigned to all members of the team minus you. The identification number is a link to the information of the ticket in the ixplorer environment and the “deadline” column is how many days are left (in green) or how many days have been exceeded (in red) with regarding the deadline. Note that this gadget just shows you the tickets that have an assignee, otherwise, the tickets do not show here.</p>
+<p>In the second tab <strong>Team ticket</strong> you can review all
+tickets open files related to the current project and assigned to all
+members of the team minus you. The identification number is a link to
+the information of the ticket in the ixplorer environment and the
+“deadline” column is how many days are left (in green) or how many days
+have been exceeded (in red) with regarding the deadline. Note that this
+gadget just shows you the tickets that have an assignee, otherwise, the
+tickets do not show here.</p>
 <p><img src="img/team_tickets.png"></p>
 </div>
 <div class="section level6">
 <h6 id="quick-links-tab">Quick links tab<a class="anchor" aria-label="anchor" href="#quick-links-tab"></a>
 </h6>
-<p>Finally the <strong>Quick Links</strong> tab has the links to the components main files of the project repository, so you don’t have to write much in your web browser to find a specific address.</p>
-<p>These links will allow you to more quickly find details specific to your project repository such as closed tickets, milestones, the wiki or the project site where other relevant repositories are located.</p>
+<p>Finally the <strong>Quick Links</strong> tab has the links to the
+components main files of the project repository, so you don’t have to
+write much in your web browser to find a specific address.</p>
+<p>These links will allow you to more quickly find details specific to
+your project repository such as closed tickets, milestones, the wiki or
+the project site where other relevant repositories are located.</p>
 <p><img src="img/quick_links.png"></p>
 </div>
 </div>
@@ -201,26 +291,66 @@
 <div class="section level2">
 <h2 id="other-usefull-functions">Other usefull functions<a class="anchor" aria-label="anchor" href="#other-usefull-functions"></a>
 </h2>
-<p>Apart from the gadgets, ixplorer offers the following functions to obtain information.</p>
+<p>Apart from the gadgets, ixplorer offers the following functions to
+obtain information.</p>
 <div class="section level3">
 <h3 id="your-tickets-in-tibbles">Your tickets in tibbles<a class="anchor" aria-label="anchor" href="#your-tickets-in-tibbles"></a>
 </h3>
 <ul>
-<li><p><strong>list_open_tickets()</strong>: Returns a tibble with its open tickets. This tibble has the ticket number, the ticket title and the milestone it belongs to. It uses, by default, the last instance you saved in the authentication gadget. However, you can specify the desired instance using the “instance” variable within the function. You can also specify the number of days backwards from where you want to get the tickets.</p></li>
-<li><p><strong>list_closed_tickets()</strong>: Returns a tibble with the closed tickets of a repo. This tibble has the ticket number, the ticket title and the milestone it belongs to. It uses, by default, the last instance you saved in the authentication gadget. However, you can specify the desired instance using the “instance” variable within the function. You can also specify the number of days backwards from where you want to get the tickets.</p></li>
-<li><p><strong>list_open_pr()</strong>: Returns a tibble with your open pull requests. By default this function searches in all your saved ixplorer instances for pull requests assigned to you. However, both the instance and the assigned person can be specified.</p></li>
+<li><p><strong>list_open_tickets()</strong>: Returns a tibble with its
+open tickets. This tibble has the ticket number, the ticket title and
+the milestone it belongs to. It uses, by default, the last instance you
+saved in the authentication gadget. However, you can specify the desired
+instance using the “instance” variable within the function. You can also
+specify the number of days backwards from where you want to get the
+tickets.</p></li>
+<li><p><strong>list_closed_tickets()</strong>: Returns a tibble with the
+closed tickets of a repo. This tibble has the ticket number, the ticket
+title and the milestone it belongs to. It uses, by default, the last
+instance you saved in the authentication gadget. However, you can
+specify the desired instance using the “instance” variable within the
+function. You can also specify the number of days backwards from where
+you want to get the tickets.</p></li>
+<li><p><strong>list_open_pr()</strong>: Returns a tibble with your open
+pull requests. By default this function searches in all your saved
+ixplorer instances for pull requests assigned to you. However, both the
+instance and the assigned person can be specified.</p></li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="making-version-control-easier">Making version control easier<a class="anchor" aria-label="anchor" href="#making-version-control-easier"></a>
 </h3>
-<p>During git version control, we often perform certain tasks that require repetitive commands. The following functions are intended to convert this in one step.</p>
+<p>During git version control, we often perform certain tasks that
+require repetitive commands. The following functions are intended to
+convert this in one step.</p>
 <ul>
-<li><p><strong>synch_branch()</strong>: Allows you to update your master branch from your upstream automatically by a rebase. It does the steps we usually use, fetch upstream, checkout master, rebase upstream/master, and push.</p></li>
-<li><p><strong>add_upstream()</strong>: Allows you to include your upstream directly from your active repository in Rstudio. By default it takes the information from the last instance saved.</p></li>
-<li><p><strong>set_git_timeout()</strong>: Allows you to specify the time you want to save your git credentials on your remote server. The default is 4 hours. The function takes its time in seconds.</p></li>
-<li><p><strong>publish_wiki()</strong>: Allows you to publish a wiki in your repo from an Rmarkdown.</p></li>
+<li><p><strong>synch_branch()</strong>: Allows you to update your master
+branch from your upstream automatically by a rebase. It does the steps
+we usually use, fetch upstream, checkout master, rebase upstream/master,
+and push.</p></li>
+<li><p><strong>add_upstream()</strong>: Allows you to include your
+upstream directly from your active repository in Rstudio. By default it
+takes the information from the last instance saved.</p></li>
+<li><p><strong>set_git_timeout()</strong>: Allows you to specify the
+time you want to save your git credentials on your remote server. The
+default is 4 hours. The function takes its time in seconds.</p></li>
 </ul>
+<div class="section level4">
+<h4 id="publishing-on-wiki">Publishing on wiki<a class="anchor" aria-label="anchor" href="#publishing-on-wiki"></a>
+</h4>
+<ul>
+<li>
+<strong>publish_wiki()</strong>: Allows you to publish a wiki in
+your repo from an Rmarkdown. Wikis are especially important when you
+want to easily document what happens in the repository. To publish a
+wiki with publish_wiki(), the first step is to create the first page
+manually. This is accomplished in the “wiki” tab in the repository. The
+next step is to clone the wiki repository. This url to clone the wiki is
+different from the one we use to clone the repository where we find our
+code. Once we clone this repository we can use publish_wiki().</li>
+</ul>
+<p><img src="img/clone_wiki.png"></p>
+</div>
 </div>
 </div>
   </div>
@@ -242,7 +372,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
