@@ -1,5 +1,5 @@
 Package: ixplorer
-Title: Easy DataOps For R Users
+Title: Easy DataOps for R Users
 Version: 0.2.2
 Authors@R:
     c(person(given = "ixpantia, SRL",
@@ -38,7 +38,8 @@ Imports:
     shinyWidgets (>= 0.2.1),
     purrr (>= 0.3.4),
     gert (>= 1.5.0),
-    keyring (>= 1.3.0)
+    keyring (>= 1.3.0),
+    methods
 Suggests: 
     knitr (>= 1.23),
     git2r (>= 0.30.1),
@@ -51,8 +52,6 @@ Suggests:
     tidyr (>= 0.8.3),
 VignetteBuilder: 
     knitr
-Remotes: 
-    ixpantia/gitear
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0

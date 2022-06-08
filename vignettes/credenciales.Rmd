@@ -51,7 +51,7 @@ ixplorer en internet y copiar el url.
 
 Como ejemplo, la credencial url del ixplorer de la imagen abajo mostrada sería:
 
- - https:://prueba.ixpantia.com
+ - https://prueba.ixpantia.com
  
 ![](img/credential_url.png)
 
