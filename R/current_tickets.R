@@ -138,7 +138,7 @@ if (instance == "saved") {
 
 
     output$my_tickets <- function() {
-      if (class(tickets) != "data.frame") {
+      if (is(tickets)[1] != "data.frame") {
         tickets_kable <- "Invalid credentials. Please use the authentication gadget."
       } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets were found in the repository."
@@ -179,7 +179,7 @@ if (instance == "saved") {
     }
 
     output$team_tickets <- function() {
-      if (class(tickets) != "data.frame") {
+      if (is(tickets)[1] != "data.frame") {
         tickets_kable <- "Invalid credentials. Please use the authentication gadget."
       } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets were found in the repository."
@@ -226,7 +226,7 @@ if (instance == "saved") {
     }
 
     output$quick_links <- function()  {
-      if (class(tickets) != "data.frame") {
+      if (is(tickets)[1] != "data.frame") {
         quick_links <- "Invalid credentials. Please use the authentication gadget."
       } else {
         # Get closed tickets link
