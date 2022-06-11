@@ -1,7 +1,8 @@
 #' @title List open tickets
 #' @description List of open tickets in the repository
 #'
-#' @param instance instance from ixplorer (E.g. "secure", "masterclass", "prueba")
+#' @param instance instance from ixplorer (E.g. "secure", "masterclass",
+#'        "prueba")
 #' @param lag is the time in days that you want to look back. For example if
 #'you want to see the tickets closed in the last 7 days, lag = 7.
 #'By default it shows all the tickets without any lag..
@@ -25,7 +26,7 @@ list_open_tickets <- function(instance = "saved", lag = NULL) {
 
     saved_instances <- keyring::keyring_list() %>%
       select(keyring) %>%
-      filter(keyring == paste0("ixplorer_",instance))
+      filter(keyring == paste0("ixplorer_", instance))
 
     if (nrow(saved_instances) > 0) {
 
@@ -35,13 +36,12 @@ list_open_tickets <- function(instance = "saved", lag = NULL) {
 
       stop("No credentials for ", instance)
     }
-
   }
 
   # Keyring llavero ------------------------------------------------------------
 
   raw_tickets_data <- gitear::get_issues_open_state(
-    base_url = keyring::key_get("ixplorer_url", keyring = instance), ## Needs instance
+    base_url = keyring::key_get("ixplorer_url", keyring = instance),
     api_key = keyring::key_get("ixplorer_token", keyring = instance),
     owner = keyring::key_get("ixplorer_project", keyring = instance),
     repo = keyring::key_get("ixplorer_repo", keyring = instance))
@@ -79,22 +79,25 @@ list_open_tickets <- function(instance = "saved", lag = NULL) {
     dplyr::rename(nr = number,
                   Titulo = title,
                   Hito = milestone.title) %>%
-    tibble::as_tibble( )
+    tibble::as_tibble()
 
   return(list)
 }
 
+
 #' @title Lista de tiquetes abiertos
 #' @description Listado de tiquetes abiertos del repositorio indicado.
 #'
-#' @param instancia instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")
-#' @param dias es el tiempo en días que se quiere ver hacia atrás. Por ejemplo si
+#' @param instancia instancia de ixplorer (Ejm: "secure", "masterclass",
+#'        "prueba")
+#' @param dias es el tiempo en días que se quiere ver hacia atrás. Por ejemplo
+#'        si
 #' se quiere ver los tiquetes creados en los últimos 7 días, lag = 7. Por
 #' defecto muestra todos los tiquetes sin ningún lag.
 #'
 #' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
-listar_tiquetes_abiertos <- function(instancia = "guardada", dias = NULL){
+listar_tiquetes_abiertos <- function(instancia = "guardada", dias = NULL) {
 
   if (instancia == "guardada") {
 
@@ -105,3 +108,4 @@ listar_tiquetes_abiertos <- function(instancia = "guardada", dias = NULL){
     list_open_tickets(instance = instancia, lag = dias)
     }
 }
+

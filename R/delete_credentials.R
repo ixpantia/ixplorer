@@ -11,7 +11,7 @@
 #' delete_credentials("masterclass")
 #' }
 #' @export
-delete_credentials <- function(instance = "current"){
+delete_credentials <- function(instance = "current") {
 
  # When the default value is selected
   if (instance == "current") {
@@ -52,9 +52,9 @@ delete_credentials <- function(instance = "current"){
     if (nrow(found_instances) > 0) {
 
       # Deletes the instance specified
-      keyring::keyring_delete(found_instances[1,1])
+      keyring::keyring_delete(found_instances[1, 1])
 
-      message(found_instances[1,1], " was deleted")
+      message(found_instances[1, 1], " was deleted")
 
     } else {
 
@@ -78,7 +78,7 @@ delete_credentials <- function(instance = "current"){
 #' delete_credentials("masterclass")
 #' }
 #' @export
-eliminar_credenciales <- function(instancia = "actual"){
+eliminar_credenciales <- function(instancia = "actual") {
 
   if (instancia == "actual") {
 

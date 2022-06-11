@@ -21,7 +21,7 @@ add_token <- function() {
   if (Sys.getenv("ixplorer_instance") != "") {
 
     instance <- Sys.getenv("ixplorer_instance")
-    no_instance = FALSE
+    no_instance <- FALSE
     message("Current instance is ", instance)
 
 
@@ -32,18 +32,17 @@ add_token <- function() {
     saved_instances <- keyring::keyring_list() %>%
       filter(stringr::str_detect(keyring, "ixplorer_"))
 
-    # if there are saved instances, then it chooses the instance that was last saved
+    # if there are saved instances, then it chooses the instance that was last
+    # saved
     if (nrow(saved_instances) > 0) {
 
-      last_saved <- saved_instances[1,1]
+      last_saved <- saved_instances[1, 1]
       instance <- last_saved
-      no_instance = FALSE
+      no_instance <- FALSE
       message("Current instance is ", instance)
 
-
-
     } else {
-      no_instance = TRUE
+      no_instance <- TRUE
     }
   }
 
@@ -93,12 +92,6 @@ add_token <- function() {
     "Copy your ixplorer URL here. E.g. https://prueba.ixpantia.com")),
                      uiOutput("token_user"),
                      textOutput("text")
-                     # checkboxInput(inputId = "token_persist",
-                     #               value = 1,
-                     #               label = "Persistence of credentials on this computer.
-                     #               (Do not use on shared computers)",
-                     #               width = "100%"
-                     # )
                    )
       ),
       miniTabPanel(i18n$t("ixploring"), icon = icon("book"),
@@ -118,14 +111,13 @@ add_token <- function() {
   # server --------------------------------------------------------------------
   server <- function(input, output, session) {
 
-
     # Defining an instance from the link
     instance <- reactive({
 
       instance <- sub("\\..*", "", input$ixplorer_url) %>%
         stringr::str_split("//")
 
-      instance <- paste0("ixplorer_",instance[[1]][2])
+      instance <- paste0("ixplorer_", instance[[1]][2])
 
       return(instance)
 
@@ -202,11 +194,9 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
 
       button_instance <- paste0("ixplorer_", input$buttons)
 
-      org_list <- gitear::get_organizations(  # Here we get the project list
-
-        base_url = keyring::key_get("ixplorer_url" , keyring = button_instance),
+      org_list <- gitear::get_organizations(
+        base_url = keyring::key_get("ixplorer_url", keyring = button_instance),
         api_key = keyring::key_get("ixplorer_token", keyring = button_instance)
-
       )
 
       div(
@@ -231,7 +221,7 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
       button_instance <- paste0("ixplorer_", input$buttons)
 
       list_repos <- gitear::get_list_repos_org(
-        base_url = keyring::key_get("ixplorer_url" , keyring = button_instance),
+        base_url = keyring::key_get("ixplorer_url", keyring = button_instance),
         api_key = keyring::key_get("ixplorer_token", keyring = button_instance),
         org = input$projects)
 
@@ -292,8 +282,8 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
         )
 
 
-
-        Sys.setenv(ixplorer_instance = instance()) # variable to check miniUI workflow
+        # variable to check miniUI workflow
+        Sys.setenv(ixplorer_instance = instance())
 
       } else {
 
@@ -315,15 +305,6 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
 
       }
 
-
-      # observeEvent(input$ixplorer_language, {
-      #   # This print is just for demonstration
-      #   print(paste("Language change!", input$ixplorer_language))
-      #   # Here is where we update language in session
-      #   shiny.i18n::update_lang(session, input$ixplorer_language)
-      # })
-
-
       stopApp(NULL)
     })
 
@@ -332,7 +313,6 @@ i18n$t("Seems there is already an instance for this url. Use the ixploring tab")
       stopApp(TRUE)
     })
   }
-
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
 }
 

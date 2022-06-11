@@ -7,4 +7,3 @@ dashboard <- function() {
   shiny::runApp(app_directory)
 }
 
-

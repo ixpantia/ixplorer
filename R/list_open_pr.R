@@ -8,8 +8,8 @@
 #' Value "saved" lists pull requests from your current instance
 #' @param assignee name of a person from your team. Default "team" lists all
 #' the pull requests in the instance with all assignees. When the value is "me"
-#' it filters the pull requests list for assigned to you according to your username
-#' provided in add_token()
+#' it filters the pull requests list for assigned to you according to your
+#' username provided in add_token()
 #'
 #' @return tibble of list instances
 #' @export
@@ -19,10 +19,9 @@
 #' list_open_pr(instance = "prueba",
 #'              assignee = "daniel")
 #' }
-list_open_pr <- function(instance = "all", assignee = "team"){
+list_open_pr <- function(instance = "all", assignee = "team") {
 
 # Look for instance -------------------------------------------------------
-
 
 if (instance == "all") {
 
@@ -80,7 +79,7 @@ if (instance == "all") {
 # get repos ---------------------------------------------------------------
 
   repos <- saved_links %>%
-    purrr::pmap_dfr(function(...){
+    purrr::pmap_dfr(function(...) {
 
       current_row <- tibble(...)
       ix_link <- current_row$link
@@ -94,7 +93,7 @@ if (instance == "all") {
         mutate(repositories = repo_list) %>%
         tidyr::unnest(repositories) %>%
         tidyr::unnest(data.owner) %>%
-        select(instance,username, data.name,
+        select(instance, username, data.name,
                data.fork, data.open_pr_counter) %>%
         rename(project = username) %>%
         rename(repository = data.name) %>%
@@ -132,7 +131,7 @@ if (instance == "all") {
       current %>%
         mutate(prs = all_prs) %>%
         tidyr::unnest(prs) %>%
-        select( number, title, assignees,instance, project, repository) %>%
+        select(number, title, assignees, instance, project, repository) %>%
         tidyr::unnest(assignees) %>%
         rename(pr_assignee = username) %>%
         rename(pr_number = number) %>%
@@ -154,7 +153,7 @@ if (instance == "all") {
     #When "me" is chosen we get the saved username and filter
   } else if (assignee == "me") {
 
-    ix_instance <- toString(saved_instances[1,1])
+    ix_instance <- toString(saved_instances[1, 1])
     ix_username <- keyring::key_get("ixplorer_user_name",
                                     keyring = ix_instance)
 

@@ -20,7 +20,7 @@ add_upstream <- function(instance = "saved") {
 
     saved_instances <- keyring::keyring_list() %>%
       select(keyring) %>%
-      filter(keyring == paste0("ixplorer_",instance))
+      filter(keyring == paste0("ixplorer_", instance))
 
     if (nrow(saved_instances) > 0) {
 
@@ -42,7 +42,7 @@ add_upstream <- function(instance = "saved") {
 
   ix_owner <- keyring::key_get("ixplorer_project", keyring = instance)
 
-  proyecto_madre = paste0(
+  proyecto_madre <- paste0(
     ix_url, "/",
     owner, "/",
     repository,

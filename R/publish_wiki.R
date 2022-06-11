@@ -48,9 +48,10 @@ publish_wiki <- function(rmarkdown,
   if (stringr::str_sub(path_wiki_repo,
                        start = stringr::str_length(path_wiki_repo)) == "/") {
 
-    path_wiki_repo <- stringr::str_sub(path_wiki_repo,
-                                       start = 1,
-                                       end = stringr::str_length(path_wiki_repo) - 1)
+    path_wiki_repo <- stringr::str_sub(
+                        path_wiki_repo,
+                        start = 1,
+                        end = stringr::str_length(path_wiki_repo) - 1)
   }
 
   # Make pull if automatic_update is TRUE
@@ -59,7 +60,9 @@ publish_wiki <- function(rmarkdown,
 
     if (nrow(gert::git_status(repo = path_wiki_repo)) > 0) {
       gert::git_stash_save(repo = path_wiki_repo)
-      message("Some of your changes to the wiki repository were put into stash. If you want to retrieve them you must go to the wiki repository and run: git stash apply")
+      message("Some of your changes to the wiki repository were put into stash.
+              If you want to retrieve them you must go to the wiki repository
+              and run: git stash apply")
     }
 
     gert::git_pull(repo = path_wiki_repo)
@@ -67,10 +70,11 @@ publish_wiki <- function(rmarkdown,
 
   # Render the rmarkdown to github_document output
 
-  rmarkdown::render(rmarkdown, 'github_document', quiet = quiet_render_logs)
+  rmarkdown::render(rmarkdown,
+                    'github_document',
+                    quiet = quiet_render_logs)
 
   # Copy md to wiki repository
-
   base_name <- stringr::str_remove_all(basename(rmarkdown), ".Rmd")
 
   md <- paste0(base_name, ".md")
@@ -118,14 +122,16 @@ publish_wiki <- function(rmarkdown,
 
       } else {
 
-        message(paste0("There are no new changes or something that can be sent in ",
-                       base_name, ".Rmd"))
+        message(paste0(
+          "There are no new changes or something that can be sent in ",
+           base_name, ".Rmd"))
       }
 
     } else {
 
-      message(paste0("There are no new changes or something that can be sent in ",
-                     base_name, ".Rmd"))
+      message(paste0(
+          "There are no new changes or something that can be sent in ",
+           base_name, ".Rmd"))
     }
 
   } else {
@@ -152,10 +158,9 @@ publish_wiki <- function(rmarkdown,
         "git push \n")
 
     }
-
   }
-
 }
+
 
 #' Publica un rmarkdown en un wiki repo
 #'
@@ -179,10 +184,9 @@ publish_wiki <- function(rmarkdown,
 #' (usando el enlace que está disponible para usted una vez que haya creado la
 #' página de inicio de la wiki).
 #'
-#' 3. Una vez que haya clonado la wiki en su computadora,
-#' lo que debe indicar en la función `publica_wiki` es la` path_wiki_repo`.
-#' Esta es la dirección completa en su computadora donde se encuentra este repositorio
-#' que clonó.
+#' 3. Una vez que haya clonado la wiki en su computadora, lo que debe indicar
+#' en la función `publica_wiki` es la` path_wiki_repo`. Esta es la dirección
+#' completa en su computadora donde se encuentra este repositorio que clonó.
 #' Por ejemplo:  `/home/client/project/wiki_repo`
 #'
 #' @param rmarkdown la ruta al archivo rmarkdown
@@ -205,14 +209,13 @@ publish_wiki <- function(rmarkdown,
 publica_wiki <- function(rmarkdown = rmarkdown,
                          ruta_repo_wiki = path_wiki_repo,
                          auto_actualizar = TRUE,
-                         silenciar_bitacora= FALSE){
+                         silenciar_bitacora= FALSE) {
 
   ## True and False
   if (auto_actualizar == TRUE && silenciar_bitacora == FALSE) {
 
     publish_wiki(rmarkdown, ruta_repo_wiki,
                  automatic_update = TRUE, quiet_render_logs = FALSE)
-
 
     ## False and True
   } else if (auto_actualizar == FALSE && silenciar_bitacora == TRUE) {

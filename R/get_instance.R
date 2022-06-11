@@ -9,7 +9,6 @@
 #'
 get_instance <- function() {
 
-
   # Look in session
   if (Sys.getenv("ixplorer_instance") != "") {
 

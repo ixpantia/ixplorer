@@ -28,7 +28,7 @@ create_tickets <- function(instance = "saved") {
 
       instance <- Sys.getenv("ixplorer_instance")
       message("Current instance is ", instance)
-      no_instance = FALSE
+      no_instance <- FALSE
 
 
       # If there is no enviroment variable it means user is looking for
@@ -38,19 +38,20 @@ create_tickets <- function(instance = "saved") {
       saved_instances <- keyring::keyring_list() %>%
         filter(stringr::str_detect(keyring, "ixplorer_"))
 
-      # if there are saved instances, then it chooses the instance that was last saved
+      # if there are saved instances, then it chooses the instance that was
+      # last saved
       if (nrow(saved_instances) > 0) {
 
-        last_saved <- saved_instances[1,1]
+        last_saved <- saved_instances[1, 1]
         instance <- last_saved
         message("Current instance is ", instance)
-        no_instance = FALSE
+        no_instance <- FALSE
 
 
         # When there are no saved instances, then a message is printed
       } else {
         message("There are no saved instances")
-        no_instance = TRUE
+        no_instance <- TRUE
       }
 
     }
@@ -62,20 +63,17 @@ create_tickets <- function(instance = "saved") {
 
     saved_instances <- keyring::keyring_list() %>%
       select(keyring) %>%
-      filter(keyring == paste0("ixplorer_",instance))
+      filter(keyring == paste0("ixplorer_", instance))
 
     if (nrow(saved_instances) > 0) {
       instance <- toString(saved_instances[1])
       message("Current instance is ", instance)
-      no_instance = FALSE
+      no_instance <- FALSE
 
     } else {
       message("No credentials for ", instance)
-      no_instance = FALSE
+      no_instance <- FALSE
     }
-
-
-
   }
 
   # Define translator ---------------------------------------------------------
@@ -152,7 +150,8 @@ create_tickets <- function(instance = "saved") {
            message("Your ticket has been generated successfully")
          } else {
            if (check != "Invalido") {
-             print("No ticket created due to invalid credentials. Please use the authentication gadget")
+             print("No ticket created due to invalid credentials.
+                   Please use the authentication gadget")
            }
          }
 
@@ -167,7 +166,8 @@ create_tickets <- function(instance = "saved") {
 #' @description Cree tiquetes (título y cuerpo) desde el add-in de ixplorer sin
 #' perder las ideas durante su flujo de trabajo
 #'
-#' @param instancia instancia de ixplorer (Ejemplo: "secure", "masterclass", "prueba")
+#' @param instancia instancia de ixplorer (Ejemplo: "secure", "masterclass",
+#'        "prueba")
 #' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
 crear_tiquetes <- function(instancia = "guardada") {
@@ -182,3 +182,4 @@ crear_tiquetes <- function(instancia = "guardada") {
 
   }
 }
+

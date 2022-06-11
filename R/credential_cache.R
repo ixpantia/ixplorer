@@ -17,10 +17,12 @@
 set_git_credentials_cache <- function(hours = 4, global = TRUE) {
 
   if (global == TRUE) {
-    system(paste0('git config --global credential.helper --replace-all "cache --timeout=',
-                  hours * 60 * 60, '"'))
+    system(paste0(
+      'git config --global credential.helper --replace-all "cache --timeout=',
+       hours * 60 * 60, '"'))
   } else {
     system(paste0('git config credential.helper "cache --timeout=',
                   hours * 60 * 60, '"'))
   }
 }
+

@@ -38,8 +38,10 @@ verify_ixplorer_file <- function() {
 
     gitear_access <- as.data.frame(lines)
     api_creds$empty <- FALSE
-    api_creds$gitear_access <- tidyr::separate(gitear_access, lines,
-                                               into = c("variable", "value"), sep = "=")
+    api_creds$gitear_access <- tidyr::separate(
+                                  gitear_access,
+                                  lines,
+                                  into = c("variable", "value"), sep = "=")
 
   } else {
     api_creds$empty <- TRUE
@@ -52,10 +54,11 @@ verify_ixplorer_file <- function() {
 #'
 #' @param gitear_access parameters to access into an ixplorer instance
 
-verify_ixtoken <- function(gitear_access){
+verify_ixtoken <- function(gitear_access) {
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXTOKEN") &&
-        FALSE %in% any(is.na(gitear_access[1,2])))) {
-    print("No hay TOKEN de ixplorer, por favor use el gadget de autentificacion")
+        FALSE %in% any(is.na(gitear_access[1, 2])))) {
+    print("No hay TOKEN de ixplorer, por favor use el gadget de
+          autentificacion")
   }
 }
 
@@ -64,9 +67,9 @@ verify_ixtoken <- function(gitear_access){
 #'
 #' @param gitear_access parameters to access into an ixplorer instance
 
-verify_ixurl <- function(gitear_access){
+verify_ixurl <- function(gitear_access) {
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXURL") &&
-        FALSE %in% any(is.na(gitear_access[2,2])))) {
+        FALSE %in% any(is.na(gitear_access[2, 2])))) {
     print("No hay URL de ixplorer, por favor use el gadget de autentificacion")
   }
 }
@@ -76,10 +79,11 @@ verify_ixurl <- function(gitear_access){
 #'
 #' @param gitear_access parameters to access into an ixplorer instance
 
-verify_ixproject <- function(gitear_access){
+verify_ixproject <- function(gitear_access) {
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXPROJECT") &&
-        FALSE %in% any(is.na(gitear_access[3,2])))) {
-    print("No hay NOMBRE del proyecto, por favor use el gadget de autentificacion")
+        FALSE %in% any(is.na(gitear_access[3, 2])))) {
+    print("No hay NOMBRE del proyecto, por favor use el gadget de
+          autentificacion")
   }
 }
 
@@ -88,10 +92,11 @@ verify_ixproject <- function(gitear_access){
 #'
 #' @param gitear_access parameters to access into an ixplorer instance
 
-verify_ixrepo <- function(gitear_access){
+verify_ixrepo <- function(gitear_access) {
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXREPO") &&
-        FALSE %in% any(is.na(gitear_access[4,2])))) {
-    print("No hay repositorio ixplorer, por favor use el gadget de autentificacion")
+        FALSE %in% any(is.na(gitear_access[4, 2])))) {
+    print("No hay repositorio ixplorer, por favor use el gadget de
+          autentificacion")
   }
 }
 
@@ -102,7 +107,7 @@ verify_ixrepo <- function(gitear_access){
 
 verify_ixuser <- function(gitear_access) {
   if (!(TRUE %in% stringr::str_detect(gitear_access$variable, "IXUSER") &&
-        FALSE %in% any(is.na(gitear_access[5,2])))) {
+        FALSE %in% any(is.na(gitear_access[5, 2])))) {
     print("No hay usuario ixplorer, por favor use el gadget de autentificacion")
   }
 }
