@@ -7,7 +7,8 @@
 list_open_tickets(instance = "saved", lag = NULL)
 }
 \arguments{
-\item{instance}{instance from ixplorer (E.g. "secure", "masterclass", "prueba")}
+\item{instance}{instance from ixplorer (E.g. "secure", "masterclass",
+"prueba")}
 
 \item{lag}{is the time in days that you want to look back. For example if
 you want to see the tickets closed in the last 7 days, lag = 7.

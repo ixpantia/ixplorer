@@ -13,8 +13,8 @@ Value "saved" lists pull requests from your current instance}
 
 \item{assignee}{name of a person from your team. Default "team" lists all
 the pull requests in the instance with all assignees. When the value is "me"
-it filters the pull requests list for assigned to you according to your username
-provided in add_token()}
+it filters the pull requests list for assigned to you according to your
+username provided in add_token()}
 }
 \value{
 tibble of list instances

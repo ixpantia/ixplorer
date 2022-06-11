@@ -7,7 +7,8 @@
 tiquetes_actuales(instancia = "guardada")
 }
 \arguments{
-\item{instancia}{instancia de ixplorer (Ej: "secure", "masterclass", "prueba")}
+\item{instancia}{instancia de ixplorer (Ej: "secure", "masterclass",
+"prueba")}
 }
 \value{
 No hay valor de retorno - se llama por su efecto secundario

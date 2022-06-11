@@ -7,9 +7,11 @@
 listar_tiquetes_cerrados(instancia = "guardada", dias = NULL)
 }
 \arguments{
-\item{instancia}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+\item{instancia}{instancia de ixplorer (Ejm: "secure", "masterclass",
+"prueba")}
 
-\item{dias}{es el tiempo en días que se quiere ver hacia atrás. Por ejemplo si
+\item{dias}{es el tiempo en días que se quiere ver hacia atrás. Por ejemplo
+si
 se quiere ver los tiquetes cerrados en los últimos 7 días, lag = 7. Por
 defecto muestra todos los tiquetes sin ningún lag.}
 }
