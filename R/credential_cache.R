@@ -12,7 +12,7 @@
 #' Defaults to 4 hours.
 #' @param global if TRUE then the setting will be sett as a global setting. If
 #' FALSE it will only be for the current git repository
-#'
+#' @return No return value, called for side effects
 #' @export
 set_git_credentials_cache <- function(hours = 4, global = TRUE) {
 

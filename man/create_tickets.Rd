@@ -9,6 +9,9 @@ create_tickets(instance = "saved")
 \arguments{
 \item{instance}{ixplorer instance (Eg: "secure", "masterclass", "prueba")}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Create tickets (title and body) from the ixplorer addin without
 losing ideas during your workflow.

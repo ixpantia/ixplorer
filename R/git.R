@@ -2,8 +2,8 @@
 #' @description Add the upstream to the repository that is active in RStudio at
 #'   the moment
 #'
+#' @return No return value, called for side effects
 #' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
-#'
 #' @export
 add_upstream <- function(instance = "saved") {
 
@@ -57,11 +57,13 @@ add_upstream <- function(instance = "saved") {
 
 #' Title Agregue el upstream al repositorio que está activo en RStudio.
 #'
-#' @param instancia instancia de ixplorer (Ej: "secure", "masterclass", "prueba")
-#'
 #' @details Esta función es la versión en español de add_upstream().
 #' Perminte agregar el upstream al repositorio que está activo en RStudio en
 #' este momento
+#'
+#' @param instancia instancia de ixplorer (Ej: "secure", "masterclass",
+#' "prueba")
+#' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
 incluye_upstream <- function(instancia = "guardada") {
 
@@ -95,8 +97,9 @@ incluye_upstream <- function(instancia = "guardada") {
 set_git_timeout <- function(timeout = 14400, global = FALSE) {
 
   if (global == TRUE) {
-    instruction <- paste0('git config --global credential.helper --replace-all "cache --timeout=',
-                          timeout, '"')
+    instruction <- paste0(
+      'git config --global credential.helper --replace-all "cache --timeout=',
+      timeout, '"')
   } else {
     instruction <- paste0('git config credential.helper "cache --timeout=',
                           timeout, '"')
@@ -128,6 +131,7 @@ set_git_timeout <- function(timeout = 14400, global = FALSE) {
 #' @param pausa número de segundos antes del tiempo de espera
 #' @param global si el cambio debe ser global o local para el repositorio
 #'
+#' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
 fijar_tiempo_credenciales <- function(pausa =  14400, global = FALSE) {
 

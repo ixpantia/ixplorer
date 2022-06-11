@@ -30,7 +30,6 @@
 #' @param quiet_render_logs if you like to see the render logs of rmarkdown,
 #'  set in TRUE, in otherwise set FALSE. Default is TRUE.
 #' @return Publish a md into wiki repository
-#'
 #' @examples
 #'
 #' \dontrun{
@@ -194,7 +193,6 @@ publish_wiki <- function(rmarkdown,
 #' @param silenciar_bitacora  Si desea ver la bitacora de renderización
 #'   establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE
 #' @return Publica un md en un repositorio wiki.
-#'
 #' @examples
 #'
 #' \dontrun{

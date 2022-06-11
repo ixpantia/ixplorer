@@ -9,7 +9,7 @@ NULL
 #'  losing ideas during your workflow.
 #'
 #' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
-#'
+#' @return No return value, called for side effects
 #' @export
 create_tickets <- function(instance = "saved") {
 
@@ -130,29 +130,12 @@ create_tickets <- function(instance = "saved") {
 
   server <- function(input, output, session) {
 
-
-    # output$warning <- renderText({
-    #   msg <- ifelse (credentials == "no_credentials",
-    #     "No credential file available", "")
-    #   return(msg)
-    # })
-
     # Botones ----------------------------------------------------------------
     observeEvent(input$cancel, {
       # do nothing
       stopApp()
     })
 
-    # observeEvent(input$create, {
-    #      check <-  tryCatch(gitear::create_issue(
-    #        base_url = credentials$url,
-    #        api_key = credentials$token,
-    #        owner = credentials$owner,
-    #        repo = repository,
-    #        title = input$ticket_title,
-    #        body =  input$ticket_description),
-    #        error = function(cond)
-    #          "Invalido")
     observeEvent(input$create, {
       check <-  tryCatch(gitear::create_issue(
         base_url = keyring::key_get("ixplorer_url", keyring = instance),
@@ -179,12 +162,13 @@ create_tickets <- function(instance = "saved") {
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
 }
+
 #' @title Crear tiquete
 #' @description Cree tiquetes (título y cuerpo) desde el add-in de ixplorer sin
 #' perder las ideas durante su flujo de trabajo
 #'
 #' @param instancia instancia de ixplorer (Ejemplo: "secure", "masterclass", "prueba")
-#'
+#' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
 crear_tiquetes <- function(instancia = "guardada") {
 

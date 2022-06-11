@@ -9,7 +9,7 @@ NULL
 #'  your ixplorer based on the credentials used in the authentication gadget.
 #'
 #' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
-#'
+#' @return No return value, called for side effects
 #' @export
 current_tickets <- function(instance = "saved") {
 
@@ -108,21 +108,9 @@ if (instance == "saved") {
       return(msg)
     })
 
-    # output$warning <- renderText({
-    #   msg <- if (credentials == "no credentials"){
-    #     "No credential file available"
-    #   }
-    #   return(msg)
-    # })
 
     # Get tickets and configurate credentials
     tickets <- tryCatch({
-
-      # gitear::get_issues_open_state(  old credential handling
-      #   base_url = credentials$url,
-      #   api_key = credentials$token,
-      #   owner = credentials$owner,
-      #   repo = repository)
 
       gitear::get_issues_open_state(
         base_url = keyring::key_get("ixplorer_url", keyring = instance),
@@ -134,7 +122,6 @@ if (instance == "saved") {
     error = function(cond) {
       tickets <- "Invalid"
     })
-
 
 
     output$my_tickets <- function() {
@@ -280,7 +267,7 @@ if (instance == "saved") {
 #' de autenticación.
 #'
 #' @param instancia instancia de ixplorer (Ej: "secure", "masterclass", "prueba")
-#'
+#' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
 
 tiquetes_actuales <- function(instancia = "guardada") {

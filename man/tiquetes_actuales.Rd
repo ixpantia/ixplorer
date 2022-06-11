@@ -9,6 +9,9 @@ tiquetes_actuales(instancia = "guardada")
 \arguments{
 \item{instancia}{instancia de ixplorer (Ej: "secure", "masterclass", "prueba")}
 }
+\value{
+No hay valor de retorno - se llama por su efecto secundario
+}
 \description{
 Vea tiquetes para un usuario específico en una computadora y
 obtenga enlaces a su ixplorer según las credenciales utilizadas en el gadget

@@ -11,6 +11,9 @@ fijar_tiempo_credenciales(pausa = 14400, global = FALSE)
 
 \item{global}{si el cambio debe ser global o local para el repositorio}
 }
+\value{
+No hay valor de retorno - se llama por su efecto secundario
+}
 \description{
 Esta es una función traducida que llama a set_git_timeout.
 Establezca la cantidad de segundos para que se agote el

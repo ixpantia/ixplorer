@@ -3,7 +3,6 @@
 #'
 #' @description Lists your open pull requests in ixplorer
 #'
-#'
 #' @param instance an instance from ixplorer such as "masterclass" or "prueba".
 #' Default value "all" lists the pull requests of all  your saved instances.
 #' Value "saved" lists pull requests from your current instance
@@ -148,8 +147,6 @@ if (instance == "all") {
 
 # filter for assignee -----------------------------------------------------
 
-
-
   if (assignee == "team") {
 
     pull_request_data <- my_prs
@@ -174,7 +171,6 @@ if (instance == "all") {
 
 
 # Return pull request data ------------------------------------------------
-return(pull_request_data)
-
+  return(pull_request_data)
 }
 

@@ -9,6 +9,9 @@ add_upstream(instance = "saved")
 \arguments{
 \item{instance}{ixplorer instance (Eg: "secure", "masterclass", "prueba")}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Add the upstream to the repository that is active in RStudio at
 the moment

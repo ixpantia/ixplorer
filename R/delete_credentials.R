@@ -5,10 +5,7 @@
 #' stored
 #'
 #' @param instance an instance from ixplorer such as "prueba" or "masterclass"
-#'
 #' @return Delete credentials saved by add_token()
-#'
-#'
 #' @examples
 #' \dontrun{
 #' delete_credentials("masterclass")
@@ -75,10 +72,7 @@ delete_credentials <- function(instance = "current"){
 #' las credenciales almacenadas.
 #'
 #' @param instancia una instancia de ixplorer como "masterclass" o "prueba"
-#'
 #' @return Elimina las credenciales guardadas por add_token()
-#'
-#'
 #' @examples
 #' \dontrun{
 #' delete_credentials("masterclass")
@@ -93,5 +87,5 @@ eliminar_credenciales <- function(instancia = "actual"){
 
     delete_credentials(instance = instancia)
   }
-
 }
+

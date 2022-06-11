@@ -9,6 +9,9 @@ current_tickets(instance = "saved")
 \arguments{
 \item{instance}{ixplorer instance (Eg: "secure", "masterclass", "prueba")}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 View tickets for a specific user on a computer and get links to
 your ixplorer based on the credentials used in the authentication gadget.

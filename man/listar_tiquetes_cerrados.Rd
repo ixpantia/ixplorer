@@ -13,6 +13,9 @@ listar_tiquetes_cerrados(instancia = "guardada", dias = NULL)
 se quiere ver los tiquetes cerrados en los últimos 7 días, lag = 7. Por
 defecto muestra todos los tiquetes sin ningún lag.}
 }
+\value{
+No hay valor de retorno - se llama por su efecto secundario
+}
 \description{
 Listado de tiquetes cerrados del repositorio indicado.
 }

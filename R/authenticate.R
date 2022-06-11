@@ -12,7 +12,7 @@ NULL
 #' In case the credentials already exist,
 #' just enter the url and confirm if you want to keep the credentials
 #' on your computer or want to delete them after the next query.
-#'
+#' @return No return value, called for side effects
 #' @export
 add_token <- function() {
 

@@ -13,6 +13,9 @@ list_open_tickets(instance = "saved", lag = NULL)
 you want to see the tickets closed in the last 7 days, lag = 7.
 By default it shows all the tickets without any lag..}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 List of open tickets in the repository
 }

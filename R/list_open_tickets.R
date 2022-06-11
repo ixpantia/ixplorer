@@ -6,6 +6,7 @@
 #'you want to see the tickets closed in the last 7 days, lag = 7.
 #'By default it shows all the tickets without any lag..
 #'
+#' @return No return value, called for side effects
 #' @export
 list_open_tickets <- function(instance = "saved", lag = NULL) {
 
@@ -91,6 +92,7 @@ list_open_tickets <- function(instance = "saved", lag = NULL) {
 #' se quiere ver los tiquetes creados en los últimos 7 días, lag = 7. Por
 #' defecto muestra todos los tiquetes sin ningún lag.
 #'
+#' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
 listar_tiquetes_abiertos <- function(instancia = "guardada", dias = NULL){
 

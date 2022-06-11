@@ -14,6 +14,9 @@ ixplorer}
 you want to see the issues closed in the last 7 days, lag = 7.
 By default it shows all the issues without any lag..}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 List of closed tickets from the indicated repository.
 }
