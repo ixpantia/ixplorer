@@ -9,6 +9,9 @@ verify_ixrepo(gitear_access)
 \arguments{
 \item{gitear_access}{parameters to access into an ixplorer instance}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Verifies if ixplorer repository's name exists.
 }

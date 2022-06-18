@@ -11,6 +11,9 @@ set_git_timeout(timeout = 14400, global = FALSE)
 
 \item{global}{whether the change should be global or local to the repo}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Set the number of seconds before the git credential cache times
 out. Note that this is written for work on remote servers where we do not
