@@ -48,10 +48,9 @@ deberá clonar el repositorio de la wiki
 como lo haría con cualquier otro repositorio en su computadora
 (usando el enlace que está disponible para usted una vez que haya creado la
 página de inicio de la wiki).
-\item Una vez que haya clonado la wiki en su computadora,
-lo que debe indicar en la función \code{publica_wiki} es la\code{ path_wiki_repo}.
-Esta es la dirección completa en su computadora donde se encuentra este repositorio
-que clonó.
+\item Una vez que haya clonado la wiki en su computadora, lo que debe indicar
+en la función \code{publica_wiki} es la\code{ path_wiki_repo}. Esta es la dirección
+completa en su computadora donde se encuentra este repositorio que clonó.
 Por ejemplo:  \verb{/home/client/project/wiki_repo}
 }
 }

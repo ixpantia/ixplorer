@@ -7,11 +7,16 @@
 listar_tiquetes_abiertos(instancia = "guardada", dias = NULL)
 }
 \arguments{
-\item{instancia}{instancia de ixplorer (Ejm: "secure", "masterclass", "prueba")}
+\item{instancia}{instancia de ixplorer (Ejm: "secure", "masterclass",
+"prueba")}
 
-\item{dias}{es el tiempo en días que se quiere ver hacia atrás. Por ejemplo si
+\item{dias}{es el tiempo en días que se quiere ver hacia atrás. Por ejemplo
+si
 se quiere ver los tiquetes creados en los últimos 7 días, lag = 7. Por
 defecto muestra todos los tiquetes sin ningún lag.}
+}
+\value{
+No hay valor de retorno - se llama por su efecto secundario
 }
 \description{
 Listado de tiquetes abiertos del repositorio indicado.

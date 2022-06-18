@@ -7,12 +7,16 @@
 list_closed_tickets(instance = "saved", lag = NULL)
 }
 \arguments{
-\item{instance}{instance from ixplorer (Ejm: "secure", "masterclass", "prueba")
+\item{instance}{instance from ixplorer (Ejm: "secure", "masterclass",
+"prueba")
 ixplorer}
 
 \item{lag}{is the time in days that you want to look back. For example if
 you want to see the issues closed in the last 7 days, lag = 7.
 By default it shows all the issues without any lag..}
+}
+\value{
+No return value, called for side effects
 }
 \description{
 List of closed tickets from the indicated repository.

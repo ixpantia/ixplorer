@@ -9,14 +9,9 @@ NULL
 #'  your ixplorer based on the credentials used in the authentication gadget.
 #'
 #' @param instance ixplorer instance (Eg: "secure", "masterclass", "prueba")
-#'
+#' @return No return value, called for side effects
 #' @export
 current_tickets <- function(instance = "saved") {
-
-  # if (repository == "current") { ##NOTAR
-  #   repository <- basename(rstudioapi::getActiveProject())
-  # }
-
 
   # Look for instance ---------------------------------------------------------
 
@@ -67,11 +62,16 @@ if (instance == "saved") {
   credentials <- keyring::keyring_list() # while tryCatch() is checked
 
   # Get keys -------------------------------------------------------------------
-  authentication_user_name <- keyring::key_get("ixplorer_user_name", keyring = instance)
-  authentication_owner <- keyring::key_get("ixplorer_project", keyring = instance)
-  authentication_repo <- keyring::key_get("ixplorer_repo", keyring = instance)
-  authentication_repository <- keyring::key_get("ixplorer_repo", keyring = instance)
-  authentication_base_url <- keyring::key_get("ixplorer_url", keyring = instance)
+  authentication_user_name <- keyring::key_get("ixplorer_user_name",
+                                               keyring = instance)
+  authentication_owner <- keyring::key_get("ixplorer_project",
+                                           keyring = instance)
+  authentication_repo <- keyring::key_get("ixplorer_repo",
+                                          keyring = instance)
+  authentication_repository <- keyring::key_get("ixplorer_repo",
+                                                keyring = instance)
+  authentication_base_url <- keyring::key_get("ixplorer_url",
+                                              keyring = instance)
 
   # UI -------------------------------------------------------------------------
   ui <- miniPage(
@@ -108,21 +108,9 @@ if (instance == "saved") {
       return(msg)
     })
 
-    # output$warning <- renderText({
-    #   msg <- if (credentials == "no credentials"){
-    #     "No credential file available"
-    #   }
-    #   return(msg)
-    # })
 
     # Get tickets and configurate credentials
     tickets <- tryCatch({
-
-      # gitear::get_issues_open_state(  old credential handling
-      #   base_url = credentials$url,
-      #   api_key = credentials$token,
-      #   owner = credentials$owner,
-      #   repo = repository)
 
       gitear::get_issues_open_state(
         base_url = keyring::key_get("ixplorer_url", keyring = instance),
@@ -136,10 +124,10 @@ if (instance == "saved") {
     })
 
 
-
     output$my_tickets <- function() {
       if (methods::is(tickets)[1] != "data.frame") {
-        tickets_kable <- "Invalid credentials. Please use the authentication gadget."
+        tickets_kable <- "Invalid credentials.
+        Please use the authentication gadget."
       } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets were found in the repository."
       } else {
@@ -156,19 +144,29 @@ if (instance == "saved") {
                           into = c("borrar", "issue_url"), sep = "repos/") %>%
           dplyr::select(-borrar) %>%
           dplyr::mutate(
-            issue_url = paste(base_url = paste0("https://", authentication_base_url),
-                              issue_url, sep = "/")) %>%
+            issue_url = paste(base_url = paste0(
+                              "https://",
+                              authentication_base_url),
+                              issue_url,
+                              sep = "/")) %>%
           dplyr::arrange(desc(due_date)) %>%
-          dplyr::rename(Title = title,  Nr = number, Due = due_date)
+          dplyr::rename(Title = title, Nr = number, Due = due_date)
 
-        suppressWarnings(verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens"))
-        suppressWarnings(rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds"))
+        suppressWarnings(
+            verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens"))
+        suppressWarnings(
+            rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds"))
 
         tickets_kable <- tickets %>%
-          dplyr::mutate(Due = ifelse(Due < 0, kableExtra::cell_spec(Due, color = "white",
-                                                                    bold = TRUE, background = rojos),
-                                     kableExtra::cell_spec(Due, color = "white",
-                                                           bold = TRUE, background = verdes)),
+          dplyr::mutate(Due = ifelse(Due < 0,
+                               kableExtra::cell_spec(Due,
+                                            color = "white",
+                                            bold = TRUE,
+                                            background = rojos),
+                               kableExtra::cell_spec(Due,
+                                            color = "white",
+                                            bold = TRUE,
+                                            background = verdes)),
                         Nr = kableExtra::text_spec(Nr, link = issue_url),
                         Due = ifelse(is.na(Due), "-", Due)) %>%
           dplyr::select(-issue_url) %>%
@@ -180,7 +178,8 @@ if (instance == "saved") {
 
     output$team_tickets <- function() {
       if (methods::is(tickets)[1] != "data.frame") {
-        tickets_kable <- "Invalid credentials. Please use the authentication gadget."
+        tickets_kable <- "Invalid credentials.
+        Please use the authentication gadget."
       } else if (nrow(tickets) == 0) {
         tickets_kable <- "No tickets were found in the repository."
       }  else {
@@ -189,7 +188,7 @@ if (instance == "saved") {
           dplyr::select(assignee.login, number, title, due_date, url) %>%
           dplyr::mutate(assignee.login = ifelse(is.na(assignee.login), "-",
                                                 assignee.login)) %>%
-          dplyr::filter(assignee.login != authentication_user_name) %>% ##CHANGED TO KEY_GET
+          dplyr::filter(assignee.login != authentication_user_name) %>%
           tidyr::separate(col = due_date, into = c("due_date", "hour"),
                           sep = "T") %>%
           dplyr::select(-hour) %>%
@@ -199,22 +198,27 @@ if (instance == "saved") {
           tidyr::separate(col = url,
                           into = c("borrar", "issue_url"), sep = "repos/") %>%
           dplyr::select(-borrar) %>%
-          dplyr::mutate(issue_url = paste(base_url = paste0("https://", authentication_base_url),
-                                          issue_url, sep = "/")) %>%
+          dplyr::mutate(issue_url = paste(base_url = paste0(
+                                      "https://", authentication_base_url),
+                                      issue_url, sep = "/")) %>%
           dplyr::arrange(desc(due_date)) %>%
           dplyr::rename(Title = title, Nr = number, Due = due_date,
                         User = assignee.login)
 
-        suppressWarnings(verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens"))
-        suppressWarnings(rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds"))
+        suppressWarnings(
+          verdes <- RColorBrewer::brewer.pal(nrow(tickets), "Greens"))
+        suppressWarnings(
+          rojos <- RColorBrewer::brewer.pal(nrow(tickets), "Reds"))
 
         tickets_kable <- tickets %>%
           dplyr::mutate(
             Due = ifelse(Due < 0,
-                         kableExtra::cell_spec(Due, color = "white",
-                                               bold = TRUE, background = rojos),
-                         kableExtra::cell_spec(Due, color = "white",
-                                               bold = TRUE, background = verdes)),
+                         kableExtra::cell_spec(Due,
+                                      color = "white",
+                                      bold = TRUE, background = rojos),
+                         kableExtra::cell_spec(Due,
+                                      color = "white",
+                                      bold = TRUE, background = verdes)),
             Nr = kableExtra::text_spec(Nr, link = issue_url),
             Due = ifelse(is.na(Due), "-", Due)) %>%
           dplyr::select(-issue_url) %>%
@@ -227,27 +231,39 @@ if (instance == "saved") {
 
     output$quick_links <- function()  {
       if (methods::is(tickets)[1] != "data.frame") {
-        quick_links <- "Invalid credentials. Please use the authentication gadget."
+        quick_links <- "Invalid credentials. 
+        Please use the authentication gadget."
       } else {
         # Get closed tickets link
         close_tickets_url <- "issues?q=&type=all&sort=&state=closed&labels=0&milestone=0&assignee=0"
-        #ixurl <- paste0("https://", authentication_base_url)
         ixurl <- authentication_base_url
-        close_tickets_url <- paste(ixurl, authentication_owner, authentication_repository,
+        close_tickets_url <- paste(ixurl, authentication_owner,
+                                   authentication_repository,
                                    close_tickets_url, sep = "/")
 
         # Get milestones link
-        milestones_url <- paste(ixurl, authentication_owner, authentication_repository, "milestones", sep = "/")
+        milestones_url <- paste(ixurl, 
+                                authentication_owner, 
+                                authentication_repository, 
+                                "milestones", sep = "/")
 
         # Get Wiki link
-        wiki_url <- paste(ixurl, authentication_owner, authentication_repository, "wiki", sep = "/")
+        wiki_url <- paste(ixurl, 
+                          authentication_owner, 
+                          authentication_repository, 
+                          "wiki", sep = "/")
 
         # Get project link
         project_url <- paste(ixurl, authentication_owner, sep = "/")
 
         # Final table
-        links <- c(close_tickets_url, milestones_url, wiki_url, project_url)
-        URL <- c((i18n$t("Closed tickets")), (i18n$t("Milestones")), "Wiki", (i18n$t("Project")))
+        links <- c(close_tickets_url,
+                   milestones_url,
+                   wiki_url,
+                   project_url)
+        URL <- c((i18n$t("Closed tickets")),
+                 (i18n$t("Milestones")),
+                 "Wiki", (i18n$t("Project")))
         quick_links <- data.frame(links, URL)
 
         # Table with kableExtra
@@ -266,23 +282,22 @@ if (instance == "saved") {
     observeEvent(input$done, {
       stopApp(TRUE)
     })
-
   }
 
   runGadget(ui, server, viewer = dialogViewer("ixplorer"))
 
-
 }
+
 
 #' @title Tiquetes actuales
 #' @description Vea tiquetes para un usuario específico en una computadora y
 #' obtenga enlaces a su ixplorer según las credenciales utilizadas en el gadget
 #' de autenticación.
 #'
-#' @param instancia instancia de ixplorer (Ej: "secure", "masterclass", "prueba")
-#'
+#' @param instancia instancia de ixplorer (Ej: "secure", "masterclass",
+#'        "prueba")
+#' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
-
 tiquetes_actuales <- function(instancia = "guardada") {
 
   if (instancia == "guardada") {

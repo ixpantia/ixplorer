@@ -7,7 +7,11 @@
 crear_tiquetes(instancia = "guardada")
 }
 \arguments{
-\item{instancia}{instancia de ixplorer (Ejemplo: "secure", "masterclass", "prueba")}
+\item{instancia}{instancia de ixplorer (Ejemplo: "secure", "masterclass",
+"prueba")}
+}
+\value{
+No hay valor de retorno - se llama por su efecto secundario
 }
 \description{
 Cree tiquetes (título y cuerpo) desde el add-in de ixplorer sin

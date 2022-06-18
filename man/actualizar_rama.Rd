@@ -6,6 +6,9 @@
 \usage{
 actualizar_rama()
 }
+\value{
+No hay valor de retorno - se llama por su efecto secundario
+}
 \description{
 actualiza su rama master con su upstream
 por medio de git rebase

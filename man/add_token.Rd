@@ -6,6 +6,9 @@
 \usage{
 add_token()
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Saves to your computer
 through the authentication system of your computer's OS.

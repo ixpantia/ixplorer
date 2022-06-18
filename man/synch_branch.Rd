@@ -10,6 +10,9 @@ synch_branch(default_branch_name = "master")
 \item{default_branch_name}{defines a default branch name to be able to
 synchronize it}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Runs steps to synch your master branch to upstream
 automatically
