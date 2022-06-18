@@ -13,7 +13,7 @@ Authors@R:
       person(given = "Ronny",
              family = "Hernández Mora",
              role = "aut",
-             email = "ronny@ixpantia.com"
+             email = "ronny@ixpantia.com",
              comment = c(ORCID = "0000-0001-6225-7096")),
       person(given = "Daniel",
              family = "Granados Campos",
