@@ -93,6 +93,7 @@ incluye_upstream <- function(instancia = "guardada") {
 #' @param timeout number of seconds before timeout
 #' @param global whether the change should be global or local to the repo
 #'
+#' @return No return value, called for side effects
 #' @export
 set_git_timeout <- function(timeout = 14400, global = FALSE) {
 
@@ -141,4 +142,3 @@ fijar_tiempo_credenciales <- function(pausa =  14400, global = FALSE) {
     set_git_timeout(timeout = pausa, global = TRUE)
   }
 }
-

@@ -9,6 +9,9 @@ set_authentication(access_data)
 \arguments{
 \item{access_data}{Data needed to get into ixplorer}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Set the authentification into ixplorer
 }

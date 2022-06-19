@@ -6,6 +6,9 @@
 \usage{
 verify_ixplorer_file()
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Verifique si hay un archivo .ixplorer en el directorio de trabajo y
 configure las variables.
