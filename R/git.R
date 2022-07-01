@@ -99,7 +99,7 @@ set_git_timeout <- function(timeout = 14400, global = FALSE) {
 
   if (global == TRUE) {
     instruction <- paste0(
-      'git config --global credential.helper --replace-all "cache --timeout=',
+      'git config --global credential.helper "cache --timeout=',
       timeout, '"')
   } else {
     instruction <- paste0('git config credential.helper "cache --timeout=',
