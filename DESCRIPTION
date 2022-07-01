@@ -23,8 +23,8 @@ Authors@R:
              family = "Vargas Zuñiga",
              role = "ctb",
              email = "nayib@ixpantia.com"))
-Description: Create and view tickets in 'gitea', a self-hosted git service <https://gitea.io>, using an RStudio addin, and use helper functions to publish documentation and use git.
-License: AGPL (>= 3) + file LICENCE
+Description: Create and view tickets in 'gitea', a self-hosted git service <https://gitea.io>, using an 'RStudio' addin, and use helper functions to publish documentation and use git.
+License: AGPL (>= 3)
 Depends: 
     R (>= 3.4)
 Imports:
