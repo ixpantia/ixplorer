@@ -15,16 +15,22 @@ status](https://www.r-pkg.org/badges/version/ixplorer)](https://cran.r-project.o
 
 El paquete ixplorer trae la funcionalidad de ixplorer mas cerca tuyo.
 Tiene el propósito de permitir trabajar más agilmente con su equipo de
-datos desde RStudio y más importante aún, hacerlo sin tener que deterner
-su flujo de trabajo. Esto se logra con ventanas interactivas de dentro
-de RStudio, funciones para extraer información útil de día a día en
+datos desde RStudio y más importante aún, hacerlo sin detener su flujo
+de trabajo. Esto se logra con ventanas interactivas de dentro de
+RStudio, funciones para extraer información útil del día a día en
 ixplorer y funciones para facilitar también el trabajo con control de
-versiones de git.
+versiones con git.
 
 ### Instalación
 
-Para installar ixplorer, primero necesitas installar el paquete devtools
-(o remotes). Si no lo has hecho aún, puedes instalarlo con:
+Hay dos maneras de realizar este paso. Podemos instalar la versión del
+CRAN con
+
+    install.packages("ixplorer")
+
+O podemos instalar la versión en desarrollo desde GitHub. Para este
+paso, primero necesitas installar el paquete devtools (o remotes). Si no
+lo has hecho aún, puedes instalarlo con:
 
     install.packages("devtools")
 
@@ -48,8 +54,14 @@ control as well.
 
 ### Installation
 
-In case you do not have the devtools package installed on your computer,
-you can do it with:
+There are two ways to install the package. We can install the CRAN
+version with:
+
+    install.packages("ixplorer")
+
+Or, we can install the development version from GitHub. For this step,
+first you will need to install the `devtool` package on your computer.
+You can do it with:
 
 ``` r
 install.packages("devtools")
