@@ -7,9 +7,7 @@
 #' @return a character of the active issue in the session
 #' @export
 #'
-#' @examples
 get_instance <- function() {
-
 
   # Look in session
   if (Sys.getenv("ixplorer_instance") != "") {
@@ -25,7 +23,7 @@ get_instance <- function() {
     # Choose last saved instance
     if (nrow(saved_instances) > 0) {
 
-      last_saved <- saved_instances[1,1]
+      last_saved <- saved_instances[1, 1]
       instance <- last_saved
 
       # No instance found
@@ -36,6 +34,7 @@ get_instance <- function() {
       }
     }
 
-  return(instance )
+  return(instance)
 
 }
+

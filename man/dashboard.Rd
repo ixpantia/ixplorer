@@ -6,6 +6,9 @@
 \usage{
 dashboard()
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Show ixplorer dashboard
 }

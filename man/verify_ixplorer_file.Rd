@@ -2,9 +2,12 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixplorer_file}
 \alias{verify_ixplorer_file}
-\title{Verificar autentificación del ixplorer.}
+\title{Verificar autentificacion del ixplorer.}
 \usage{
 verify_ixplorer_file()
+}
+\value{
+No return value, called for side effects
 }
 \description{
 Verifique si hay un archivo .ixplorer en el directorio de trabajo y

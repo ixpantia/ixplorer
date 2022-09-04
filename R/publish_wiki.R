@@ -30,7 +30,6 @@
 #' @param quiet_render_logs if you like to see the render logs of rmarkdown,
 #'  set in TRUE, in otherwise set FALSE. Default is TRUE.
 #' @return Publish a md into wiki repository
-#'
 #' @examples
 #'
 #' \dontrun{
@@ -39,6 +38,7 @@
 #' }
 #'
 #' @export
+
 publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
                          quiet_render_logs = FALSE) {
 
@@ -58,9 +58,10 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
   if (stringr::str_sub(path_wiki_repo,
                        start = stringr::str_length(path_wiki_repo)) == "/") {
 
-    path_wiki_repo <- stringr::str_sub(path_wiki_repo,
-                                       start = 1,
-                                       end = stringr::str_length(path_wiki_repo) - 1)
+    path_wiki_repo <- stringr::str_sub(
+                        path_wiki_repo,
+                        start = 1,
+                        end = stringr::str_length(path_wiki_repo) - 1)
   }
 
   # Make pull if automatic_update is TRUE
@@ -69,18 +70,20 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
 
     if (nrow(gert::git_status(repo = path_wiki_repo)) > 0) {
       gert::git_stash_save(repo = path_wiki_repo)
-      message("Some of your changes to the wiki repository were put into stash. If you want to retrieve them you must go to the wiki repository and run: git stash apply")
+      message("Some of your changes to the wiki repository were put into stash.
+              If you want to retrieve them you must go to the wiki repository
+              and run: git stash apply")
     }
 
     gert::git_pull(repo = path_wiki_repo)
   }
 
   # Render the rmarkdown to github_document output
+
   quarto::quarto_render(report, output_format = "gfm",
                         quiet = quiet_render_logs)
 
   # Copy md to wiki repository
-
   base_name <- stringr::str_remove_all(basename(report), extension)
 
   md <- paste0(base_name, ".md")
@@ -162,10 +165,9 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
         "git push \n")
 
     }
-
   }
-
 }
+
 
 #' Publica un rmarkdown en un wiki repo
 #'
@@ -189,21 +191,19 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
 #' (usando el enlace que está disponible para usted una vez que haya creado la
 #' página de inicio de la wiki).
 #'
-#' 3. Una vez que haya clonado la wiki en su computadora,
-#' lo que debe indicar en la función `publica_wiki` es la` path_wiki_repo`.
-#' Esta es la dirección completa en su computadora donde se encuentra este repositorio
-#' que clonó.
+#' 3. Una vez que haya clonado la wiki en su computadora, lo que debe indicar
+#' en la función `publica_wiki` es la` path_wiki_repo`. Esta es la dirección
+#' completa en su computadora donde se encuentra este repositorio que clonó.
 #' Por ejemplo:  `/home/client/project/wiki_repo`
 #'
 #' @param reporte la ruta al archivo rmarkdown o qmd
 #' @param ruta_repo_wiki la ruta completa al repositorio wiki.
-#' @param automatic_update Si desea hacer automáticamente el pull, commit y push
+#' @param auto_actualizar Si desea hacer automáticamente el pull, commit y push
 #'   establecido en TRUE, si desea hacerlo manualmente, establezca FALSE. El
 #'   valor predeterminado es TRUE.
 #' @param silenciar_bitacora  Si desea ver la bitacora de renderización
 #'   establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE
 #' @return Publica un md en un repositorio wiki.
-#'
 #' @examples
 #'
 #' \dontrun{
@@ -213,15 +213,16 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
 #'
 #' @export
 
+
 publica_wiki <- function(reporte = report, ruta_repo_wiki = path_wiki_repo,
-                         auto_actualizar = TRUE, silenciar_bitacora= FALSE){
+                         auto_actualizar = TRUE, silenciar_bitacora= FALSE) {
+
 
   ## True and False
   if (auto_actualizar == TRUE && silenciar_bitacora == FALSE) {
 
     publish_wiki(reporte, ruta_repo_wiki,
                  automatic_update = TRUE, quiet_render_logs = FALSE)
-
 
     ## False and True
   } else if (auto_actualizar == FALSE && silenciar_bitacora == TRUE) {

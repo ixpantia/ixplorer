@@ -3,7 +3,9 @@
 #' @description Runs steps to synch your master branch to upstream
 #' automatically
 #'
-#' @return
+#' @param default_branch_name defines a default branch name to be able to
+#' synchronize it
+#' @return No return value, called for side effects
 #' @export
 synch_branch <- function(default_branch_name = "master") {
 
@@ -22,30 +24,15 @@ synch_branch <- function(default_branch_name = "master") {
 }
 
 
-
 #' Actualice la rama master desde el upstream
 #'
 #' @description actualiza su rama master con su upstream
 #' por medio de git rebase
-#'
+#' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
 actualizar_rama <- function() {
 
   synch_branch()
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

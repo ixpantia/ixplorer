@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ixplorer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -46,23 +46,23 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/credenciales.html">ixplorer gestión credenciales</a>
+      <a href="../articles/credenciales.html">Gestión credenciales</a>
     </li>
     <li>
-      <a href="../articles/credentials.html">credentials</a>
+      <a href="../articles/credentials.html">Credential managment</a>
     </li>
     <li>
-      <a href="../articles/diccionario.html">ixplorer: diccionario de términos</a>
+      <a href="../articles/diccionario.html">Diccionario de términos</a>
     </li>
     <li>
-      <a href="../articles/dictionary.html">ixplorer terms dictionary</a>
+      <a href="../articles/dictionary.html">Diccionary of terms</a>
     </li>
     <li>
       <a href="../articles/ixplorer_basics.html">ixplorer basics</a>
@@ -106,20 +106,37 @@
 
     
     
-<p>This vignette has the purpose of showing you a quick overview of the workflow with the ixplorer package.</p>
+<p>This vignette has the purpose of showing you a quick overview of the
+workflow with the ixplorer package.</p>
 <div class="section level3">
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
-<p>The goal of this package is to allow you to access information from the ixplorer git self hosted service quickly and easily from within RStudio. This means you can view the tickets assigned to you or to your team while you code, as well as all the tickets in your repository. You also gain access to your open pull requests. Additionally, it allows you to quickly perform some day-to-day git version control-related functions, such as updating the master branch of your fork, setting a time period to keep your credentials on a remote server, and publishing a wiki more easily.</p>
-<p>Below we show a general guide of how ixplorer works the first time you use it.</p>
+<p>The goal of this package is to allow you to access information from
+the ixplorer git self hosted service quickly and easily from within
+RStudio. This means you can view the tickets assigned to you or to your
+team while you code, as well as all the tickets in your repository. You
+also gain access to your open pull requests. Additionally, it allows you
+to quickly perform some day-to-day git version control-related
+functions, such as updating the master branch of your fork, setting a
+time period to keep your credentials on a remote server, and publishing
+a wiki more easily.</p>
+<p>Below we show a general guide of how ixplorer works the first time
+you use it.</p>
 </div>
 <div class="section level3">
 <h3 id="how-to-use-ixplorer">How to use ixplorer?<a class="anchor" aria-label="anchor" href="#how-to-use-ixplorer"></a>
 </h3>
 <p><img src="img/ixplorer_steps.png" style="width:90.0%"></p>
-<p>The fist step is to get credentials from ixplorer, then you use the authentication function to identify yourself, with this step you are giving the necessary information so that the ixplorer package can get you your tickets.</p>
-<p>If this is not your first time using ixplorer, use the ixploring tab in the authentication gadget to move between your saved instances and repos.</p>
-<p>Once you are finished you can delete your credentials if necessary using delete_credentials(). This is particularly recommended when you are using a shared computer.</p>
+<p>The fist step is to get credentials from ixplorer, then you use the
+authentication function to identify yourself, with this step you are
+giving the necessary information so that the ixplorer package can get
+you your tickets.</p>
+<p>If this is not your first time using ixplorer, use the ixploring tab
+in the authentication gadget to move between your saved instances and
+repos.</p>
+<p>Once you are finished you can delete your credentials if necessary
+using delete_credentials(). This is particularly recommended when you
+are using a shared computer.</p>
 </div>
 <div class="section level3">
 <h3 id="functions-of-ixplorer">Functions of ixplorer<a class="anchor" aria-label="anchor" href="#functions-of-ixplorer"></a>
@@ -127,25 +144,32 @@
 <p>Overall you will be able to:</p>
 <ul>
 <li>create a ticket with create_tickets()</li>
-<li>look at the tickets assigned to you with current_tickets()</li>
-<li>get a tibble with the open and closed tickets of a repo with list_open_tickets() and list_closed_tickets().</li>
+<li>look at the tickets assigned to you with current_tickets() get a
+tibble with the open and closed tickets of a repo with
+list_open_tickets() and list_closed_tickets().</li>
 <li>get a tibble with your open pull requests with list_open_pr().</li>
-<li>automatically sync your master branch from your upstream with synch_branch().</li>
-<li>set a timeout for your git credentials when you are working in a remote server with set_git_timeout().</li>
+<li>automatically sync your master branch from your upstream with
+synch_branch().</li>
+<li>set a timeout for your git credentials when you are working in a
+remote server with set_git_timeout().</li>
 <li>easily publish the wiki of your repo with publish_wiki().</li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="more-information">More information<a class="anchor" aria-label="anchor" href="#more-information"></a>
 </h3>
-<p>Visit the additional vignettes to get more information about how to use this package.</p>
+<p>Visit the additional vignettes to get more information about how to
+use this package.</p>
 <ul>
 <li>
-<strong>ixplorer</strong> vignette gives further information on the purpose and functions of this package.</li>
+<strong>ixplorer</strong> vignette gives further information on the
+purpose and functions of this package.</li>
 <li>
-<strong>credentials</strong> vignette goes through the step by step process of getting your credentials from ixplorer.</li>
-<li>
-<strong>dictionary</strong> introduces common terms used when talking about git version control, such as repo, project, ticket and pull request.</li>
+<strong>credentials</strong> vignette goes through the step by step
+process of getting your credentials from ixplorer.
+<strong>dictionary</strong> introduces common terms used when talking
+about git version control, such as repo, project, ticket and pull
+request.</li>
 </ul>
 </div>
   </div>
@@ -165,7 +189,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

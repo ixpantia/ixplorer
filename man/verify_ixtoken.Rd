@@ -2,10 +2,16 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixtoken}
 \alias{verify_ixtoken}
-\title{Verifique el ixtoken}
+\title{Verifies ixplorer user}
 \usage{
 verify_ixtoken(gitear_access)
 }
+\arguments{
+\item{gitear_access}{parameters to access into an ixplorer instance}
+}
+\value{
+No return value, called for side effects
+}
 \description{
-Verifique si existe el token para su repositorio de ixplorer.
+Verifies token exists for a repository.
 }

@@ -12,17 +12,17 @@
 #' Defaults to 4 hours.
 #' @param global if TRUE then the setting will be sett as a global setting. If
 #' FALSE it will only be for the current git repository
-#'
+#' @return No return value, called for side effects
 #' @export
 set_git_credentials_cache <- function(hours = 4, global = TRUE) {
 
-if (global == TRUE) {
-  system(paste(
-      "git config --global credential.helper cache --timeout=",
-      hours * 60 * 60))
+  if (global == TRUE) {
+    system(paste0(
+      'git config --global credential.helper --replace-all "cache --timeout=',
+       hours * 60 * 60, '"'))
   } else {
-  system(paste(
-      "git config credential.helper cache --timeout=",
-      hours * 60 * 60))
+    system(paste0('git config credential.helper "cache --timeout=',
+                  hours * 60 * 60, '"'))
   }
 }
+
