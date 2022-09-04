@@ -44,6 +44,14 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
 
   # Get the report extension
 
+  extension <- stringr::str_sub(report,start = -3, end = -1)
+
+  if (!(extension %in% c("Rmd","qmd"))) {
+
+    stop("Supported file types are .Rmd or .qmd")
+  }
+
+
 
   # Repare path_wiki_repo
 
@@ -74,11 +82,11 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
 
   # Copy md to wiki repository
 
-  base_name <- stringr::str_remove_all(basename(rmarkdown), ".Rmd")
+  base_name <- stringr::str_remove_all(basename(report), ".Rmd")
 
   md <- paste0(base_name, ".md")
 
-  path_md <- paste0(stringr::str_remove_all(rmarkdown, basename(rmarkdown)), md)
+  path_md <- paste0(stringr::str_remove_all(report, basename(rmarkdown)), md)
 
   file.copy(path_md, path_wiki_repo, overwrite = TRUE)
   file.remove(path_md)
@@ -122,13 +130,13 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
       } else {
 
         message(paste0("There are no new changes or something that can be sent in ",
-                       base_name, ".Rmd"))
+                       base_name, ".", extension))
       }
 
     } else {
 
       message(paste0("There are no new changes or something that can be sent in ",
-                     base_name, ".Rmd"))
+                     base_name, ".", extension))
     }
 
   } else {
