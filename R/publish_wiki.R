@@ -1,7 +1,7 @@
 #' Publish an rmarkdown into wiki repo
 #'
 #' @title Publish into wiki repo
-#' @description Publish an specific rmarkdown into wiki repository, specifying
+#' @description Publish an specific rmarkdown or qmd into wiki repository, specifying
 #'   the path of the wiki repository once that you already clone this repository
 #'   into your machine. See Details if is your first time publishing in a wiki
 #'   repository.
@@ -23,7 +23,7 @@
 #' address on your computer where this repository you cloned is located. For
 #' example: `/home/client/project/wiki_repo`
 #'
-#' @param rmarkdown the path of rmarkdown file
+#' @param report the path of rmarkdown or qmd file
 #' @param path_wiki_repo the complete path of wiki repository.
 #' @param automatic_update if you like to do automatically the pull, commit and
 #'  push set in TRUE, if you like to do manually, set FALSE. Default is TRUE.
@@ -34,13 +34,16 @@
 #' @examples
 #'
 #' \dontrun{
-#' publish_wiki(rmarkdown = "eda.Rmd",
+#' publish_wiki(report = "eda.Rmd",
 #'              path_wiki_repo = "/home/cliente/proyecto/wiki_repo")
 #' }
 #'
 #' @export
-publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
+publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
                          quiet_render_logs = FALSE) {
+
+  # Get the report extension
+
 
   # Repare path_wiki_repo
 
@@ -65,8 +68,9 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
   }
 
   # Render the rmarkdown to github_document output
-
-  rmarkdown::render(rmarkdown, 'github_document', quiet = quiet_render_logs)
+  quarto::quarto_render(report, output_format = "gfm",
+                        quiet = quiet_render_logs)
+  #rmarkdown::render(rmarkdown, 'github_document', quiet = quiet_render_logs)
 
   # Copy md to wiki repository
 
@@ -159,7 +163,7 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
 #' Publica un rmarkdown en un wiki repo
 #'
 #' @title Publica en el wiki repo
-#' @description Publique un rmarkdown específico en el repositorio wiki,
+#' @description Publique un rmarkdown o qmd específico en el repositorio wiki,
 #'   especificando la ruta del repositorio wiki una vez que ya haya clonado este
 #'   repositorio en su máquina. Consulte Detalles si es la primera vez que
 #'   publica en un repositorio wiki.
@@ -184,7 +188,7 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
 #' que clonó.
 #' Por ejemplo:  `/home/client/project/wiki_repo`
 #'
-#' @param rmarkdown la ruta al archivo rmarkdown
+#' @param reporte la ruta al archivo rmarkdown o qmd
 #' @param ruta_repo_wiki la ruta completa al repositorio wiki.
 #' @param automatic_update Si desea hacer automáticamente el pull, commit y push
 #'   establecido en TRUE, si desea hacerlo manualmente, establezca FALSE. El
@@ -196,40 +200,40 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
 #' @examples
 #'
 #' \dontrun{
-#' publish_wiki(rmarkdown = "eda.Rmd",
+#' publish_wiki(reporte = "eda.Rmd",
 #'              path_wiki_repo = "/home/cliente/proyecto/wiki_repo")
 #' }
 #'
 #' @export
 
-publica_wiki <- function(rmarkdown = rmarkdown, ruta_repo_wiki = path_wiki_repo,
+publica_wiki <- function(reporte = report, ruta_repo_wiki = path_wiki_repo,
                          auto_actualizar = TRUE, silenciar_bitacora= FALSE){
 
   ## True and False
   if (auto_actualizar == TRUE && silenciar_bitacora == FALSE) {
 
-    publish_wiki(rmarkdown, ruta_repo_wiki,
+    publish_wiki(reporte, ruta_repo_wiki,
                  automatic_update = TRUE, quiet_render_logs = FALSE)
 
 
     ## False and True
   } else if (auto_actualizar == FALSE && silenciar_bitacora == TRUE) {
 
-    publish_wiki(rmarkdown, ruta_repo_wiki,
+    publish_wiki(reporte, ruta_repo_wiki,
                  automatic_update = FALSE, quiet_render_logs = TRUE)
 
 
     ## True and True
   } else if (auto_actualizar == TRUE && silenciar_bitacora == TRUE) {
 
-    publish_wiki(rmarkdown, ruta_repo_wiki,
+    publish_wiki(reporte, ruta_repo_wiki,
                  automatic_update = TRUE, quiet_render_logs = TRUE)
 
 
     ## False and False
   } else if (auto_actualizar == FALSE && silenciar_bitacora == FALSE) {
 
-    publish_wiki(rmarkdown, ruta_repo_wiki,
+    publish_wiki(reporte, ruta_repo_wiki,
                  automatic_update = FALSE, quiet_render_logs = FALSE)
   }
 }
