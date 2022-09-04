@@ -78,15 +78,14 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
   # Render the rmarkdown to github_document output
   quarto::quarto_render(report, output_format = "gfm",
                         quiet = quiet_render_logs)
-  #rmarkdown::render(rmarkdown, 'github_document', quiet = quiet_render_logs)
 
   # Copy md to wiki repository
 
-  base_name <- stringr::str_remove_all(basename(report), ".Rmd")
+  base_name <- stringr::str_remove_all(basename(report), extension)
 
   md <- paste0(base_name, ".md")
 
-  path_md <- paste0(stringr::str_remove_all(report, basename(rmarkdown)), md)
+  path_md <- paste0(stringr::str_remove_all(report, basename(report)), md)
 
   file.copy(path_md, path_wiki_repo, overwrite = TRUE)
   file.remove(path_md)
@@ -95,7 +94,7 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
 
   files_folder <- paste0(base_name, "_files")
 
-  files_path <- paste0(stringr::str_remove_all(rmarkdown, basename(rmarkdown)),
+  files_path <- paste0(stringr::str_remove_all(report, basename(report)),
                        files_folder)
 
   if (dir.exists(files_path)) {
