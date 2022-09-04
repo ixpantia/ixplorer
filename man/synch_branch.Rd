@@ -4,10 +4,7 @@
 \alias{synch_branch}
 \title{Synch your master branch with upstream}
 \usage{
-synch_branch()
-}
-\value{
-
+synch_branch(default_branch_name = "master")
 }
 \description{
 Runs steps to synch your master branch to upstream
