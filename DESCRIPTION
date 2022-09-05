@@ -1,6 +1,6 @@
 Package: ixplorer
-Title: Easy DataOps For R Users
-Version: 0.2.1
+Title: Easy DataOps for R Users
+Version: 0.2.2
 Authors@R:
     c(person(given = "ixpantia, SRL",
              role = "cph",
@@ -8,25 +8,28 @@ Authors@R:
       person(given = "Frans",
              family = "van Dunne",
              role = c("cre", "aut"),
-             email = "frans@ixpantia.com"),
+             email = "frans@ixpantia.com",
+             comment = c(ORCID = "0000-0002-7853-2811")),
       person(given = "Ronny",
              family = "Hernández Mora",
              role = "aut",
-             email = "ronny@ixpantia.com"),
+             email = "ronny@ixpantia.com",
+             comment = c(ORCID = "0000-0001-6225-7096")),
       person(given = "Daniel",
              family = "Granados Campos",
              role = "ctb",
-             email = "daniel@ixpantia.com"))
-Description: This is the local component of the ixplorer
-    platform from ixpantia.
-License: file LICENCE
+             email = "daniel@ixpantia.com"),
+      person(given = "Nayib",
+             family = "Vargas Zuñiga",
+             role = "ctb",
+             email = "nayib@ixpantia.com"))
+Description: Create and view tickets in 'gitea', a self-hosted git service <https://gitea.io>, using an 'RStudio' addin, and use helper functions to publish documentation and use git.
+License: AGPL (>= 3)
 Depends: 
     R (>= 3.4)
 Imports:
-    clipr (>= 0.6.0),
     dplyr (>= 0.8.1),
     gitear (>= 0.0.2),
-    httr (>= 1.4.0),
     kableExtra (>= 1.1.0),
     lubridate (>= 1.7.4),
     miniUI (>= 0.1.1.1),
@@ -36,20 +39,25 @@ Imports:
     stringr (>= 1.4.0),
     shinyWidgets (>= 0.2.1),
     quarto(>= 1.2)
+    purrr (>= 0.3.4),
+    gert (>= 1.5.0),
+    keyring (>= 1.3.0),
+    methods
 Suggests: 
     knitr (>= 1.23),
+    git2r (>= 0.30.1),
+    here (>= 1.0.1),
+    tibble (>= 3.1.6),
     readr (>= 1.3.1),
     rmarkdown (>= 1.12),
     rstudioapi (>= 0.10),
-    testthat (>= 2.1.1),
-    tidyr (>= 0.8.3)
+    testthat (>= 3.0.0),
+    tidyr (>= 0.8.3),
 VignetteBuilder: 
     knitr
-Remotes: 
-    ixpantia/gitear
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 URL: https://github.com/ixpantia/ixplorer
 BugReports: https://github.com/ixpantia/ixplorer/issues
+Config/testthat/edition: 3

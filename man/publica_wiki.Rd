@@ -16,12 +16,12 @@ publica_wiki(
 
 \item{ruta_repo_wiki}{la ruta completa al repositorio wiki.}
 
-\item{silenciar_bitacora}{Si desea ver la bitacora de renderización
-establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE}
-
-\item{automatic_update}{Si desea hacer automáticamente el pull, commit y push
+\item{auto_actualizar}{Si desea hacer automáticamente el pull, commit y push
 establecido en TRUE, si desea hacerlo manualmente, establezca FALSE. El
 valor predeterminado es TRUE.}
+
+\item{silenciar_bitacora}{Si desea ver la bitacora de renderización
+establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE}
 }
 \value{
 Publica un md en un repositorio wiki.
@@ -48,10 +48,9 @@ deberá clonar el repositorio de la wiki
 como lo haría con cualquier otro repositorio en su computadora
 (usando el enlace que está disponible para usted una vez que haya creado la
 página de inicio de la wiki).
-\item Una vez que haya clonado la wiki en su computadora,
-lo que debe indicar en la función \code{publica_wiki} es la\code{ path_wiki_repo}.
-Esta es la dirección completa en su computadora donde se encuentra este repositorio
-que clonó.
+\item Una vez que haya clonado la wiki en su computadora, lo que debe indicar
+en la función \code{publica_wiki} es la\code{ path_wiki_repo}. Esta es la dirección
+completa en su computadora donde se encuentra este repositorio que clonó.
 Por ejemplo:  \verb{/home/client/project/wiki_repo}
 }
 }

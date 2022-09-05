@@ -4,19 +4,24 @@
 \alias{fijar_tiempo_credenciales}
 \title{Extienda el tiempo de sus credenciales de git}
 \usage{
-fijar_tiempo_credenciales(pausa = 14000, global = FALSE)
+fijar_tiempo_credenciales(pausa = 14400, global = FALSE)
 }
 \arguments{
-\item{global}{}
+\item{pausa}{número de segundos antes del tiempo de espera}
+
+\item{global}{si el cambio debe ser global o local para el repositorio}
+}
+\value{
+No hay valor de retorno - se llama por su efecto secundario
 }
 \description{
-Esta es una función traducida que llama a set_git_timeout().
+Esta es una función traducida que llama a set_git_timeout.
 Establezca la cantidad de segundos para que se agote el
 tiempo de espera del caché de credenciales de git. Tenga en cuenta que
 esto está escrito para trabajar en servidores remotos donde no queremos
 almacenar nuestras credenciales de git (otros pueden tener acceso o
 hacerse pasar por nosotros). En una máquina confiable, la configuración más
-común sería (en una máquina Linux) <git credential.helper store>. Sin
+común sería (en una máquina Linux) git credential.helper store. Sin
 embargo, se requiere algo de almacenamiento en caché cuando se trabaja en
 un servidor remoto porque los ciclos frecuentes de envío y confirmación en
 los que tiene que escribir su nombre de usuario y contraseña cada vez no son

@@ -2,10 +2,16 @@
 % Please edit documentation in R/verify_authenticacion.R
 \name{verify_ixproject}
 \alias{verify_ixproject}
-\title{Verifique  ixproject}
+\title{Verifies ixplorer project}
 \usage{
 verify_ixproject(gitear_access)
 }
+\arguments{
+\item{gitear_access}{parameters to access into an ixplorer instance}
+}
+\value{
+No return value, called for side effects
+}
 \description{
-Verifique si existe el nombre del proyecto donde pertenece el repositorio.
+Verifies if the project's name exists in the repository.
 }

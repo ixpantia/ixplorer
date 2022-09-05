@@ -7,7 +7,7 @@
 eliminar_credenciales(instancia = "actual")
 }
 \arguments{
-\item{instance}{una instancia de ixplorer como "masterclass" o "prueba"}
+\item{instancia}{una instancia de ixplorer como "masterclass" o "prueba"}
 }
 \value{
 Elimina las credenciales guardadas por add_token()

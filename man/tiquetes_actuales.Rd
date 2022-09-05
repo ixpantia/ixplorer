@@ -7,11 +7,11 @@
 tiquetes_actuales(instancia = "guardada")
 }
 \arguments{
-\item{instancia}{instancia de ixplorer (Ej: "secure", "masterclass", "prueba")}
-
-\item{propietario}{el nombre del proyecto donde el repositorio está ubicado en ixplorer}
-
-\item{repositorio}{nombre del repositorio donde están los tiquetes}
+\item{instancia}{instancia de ixplorer (Ej: "secure", "masterclass",
+"prueba")}
+}
+\value{
+No hay valor de retorno - se llama por su efecto secundario
 }
 \description{
 Vea tiquetes para un usuario específico en una computadora y

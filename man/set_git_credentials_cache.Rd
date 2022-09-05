@@ -13,6 +13,9 @@ Defaults to 4 hours.}
 \item{global}{if TRUE then the setting will be sett as a global setting. If
 FALSE it will only be for the current git repository}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Set the amount of time that the git credentials will be
 available on the system you are working on.
