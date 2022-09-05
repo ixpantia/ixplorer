@@ -5,14 +5,14 @@
 \title{Publish into wiki repo}
 \usage{
 publish_wiki(
-  rmarkdown,
+  report,
   path_wiki_repo,
   automatic_update = FALSE,
   quiet_render_logs = FALSE
 )
 }
 \arguments{
-\item{rmarkdown}{the path of rmarkdown file}
+\item{report}{the path of rmarkdown or qmd file}
 
 \item{path_wiki_repo}{the complete path of wiki repository.}
 
@@ -26,7 +26,7 @@ set in TRUE, in otherwise set FALSE. Default is TRUE.}
 Publish a md into wiki repository
 }
 \description{
-Publish an specific rmarkdown into wiki repository, specifying
+Publish an specific rmarkdown or qmd into wiki repository, specifying
 the path of the wiki repository once that you already clone this repository
 into your machine. See Details if is your first time publishing in a wiki
 repository.
@@ -53,7 +53,7 @@ example: \verb{/home/client/project/wiki_repo}
 \examples{
 
 \dontrun{
-publish_wiki(rmarkdown = "eda.Rmd",
+publish_wiki(report = "eda.Rmd",
              path_wiki_repo = "/home/cliente/proyecto/wiki_repo")
 }
 

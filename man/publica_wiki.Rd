@@ -5,14 +5,14 @@
 \title{Publica en el wiki repo}
 \usage{
 publica_wiki(
-  rmarkdown = rmarkdown,
+  reporte = report,
   ruta_repo_wiki = path_wiki_repo,
   auto_actualizar = TRUE,
   silenciar_bitacora = FALSE
 )
 }
 \arguments{
-\item{rmarkdown}{la ruta al archivo rmarkdown}
+\item{reporte}{la ruta al archivo rmarkdown o qmd}
 
 \item{ruta_repo_wiki}{la ruta completa al repositorio wiki.}
 
@@ -27,7 +27,7 @@ establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE}
 Publica un md en un repositorio wiki.
 }
 \description{
-Publique un rmarkdown específico en el repositorio wiki,
+Publique un rmarkdown o qmd específico en el repositorio wiki,
 especificando la ruta del repositorio wiki una vez que ya haya clonado este
 repositorio en su máquina. Consulte Detalles si es la primera vez que
 publica en un repositorio wiki.
@@ -57,7 +57,7 @@ Por ejemplo:  \verb{/home/client/project/wiki_repo}
 \examples{
 
 \dontrun{
-publish_wiki(rmarkdown = "eda.Rmd",
+publish_wiki(reporte = "eda.Rmd",
              path_wiki_repo = "/home/cliente/proyecto/wiki_repo")
 }
 
