@@ -80,8 +80,9 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
                         quiet = quiet_render_logs)
 
   # Copy md to wiki repository
+  dot_name <- paste0(".",extension)
 
-  base_name <- stringr::str_remove_all(basename(report), extension)
+  base_name <- stringr::str_remove_all(basename(report), dot_name)
 
   md <- paste0(base_name, ".md")
 
