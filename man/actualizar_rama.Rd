@@ -4,7 +4,10 @@
 \alias{actualizar_rama}
 \title{Actualice la rama master desde el upstream}
 \usage{
-actualizar_rama()
+actualizar_rama(rama_por_defecto)
+}
+\arguments{
+\item{rama_por_defecto}{define la rama por defecto que queremos actualizar}
 }
 \value{
 No hay valor de retorno - se llama por su efecto secundario

@@ -28,11 +28,13 @@ synch_branch <- function(default_branch_name = "master") {
 #'
 #' @description actualiza su rama master con su upstream
 #' por medio de git rebase
+#'
+#' @param rama_por_defecto define la rama por defecto que queremos actualizar
 #' @return No hay valor de retorno - se llama por su efecto secundario
 #' @export
-actualizar_rama <- function() {
+actualizar_rama <- function(rama_por_defecto) {
 
-  synch_branch()
+  synch_branch(default_branch_name = rama_por_defecto)
 
 }
 

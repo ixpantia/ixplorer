@@ -256,5 +256,3 @@ one step.
   publish_wiki().
 
 ![](img/clone_wiki.png)
-
-

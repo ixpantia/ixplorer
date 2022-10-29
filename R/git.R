@@ -80,8 +80,8 @@ incluye_upstream <- function(instancia = "guardada") {
 #' @description Set the number of seconds before the git credential cache times
 #'   out. Note that this is written for work on remote servers where we do not
 #'   want to store our git credentials because other might have access to it, or
-#'   impersonate us. On a trusted machine the most common setting would be (on
-#'   a linux machine) git credential.helper store. However, some caching is
+#'   impersonate us. On a trusted machine the most common setting would be
+#'   git credential.helper store. However, some caching is
 #'   required when working on a remote server because frequent commit-push
 #'   cycles where you have to write out your username and password every time is
 #'   not nice.
@@ -118,7 +118,7 @@ set_git_timeout <- function(timeout = 14400, global = FALSE) {
 #' esto está escrito para trabajar en servidores remotos donde no queremos
 #' almacenar nuestras credenciales de git (otros pueden tener acceso o
 #' hacerse pasar por nosotros). En una máquina confiable, la configuración más
-#' común sería (en una máquina Linux) git credential.helper store. Sin
+#' común sería git credential.helper store. Sin
 #' embargo, se requiere algo de almacenamiento en caché cuando se trabaja en
 #' un servidor remoto porque los ciclos frecuentes de envío y confirmación en
 #' los que tiene que escribir su nombre de usuario y contraseña cada vez no son
