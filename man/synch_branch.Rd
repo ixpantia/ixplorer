@@ -12,7 +12,6 @@ synchronize it}
 }
 \value{
 No return value, called for side effects
-
 }
 \description{
 Runs steps to synch your master branch to upstream
