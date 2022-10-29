@@ -110,5 +110,3 @@ a specific point in the history of the project.
 In this place you can configure the repository, the people who have access, who
 can collaborate, write or change code. If you want to remove the repository,
 change rights, this is the place to do it.
-
-
