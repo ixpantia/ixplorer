@@ -21,7 +21,7 @@ tiempo de espera del caché de credenciales de git. Tenga en cuenta que
 esto está escrito para trabajar en servidores remotos donde no queremos
 almacenar nuestras credenciales de git (otros pueden tener acceso o
 hacerse pasar por nosotros). En una máquina confiable, la configuración más
-común sería (en una máquina Linux) git credential.helper store. Sin
+común sería git credential.helper store. Sin
 embargo, se requiere algo de almacenamiento en caché cuando se trabaja en
 un servidor remoto porque los ciclos frecuentes de envío y confirmación en
 los que tiene que escribir su nombre de usuario y contraseña cada vez no son
