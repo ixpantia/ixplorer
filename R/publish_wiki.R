@@ -70,7 +70,7 @@ publish_wiki <- function(rmarkdown, path_wiki_repo, automatic_update = FALSE,
 
   # Copy md to wiki repository
 
-  base_name <- stringr::str_remove_all(basename(rmarkdown), ".Rmd")
+  base_name <- stringr::str_remove_all(basename(rmarkdown), ".Rmd|.qmd")
 
   md <- paste0(base_name, ".md")
 
