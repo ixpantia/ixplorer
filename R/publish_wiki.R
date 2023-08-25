@@ -53,7 +53,7 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE, new_f
 
 
 
-  # Repare path_wiki_repo
+  # Repare path_wiki_repo.
 
   if (stringr::str_sub(path_wiki_repo,
                        start = stringr::str_length(path_wiki_repo)) == "/") {
