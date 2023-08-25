@@ -39,7 +39,7 @@
 #'
 #' @export
 
-publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
+publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE, new_file_name = NULL,
                          quiet_render_logs = FALSE) {
 
   # Get the report extension
@@ -53,7 +53,7 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
 
 
 
-  # Repare path_wiki_repo
+  # Repare path_wiki_repo.
 
   if (stringr::str_sub(path_wiki_repo,
                        start = stringr::str_length(path_wiki_repo)) == "/") {
@@ -87,7 +87,9 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
 
   dot_name <- paste0(".",extension)
 
-  base_name <- stringr::str_remove_all(basename(report), dot_name)
+  base_name <- ifelse(is.null(new_file_name),
+                      stringr::str_remove_all(basename(report), dot_name),
+                      new_file_name)
 
 
   md <- paste0(base_name, ".md")
