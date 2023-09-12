@@ -219,7 +219,15 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE,
 
 
 publica_wiki <- function(reporte = report, ruta_repo_wiki = path_wiki_repo,
-                         auto_actualizar = TRUE, silenciar_bitacora= FALSE) {
+                         auto_actualizar = TRUE, silenciar_bitacora= FALSE,
+                         nuevo_nombre = NULL) {
+
+
+
+  if (!is.null(nuevo_nombre)) {
+    # Renombrar el archivo de reporte si se proporciona un nuevo nombre
+    reporte <- nuevo_nombre
+  }
 
 
   ## True and False

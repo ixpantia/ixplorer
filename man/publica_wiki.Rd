@@ -8,7 +8,8 @@ publica_wiki(
   reporte = report,
   ruta_repo_wiki = path_wiki_repo,
   auto_actualizar = TRUE,
-  silenciar_bitacora = FALSE
+  silenciar_bitacora = FALSE,
+  nuevo_nombre = NULL
 )
 }
 \arguments{
