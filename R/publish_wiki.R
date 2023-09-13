@@ -223,12 +223,7 @@ publica_wiki <- function(reporte = report, ruta_repo_wiki = path_wiki_repo,
                          auto_actualizar = TRUE, silenciar_bitacora= FALSE,
                          nuevo_nombre = NULL) {
 
-<<<<<<< Updated upstream
 
-
-=======
-  #
->>>>>>> Stashed changes
   if (!is.null(nuevo_nombre)) {
     # Renombrar el archivo de reporte si se proporciona un nuevo nombre
     reporte <- nuevo_nombre
