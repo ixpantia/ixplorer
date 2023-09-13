@@ -22,7 +22,9 @@ establecido en TRUE, si desea hacerlo manualmente, establezca FALSE. El
 valor predeterminado es TRUE.}
 
 \item{silenciar_bitacora}{Si desea ver la bitacora de renderización
-establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE}
+establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE.}
+
+\item{nuevo_nombre}{el nuevo nombre del archivo markdown.}
 }
 \value{
 Publica un md en un repositorio wiki.
