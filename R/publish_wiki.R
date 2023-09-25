@@ -30,6 +30,7 @@
 #' @param quiet_render_logs if you like to see the render logs of rmarkdown,
 #'  set in TRUE, in otherwise set FALSE. Default is TRUE.
 #' @param new_file_name the new name for the markdown file.
+#' @return Publish a md into wiki repository.
 #' @examples
 #'
 #' \dontrun{
