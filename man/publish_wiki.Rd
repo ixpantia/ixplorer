@@ -8,6 +8,7 @@ publish_wiki(
   report,
   path_wiki_repo,
   automatic_update = FALSE,
+  new_file_name = NULL,
   quiet_render_logs = FALSE
 )
 }
@@ -19,11 +20,10 @@ publish_wiki(
 \item{automatic_update}{if you like to do automatically the pull, commit and
 push set in TRUE, if you like to do manually, set FALSE. Default is TRUE.}
 
+\item{new_file_name}{the new name for the markdown file.}
+
 \item{quiet_render_logs}{if you like to see the render logs of rmarkdown,
 set in TRUE, in otherwise set FALSE. Default is TRUE.}
-}
-\value{
-Publish a md into wiki repository
 }
 \description{
 Publish an specific rmarkdown or qmd into wiki repository, specifying
