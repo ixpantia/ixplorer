@@ -176,7 +176,7 @@ create_and_add_user_to_repo <- function(user_data) {
   # First, create the user
   user_response <- create_users_ixpantia(user_data)
 
-  # Then, add the user to the repository
+  # Then, add the user to the repository..
   repo_response <- add_user_to_repo(user_response$response$username)
 
   # Return both responses
