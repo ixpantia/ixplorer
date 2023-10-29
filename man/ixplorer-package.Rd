@@ -6,7 +6,7 @@
 \alias{ixplorer-package}
 \title{ixplorer: Easy DataOps for R Users}
 \description{
-Create and view tickets in 'gitea', a self-hosted git service \url{https://gitea.io}, using an 'RStudio' addin, and use helper functions to publish documentation and use git.
+Create and view tickets in 'gitea', a self-hosted git service \url{https://about.gitea.com}, using an 'RStudio' addin, and use helper functions to publish documentation and use git.
 }
 \seealso{
 Useful links:
