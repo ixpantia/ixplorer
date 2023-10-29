@@ -40,5 +40,6 @@ if (getRversion() >= "2.15.1") utils::globalVariables(
     "pr_assignee",
     "pr_project",
     "pr_repo",
-    "owner"
+    "owner",
+    "report"
     ))
