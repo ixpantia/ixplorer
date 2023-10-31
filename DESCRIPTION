@@ -1,6 +1,6 @@
 Package: ixplorer
 Title: Easy DataOps for R Users
-Version: 0.3.3
+Version: 0.3.4
 Authors@R:
     c(person(given = "ixpantia, SRL",
              role = "cph",
@@ -23,7 +23,7 @@ Authors@R:
              family = "Vargas Zuñiga",
              role = "ctb",
              email = "nayib@ixpantia.com"))
-Description: Create and view tickets in 'gitea', a self-hosted git service <https://gitea.io>, using an 'RStudio' addin, and use helper functions to publish documentation and use git.
+Description: Create and view tickets in 'gitea', a self-hosted git service <https://about.gitea.com>, using an 'RStudio' addin, and use helper functions to publish documentation and use git.
 License: AGPL (>= 3)
 Depends: 
     R (>= 3.4)
