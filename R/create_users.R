@@ -1,8 +1,8 @@
-#' Create a new user in a Gitea repository
+#' Create a new users in a ixplorer repository
 #'
-#' This function creates a new user in a Gitea repository and adds them with specific permissions.
+#' This function creates a new users in a ixplorer repository and adds them with specific permissions.
 #'
-#' @param base_url Base URL of the Gitea server.
+#' @param base_url Base URL of the ixplorer server.
 #' @param api_key API key for authentication.
 #' @param owner Owner's name of the repository.
 #' @param repo Repository name.
@@ -13,7 +13,7 @@
 #' @examples
 #' \dontrun{
 #' # API configuration
-#' base_url <- "https://example.gitea.com"
+#' base_url <- ""https://prueba.com""
 #' api_key <- "your_api_key"
 #' owner <- "repository_owner"
 #' repo <- "repository_name"
@@ -36,7 +36,7 @@
 #' collaborator_permissions <- "Write"
 #'
 #' # Create users and add them to the repository with specific permissions
-#' results <- create_user(base_url, api_key, owner, repo, user_data_list, collaborator_permissions)
+#' results <- create_users(base_url, api_key, owner, repo, user_data_list, collaborator_permissions)
 #'
 #' # Print the results
 #' print(results)
@@ -133,7 +133,7 @@ add_user_to_repo <- function(base_url, api_key, owner, repo, username, collabora
 }
 
 # Define the function create_user
-create_user <- function(base_url, api_key, owner, repo, user_data_list, collaborator_permissions) {
+create_users <- function(base_url, api_key, owner, repo, user_data_list, collaborator_permissions) {
   # Create users and add them to the repository with specific permissions
   results <- lapply(user_data_list, function(user_data) {
     user_response <- new_user(base_url, api_key, owner, repo, user_data)
