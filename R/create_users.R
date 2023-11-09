@@ -13,7 +13,7 @@
 #' @examples
 #' \dontrun{
 #' # API configuration
-#' base_url <- ""https://prueba.com""
+#' base_url <- "https://prueba.com"
 #' api_key <- "your_api_key"
 #' owner <- "repository_owner"
 #' repo <- "repository_name"
