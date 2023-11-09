@@ -10,6 +10,13 @@
 #' @param collaborator_permissions Collaborator permissions (Read, Write, or Admin).
 #' @return A data frame with the information of the created users, including email, login, username, and password.
 #'
+#' @import httr
+#' @import jsonlite
+#' @import gitear
+#' @import password
+#' @import magrittr
+#' @import dplyr
+#'
 #' @examples
 #' \dontrun{
 #' # API configuration
@@ -37,10 +44,6 @@
 #'
 #' # Create users and add them to the repository with specific permissions
 #' results <- create_users(base_url, api_key, owner, repo, user_data_list, collaborator_permissions)
-#'
-#' # Print the results
-#' print(results)
-#' }
 #'
 
 new_user <- function(base_url, api_key, owner, repo, user_data) {
