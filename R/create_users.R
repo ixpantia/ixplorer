@@ -1,14 +1,14 @@
-#' Create a new users in a ixplorer repository
+#' Create a new users in an ixplorer repository
 #'
-#' This function creates a new users in a ixplorer repository and adds them with specific permissions.
+#' This function creates a new users in an ixplorer repository and adds them with specific permissions.
 #'
 #' @param base_url Base URL of the ixplorer server.
 #' @param api_key API key for authentication.
 #' @param owner Owner's name of the repository.
 #' @param repo Repository name.
-#' @param user_data User's data in the form of a list.
+#' @param user_data Users data in the form of a list.
 #' @param collaborator_permissions Collaborator permissions (Read, Write, or Admin).
-#' @return A data frame with the information of the created user, including email, login, username, and password.
+#' @return A data frame with the information of the created users, including email, login, username, and password.
 #'
 #' @examples
 #' \dontrun{
@@ -77,10 +77,10 @@ new_user <- function(base_url, api_key, owner, repo, user_data) {
   # Generate a secure password
   secure_password <- generate_patterned_password()
 
-  # Add the password to user data
+  # Add the password to users data
   user_data$password <- secure_password
 
-  # Convert the user data to JSON
+  # Convert the users data to JSON
   user_data_json <- jsonlite::toJSON(user_data, auto_unbox = TRUE)
 
   # Send the POST request to create the user
@@ -108,7 +108,7 @@ new_user <- function(base_url, api_key, owner, repo, user_data) {
 }
 
 
-# Function to add a user to the repository with specific permissions
+# Function to add a users to the repository with specific permissions
 add_user_to_repo <- function(base_url, api_key, owner, repo, username, collaborator_permissions) {
   gitea_url <- file.path(base_url, "api/v1/repos", owner, repo, "collaborators", username)
   authorization <- paste("token", api_key)
@@ -116,7 +116,7 @@ add_user_to_repo <- function(base_url, api_key, owner, repo, username, collabora
   # Define the JSON request body that includes specific permissions
   permission_body <- jsonlite::toJSON(list(permission = collaborator_permissions), auto_unbox = TRUE)
 
-  # Send the PUT request to add the user to the repository
+  # Send the PUT request to add the users to the repository
   r <- tryCatch(
     PUT(gitea_url,
         add_headers(Authorization = authorization,
@@ -132,7 +132,7 @@ add_user_to_repo <- function(base_url, api_key, owner, repo, username, collabora
   return(r)
 }
 
-# Define the function create_user
+# Define the function create_users
 create_users <- function(base_url, api_key, owner, repo, user_data_list, collaborator_permissions) {
   # Create users and add them to the repository with specific permissions
   results <- lapply(user_data_list, function(user_data) {
