@@ -92,7 +92,7 @@ new_user <- function(base_url, api_key, owner, repo, user_data) {
          add_headers(Authorization = authorization,
                      "Content-Type" = "application/json"),
          body = user_data_json),
-    error = function(cond) {"Failure"}
+    error = function(e) {"Failure"}
   )
 
   if (class(r) != "response") {
@@ -125,7 +125,7 @@ add_user_to_repo <- function(base_url, api_key, owner, repo, username, collabora
         add_headers(Authorization = authorization,
                     "Content-Type" = "application/json"),
         body = permission_body),
-    error = function(cond) {"Failure"}
+    error = function(e) {"Failure"}
   )
 
   if (http_type(r) >= 400) {
