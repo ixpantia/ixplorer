@@ -1,50 +1,28 @@
-#' Create a new users in an ixplorer repository
+#' Create a new user on ixplorer.
 #'
-#' This function creates a new users in an ixplorer repository and adds them with specific permissions.
-#'
-#' @param base_url Base URL of the ixplorer server.
-#' @param api_key API key for authentication.
-#' @param owner Owner's name of the repository.
-#' @param repo Repository name.
-#' @param user_data Users data in the form of a list.
-#' @param collaborator_permissions Collaborator permissions (Read, Write, or Admin).
-#' @return A data frame with the information of the created users, including email, login, username, and password.
+#' This function creates a new user on an ixplorer server by sending a POST
+#' request to the appropriate endpoint.
 #'
 #' @import httr
-#' @import jsonlite
-#' @import gitear
-#' @import password
-#' @import magrittr
+#' @importFrom jsonlite
+#' @importFrom purrr
+#' @importFrom magrittr %>%
 #' @import dplyr
 #'
-#' @examples
-#' \dontrun{
-#' # API configuration
-#' base_url <- "https://prueba.com"
-#' api_key <- "your_api_key"
-#' owner <- "repository_owner"
-#' repo <- "repository_name"
 #'
-#' # New users data (in a list)
-#' user_data_list <- list(
-#'   list(
-#'     email = "user@example.com",
-#'     login_name = "User-1",
-#'     username = "User-1"
-#'   ),
-#'   list(
-#'     email = "user2@example.com",
-#'     login_name = "User-2",
-#'     username = "User-2"
-#'   )
-#' )
+#' @param base_url The base URL of the ixplorer server.
+#' @param api_key The API key for authentication on the ixplorer server.
+#' @param owner The owner (organization or user) of the repository where
+#' the user will be created.
+#' @param repo The name of the repository where the user will be created.
+#' @param user_data An object containing user information, including
+#' at least email, login_name, and username.
 #'
-#' # Collaborator permissions to be added (Read, Write, or Admin)
-#' collaborator_permissions <- "Write"
+#' @return A list containing the response from the ixplorer server,
+#'  including the generated password.
 #'
-#' # Create users and add them to the repository with specific permissions
-#' results <- create_users(base_url, api_key, owner, repo, user_data_list, collaborator_permissions)
-#'
+#' @export
+utils::globalVariables(c("email", "login", "password", "report"))
 
 new_user <- function(base_url, api_key, owner, repo, user_data) {
   if (missing(base_url)) {
@@ -80,10 +58,10 @@ new_user <- function(base_url, api_key, owner, repo, user_data) {
   # Generate a secure password
   secure_password <- generate_patterned_password()
 
-  # Add the password to users data
+  # Add the password to user data
   user_data$password <- secure_password
 
-  # Convert the users data to JSON
+  # Convert the user data to JSON
   user_data_json <- jsonlite::toJSON(user_data, auto_unbox = TRUE)
 
   # Send the POST request to create the user
@@ -92,10 +70,10 @@ new_user <- function(base_url, api_key, owner, repo, user_data) {
          add_headers(Authorization = authorization,
                      "Content-Type" = "application/json"),
          body = user_data_json),
-    error = function(e) {"Failure"}
+    error = function(cond) {"Failure"}
   )
 
-  if (class(r) != "response") {
+  if (!inherits(r, "response")) {
     stop(paste0("Error posting to the URL: ", gitea_url))
   }
 
@@ -111,7 +89,26 @@ new_user <- function(base_url, api_key, owner, repo, user_data) {
 }
 
 
-# Function to add a users to the repository with specific permissions
+
+#' Add a user as a collaborator to an ixplorer repository.
+#'
+#' This function adds a user as a collaborator to a specific repository on
+#' ixplorer with specific permissions.
+#'
+#' @param base_url The base URL of the ixplorer server.
+#' @param api_key The API key for authentication on the ixplorer server.
+#' @param owner The owner (organization or user) of the repository where
+#' the user will be added as a collaborator.
+#' @param repo The name of the repository where the user will be added
+#' as a collaborator.
+#' @param username The username of the user to be added as a collaborator.
+#' @param collaborator_permissions The permissions to be assigned
+#' to the collaborator ("Read", "Write", or "Admin").
+#'
+#' @return The response from the ixplorer server.
+#'
+
+# Function to add a user to the repository with specific permissions
 add_user_to_repo <- function(base_url, api_key, owner, repo, username, collaborator_permissions) {
   gitea_url <- file.path(base_url, "api/v1/repos", owner, repo, "collaborators", username)
   authorization <- paste("token", api_key)
@@ -119,13 +116,13 @@ add_user_to_repo <- function(base_url, api_key, owner, repo, username, collabora
   # Define the JSON request body that includes specific permissions
   permission_body <- jsonlite::toJSON(list(permission = collaborator_permissions), auto_unbox = TRUE)
 
-  # Send the PUT request to add the users to the repository
+  # Send the PUT request to add the user to the repository
   r <- tryCatch(
     PUT(gitea_url,
         add_headers(Authorization = authorization,
                     "Content-Type" = "application/json"),
         body = permission_body),
-    error = function(e) {"Failure"}
+    error = function(cond) {"Failure"}
   )
 
   if (http_type(r) >= 400) {
@@ -135,11 +132,55 @@ add_user_to_repo <- function(base_url, api_key, owner, repo, username, collabora
   return(r)
 }
 
-# Define the function create_users
+
+#' Create users and add them to an ixplorer repository.
+#'
+#' This function automates the process of creating users and adding
+#' them as collaborators to a repository on ixplorer.
+#'
+#' @param base_url The base URL of the ixplorer server.
+#' @param api_key The API key for authentication on the ixplorer server.
+#' @param owner The owner (organization or user) of the repository where
+#'  the users will be added as collaborators.
+#' @param repo The name of the repository where the users will be added
+#' as collaborators.
+#' @param user_data_list A list of objects, each containing user information
+#' (email, login_name, username).
+#' @param collaborator_permissions The permissions to be assigned
+#' to the collaborators ("Read", "Write", or "Admin").
+#'
+#' @return A data frame containing information about the created users.
+#'
+#' @examples
+#' \dontrun{
+#'   # API configuration
+#'   base_url <- "https://prueba.ixpantia.com"
+#'   api_key <- "your_api_key" # Replace with your actual API key
+#'   owner <- ""
+#'   repo <- ""
+#'
+#'   # New user data (in a list)
+#'   user_data_list <-
+#'     list(
+#'       email = "user@example.com",
+#'       login_name = "User",
+#'       username = "User"
+#'     )
+#'
+#'   # Collaborator permissions to be added (Read, Write, or Admin)
+#'   collaborator_permissions <- "Write"
+#'
+#'   # Create users and add them to the repository with specific permissions
+#'   results <- create_users(base_url, api_key, owner, repo, user_data_list,
+#'   collaborator_permissions)
+#'   print(results)
+#' }
+
+# Define the function 'crear_datos'
 create_users <- function(base_url, api_key, owner, repo, user_data_list, collaborator_permissions) {
   # Create users and add them to the repository with specific permissions
   results <- lapply(user_data_list, function(user_data) {
-    user_response <- new_user(base_url, api_key, owner, repo, user_data)
+    user_response <- create_users(base_url, api_key, owner, repo, user_data)
     add_user_to_repo(base_url, api_key, owner, repo, user_data$username, collaborator_permissions)
     return(user_response)
   })
@@ -152,3 +193,4 @@ create_users <- function(base_url, api_key, owner, repo, user_data_list, collabo
 
   return(df)
 }
+
