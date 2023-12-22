@@ -66,7 +66,8 @@ new_user <- function(base_url, api_key, owner, repo, user_data) {
   # Send the POST request to create the user
   r <- tryCatch(
     httr::POST(gitea_url,
-               httr::add_headers(Authorization = authorization, "Content-Type" = "application/json"),
+               httr::add_headers(Authorization = authorization,
+                                 "Content-Type" = "application/json"),
                body = user_data_json),
     error = function(cond) {
       cat("Error en POST request: ", cond$message, "\n")
@@ -189,7 +190,7 @@ add_user_to_repo <- function(base_url, api_key, owner, repo, username,
 #'   collaborator_permissions <- "Write"
 #'
 #'   # Create users and add them to the repository with specific permissions
-#'   results <- create_users(base_url, api_key, owner, repo, user_data_list,
+#'   results <- create_users(base_url, api_key, owner, repo, user_data_df,
 #'   collaborator_permissions)
 #'
 
