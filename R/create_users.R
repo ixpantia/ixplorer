@@ -19,9 +19,8 @@
 #'
 #' @return A list containing the response from the ixplorer server,
 #'  including the generated password.
-#'
-#' @export
-utils::globalVariables(c("email", "login", "password", "report"))
+
+#utils::globalVariables(c("email", "login", "password", "report"))
 new_user <- function(base_url, api_key, owner, repo, user_data) {
   if (missing(base_url)) {
     stop("Please add a valid URL")
@@ -191,10 +190,8 @@ add_user_to_repo <- function(base_url, api_key, owner, repo, username,
 #'
 #'   # Create users and add them to the repository with specific permissions
 #'   results <- create_users(base_url, api_key, owner, repo, user_data_df,
-#'   collaborator_permissions)
-#'
-
-# Define the function create_users
+#'   collaborator_permissions)}
+#' @export
 create_users <- function(base_url, api_key, owner, repo, user_data_df,
                          collaborator_permissions) {
   if (!is.data.frame(user_data_df)) {

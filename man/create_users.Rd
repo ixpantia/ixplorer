@@ -37,3 +37,24 @@ A data frame containing information about the created users.
 This function automates the process of creating users and adding
 them as collaborators to a repository on ixplorer.
 }
+\examples{
+\dontrun{
+  # API configuration
+  base_url <- "https://prueba.ixpantia.com"
+  api_key <- "your_api_key" # Replace with your actual API key
+  owner <- ""
+  repo <- ""
+
+   #User date in a data frame
+   user_data_df <- data.frame(
+   email = c("user@email.com", "user2@email.com"),
+   login_name = c("User-1", "User-2"),
+   username =  c("User-1", "User-2")
+            )
+  # Collaborator permissions to be added (Read, Write, or Admin)
+  collaborator_permissions <- "Write"
+
+  # Create users and add them to the repository with specific permissions
+  results <- create_users(base_url, api_key, owner, repo, user_data_df,
+  collaborator_permissions)}
+}
