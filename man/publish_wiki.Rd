@@ -26,7 +26,7 @@ push set in TRUE, if you like to do manually, set FALSE. Default is TRUE.}
 set in TRUE, in otherwise set FALSE. Default is TRUE.}
 }
 \value{
-Publish a md into wiki repository
+Publish a md into wiki repository.
 }
 \description{
 Publish an specific rmarkdown or qmd into wiki repository, specifying

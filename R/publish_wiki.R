@@ -30,7 +30,7 @@
 #' @param quiet_render_logs if you like to see the render logs of rmarkdown,
 #'  set in TRUE, in otherwise set FALSE. Default is TRUE.
 #' @param new_file_name the new name for the markdown file.
-#' @return Publish a md into wiki repository
+#' @return Publish a md into wiki repository.
 #' @examples
 #'
 #' \dontrun{
@@ -209,7 +209,8 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE, new_f
 #'   establecido en TRUE, si desea hacerlo manualmente, establezca FALSE. El
 #'   valor predeterminado es TRUE.
 #' @param silenciar_bitacora  Si desea ver la bitacora de renderización
-#'   establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE
+#'   establezca TRUE, de lo contrario establezca FALSE. El valor default es TRUE.
+#' @param nuevo_nombre el nuevo nombre del archivo markdown.
 #' @return Publica un md en un repositorio wiki.
 #' @examples
 #'
@@ -222,7 +223,14 @@ publish_wiki <- function(report, path_wiki_repo, automatic_update = FALSE, new_f
 
 
 publica_wiki <- function(reporte = report, ruta_repo_wiki = path_wiki_repo,
-                         auto_actualizar = TRUE, silenciar_bitacora= FALSE) {
+                         auto_actualizar = TRUE, silenciar_bitacora= FALSE,
+                         nuevo_nombre = NULL) {
+
+
+  if (!is.null(nuevo_nombre)) {
+    # Renombrar el archivo de reporte si se proporciona un nuevo nombre
+    reporte <- nuevo_nombre
+  }
 
 
   ## True and False

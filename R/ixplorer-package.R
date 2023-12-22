@@ -1,15 +1,9 @@
-#' `ixplorer` package
+#' @keywords internal
+"_PACKAGE"
 
-#' \code{ixplorer.es} package
-#' `ixplorer` package
-#'
-#' ixplorer for dataops
-#'
-#' See the README on
-#'
-#' @docType package
-#' @name ixplorer
+## usethis namespace: start
 #' @importFrom dplyr %>%
+## usethis namespace: end
 NULL
 
 ## quiets concerns of R CMD check
@@ -46,6 +40,6 @@ if (getRversion() >= "2.15.1") utils::globalVariables(
     "pr_assignee",
     "pr_project",
     "pr_repo",
-    "owner"
+    "owner",
+    "report"
     ))
-
