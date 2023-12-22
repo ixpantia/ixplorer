@@ -42,7 +42,10 @@ Imports:
     purrr (>= 0.3.4),
     gert (>= 1.5.0),
     keyring (>= 1.3.0),
-    methods
+    methods, 
+    httr,
+    jsonlite,
+    magrittr
 Suggests: 
     knitr (>= 1.23),
     git2r (>= 0.30.1),
