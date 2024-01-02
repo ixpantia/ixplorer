@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ixplorer <a><img src="https://storage.googleapis.com/ixplorer/ixplorer_logo.png" align="right" width="30%"></a>
+# ixplorer <a><img src="https://storage.googleapis.com/ix-paquetes-internos/logo-ixplorer.png" align="right" width="30%"></a>
 
 <!-- badges: start -->
 
