@@ -1,5 +1,3 @@
 # ixplorer (development version)
 
-# ixplorer 0.3.4
-
-* Added a `NEWS.md` file to track changes to the package.
+* Nuevo `NEWS.md` para registrar cambios visibles a los usuarios (https://style.tidyverse.org/news.html).
