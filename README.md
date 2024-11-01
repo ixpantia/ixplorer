@@ -7,6 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ixplorer)](https://cran.r-project.org/package=ixplorer)
+[![R-CMD-check](https://github.com/ixpantia/ixplorer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ixpantia/ixplorer/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ### Español

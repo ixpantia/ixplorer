@@ -209,7 +209,7 @@ create_users <- function(base_url, api_key, owner, repo, user_data_df,
   })
 
   df <- dplyr::bind_rows(results)
-  df <- dplyr::select(df, email, login, username, password)
+  df <- dplyr::select(df, "email", "login", "username", "password")
   return(df)
 }
 
